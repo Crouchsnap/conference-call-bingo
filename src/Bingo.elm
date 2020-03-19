@@ -1,15 +1,33 @@
-module Bingo exposing (Board, Square, allSquares, centerSquare, falseSquare, randomBoard)
+module Bingo exposing (Board, Square, allSquares, centerSquare, falseSquare, randomBoard, toggleSquareInList)
 
 import Random
 import Random.List
 
 
 type alias Square =
-    { value : String, checked : Bool }
+    { text : String, checked : Bool }
 
 
 type alias Board =
     List Square
+
+
+toggleSquareInList : Square -> List Square -> List Square
+toggleSquareInList squareToToggle squares =
+    List.map
+        (\square ->
+            if square == squareToToggle then
+                toggleSquare square
+
+            else
+                square
+        )
+        squares
+
+
+toggleSquare : Square -> Square
+toggleSquare square =
+    { square | checked = not square.checked }
 
 
 falseSquare : String -> Square
