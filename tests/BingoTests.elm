@@ -9,15 +9,15 @@ suite : Test
 suite =
     describe "Bingo"
         [ test "board should return 25 squares" <|
-            \_ -> (randomBoard |> List.length) |> Expect.equal 25
+            \_ -> (randomBoard 1 |> List.length) |> Expect.equal 25
         , test "board should have Free space int the center square" <|
             \_ ->
-                (randomBoard |> List.drop 12 |> List.head |> Maybe.withDefault (falseSquare ""))
+                (randomBoard 1 |> List.drop 12 |> List.head |> Maybe.withDefault (falseSquare ""))
                     |> Expect.equal centerSquare
         , test "board should be in random order" <|
             let
                 board =
-                    randomBoard
+                    randomBoard 1
             in
             \_ ->
                 (board |> List.drop 13 |> List.append (board |> List.take 12))

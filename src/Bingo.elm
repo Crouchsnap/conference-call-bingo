@@ -40,27 +40,32 @@ allSquares =
     , falseSquare "Powerpoint malfunction"
     , falseSquare "\"I was on mute.\""
     , falseSquare "\"Can you see my screen?\""
-    , falseSquare "unintended interruption"
+    , falseSquare "Unintended interruption"
     , falseSquare "\"__ can you comment\""
     , falseSquare "\"I need to step out\""
     , falseSquare "\"Go further\""
     , falseSquare "\"Can you share?\""
     , falseSquare "\"You're not sharing\""
     , falseSquare "Any acronym"
-    , falseSquare "A well know acronym repurposed by Ford"
+    , falseSquare "A well known acronym repurposed by Ford"
     , falseSquare "\"VIN number\""
-    , falseSquare ""
-    , falseSquare ""
     ]
 
 
-randomBoard : Board
-randomBoard =
+randomBoard : Int -> Board
+randomBoard seed =
     let
-        random24 =
-            Random.List.shuffle allSquares
+        output =
+            Random.initialSeed seed
+                |> Random.step (Random.List.shuffle allSquares)
+                |> Tuple.first
     in
-    List.append (List.append (allSquares |> List.take 12) [ centerSquare ]) (allSquares |> List.drop 12 |> List.take 12)
+    List.take 12 output
+        ++ [ centerSquare ]
+        ++ (output
+                |> List.drop 12
+                |> List.take 12
+           )
 
 
 centerSquare : Square
