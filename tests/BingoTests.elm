@@ -8,6 +8,6 @@ import Test exposing (..)
 suite : Test
 suite =
     describe "Bingo"
-        [ test "some test" <|
+        [ test "" <|
             \_ -> 1 |> Expect.equal 1
         ]
