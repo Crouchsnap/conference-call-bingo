@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Bingo exposing (Board, Square, randomBoard, toggleSquareInList)
 import Browser
-import Html exposing (Html, div, text)
+import Html exposing (Html, div, h1, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Task
@@ -21,18 +21,40 @@ type alias Model =
 view model =
     { title = "BINGO!"
     , body =
-        [ div [ style "display" "grid", style "grid-template-columns" "repeat(5, 100px)", style "grid-template-rows" "repeat(5, 100px)" ]
+        [ h1
+            [ style "text-align" "center"
+            , style "font-family" "sans-serif"
+            ]
+            [ text "CONFERENCE CALL BINGO!" ]
+        , div
+            [ style "justify-content" "center"
+            , style "padding-top" "5px"
+            , style "display" "grid"
+            , style "grid-template-columns" "repeat(5, 100px)"
+            , style "grid-template-rows" "repeat(5, 100px)"
+            , style "grid-gap" "10px"
+            , style "font-family" "sans-serif"
+            ]
             (List.map
                 (\square ->
-                    div
-                        [ if square.checked then
-                            style "color" "red"
+                    div [ style "display" "table" ]
+                        [ div
+                            [ if square.checked then
+                                style "background-color" "red"
 
-                          else
-                            style "color" "black"
-                        , onClick (ToggleCheck square)
+                              else
+                                style "background-color" "#002F6CCC"
+                            , onClick (ToggleCheck square)
+                            , style "color" "white"
+                            , style "border-radius" "5px"
+                            , style "cursor" "pointer"
+                            , style "vertical-align" "middle"
+                            , style "text-align" "center"
+                            , style "display" "table-cell"
+                            , style "padding" "5px"
+                            ]
+                            [ text square.text ]
                         ]
-                        [ text square.text ]
                 )
                 model
             )
