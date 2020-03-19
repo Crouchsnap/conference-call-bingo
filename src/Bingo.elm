@@ -1,4 +1,7 @@
-module Bingo exposing (..)
+module Bingo exposing (Board, Square, allSquares, centerSquare, falseSquare, randomBoard)
+
+import Random
+import Random.List
 
 
 type alias Square =
@@ -16,34 +19,50 @@ falseSquare text =
 
 allSquares : List Square
 allSquares =
-    List.map falseSquare
-        [ "\"Mute your phone please\""
-        , "\"Is ___ on the call?\""
-        , "5 seconds awkward silence"
-        , "People talking at the same time"
-        , "Sound of telephone ringing"
-        , "(sigh)"
-        , "\"Ok, let's get started\""
-        , "(coughing)"
-        , "Child or animal noise"
-        , "\"This was shared ahead of time\""
-        , "Echo noise or feedback"
-        , "Sound of someone typing"
-        , "\"Can you repeat that?\""
-        , "\"Can you share that by email?\""
-        , "Sound of background conversation"
-        , "\"...technical difficulties\""
-        , "5th \"Thank you\""
-        , "\"Time is just about up\""
-        , "Powerpoint malfunction"
-        , "\"I was on mute\""
-        , "\"Can you see my screen?\""
-        , "Unintended interruption"
-        , "\"___ can you comment?\""
-        , "\"I need to step out...\""
-        ]
+    [ falseSquare "\"Mute your phone please\""
+    , falseSquare "5 seconds awkward silence"
+    , falseSquare "People talking at the same time"
+    , falseSquare "Sound of telephone ringing"
+    , falseSquare "(sigh)"
+    , falseSquare "\"Ok, let's get started\""
+    , falseSquare "(coughing)"
+    , falseSquare "Child or animal noise"
+    , falseSquare "People talking at the same time"
+    , falseSquare "\"This was shared ahead of time\""
+    , falseSquare "Echo noise or feedback"
+    , falseSquare "Sound of someone typing"
+    , falseSquare "\"Can you repeat that?\""
+    , falseSquare "\"Can you share that by email?\""
+    , falseSquare "Sound of background conversation"
+    , falseSquare "\"...technical difficulties.\""
+    , falseSquare "5th \"Thank you\""
+    , falseSquare "\"Time is just about up\""
+    , falseSquare "Powerpoint malfunction"
+    , falseSquare "\"I was on mute.\""
+    , falseSquare "\"Can you see my screen?\""
+    , falseSquare "unintended interruption"
+    , falseSquare "\"__ can you comment\""
+    , falseSquare "\"I need to step out\""
+    , falseSquare "\"Go further\""
+    , falseSquare "\"Can you share?\""
+    , falseSquare "\"You're not sharing\""
+    , falseSquare "Any acronym"
+    , falseSquare "A well know acronym repurposed by Ford"
+    , falseSquare "\"VIN number\""
+    , falseSquare ""
+    , falseSquare ""
+    ]
 
 
-board : Board
-board =
-    []
+randomBoard : Board
+randomBoard =
+    let
+        random24 =
+            Random.List.shuffle allSquares
+    in
+    List.append (List.append (allSquares |> List.take 12) [ centerSquare ]) (allSquares |> List.drop 12 |> List.take 12)
+
+
+centerSquare : Square
+centerSquare =
+    Square "Free ⭐️ Space" True

@@ -1,13 +1,25 @@
-module BingoTests exposing (..)
+module BingoTests exposing (suite)
 
+import Bingo exposing (allSquares, centerSquare, falseSquare, randomBoard)
 import Expect exposing (Expectation)
-import Fuzz exposing (Fuzzer, int, list, string)
 import Test exposing (..)
 
 
 suite : Test
 suite =
     describe "Bingo"
-        [ test "" <|
-            \_ -> 1 |> Expect.equal 1
+        [ test "board should return 25 squares" <|
+            \_ -> (randomBoard |> List.length) |> Expect.equal 25
+        , test "board should have Free space int the center square" <|
+            \_ ->
+                (randomBoard |> List.drop 12 |> List.head |> Maybe.withDefault (falseSquare ""))
+                    |> Expect.equal centerSquare
+        , test "board should be in random order" <|
+            let
+                board =
+                    randomBoard
+            in
+            \_ ->
+                (board |> List.drop 13 |> List.append (board |> List.take 12))
+                    |> Expect.notEqual (List.take 24 allSquares)
         ]
