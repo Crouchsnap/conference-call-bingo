@@ -27,7 +27,7 @@ toggleSquareInList squareToToggle squares =
 
 toggleSquare : Square -> Square
 toggleSquare square =
-    { square | checked = True }
+    { square | checked = not square.checked }
 
 
 falseSquare : String -> Square
