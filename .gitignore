@@ -1,8 +1,10 @@
 # elm generated index file
-index.html
+ui/index.html
 # elm-package generated files
-elm-stuff
+ui/elm-stuff
 # elm-repl generated files
 repl-temp-*
 #Jetbrains IDE stuff
 .idea
+
+.DS_Store
