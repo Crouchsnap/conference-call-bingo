@@ -73,6 +73,8 @@ allSquares =
     , falseSquare "Pet or child on webcam"
     , falseSquare "University logo on webcam"
     , falseSquare "\"LL_ approval needed\""
+    , falseSquare "\"What team are you from?"\"
+    , falseSquare "\"double mute\""
     ]
 
 
