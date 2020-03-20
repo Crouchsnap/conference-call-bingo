@@ -77,6 +77,9 @@ allSquares =
     , falseSquare "\"double mute\""
     , falseSquare "Any _aaS acronym"
     , falseSquare "Reference to people as resources"
+    , falseSquare "\"I'll send out the deck\""
+    , falseSquare "\"Bingo!\""
+    , falseSquare ""
     ]
 
 
