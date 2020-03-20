@@ -1,4 +1,4 @@
-module Main exposing (..)
+module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Bingo exposing (Board, Square, randomBoard, toggleSquareInList)
 import Browser
@@ -37,7 +37,10 @@ view model =
             ]
             (List.map
                 (\square ->
-                    div [ style "display" "table" ]
+                    div
+                        [ style "display" "table"
+                        , style "height" "100%"
+                        ]
                         [ div
                             [ if square.checked then
                                 style "background-color" "red"
