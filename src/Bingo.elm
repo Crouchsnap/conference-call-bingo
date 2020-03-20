@@ -75,6 +75,8 @@ allSquares =
     , falseSquare "\"LL_ approval needed\""
     , falseSquare "\"What team are you from?\""
     , falseSquare "\"double mute\""
+    , falseSquare "Any _aaS acronym"
+    , falseSquare "Reference to people as resources"
     ]
 
 
