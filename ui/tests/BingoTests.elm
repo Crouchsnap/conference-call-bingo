@@ -1,6 +1,7 @@
 module BingoTests exposing (suite)
 
-import Bingo exposing (Board, backDiagonal, column, forwardDiagonal, isWinner, randomBoard, row, rowColumnNumbers)
+import Bingo exposing (isWinner, randomBoard)
+import Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
 import Expect exposing (Expectation)
 import Square exposing (Square, allSquares, centerSquare, falseSquare, toggleSquareInList)
 import Test exposing (..)
