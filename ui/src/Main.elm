@@ -3,7 +3,7 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Bingo exposing (randomBoard)
 import Board exposing (Board)
 import Browser
-import Html exposing (Html, a, div, h1, text)
+import Html exposing (Html, a, button, div, h1, text)
 import Html.Attributes exposing (href, style)
 import Html.Events exposing (onClick)
 import Square exposing (Square, toggleSquareInList)
@@ -14,6 +14,7 @@ import Time
 type Msg
     = GotCurrentTime Time.Posix
     | ToggleCheck Square
+    | NewGame
 
 
 type alias Model =
@@ -35,43 +36,67 @@ view model =
             , style "padding-bottom" "8px"
             ]
             [ text "Powered by ", a [ href "https://www.fordlabs.com" ] [ text "FordLabs" ] ]
-        , div
-            [ style "justify-content" "center"
-            , style "padding-top" "5px"
-            , style "display" "grid"
-            , style "grid-template-columns" "repeat(5, 100px)"
-            , style "grid-template-rows" "repeat(5, 100px)"
-            , style "grid-gap" "10px"
-            , style "font-family" "sans-serif"
-            ]
-            (List.map
-                (\square ->
-                    div
-                        [ style "display" "table"
-                        , style "height" "100%"
-                        , style "width" "100%"
+        ]
+            ++ (if Bingo.isWinner model then
+                    [ h1
+                        [ style "text-align" "center"
+                        , style "font-family" "sans-serif"
                         ]
-                        [ div
-                            [ if square.checked then
-                                style "background-color" "red"
-
-                              else
-                                style "background-color" "#002F6CCC"
-                            , onClick (ToggleCheck square)
+                        [ text "Bingo!" ]
+                    , div [ style "text-align" "center" ]
+                        [ button
+                            [ style "background-color" "#002F6CCC"
                             , style "color" "white"
+                            , style "border" "none"
+                            , style "font-size" "18px"
                             , style "border-radius" "5px"
                             , style "cursor" "pointer"
-                            , style "vertical-align" "middle"
-                            , style "text-align" "center"
-                            , style "display" "table-cell"
-                            , style "padding" "5px"
+                            , style "padding" "20px"
+                            , onClick NewGame
                             ]
-                            [ text square.text ]
+                            [ text "Play Again" ]
                         ]
-                )
-                model
-            )
-        ]
+                    ]
+
+                else
+                    [ div
+                        [ style "justify-content" "center"
+                        , style "padding-top" "5px"
+                        , style "display" "grid"
+                        , style "grid-template-columns" "repeat(5, 100px)"
+                        , style "grid-template-rows" "repeat(5, 100px)"
+                        , style "grid-gap" "10px"
+                        , style "font-family" "sans-serif"
+                        ]
+                        (List.map
+                            (\square ->
+                                div
+                                    [ style "display" "table"
+                                    , style "height" "100%"
+                                    , style "width" "100%"
+                                    ]
+                                    [ div
+                                        [ if square.checked then
+                                            style "background-color" "red"
+
+                                          else
+                                            style "background-color" "#002F6CCC"
+                                        , onClick (ToggleCheck square)
+                                        , style "color" "white"
+                                        , style "border-radius" "5px"
+                                        , style "cursor" "pointer"
+                                        , style "vertical-align" "middle"
+                                        , style "text-align" "center"
+                                        , style "display" "table-cell"
+                                        , style "padding" "5px"
+                                        ]
+                                        [ text square.text ]
+                                    ]
+                            )
+                            model
+                        )
+                    ]
+               )
     }
 
 
@@ -80,16 +105,17 @@ init _ =
     ( [], Task.perform GotCurrentTime Time.now )
 
 
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ToggleCheck squareToToggle ->
-            ( model
-                |> toggleSquareInList squareToToggle
-            , Cmd.none
-            )
+            ( model |> toggleSquareInList squareToToggle, Cmd.none )
 
         GotCurrentTime time ->
             ( Time.posixToMillis time |> randomBoard, Cmd.none )
+
+        NewGame ->
+            ( model, Task.perform GotCurrentTime Time.now )
 
 
 main =
