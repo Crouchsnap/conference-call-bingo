@@ -47,6 +47,7 @@ view model =
                     div
                         [ style "display" "table"
                         , style "height" "100%"
+                        , style "width" "100%"
                         ]
                         [ div
                             [ if square.checked then
