@@ -1,4 +1,4 @@
-module Bingo exposing (Board, Square, allSquares, centerSquare, falseSquare, randomBoard, toggleSquareInList)
+module Bingo exposing (Board, Square, allSquares, centerSquare, falseSquare, randomBoard, toggleSquare, toggleSquareInList)
 
 import Random
 import Random.List
