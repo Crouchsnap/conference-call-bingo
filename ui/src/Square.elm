@@ -66,7 +66,10 @@ toggleSquareInList : Square -> List Square -> List Square
 toggleSquareInList squareToToggle squares =
     List.map
         (\square ->
-            if square == squareToToggle then
+            if square == centerSquare then
+                square
+
+            else if square == squareToToggle then
                 toggleSquare square
 
             else
