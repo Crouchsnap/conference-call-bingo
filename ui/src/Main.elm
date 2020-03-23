@@ -1,10 +1,11 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
-import Bingo exposing (Board, Square, randomBoard, toggleSquareInList)
+import Bingo exposing (Board, randomBoard)
 import Browser
-import Html exposing (Html, a, div, h1, h3, text)
+import Html exposing (Html, a, div, h1, text)
 import Html.Attributes exposing (href, style)
 import Html.Events exposing (onClick)
+import Square exposing (Square)
 import Task
 import Time
 
