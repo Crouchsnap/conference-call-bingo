@@ -1,9 +1,6 @@
 module TimeFormatterTests exposing (suite)
 
-import Bingo exposing (isWinner, randomBoard)
-import Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
 import Expect exposing (Expectation)
-import Square exposing (Square, allSquares, centerSquare, falseSquare, toggleSquareInList)
 import Test exposing (..)
 import Time
 import TimeFormatter exposing (winingTime)
