@@ -2,8 +2,8 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Bingo exposing (Board, Square, randomBoard, toggleSquareInList)
 import Browser
-import Html exposing (Html, div, h1, text)
-import Html.Attributes exposing (style)
+import Html exposing (Html, a, div, h1, h3, text)
+import Html.Attributes exposing (href, style)
 import Html.Events exposing (onClick)
 import Task
 import Time
@@ -26,6 +26,13 @@ view model =
             , style "font-family" "sans-serif"
             ]
             [ text "CONFERENCE CALL BINGO!" ]
+        , div
+            [ style "font-size" "12"
+            , style "text-align" "center"
+            , style "font-family" "sans-serif"
+            , style "padding-bottom" "8px"
+            ]
+            [ text "Powered by ", a [ href "https://www.fordlabs.com" ] [ text "FordLabs" ] ]
         , div
             [ style "justify-content" "center"
             , style "padding-top" "5px"
