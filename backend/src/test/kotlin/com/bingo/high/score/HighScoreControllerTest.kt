@@ -22,15 +22,15 @@ internal class HighScoreControllerTest {
     lateinit var testRestTemplate: TestRestTemplate
 
     @MockBean
-    lateinit var highScoreRepository: HighScoreRepository
+    lateinit var scoreRepository: ScoreRepository
 
-    val highScoresUrl = UriComponentsBuilder.fromPath("/highscores").build().toUri()
+    val highScoresUrl = UriComponentsBuilder.fromPath("/scores").build().toUri()
     class ListHighScores : ParameterizedTypeReference<List<HighScore>>()
 
     @Test
-    internal fun `should retrieve all the high scores from the database`() {
+    internal fun `should retrieve all the scores from the database`() {
 
-        `when`(highScoreRepository.findAll()).thenReturn(listOf(HighScoreEntity("id", "score", "player")))
+        `when`(scoreRepository.findAll()).thenReturn(listOf(GameResult("id", "score", "player")))
 
         val highScores = testRestTemplate.exchange(highScoresUrl, HttpMethod.GET, null, ListHighScores()).body
 
@@ -38,13 +38,13 @@ internal class HighScoreControllerTest {
     }
 
     @Test
-    internal fun `should save a high score to the database`() {
-        val highScoreEntity = HighScoreEntity(score = "score", player = "player")
+    internal fun `should save a game result to the database`() {
+        val highScoreEntity = GameResult(score = "score", player = "player")
 
         val response = testRestTemplate.postForEntity(highScoresUrl, HighScore("score", "player"), Void::class.java)
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        verify(highScoreRepository).save(highScoreEntity)
+        verify(scoreRepository).save(highScoreEntity)
     }
 }
 
