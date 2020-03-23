@@ -1,5 +1,21 @@
-module Bingo exposing (Board, Square, allSquares, centerSquare, falseSquare, randomBoard, toggleSquare, toggleSquareInList)
+module Bingo exposing
+    ( Board
+    , Square
+    , allSquares
+    , backDiagonal
+    , centerSquare
+    , column
+    , falseSquare
+    , forwardDiagonal
+    , isWinner
+    , randomBoard
+    , row
+    , rowColumnNumbers
+    , toggleSquare
+    , toggleSquareInList
+    )
 
+import Array
 import Random
 import Random.List
 
@@ -101,3 +117,64 @@ randomBoard seed =
 centerSquare : Square
 centerSquare =
     Square "Free ⭐️ Space" True
+
+
+areIndicesChecked : Board -> List Int -> Bool
+areIndicesChecked board indices =
+    indices
+        |> List.map (getSquare board)
+        |> List.all .checked
+
+
+getSquare : Board -> Int -> Square
+getSquare board index =
+    board
+        |> Array.fromList
+        |> Array.get index
+        |> Maybe.withDefault (falseSquare "")
+
+
+isWinner : Board -> Bool
+isWinner board =
+    let
+        rows =
+            rowColumnNumbers |> List.map row
+
+        columns =
+            rowColumnNumbers |> List.map column
+
+        diagonals =
+            [ backDiagonal ] ++ [ forwardDiagonal ]
+    in
+    (rows ++ columns ++ diagonals)
+        |> List.any (areIndicesChecked board)
+
+
+backDiagonal : List Int
+backDiagonal =
+    [ 0, 6, 12, 18, 24 ]
+
+
+forwardDiagonal : List Int
+forwardDiagonal =
+    [ 4, 8, 12, 16, 20 ]
+
+
+row : Int -> List Int
+row rowNumber =
+    let
+        startIndex =
+            rowNumber * 5
+    in
+    List.range startIndex (startIndex + 4)
+
+
+column : Int -> List Int
+column columnNumber =
+    rowColumnNumbers
+        |> List.map (\index -> index * 5 + columnNumber)
+
+
+rowColumnNumbers : List Int
+rowColumnNumbers =
+    List.range 0 4
