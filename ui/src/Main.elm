@@ -3,13 +3,18 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Bingo exposing (randomBoard)
 import Board exposing (Board)
 import Browser
+import Browser.Navigation as Navigation
 import Html exposing (Html, a, button, div, h1, h2, text)
 import Html.Attributes exposing (href, style)
 import Html.Events exposing (onClick)
+import RemoteData exposing (WebData)
+import Requests
+import Score exposing (GameResult, Score)
 import Square exposing (Square, toggleSquareInList)
 import Task
 import Time exposing (Posix)
 import TimeFormatter
+import Url exposing (Url)
 
 
 type Msg
@@ -17,10 +22,21 @@ type Msg
     | GotEndTime Time.Posix
     | ToggleCheck Square
     | NewGame
+    | HighScoresResponse (WebData (List Score))
+    | GameResponse (WebData ())
+    | SubmitGame
+    | RequestHighScores
+    | NoOp
 
 
 type alias Model =
-    { board : Board, startTime : Posix, endTime : Posix }
+    { board : Board
+    , startTime : Posix
+    , endTime : Posix
+    , highScores : WebData (List Score)
+    , submittedScoreResponse : WebData ()
+    , url : Url
+    }
 
 
 view model =
@@ -117,9 +133,17 @@ boardView model =
     ]
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( { board = [], startTime = Time.millisToPosix 0, endTime = Time.millisToPosix 0 }, Task.perform GotCurrentTime Time.now )
+init : () -> Url -> Navigation.Key -> ( Model, Cmd Msg )
+init _ url _ =
+    ( { board = []
+      , startTime = Time.millisToPosix 0
+      , endTime = Time.millisToPosix 0
+      , highScores = RemoteData.NotAsked
+      , submittedScoreResponse = RemoteData.NotAsked
+      , url = url
+      }
+    , Task.perform GotCurrentTime Time.now
+    )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -147,11 +171,36 @@ update msg model =
         NewGame ->
             ( model, Task.perform GotCurrentTime Time.now )
 
+        HighScoresResponse response ->
+            ( { model | highScores = response }, Cmd.none )
+
+        GameResponse response ->
+            ( { model | submittedScoreResponse = response }, Cmd.none )
+
+        RequestHighScores ->
+            ( model, Requests.getHighScores model.url HighScoresResponse )
+
+        SubmitGame ->
+            let
+                gameResult =
+                    { score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime
+                    , player = "aaa"
+                    , suggestion = Just ""
+                    , rating = 5
+                    }
+            in
+            ( model, Requests.submitScore model.url GameResponse gameResult )
+
+        NoOp ->
+            ( model, Cmd.none )
+
 
 main =
-    Browser.document
+    Browser.application
         { init = init
         , update = update
         , view = view
         , subscriptions = \_ -> Sub.none
+        , onUrlRequest = \_ -> NoOp
+        , onUrlChange = \_ -> NoOp
         }

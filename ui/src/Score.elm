@@ -1,4 +1,4 @@
-module Score exposing (Score, decodeGameResult, decodeScore, decodeScores, encodeGameResult, encodeScore)
+module Score exposing (GameResult, Score, decodeGameResult, decodeScore, decodeScores, encodeGameResult, encodeScore)
 
 import Json.Decode as Decode exposing (Decoder, int, nullable, string)
 import Json.Decode.Pipeline
