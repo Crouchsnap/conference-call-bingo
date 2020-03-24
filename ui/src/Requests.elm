@@ -1,11 +1,12 @@
-module Requests exposing (getHighScores, submitScore)
+module Requests exposing (getHighScores, getHostFromLocation, submitScore)
 
-import Http exposing (expectJson, expectWhatever)
+import Http exposing (Error, expectJson, expectWhatever)
 import RemoteData exposing (RemoteData, WebData)
 import Score exposing (GameResult, Score, decodeScores, encodeGameResult)
 import Url exposing (Url)
 
 
+getHighScores : Url -> (RemoteData Error (List Score) -> msg) -> Cmd msg
 getHighScores url msgConstructor =
     Http.get
         { url = getHostFromLocation url ++ "/scores"
@@ -13,6 +14,7 @@ getHighScores url msgConstructor =
         }
 
 
+submitScore : Url -> (RemoteData Error () -> msg) -> GameResult -> Cmd msg
 submitScore url msgConstructor gameResult =
     Http.post
         { url = getHostFromLocation url ++ "/scores"
@@ -32,4 +34,4 @@ getHostFromLocation url =
 
 isLocalhost : Url -> Bool
 isLocalhost { host } =
-    String.contains "localhost:" host
+    String.contains "localhost" host
