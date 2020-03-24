@@ -2,6 +2,7 @@ package com.bingo.high.score
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping(path = ["/scores"])
@@ -16,8 +17,8 @@ class ScoreController {
             scoreRepository.findAll().toHighScores()
 
     @PostMapping
-    fun postScore(@RequestBody scoreResponse: HighScore) {
-        scoreRepository.save(scoreResponse.toGameResult())
+    fun postScore(@Valid @RequestBody gameResultBody: GameResultBody) {
+        scoreRepository.save(gameResultBody.toGameResult())
     }
 }
 
