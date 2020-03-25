@@ -4,12 +4,13 @@ import Bingo exposing (randomBoard)
 import Board exposing (Board)
 import Browser
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
-import Html exposing (Html, a, button, div, h1, h2, text)
-import Html.Attributes exposing (href, style)
-import Html.Events exposing (onClick)
+import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
+import Html.Attributes exposing (disabled, for, href, maxlength, minlength, name, style, title)
+import Html.Events exposing (onClick, onInput)
+import Rating
 import RemoteData exposing (WebData)
-import Requests
-import Score exposing (GameResult, Score)
+import Requests exposing (errorToString)
+import Score exposing (GameResult, Score, emptyGameResult)
 import Square exposing (Square, toggleSquareInList)
 import Task
 import Time exposing (Posix)
@@ -28,6 +29,9 @@ type Msg
     | RequestHighScores
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url
+    | Player String
+    | Suggestion String
+    | RatingMsg Rating.Msg
     | NoOp
 
 
@@ -39,6 +43,8 @@ type alias Model =
     , submittedScoreResponse : WebData ()
     , url : Url
     , key : Key
+    , formData : GameResult
+    , ratingState : Rating.State
     }
 
 
@@ -73,13 +79,25 @@ winningView model =
         [ style "text-align" "center"
         , style "font-family" "sans-serif"
         ]
-        [ text "Bingo!" ]
+        [ text "🎉 Bingo! 🎉" ]
     , h2
         [ style "text-align" "center"
         , style "font-family" "sans-serif"
         ]
         [ text ("Your winning time: " ++ TimeFormatter.winingTime model.startTime model.endTime) ]
     , div [ style "text-align" "center" ]
+        []
+    , div
+        [ style "text-align" "center"
+        , style "margin" "20px"
+        ]
+        (submitGame model)
+    , newGameButton
+    ]
+
+
+newGameButton =
+    div [ style "text-align" "center" ]
         [ button
             [ style "background-color" "#002F6CCC"
             , style "color" "white"
@@ -92,7 +110,117 @@ winningView model =
             ]
             [ text "Play Again" ]
         ]
-    ]
+
+
+submitGame model =
+    case model.submittedScoreResponse of
+        RemoteData.NotAsked ->
+            [ div
+                [ style "justify-content" "center"
+                , style "padding-top" "5px"
+                , style "display" "grid"
+                , style "grid-template-columns" "repeat(2, auto-fill)"
+                , style "grid-template-rows" "repeat(2, auto-fill)"
+                , style "grid-gap" "10px"
+                , style "text-align" "center"
+                , style "font-family" "sans-serif"
+                , style "font-size" "1.5rem"
+                , style "margin" "1.5rem"
+                , style "box-shadow" "inset 0 0 0 10px rgba(0, 255, 0, 0.5);"
+                ]
+                [ div [] [ text "Rate Your Experience" ]
+                , Html.map RatingMsg
+                    (Rating.styleView
+                        [ ( "color", "gold" )
+                        , ( "font-size", "2.5rem" )
+                        , ( "cursor", "pointer" )
+                        ]
+                        model.ratingState
+                    )
+                , label [ for "player" ] [ text "Initials" ]
+                , div []
+                    [ input
+                        [ name "player"
+                        , title "Enter 2 to 4 Characters"
+                        , style "padding" "5px"
+                        , style "border-radius" "5px"
+                        , style "max-width" "7rem"
+                        , style "font-family" "sans-serif"
+                        , style "font-size" "1.2rem"
+                        , style "text-align" "center"
+                        , minlength 2
+                        , maxlength 4
+                        , onInput Player
+                        ]
+                        []
+                    ]
+                , label [ for "suggestion" ] [ text "What Square would you like to add?", br [] [], text "Or any other feedback?" ]
+                , div []
+                    [ textarea
+                        [ name "suggestion"
+                        , title "Enter a suggestion (max 100 characters)"
+                        , style "padding" "5px"
+                        , style "border-radius" "5px"
+                        , style "max-width" "30rem"
+                        , style "min-height" "10rem"
+                        , style "font-family" "sans-serif"
+                        , style "font-size" "1.2rem"
+                        , maxlength 100
+                        , onInput Suggestion
+                        ]
+                        []
+                    ]
+                , div []
+                    [ let
+                        disable =
+                            not (isFormValid model.formData)
+
+                        backgroundColor =
+                            if disable then
+                                "#002F6C99"
+
+                            else
+                                "#002F6CCC"
+                      in
+                      button
+                        [ style "background-color" backgroundColor
+                        , style "color" "white"
+                        , style "border" "none"
+                        , style "font-size" "18px"
+                        , style "border-radius" "5px"
+                        , style "cursor" "pointer"
+                        , style "padding" "20px"
+                        , style "max-width" "10rem"
+                        , disabled disable
+                        , onClick SubmitGame
+                        ]
+                        [ text "Submit Your Score" ]
+                    ]
+                ]
+            ]
+
+        RemoteData.Success _ ->
+            [ div
+                [ style "font-family" "sans-serif"
+                , style "font-size" "1.5rem"
+                ]
+                [ text "😀Thanks for your feedback!😀" ]
+            ]
+
+        RemoteData.Failure error ->
+            [ text ("Failed to submit " ++ errorToString error) ]
+
+        RemoteData.Loading ->
+            [ text "Submitting" ]
+
+
+isFormValid : GameResult -> Bool
+isFormValid gameResult =
+    let
+        initialsLength =
+            String.length gameResult.player
+    in
+    initialsLength > 1 && initialsLength < 5 && gameResult.rating > 0
 
 
 boardView : Model -> List (Html Msg)
@@ -145,6 +273,8 @@ init _ url key =
       , submittedScoreResponse = RemoteData.NotAsked
       , url = url
       , key = key
+      , formData = emptyGameResult
+      , ratingState = Rating.initialState
       }
     , Task.perform GotCurrentTime Time.now
     )
@@ -167,7 +297,16 @@ update msg model =
             )
 
         GotCurrentTime time ->
-            ( { model | board = Time.posixToMillis time |> randomBoard, startTime = time }, Cmd.none )
+            ( { model
+                | board = Time.posixToMillis time |> randomBoard
+                , startTime = time
+                , endTime = Time.millisToPosix 0
+                , formData = emptyGameResult
+                , ratingState = Rating.initialState
+                , submittedScoreResponse = RemoteData.NotAsked
+              }
+            , Cmd.none
+            )
 
         GotEndTime time ->
             ( { model | endTime = time }, Cmd.none )
@@ -186,14 +325,13 @@ update msg model =
 
         SubmitGame ->
             let
-                gameResult =
-                    { score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime
-                    , player = "aaa"
-                    , suggestion = Just ""
-                    , rating = 5
-                    }
+                formData =
+                    model.formData
+
+                gameResultWithScore =
+                    { formData | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
             in
-            ( model, Requests.submitScore model.url GameResponse gameResult )
+            ( { model | formData = formData }, Requests.submitScore model.url GameResponse gameResultWithScore )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -207,6 +345,30 @@ update msg model =
             ( { model | url = url }
             , Cmd.none
             )
+
+        Player initials ->
+            let
+                formData =
+                    model.formData
+            in
+            ( { model | formData = { formData | player = initials } }, Cmd.none )
+
+        Suggestion suggestion ->
+            let
+                formData =
+                    model.formData
+            in
+            ( { model | formData = { formData | suggestion = Just suggestion } }, Cmd.none )
+
+        RatingMsg ratingMsg ->
+            let
+                newRatingState =
+                    Rating.update ratingMsg model.ratingState
+
+                formData =
+                    model.formData
+            in
+            ( { model | ratingState = newRatingState, formData = { formData | rating = Rating.get newRatingState } }, Cmd.none )
 
         NoOp ->
             ( model, Cmd.none )

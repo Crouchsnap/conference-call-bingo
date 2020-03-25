@@ -59,6 +59,7 @@ allSquares =
     , falseSquare "Reference to people as resources"
     , falseSquare "\"I'll send out the deck\""
     , falseSquare "\"Bingo!\""
+    , falseSquare "\"I think ____ stepped away\""
     ]
 
 

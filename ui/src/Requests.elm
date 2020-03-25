@@ -1,6 +1,6 @@
-module Requests exposing (getHighScores, getHostFromLocation, submitScore)
+module Requests exposing (errorToString, getHighScores, getHostFromLocation, submitScore)
 
-import Http exposing (Error, expectJson, expectWhatever)
+import Http exposing (Error(..), expectJson, expectWhatever)
 import RemoteData exposing (RemoteData, WebData)
 import Score exposing (GameResult, Score, decodeScores, encodeGameResult)
 import Url exposing (Url)
@@ -35,3 +35,22 @@ getHostFromLocation url =
 isLocalhost : Url -> Bool
 isLocalhost { host } =
     String.contains "localhost" host
+
+
+errorToString : Http.Error -> String
+errorToString err =
+    case err of
+        Timeout ->
+            "Timeout exceeded"
+
+        NetworkError ->
+            "Network error"
+
+        BadStatus code ->
+            "Status: " ++ String.fromInt code
+
+        BadBody message ->
+            "BadBody: " ++ message
+
+        BadUrl url ->
+            "Malformed url: " ++ url

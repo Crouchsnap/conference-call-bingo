@@ -1,4 +1,4 @@
-module Score exposing (GameResult, Score, decodeGameResult, decodeScore, decodeScores, encodeGameResult, encodeScore)
+module Score exposing (GameResult, Score, decodeGameResult, decodeScore, decodeScores, emptyGameResult, encodeGameResult, encodeScore)
 
 import Json.Decode as Decode exposing (Decoder, int, nullable, string)
 import Json.Decode.Pipeline
@@ -17,6 +17,10 @@ type alias GameResult =
     , suggestion : Maybe String
     , rating : Int
     }
+
+
+emptyGameResult =
+    GameResult 0 "" Nothing 0
 
 
 decodeScores : Decoder (List Score)
