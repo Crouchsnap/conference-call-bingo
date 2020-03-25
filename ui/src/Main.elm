@@ -5,7 +5,7 @@ import Board exposing (Board)
 import Browser
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
 import Html exposing (Html, a, br, button, div, h1, h2, h3, input, label, li, text, textarea)
-import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, style, title)
+import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, style, target, title)
 import Html.Events exposing (onClick, onInput)
 import Rating
 import RemoteData exposing (WebData)
@@ -62,7 +62,7 @@ view model =
             , style "font-family" "sans-serif"
             , style "padding-bottom" "8px"
             ]
-            [ text "Powered by ", a [ href "https://www.fordlabs.com" ] [ text "FordLabs" ] ]
+            [ text "Powered by ", a [ target "_blank", href "https://www.fordlabs.com" ] [ text "FordLabs" ] ]
         ]
             ++ (if Bingo.isWinner model.board then
                     winningView model
@@ -70,6 +70,14 @@ view model =
                 else
                     boardView model
                )
+            ++ [ div
+                    [ style "font-size" "12"
+                    , style "text-align" "center"
+                    , style "font-family" "sans-serif"
+                    , style "padding-top" "4rem"
+                    ]
+                    [ text "Want to contribute? Check out our ", a [ target "_blank", href "https://github.com/Crouchsnap/conference-call-bingo" ] [ text "Github!" ] ]
+               ]
     }
 
 
