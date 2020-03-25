@@ -1,14 +1,15 @@
-module TimeFormatter exposing (winingTime)
+module TimeFormatter exposing (winingTime, winingTimeDifference)
 
 import Time exposing (Posix)
 
 
-winingTime : Posix -> Posix -> String
-winingTime startTime endTime =
-    let
-        millis =
-            Time.posixToMillis endTime - Time.posixToMillis startTime
-    in
+winingTimeDifference : Posix -> Posix -> String
+winingTimeDifference startTime endTime =
+    Time.posixToMillis endTime - Time.posixToMillis startTime |> winingTime
+
+
+winingTime : Int -> String
+winingTime millis =
     hoursFormat millis
         ++ minsFormat millis
         ++ secsFormat millis

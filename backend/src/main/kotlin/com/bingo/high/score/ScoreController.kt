@@ -14,7 +14,7 @@ class ScoreController {
 
     @GetMapping
     fun getHighScores(): List<HighScore> =
-            scoreRepository.findAll().toHighScores()
+            scoreRepository.findAll().toHighScores().sortedBy { it.score }
 
     @PostMapping
     fun postScore(@Valid @RequestBody gameResultBody: GameResultBody) {

@@ -4,7 +4,7 @@ import Bingo exposing (randomBoard)
 import Board exposing (Board)
 import Browser
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
-import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
+import Html exposing (Html, a, br, button, div, h1, h2, h3, input, label, li, text, textarea)
 import Html.Attributes exposing (disabled, for, href, maxlength, minlength, name, style, title)
 import Html.Events exposing (onClick, onInput)
 import Rating
@@ -84,15 +84,64 @@ winningView model =
         [ style "text-align" "center"
         , style "font-family" "sans-serif"
         ]
-        [ text ("Your winning time: " ++ TimeFormatter.winingTime model.startTime model.endTime) ]
-    , div [ style "text-align" "center" ]
-        []
+        [ text ("Your winning time: " ++ TimeFormatter.winingTimeDifference model.startTime model.endTime) ]
     , div
         [ style "text-align" "center"
         , style "margin" "20px"
         ]
         (submitGame model)
+    , div [ style "font-family" "sans-serif" ]
+        [ h3 [ style "text-align" "center" ] [ text "High Scores" ]
+        , div
+            [ style "justify-content" "center"
+            , style "display" "grid"
+            , style "grid-template-columns" "repeat(2, 7rem)"
+            , style "margin" "18px"
+            ]
+            ([ div
+                [ style "font-size" "1.5rem"
+                , style "text-align" "center"
+                , style "border" "1px solid"
+                , style "padding" "3px"
+                ]
+                [ text "Player" ]
+             , div
+                [ style "font-size" "1.5rem"
+                , style "text-align" "center"
+                , style "border" "1px solid"
+                , style "padding" "3px"
+                ]
+                [ text "Time" ]
+             ]
+                ++ (case model.highScores of
+                        RemoteData.Success scores ->
+                            scores
+                                |> List.take 10
+                                |> List.map scoreRow
+                                |> List.concat
+
+                        _ ->
+                            []
+                   )
+            )
+        ]
     , newGameButton
+    ]
+
+
+scoreRow score =
+    [ div
+        [ style "font-size" "1rem"
+        , style "border" "1px solid"
+        , style "padding" "3px"
+        ]
+        [ text score.player ]
+    , div
+        [ style "font-size" "1rem"
+        , style "border" "1px solid"
+        , style "padding" "3px"
+        ]
+        [ text (TimeFormatter.winingTime score.score) ]
     ]
 
 
@@ -120,7 +169,6 @@ submitGame model =
                 , style "padding-top" "5px"
                 , style "display" "grid"
                 , style "grid-template-columns" "repeat(2, auto-fill)"
-                , style "grid-template-rows" "repeat(2, auto-fill)"
                 , style "grid-gap" "10px"
                 , style "text-align" "center"
                 , style "font-family" "sans-serif"
@@ -290,7 +338,7 @@ update msg model =
             in
             ( { model | board = updatedBoard }
             , if updatedBoard |> Bingo.isWinner then
-                Task.perform GotEndTime Time.now
+                Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url HighScoresResponse ]
 
               else
                 Cmd.none

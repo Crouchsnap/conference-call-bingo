@@ -31,11 +31,11 @@ internal class HighScoreControllerTest {
     @Test
     internal fun `should retrieve all the scores from the database`() {
 
-        `when`(scoreRepository.findAll()).thenReturn(listOf(GameResult("id", 123, "player")))
+        `when`(scoreRepository.findAll()).thenReturn(listOf(GameResult("id1", 456, "player"), GameResult("id2", 123, "player")))
 
         val highScores = testRestTemplate.exchange(highScoresUrl, HttpMethod.GET, null, ListHighScores()).body
 
-        assertThat(highScores!!).containsExactly(HighScore(123, "player"))
+        assertThat(highScores!!).containsExactly(HighScore(123, "player"), HighScore(456, "player"))
     }
 
     @Test
