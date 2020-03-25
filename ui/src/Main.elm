@@ -5,7 +5,7 @@ import Board exposing (Board)
 import Browser
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
 import Html exposing (Html, a, br, button, div, h1, h2, h3, input, label, li, text, textarea)
-import Html.Attributes exposing (disabled, for, href, maxlength, minlength, name, style, title)
+import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, style, title)
 import Html.Events exposing (onClick, onInput)
 import Rating
 import RemoteData exposing (WebData)
@@ -75,6 +75,19 @@ view model =
 
 winningView : Model -> List (Html Msg)
 winningView model =
+    winningScoreHeader model
+        ++ [ div
+                [ id "table"
+                , style "display" "grid"
+                , style "grid-template-columns" "repeat(2, 1fr)"
+                ]
+                [ submitGame model
+                , topScoreView model
+                ]
+           ]
+
+
+winningScoreHeader model =
     [ h1
         [ style "text-align" "center"
         , style "font-family" "sans-serif"
@@ -85,20 +98,24 @@ winningView model =
         , style "font-family" "sans-serif"
         ]
         [ text ("Your winning time: " ++ TimeFormatter.winingTimeDifference model.startTime model.endTime) ]
-    , div
-        [ style "text-align" "center"
-        , style "margin" "20px"
-        ]
-        (submitGame model)
-    , div [ style "font-family" "sans-serif" ]
-        [ h3 [ style "text-align" "center" ] [ text "High Scores" ]
-        , div
-            [ style "justify-content" "center"
-            , style "display" "grid"
+    ]
+
+
+topScoreView model =
+    div [ style "font-family" "sans-serif", style "justify-content" "left", style "position" "relative" ]
+        [ div
+            [ style "display" "grid"
             , style "grid-template-columns" "repeat(2, 7rem)"
-            , style "margin" "18px"
+            , style "margin-left" "1.5rem"
             ]
             ([ div
+                [ style "text-align" "center"
+                , style "grid-column" "span 2"
+                , style "font-size" "1.5rem"
+                , style "margin-bottom" ".8rem"
+                ]
+                [ text "High Scores" ]
+             , div
                 [ style "font-size" "1.5rem"
                 , style "text-align" "center"
                 , style "border" "1px solid"
@@ -124,9 +141,8 @@ winningView model =
                             []
                    )
             )
+        , newGameButton
         ]
-    , newGameButton
-    ]
 
 
 scoreRow score =
@@ -146,120 +162,125 @@ scoreRow score =
 
 
 newGameButton =
-    div [ style "text-align" "center" ]
-        [ button
-            [ style "background-color" "#002F6CCC"
-            , style "color" "white"
-            , style "border" "none"
-            , style "font-size" "18px"
-            , style "border-radius" "5px"
-            , style "cursor" "pointer"
-            , style "padding" "20px"
-            , onClick NewGame
-            ]
-            [ text "Play Again" ]
+    button
+        [ style "background-color" "#002F6CCC"
+        , style "color" "white"
+        , style "border" "none"
+        , style "font-size" "18px"
+        , style "border-radius" "5px"
+        , style "cursor" "pointer"
+        , style "padding" "20px"
+        , style "position" "absolute"
+        , style "bottom" "0"
+        , style "left" "0"
+        , style "margin-left" "4.5rem"
+        , onClick NewGame
         ]
+        [ text "Play Again" ]
 
 
 submitGame model =
-    case model.submittedScoreResponse of
-        RemoteData.NotAsked ->
-            [ div
-                [ style "justify-content" "center"
-                , style "padding-top" "5px"
-                , style "display" "grid"
-                , style "grid-template-columns" "repeat(2, auto-fill)"
-                , style "grid-gap" "10px"
-                , style "text-align" "center"
-                , style "font-family" "sans-serif"
-                , style "font-size" "1.5rem"
-                , style "margin" "1.5rem"
-                , style "box-shadow" "inset 0 0 0 10px rgba(0, 255, 0, 0.5);"
-                ]
-                [ div [] [ text "Rate Your Experience" ]
-                , Html.map RatingMsg
-                    (Rating.styleView
-                        [ ( "color", "gold" )
-                        , ( "font-size", "2.5rem" )
-                        , ( "cursor", "pointer" )
-                        ]
-                        model.ratingState
-                    )
-                , label [ for "player" ] [ text "Initials" ]
-                , div []
-                    [ input
-                        [ name "player"
-                        , title "Enter 2 to 4 Characters"
-                        , style "padding" "5px"
-                        , style "border-radius" "5px"
-                        , style "max-width" "7rem"
-                        , style "font-family" "sans-serif"
-                        , style "font-size" "1.2rem"
-                        , style "text-align" "center"
-                        , minlength 2
-                        , maxlength 4
-                        , onInput Player
-                        ]
-                        []
+    div
+        [ style "text-align" "center"
+        , style "margin-right" "1.5rem"
+        ]
+        (case model.submittedScoreResponse of
+            RemoteData.NotAsked ->
+                [ div
+                    [ style "justify-content" "right"
+                    , style "display" "grid"
+                    , style "grid-template-columns" "repeat(2, auto-fill)"
+                    , style "grid-gap" "10px"
+                    , style "text-align" "center"
+                    , style "font-family" "sans-serif"
+                    , style "font-size" "1.5rem"
+                    , style "box-shadow" "inset 0 0 0 10px rgba(0, 255, 0, 0.5);"
                     ]
-                , label [ for "suggestion" ] [ text "What Square would you like to add?", br [] [], text "Or any other feedback?" ]
-                , div []
-                    [ textarea
-                        [ name "suggestion"
-                        , title "Enter a suggestion (max 100 characters)"
-                        , style "padding" "5px"
-                        , style "border-radius" "5px"
-                        , style "max-width" "30rem"
-                        , style "min-height" "10rem"
-                        , style "font-family" "sans-serif"
-                        , style "font-size" "1.2rem"
-                        , maxlength 100
-                        , onInput Suggestion
+                    [ div [] [ text "Rate Your Experience" ]
+                    , Html.map RatingMsg
+                        (Rating.styleView
+                            [ ( "color", "gold" )
+                            , ( "font-size", "2.5rem" )
+                            , ( "cursor", "pointer" )
+                            ]
+                            model.ratingState
+                        )
+                    , label [ for "player" ] [ text "Initials" ]
+                    , div []
+                        [ input
+                            [ name "player"
+                            , title "Enter 2 to 4 Characters"
+                            , style "padding" "5px"
+                            , style "border-radius" "5px"
+                            , style "max-width" "7rem"
+                            , style "font-family" "sans-serif"
+                            , style "font-size" "1.2rem"
+                            , style "text-align" "center"
+                            , minlength 2
+                            , maxlength 4
+                            , onInput Player
+                            ]
+                            []
                         ]
-                        []
-                    ]
-                , div []
-                    [ let
-                        disable =
-                            not (isFormValid model.formData)
-
-                        backgroundColor =
-                            if disable then
-                                "#002F6C99"
-
-                            else
-                                "#002F6CCC"
-                      in
-                      button
-                        [ style "background-color" backgroundColor
-                        , style "color" "white"
-                        , style "border" "none"
-                        , style "font-size" "18px"
-                        , style "border-radius" "5px"
-                        , style "cursor" "pointer"
-                        , style "padding" "20px"
-                        , style "max-width" "10rem"
-                        , disabled disable
-                        , onClick SubmitGame
+                    , label [ for "suggestion" ] [ text "What Square would you like to add?", br [] [], text "Or any other feedback?" ]
+                    , div []
+                        [ textarea
+                            [ name "suggestion"
+                            , title "Enter a suggestion (max 100 characters)"
+                            , style "padding" "5px"
+                            , style "border-radius" "5px"
+                            , style "max-width" "30rem"
+                            , style "min-height" "10rem"
+                            , style "font-family" "sans-serif"
+                            , style "font-size" "1.2rem"
+                            , maxlength 100
+                            , onInput Suggestion
+                            ]
+                            []
                         ]
-                        [ text "Submit Your Score" ]
+                    , div []
+                        [ let
+                            disable =
+                                not (isFormValid model.formData)
+
+                            backgroundColor =
+                                if disable then
+                                    "#002F6C99"
+
+                                else
+                                    "#002F6CCC"
+                          in
+                          button
+                            [ style "background-color" backgroundColor
+                            , style "color" "white"
+                            , style "border" "none"
+                            , style "font-size" "18px"
+                            , style "border-radius" "5px"
+                            , style "cursor" "pointer"
+                            , style "padding" "20px"
+                            , style "max-width" "10rem"
+                            , disabled disable
+                            , onClick SubmitGame
+                            ]
+                            [ text "Submit Your Score" ]
+                        ]
                     ]
                 ]
-            ]
 
-        RemoteData.Success _ ->
-            [ div
-                [ style "font-family" "sans-serif"
-                , style "font-size" "1.5rem"
+            RemoteData.Success _ ->
+                [ div
+                    [ style "font-family" "sans-serif"
+                    , style "font-size" "1.5rem"
+                    ]
+                    [ text "😀Thanks for your feedback!😀" ]
                 ]
-                [ text "😀Thanks for your feedback!😀" ]
-            ]
 
-        RemoteData.Failure error ->
-            [ text ("Failed to submit " ++ errorToString error) ]
+            RemoteData.Failure error ->
+                [ text ("Failed to submit " ++ errorToString error) ]
 
-        RemoteData.Loading ->
-            [ text "Submitting" ]
+            RemoteData.Loading ->
+                [ text "Submitting" ]
+        )
 
 
 isFormValid : GameResult -> Bool
