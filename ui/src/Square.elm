@@ -40,26 +40,33 @@ allSquares =
     , falseSquare "Unintended interruption"
     , falseSquare "\"__, can you comment?\""
     , falseSquare "\"I need to step out\""
-    , falseSquare "\"Go further\""
     , falseSquare "\"Can you share?\""
     , falseSquare "\"You're not sharing\""
     , falseSquare "Any acronym"
-    , falseSquare "A well known acronym repurposed by Ford"
-    , falseSquare "\"VIN number\""
-    , falseSquare "\"MVP\""
-    , falseSquare "Any vehicle program number"
     , falseSquare "Roundtable introductions"
     , falseSquare "5 or more Webex beeps"
     , falseSquare "Pet or child on webcam"
     , falseSquare "University logo on webcam"
-    , falseSquare "\"LL_ approval needed\""
     , falseSquare "\"What team are you from?\""
     , falseSquare "\"double mute\""
-    , falseSquare "Any _aaS acronym"
     , falseSquare "Reference to people as resources"
     , falseSquare "\"I'll send out the deck\""
+    , falseSquare "(eating sounds)"
     , falseSquare "\"Bingo!\""
     , falseSquare "\"I think ____ stepped away\""
+    ]
+        ++ fordisms
+
+
+fordisms : List Square
+fordisms =
+    [ falseSquare "\"VIN number\""
+    , falseSquare "\"MVP\""
+    , falseSquare "Any vehicle program number"
+    , falseSquare "\"Go further\""
+    , falseSquare "\"LL_ approval needed\""
+    , falseSquare "Any _aaS acronym"
+    , falseSquare "A well known acronym repurposed by Ford"
     ]
 
 
