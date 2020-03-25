@@ -80,6 +80,7 @@ winningView model =
                 [ id "table"
                 , style "display" "grid"
                 , style "grid-template-columns" "repeat(2, 1fr)"
+                , style "min-height" "25rem"
                 ]
                 [ submitGame model
                 , topScoreView model
