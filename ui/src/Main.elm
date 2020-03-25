@@ -3,7 +3,7 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Bingo exposing (randomBoard)
 import Board exposing (Board)
 import Browser
-import Browser.Navigation as Navigation
+import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
 import Html exposing (Html, a, button, div, h1, h2, text)
 import Html.Attributes exposing (href, style)
 import Html.Events exposing (onClick)
@@ -26,6 +26,8 @@ type Msg
     | GameResponse (WebData ())
     | SubmitGame
     | RequestHighScores
+    | LinkClicked Browser.UrlRequest
+    | UrlChanged Url
     | NoOp
 
 
@@ -36,6 +38,7 @@ type alias Model =
     , highScores : WebData (List Score)
     , submittedScoreResponse : WebData ()
     , url : Url
+    , key : Key
     }
 
 
@@ -134,13 +137,14 @@ boardView model =
 
 
 init : () -> Url -> Navigation.Key -> ( Model, Cmd Msg )
-init _ url _ =
+init _ url key =
     ( { board = []
       , startTime = Time.millisToPosix 0
       , endTime = Time.millisToPosix 0
       , highScores = RemoteData.NotAsked
       , submittedScoreResponse = RemoteData.NotAsked
       , url = url
+      , key = key
       }
     , Task.perform GotCurrentTime Time.now
     )
@@ -191,6 +195,19 @@ update msg model =
             in
             ( model, Requests.submitScore model.url GameResponse gameResult )
 
+        LinkClicked urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, pushUrl model.key (Url.toString url) )
+
+                Browser.External href ->
+                    ( model, load href )
+
+        UrlChanged url ->
+            ( { model | url = url }
+            , Cmd.none
+            )
+
         NoOp ->
             ( model, Cmd.none )
 
@@ -201,6 +218,6 @@ main =
         , update = update
         , view = view
         , subscriptions = \_ -> Sub.none
-        , onUrlRequest = \_ -> NoOp
-        , onUrlChange = \_ -> NoOp
+        , onUrlRequest = LinkClicked
+        , onUrlChange = UrlChanged
         }
