@@ -10,7 +10,7 @@ import Url exposing (Url)
 getHighScores : Url -> Cmd Msg
 getHighScores url =
     Http.get
-        { url = getHostFromLocation url ++ "/scores"
+        { url = getHostFromLocation url ++ "/api/scores"
         , expect = expectJson (RemoteData.fromResult >> HighScoresResponse) decodeScores
         }
 
@@ -18,7 +18,7 @@ getHighScores url =
 submitScore : Url -> GameResult -> Cmd Msg
 submitScore url gameResult =
     Http.post
-        { url = getHostFromLocation url ++ "/scores"
+        { url = getHostFromLocation url ++ "/api/scores"
         , body = Http.jsonBody (encodeGameResult gameResult)
         , expect = expectWhatever (RemoteData.fromResult >> GameResponse)
         }
@@ -30,7 +30,7 @@ getHostFromLocation url =
         "http://localhost:8080"
 
     else
-        "https://bingo-api.apps.pd01.useast.cf.ford.com"
+        ""
 
 
 isLocalhost : Url -> Bool

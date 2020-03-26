@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping(path = ["/scores", "/api/scores"])
-@CrossOrigin(origins = ["http://localhost:8000", "https://bingo.apps.pd01.useast.cf.ford.com"])
+@RequestMapping(path = ["/api/scores"])
+@CrossOrigin(origins = ["http://localhost:8000"])
 class ScoreController {
     
     @Autowired
@@ -21,4 +21,3 @@ class ScoreController {
         scoreRepository.save(gameResultBody.toGameResult())
     }
 }
-
