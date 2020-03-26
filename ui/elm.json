@@ -16,6 +16,7 @@
             "elm/random": "1.0.0",
             "elm/time": "1.0.0",
             "elm/url": "1.0.0",
+            "elm-community/list-extra": "8.2.3",
             "elm-community/random-extra": "3.1.0",
             "krisajenkins/remotedata": "6.0.1"
         },
@@ -30,8 +31,6 @@
         "direct": {
             "elm-explorations/test": "1.2.2"
         },
-        "indirect": {
-            "elm-community/list-extra": "8.2.3"
-        }
+        "indirect": {}
     }
 }

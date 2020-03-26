@@ -1,4 +1,4 @@
-module Score exposing (GameResult, Score, decodeGameResult, decodeScore, decodeScores, emptyGameResult, encodeGameResult, encodeScore)
+module Score exposing (GameResult, Score, decodeGameResult, decodeScore, decodeScores, emptyGameResult, encodeGameResult, encodeScore, insertYourScore, yourScore)
 
 import Json.Decode as Decode exposing (Decoder, int, nullable, string)
 import Json.Decode.Pipeline
@@ -21,6 +21,19 @@ type alias GameResult =
 
 emptyGameResult =
     GameResult 0 "" Nothing 0
+
+
+yourScore : Int -> Score
+yourScore score =
+    Score score "Your Score"
+
+
+insertYourScore : Score -> List Score -> List ( Int, Score )
+insertYourScore score scores =
+    scores
+        |> List.append [ score ]
+        |> List.sortBy .score
+        |> List.indexedMap Tuple.pair
 
 
 decodeScores : Decoder (List Score)

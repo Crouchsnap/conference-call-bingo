@@ -7,6 +7,7 @@ import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
 import Html exposing (Html, a, br, button, div, h1, h2, h3, input, label, li, text, textarea)
 import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, style, target, title)
 import Html.Events exposing (onClick, onInput)
+import List.Extra
 import Rating
 import RemoteData exposing (WebData)
 import Requests exposing (errorToString)
@@ -114,16 +115,23 @@ topScoreView model =
     div [ style "font-family" "sans-serif", style "justify-content" "left", style "position" "relative" ]
         [ div
             [ style "display" "grid"
-            , style "grid-template-columns" "repeat(2, 7rem)"
+            , style "grid-template-columns" "repeat(3, 7rem)"
             , style "margin-left" "1.5rem"
             ]
             ([ div
                 [ style "text-align" "center"
-                , style "grid-column" "span 2"
+                , style "grid-column" "span 3"
                 , style "font-size" "1.5rem"
                 , style "margin-bottom" ".8rem"
                 ]
                 [ text "High Scores" ]
+             , div
+                [ style "font-size" "1.5rem"
+                , style "text-align" "center"
+                , style "border" "1px solid"
+                , style "padding" "3px"
+                ]
+                [ text "Rank" ]
              , div
                 [ style "font-size" "1.5rem"
                 , style "text-align" "center"
@@ -141,10 +149,31 @@ topScoreView model =
              ]
                 ++ (case model.highScores of
                         RemoteData.Success scores ->
-                            scores
-                                |> List.take 10
-                                |> List.map scoreRow
-                                |> List.concat
+                            let
+                                yourScore =
+                                    Score.yourScore (TimeFormatter.timeDifference model.startTime model.endTime)
+
+                                scoresWithYourRow =
+                                    Score.insertYourScore yourScore scores
+
+                                yourScoreTupe =
+                                    scoresWithYourRow
+                                        |> List.Extra.find (\( _, score ) -> score == yourScore)
+                                        |> Maybe.withDefault ( -1, Score -1 "" )
+
+                                yourRow =
+                                    if (yourScoreTupe |> Tuple.first) > 9 then
+                                        [ yourScoreTupe ]
+
+                                    else
+                                        []
+
+                                rows =
+                                    List.append (scoresWithYourRow |> List.take 10) yourRow
+                                        |> List.map (scoreRow yourScore)
+                                        |> List.concat
+                            in
+                            rows
 
                         _ ->
                             []
@@ -154,18 +183,32 @@ topScoreView model =
         ]
 
 
-scoreRow score =
+scoreRow yourScore ( rank, score ) =
+    let
+        baseFormat =
+            [ style "font-size" "1rem"
+            , style "border" "1px solid"
+            , style "padding" "3px"
+            ]
+
+        calculatedFormat =
+            if score == yourScore then
+                baseFormat
+                    ++ [ style "background-color" "#002F6CCC"
+                       , style "color" "white"
+                       ]
+
+            else
+                baseFormat
+    in
     [ div
-        [ style "font-size" "1rem"
-        , style "border" "1px solid"
-        , style "padding" "3px"
-        ]
+        calculatedFormat
+        [ text (String.fromInt (rank + 1)) ]
+    , div
+        calculatedFormat
         [ text score.player ]
     , div
-        [ style "font-size" "1rem"
-        , style "border" "1px solid"
-        , style "padding" "3px"
-        ]
+        calculatedFormat
         [ text (TimeFormatter.winingTime score.score) ]
     ]
 

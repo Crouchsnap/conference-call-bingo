@@ -1,11 +1,16 @@
-module TimeFormatter exposing (winingTime, winingTimeDifference)
+module TimeFormatter exposing (timeDifference, winingTime, winingTimeDifference)
 
 import Time exposing (Posix)
 
 
+timeDifference : Posix -> Posix -> Int
+timeDifference startTime endTime =
+    Time.posixToMillis endTime - Time.posixToMillis startTime
+
+
 winingTimeDifference : Posix -> Posix -> String
 winingTimeDifference startTime endTime =
-    Time.posixToMillis endTime - Time.posixToMillis startTime |> winingTime
+    timeDifference startTime endTime |> winingTime
 
 
 winingTime : Int -> String
