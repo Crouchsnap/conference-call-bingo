@@ -3,11 +3,13 @@ module Main exposing (Model, init, main, update, view)
 import Bingo exposing (randomBoard)
 import Board exposing (Board)
 import Browser
+import Browser.Dom exposing (Viewport)
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
 import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
 import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, target, title)
 import Html.Events exposing (onClick, onInput)
 import List.Extra
+import Media exposing (Media, defaultMedia, viewportToMedia)
 import Msg exposing (Msg(..))
 import Rating
 import RemoteData exposing (WebData)
@@ -31,7 +33,25 @@ type alias Model =
     , key : Key
     , formData : GameResult
     , ratingState : Rating.State
+    , media : Media
     }
+
+
+init : () -> Url -> Navigation.Key -> ( Model, Cmd Msg )
+init _ url key =
+    ( { board = []
+      , startTime = Time.millisToPosix 0
+      , endTime = Time.millisToPosix 0
+      , highScores = RemoteData.NotAsked
+      , submittedScoreResponse = RemoteData.NotAsked
+      , url = url
+      , key = key
+      , formData = emptyGameResult
+      , ratingState = Rating.initialState
+      , media = defaultMedia
+      }
+    , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
+    )
 
 
 view : Model -> Browser.Document Msg
@@ -258,22 +278,6 @@ boardView model =
     ]
 
 
-init : () -> Url -> Navigation.Key -> ( Model, Cmd Msg )
-init _ url key =
-    ( { board = []
-      , startTime = Time.millisToPosix 0
-      , endTime = Time.millisToPosix 0
-      , highScores = RemoteData.NotAsked
-      , submittedScoreResponse = RemoteData.NotAsked
-      , url = url
-      , key = key
-      , formData = emptyGameResult
-      , ratingState = Rating.initialState
-      }
-    , Task.perform GotCurrentTime Time.now
-    )
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -363,6 +367,9 @@ update msg model =
                     model.formData
             in
             ( { model | ratingState = newRatingState, formData = { formData | rating = Rating.get newRatingState } }, Cmd.none )
+
+        GotViewportSize viewport ->
+            ( { model | media = viewportToMedia viewport }, Cmd.none )
 
         NoOp ->
             ( model, Cmd.none )

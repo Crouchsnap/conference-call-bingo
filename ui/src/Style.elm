@@ -216,9 +216,10 @@ boardTableStyle =
     [ style "justify-content" "center"
     , style "padding-top" "5px"
     , style "display" "grid"
-    , style "grid-template-columns" "repeat(5, 100px)"
-    , style "grid-template-rows" "repeat(5, 100px)"
+    , style "grid-template-columns" "repeat(5, 10rem)"
+    , style "grid-template-rows" "repeat(5, 10rem)"
     , style "grid-gap" "10px"
+    , largeFontSize
     , fontStyle
     ]
 
