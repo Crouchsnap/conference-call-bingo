@@ -31,6 +31,22 @@ fontStyle =
     style "font-family" "sans-serif"
 
 
+borderRadius =
+    style "border-radius" "5px"
+
+
+largeFontSize =
+    style "font-size" "1.5rem"
+
+
+smallFontSize =
+    style "font-size" ".6rem"
+
+
+fontSize =
+    style "font-size" ".8rem"
+
+
 titleStyle : List (Html.Attribute Msg)
 titleStyle =
     [ style "text-align" "center"
@@ -40,7 +56,7 @@ titleStyle =
 
 subTitleStyle : List (Html.Attribute Msg)
 subTitleStyle =
-    [ style "font-size" "12"
+    [ fontSize
     , style "text-align" "center"
     , fontStyle
     , style "padding-bottom" "8px"
@@ -49,7 +65,7 @@ subTitleStyle =
 
 footerStyle : List (Html.Attribute Msg)
 footerStyle =
-    [ style "font-size" "12"
+    [ fontSize
     , style "text-align" "center"
     , fontStyle
     , style "padding-top" "4rem"
@@ -65,18 +81,19 @@ winningViewContainerStyle =
 
 winningScoreHeaderStyle : List (Html.Attribute Msg)
 winningScoreHeaderStyle =
-    [ style "text-align" "center"
-    , fontStyle
-    ]
+    titleStyle
 
 
 topScoreContainerStyle =
-    [ fontStyle, style "justify-content" "left", style "position" "relative" ]
+    [ fontStyle
+    , style "justify-content" "left"
+    , style "position" "relative"
+    ]
 
 
 topScoreColumnHeaderStyle : List (Html.Attribute Msg)
 topScoreColumnHeaderStyle =
-    [ style "font-size" "1.5rem"
+    [ largeFontSize
     , style "text-align" "center"
     , style "border" "1px solid"
     , style "padding" "3px"
@@ -87,7 +104,7 @@ topScoreHeaderStyle : List (Html.Attribute Msg)
 topScoreHeaderStyle =
     [ style "text-align" "center"
     , style "grid-column" "span 3"
-    , style "font-size" "1.5rem"
+    , largeFontSize
     , style "margin-bottom" ".8rem"
     ]
 
@@ -118,7 +135,7 @@ yourScoreRowStyle =
 
 playerInputStyle =
     [ style "padding" "5px"
-    , style "border-radius" "5px"
+    , borderRadius
     , style "max-width" "7rem"
     , fontStyle
     , style "font-size" "1.2rem"
@@ -128,7 +145,7 @@ playerInputStyle =
 
 suggestionInputStyle =
     [ style "padding" "5px"
-    , style "border-radius" "5px"
+    , borderRadius
     , style "max-width" "30rem"
     , style "min-height" "10rem"
     , fontStyle
@@ -147,7 +164,7 @@ newButtonStyle =
     , style "color" "white"
     , style "border" "none"
     , style "font-size" "18px"
-    , style "border-radius" "5px"
+    , borderRadius
     , style "cursor" "pointer"
     , style "padding" "20px"
     , style "position" "absolute"
@@ -164,7 +181,7 @@ submitScoreFormStyle =
     , style "grid-gap" "10px"
     , style "text-align" "center"
     , fontStyle
-    , style "font-size" "1.5rem"
+    , largeFontSize
     , style "box-shadow" "inset 0 0 0 10px rgba(0, 255, 0, 0.5);"
     ]
 
@@ -182,7 +199,7 @@ submitScoreButtonStyle disable =
     , style "color" "white"
     , style "border" "none"
     , style "font-size" "18px"
-    , style "border-radius" "5px"
+    , borderRadius
     , style "cursor" "pointer"
     , style "padding" "20px"
     , style "max-width" "10rem"
@@ -191,7 +208,7 @@ submitScoreButtonStyle disable =
 
 submittedMessageStyle =
     [ fontStyle
-    , style "font-size" "1.5rem"
+    , largeFontSize
     ]
 
 
@@ -222,7 +239,7 @@ squareStyle { checked } =
             [ style "background-color" "#002F6CCC" ]
         )
         [ style "color" "white"
-        , style "border-radius" "5px"
+        , borderRadius
         , style "cursor" "pointer"
         , style "vertical-align" "middle"
         , style "text-align" "center"
