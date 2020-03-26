@@ -4,7 +4,7 @@ Elm app for playing conference call bingo in these trying times.
 
 ## Running
 ### Prerequisites
- - [elm](elm-lang.org)
+ - [elm](https://elm-lang.org)
  - Java 8
  - mongodb-community
  
