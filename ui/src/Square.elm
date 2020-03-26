@@ -54,6 +54,7 @@ allSquares =
     , falseSquare "(eating sounds)"
     , falseSquare "\"Bingo!\""
     , falseSquare "\"I think ____ stepped away\""
+    , falseSquare "\"Can you hear me?\""
     ]
         ++ fordisms
 
