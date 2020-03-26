@@ -1,39 +1,24 @@
-module Main exposing (Model, Msg(..), init, main, update, view)
+module Main exposing (Model, init, main, update, view)
 
 import Bingo exposing (randomBoard)
 import Board exposing (Board)
 import Browser
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
-import Html exposing (Html, a, br, button, div, h1, h2, h3, input, label, li, text, textarea)
-import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, style, target, title)
+import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
+import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, target, title)
 import Html.Events exposing (onClick, onInput)
 import List.Extra
+import Msg exposing (Msg(..))
 import Rating
 import RemoteData exposing (WebData)
 import Requests exposing (errorToString)
 import Score exposing (GameResult, Score, emptyGameResult)
 import Square exposing (Square, toggleSquareInList)
+import Style exposing (..)
 import Task
 import Time exposing (Posix)
 import TimeFormatter
 import Url exposing (Url)
-
-
-type Msg
-    = GotCurrentTime Time.Posix
-    | GotEndTime Time.Posix
-    | ToggleCheck Square
-    | NewGame
-    | HighScoresResponse (WebData (List Score))
-    | GameResponse (WebData ())
-    | SubmitGame
-    | RequestHighScores
-    | LinkClicked Browser.UrlRequest
-    | UrlChanged Url
-    | Player String
-    | Suggestion String
-    | RatingMsg Rating.Msg
-    | NoOp
 
 
 type alias Model =
@@ -49,20 +34,15 @@ type alias Model =
     }
 
 
+view : Model -> Browser.Document Msg
 view model =
     { title = "BINGO!"
     , body =
         [ h1
-            [ style "text-align" "center"
-            , style "font-family" "sans-serif"
-            ]
+            titleStyle
             [ text "CONFERENCE CALL BINGO!" ]
         , div
-            [ style "font-size" "12"
-            , style "text-align" "center"
-            , style "font-family" "sans-serif"
-            , style "padding-bottom" "8px"
-            ]
+            subTitleStyle
             [ text "Powered by ", a [ target "_blank", href "https://www.fordlabs.com" ] [ text "FordLabs" ] ]
         ]
             ++ (if Bingo.isWinner model.board then
@@ -72,11 +52,7 @@ view model =
                     boardView model
                )
             ++ [ div
-                    [ style "font-size" "12"
-                    , style "text-align" "center"
-                    , style "font-family" "sans-serif"
-                    , style "padding-top" "4rem"
-                    ]
+                    footerStyle
                     [ text "Want to contribute? Check out our ", a [ target "_blank", href "https://github.com/Crouchsnap/conference-call-bingo" ] [ text "Github!" ] ]
                ]
     }
@@ -86,65 +62,40 @@ winningView : Model -> List (Html Msg)
 winningView model =
     winningScoreHeader model
         ++ [ div
-                [ id "table"
-                , style "display" "grid"
-                , style "grid-template-columns" "repeat(2, 1fr)"
-                , style "min-height" "25rem"
-                ]
+                (winningViewContainerStyle ++ [ id "table" ])
                 [ submitGame model
                 , topScoreView model
                 ]
            ]
 
 
-winningScoreHeader model =
+winningScoreHeader : Model -> List (Html Msg)
+winningScoreHeader { startTime, endTime } =
     [ h1
-        [ style "text-align" "center"
-        , style "font-family" "sans-serif"
-        ]
+        winningScoreHeaderStyle
         [ text "🎉 Bingo! 🎉" ]
     , h2
-        [ style "text-align" "center"
-        , style "font-family" "sans-serif"
-        ]
-        [ text ("Your winning time: " ++ TimeFormatter.winingTimeDifference model.startTime model.endTime) ]
+        winningScoreHeaderStyle
+        [ text ("Your winning time: " ++ TimeFormatter.winingTimeDifference startTime endTime) ]
     ]
 
 
+topScoreView : Model -> Html Msg
 topScoreView model =
-    div [ style "font-family" "sans-serif", style "justify-content" "left", style "position" "relative" ]
+    div topScoreContainerStyle
         [ div
-            [ style "display" "grid"
-            , style "grid-template-columns" "repeat(3, 7rem)"
-            , style "margin-left" "1.5rem"
-            ]
+            topScoreTableStyle
             ([ div
-                [ style "text-align" "center"
-                , style "grid-column" "span 3"
-                , style "font-size" "1.5rem"
-                , style "margin-bottom" ".8rem"
-                ]
+                topScoreHeaderStyle
                 [ text "High Scores" ]
              , div
-                [ style "font-size" "1.5rem"
-                , style "text-align" "center"
-                , style "border" "1px solid"
-                , style "padding" "3px"
-                ]
+                topScoreColumnHeaderStyle
                 [ text "Rank" ]
              , div
-                [ style "font-size" "1.5rem"
-                , style "text-align" "center"
-                , style "border" "1px solid"
-                , style "padding" "3px"
-                ]
+                topScoreColumnHeaderStyle
                 [ text "Player" ]
              , div
-                [ style "font-size" "1.5rem"
-                , style "text-align" "center"
-                , style "border" "1px solid"
-                , style "padding" "3px"
-                ]
+                topScoreColumnHeaderStyle
                 [ text "Time" ]
              ]
                 ++ (case model.highScores of
@@ -183,23 +134,15 @@ topScoreView model =
         ]
 
 
+scoreRow : Score -> ( Int, Score ) -> List (Html Msg)
 scoreRow yourScore ( rank, score ) =
     let
-        baseFormat =
-            [ style "font-size" "1rem"
-            , style "border" "1px solid"
-            , style "padding" "3px"
-            ]
-
         calculatedFormat =
             if score == yourScore then
-                baseFormat
-                    ++ [ style "background-color" "#002F6CCC"
-                       , style "color" "white"
-                       ]
+                yourScoreRowStyle
 
             else
-                baseFormat
+                scoreRowStyle
     in
     [ div
         calculatedFormat
@@ -214,40 +157,16 @@ scoreRow yourScore ( rank, score ) =
 
 
 newGameButton =
-    button
-        [ style "background-color" "#002F6CCC"
-        , style "color" "white"
-        , style "border" "none"
-        , style "font-size" "18px"
-        , style "border-radius" "5px"
-        , style "cursor" "pointer"
-        , style "padding" "20px"
-        , style "position" "absolute"
-        , style "bottom" "0"
-        , style "left" "0"
-        , style "margin-left" "4.5rem"
-        , onClick NewGame
-        ]
-        [ text "Play Again" ]
+    button (newButtonStyle ++ [ onClick NewGame ]) [ text "Play Again" ]
 
 
 submitGame model =
     div
-        [ style "text-align" "center"
-        , style "margin-right" "1.5rem"
-        ]
+        submitGameStyle
         (case model.submittedScoreResponse of
             RemoteData.NotAsked ->
                 [ div
-                    [ style "justify-content" "right"
-                    , style "display" "grid"
-                    , style "grid-template-columns" "repeat(2, auto-fill)"
-                    , style "grid-gap" "10px"
-                    , style "text-align" "center"
-                    , style "font-family" "sans-serif"
-                    , style "font-size" "1.5rem"
-                    , style "box-shadow" "inset 0 0 0 10px rgba(0, 255, 0, 0.5);"
-                    ]
+                    submitScoreFormStyle
                     [ div [] [ text "Rate Your Experience" ]
                     , Html.map RatingMsg
                         (Rating.styleView
@@ -260,60 +179,39 @@ submitGame model =
                     , label [ for "player" ] [ text "Initials" ]
                     , div []
                         [ input
-                            [ name "player"
-                            , title "Enter 2 to 4 Characters"
-                            , style "padding" "5px"
-                            , style "border-radius" "5px"
-                            , style "max-width" "7rem"
-                            , style "font-family" "sans-serif"
-                            , style "font-size" "1.2rem"
-                            , style "text-align" "center"
-                            , minlength 2
-                            , maxlength 4
-                            , onInput Player
-                            ]
+                            (playerInputStyle
+                                ++ [ name "player"
+                                   , title "Enter 2 to 4 Characters"
+                                   , minlength 2
+                                   , maxlength 4
+                                   , onInput Player
+                                   ]
+                            )
                             []
                         ]
                     , label [ for "suggestion" ] [ text "What Square would you like to add?", br [] [], text "Or any other feedback?" ]
                     , div []
                         [ textarea
-                            [ name "suggestion"
-                            , title "Enter a suggestion (max 100 characters)"
-                            , style "padding" "5px"
-                            , style "border-radius" "5px"
-                            , style "max-width" "30rem"
-                            , style "min-height" "10rem"
-                            , style "font-family" "sans-serif"
-                            , style "font-size" "1.2rem"
-                            , maxlength 100
-                            , onInput Suggestion
-                            ]
+                            (suggestionInputStyle
+                                ++ [ name "suggestion"
+                                   , title "Enter a suggestion (max 100 characters)"
+                                   , maxlength 100
+                                   , onInput Suggestion
+                                   ]
+                            )
                             []
                         ]
                     , div []
                         [ let
                             disable =
                                 not (isFormValid model.formData)
-
-                            backgroundColor =
-                                if disable then
-                                    "#002F6C99"
-
-                                else
-                                    "#002F6CCC"
                           in
                           button
-                            [ style "background-color" backgroundColor
-                            , style "color" "white"
-                            , style "border" "none"
-                            , style "font-size" "18px"
-                            , style "border-radius" "5px"
-                            , style "cursor" "pointer"
-                            , style "padding" "20px"
-                            , style "max-width" "10rem"
-                            , disabled disable
-                            , onClick SubmitGame
-                            ]
+                            (submitScoreButtonStyle disable
+                                ++ [ disabled disable
+                                   , onClick SubmitGame
+                                   ]
+                            )
                             [ text "Submit Your Score" ]
                         ]
                     ]
@@ -321,9 +219,7 @@ submitGame model =
 
             RemoteData.Success _ ->
                 [ div
-                    [ style "font-family" "sans-serif"
-                    , style "font-size" "1.5rem"
-                    ]
+                    submittedMessageStyle
                     [ text "😀Thanks for your feedback!😀" ]
                 ]
 
@@ -347,36 +243,13 @@ isFormValid gameResult =
 boardView : Model -> List (Html Msg)
 boardView model =
     [ div
-        [ style "justify-content" "center"
-        , style "padding-top" "5px"
-        , style "display" "grid"
-        , style "grid-template-columns" "repeat(5, 100px)"
-        , style "grid-template-rows" "repeat(5, 100px)"
-        , style "grid-gap" "10px"
-        , style "font-family" "sans-serif"
-        ]
+        boardTableStyle
         (List.map
             (\square ->
                 div
-                    [ style "display" "table"
-                    , style "height" "100%"
-                    , style "width" "100%"
-                    ]
+                    squareContainerStyle
                     [ div
-                        [ if square.checked then
-                            style "background-color" "red"
-
-                          else
-                            style "background-color" "#002F6CCC"
-                        , onClick (ToggleCheck square)
-                        , style "color" "white"
-                        , style "border-radius" "5px"
-                        , style "cursor" "pointer"
-                        , style "vertical-align" "middle"
-                        , style "text-align" "center"
-                        , style "display" "table-cell"
-                        , style "padding" "5px"
-                        ]
+                        (squareStyle square ++ [ onClick (ToggleCheck square) ])
                         [ text square.text ]
                     ]
             )
@@ -411,7 +284,7 @@ update msg model =
             in
             ( { model | board = updatedBoard }
             , if updatedBoard |> Bingo.isWinner then
-                Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url HighScoresResponse ]
+                Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url ]
 
               else
                 Cmd.none
@@ -442,7 +315,7 @@ update msg model =
             ( { model | submittedScoreResponse = response }, Cmd.none )
 
         RequestHighScores ->
-            ( model, Requests.getHighScores model.url HighScoresResponse )
+            ( model, Requests.getHighScores model.url )
 
         SubmitGame ->
             let
@@ -452,7 +325,7 @@ update msg model =
                 gameResultWithScore =
                     { formData | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
             in
-            ( { model | formData = formData }, Requests.submitScore model.url GameResponse gameResultWithScore )
+            ( { model | formData = formData }, Requests.submitScore model.url gameResultWithScore )
 
         LinkClicked urlRequest ->
             case urlRequest of

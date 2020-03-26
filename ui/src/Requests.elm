@@ -1,25 +1,26 @@
 module Requests exposing (errorToString, getHighScores, getHostFromLocation, submitScore)
 
 import Http exposing (Error(..), expectJson, expectWhatever)
+import Msg exposing (Msg(..))
 import RemoteData exposing (RemoteData, WebData)
 import Score exposing (GameResult, Score, decodeScores, encodeGameResult)
 import Url exposing (Url)
 
 
-getHighScores : Url -> (RemoteData Error (List Score) -> msg) -> Cmd msg
-getHighScores url msgConstructor =
+getHighScores : Url -> Cmd Msg
+getHighScores url =
     Http.get
         { url = getHostFromLocation url ++ "/scores"
-        , expect = expectJson (RemoteData.fromResult >> msgConstructor) decodeScores
+        , expect = expectJson (RemoteData.fromResult >> HighScoresResponse) decodeScores
         }
 
 
-submitScore : Url -> (RemoteData Error () -> msg) -> GameResult -> Cmd msg
-submitScore url msgConstructor gameResult =
+submitScore : Url -> GameResult -> Cmd Msg
+submitScore url gameResult =
     Http.post
         { url = getHostFromLocation url ++ "/scores"
         , body = Http.jsonBody (encodeGameResult gameResult)
-        , expect = expectWhatever (RemoteData.fromResult >> msgConstructor)
+        , expect = expectWhatever (RemoteData.fromResult >> GameResponse)
         }
 
 
