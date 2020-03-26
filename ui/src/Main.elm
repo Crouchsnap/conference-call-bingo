@@ -4,12 +4,13 @@ import Bingo exposing (randomBoard)
 import Board exposing (Board)
 import Browser
 import Browser.Dom exposing (Viewport)
+import Browser.Events
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
+import Element exposing (Device, DeviceClass(..), classifyDevice)
 import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
 import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, target, title)
 import Html.Events exposing (onClick, onInput)
 import List.Extra
-import Media exposing (Media, defaultMedia, viewportToMedia)
 import Msg exposing (Msg(..))
 import Rating
 import RemoteData exposing (WebData)
@@ -21,6 +22,7 @@ import Task
 import Time exposing (Posix)
 import TimeFormatter
 import Url exposing (Url)
+import ViewportHelper exposing (defaultDevice, viewportToDevice)
 
 
 type alias Model =
@@ -33,7 +35,7 @@ type alias Model =
     , key : Key
     , formData : GameResult
     , ratingState : Rating.State
-    , media : Media
+    , device : Device
     }
 
 
@@ -48,7 +50,7 @@ init _ url key =
       , key = key
       , formData = emptyGameResult
       , ratingState = Rating.initialState
-      , media = defaultMedia
+      , device = defaultDevice
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -64,6 +66,11 @@ view model =
         , div
             subTitleStyle
             [ text "Powered by ", a [ target "_blank", href "https://www.fordlabs.com" ] [ text "FordLabs" ] ]
+        , if model.device.class == Desktop || model.device.class == BigDesktop then
+            div subTitleStyle [ text "Now better on mobile!" ]
+
+          else
+            div [] []
         ]
             ++ (if Bingo.isWinner model.board then
                     winningView model
@@ -263,7 +270,9 @@ isFormValid gameResult =
 boardView : Model -> List (Html Msg)
 boardView model =
     [ div
-        boardTableStyle
+        (boardTableStyle
+            model.device
+        )
         (List.map
             (\square ->
                 div
@@ -369,7 +378,10 @@ update msg model =
             ( { model | ratingState = newRatingState, formData = { formData | rating = Rating.get newRatingState } }, Cmd.none )
 
         GotViewportSize viewport ->
-            ( { model | media = viewportToMedia viewport }, Cmd.none )
+            ( { model | device = viewportToDevice viewport }, Cmd.none )
+
+        WindowResized width height ->
+            ( { model | device = classifyDevice { height = height, width = width } }, Cmd.none )
 
         NoOp ->
             ( model, Cmd.none )
@@ -380,7 +392,7 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = \_ -> Sub.batch [ Browser.Events.onResize WindowResized ]
         , onUrlRequest = LinkClicked
         , onUrlChange = UrlChanged
         }

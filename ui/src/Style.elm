@@ -22,6 +22,7 @@ module Style exposing
     , yourScoreRowStyle
     )
 
+import Element exposing (Device, DeviceClass(..), Orientation(..))
 import Html
 import Html.Attributes exposing (style)
 import Msg exposing (Msg)
@@ -40,11 +41,11 @@ largeFontSize =
 
 
 smallFontSize =
-    style "font-size" ".6rem"
+    style "font-size" ".8rem"
 
 
 fontSize =
-    style "font-size" ".8rem"
+    style "font-size" "1rem"
 
 
 titleStyle : List (Html.Attribute Msg)
@@ -65,7 +66,7 @@ subTitleStyle =
 
 footerStyle : List (Html.Attribute Msg)
 footerStyle =
-    [ fontSize
+    [ smallFontSize
     , style "text-align" "center"
     , fontStyle
     , style "padding-top" "4rem"
@@ -212,14 +213,30 @@ submittedMessageStyle =
     ]
 
 
-boardTableStyle =
+boardTableStyle : Device -> List (Html.Attribute Msg)
+boardTableStyle { class, orientation } =
+    let
+        ( width, height, squareFontSize ) =
+            case ( class, orientation ) of
+                ( Phone, Portrait ) ->
+                    ( "20%", "20%", largeFontSize )
+
+                ( Phone, Landscape ) ->
+                    ( "20%", "18%", fontSize )
+
+                ( Desktop, Landscape ) ->
+                    ( "8rem", "8rem", fontSize )
+
+                _ ->
+                    ( "10rem", "10rem", largeFontSize )
+    in
     [ style "justify-content" "center"
     , style "padding-top" "5px"
     , style "display" "grid"
-    , style "grid-template-columns" "repeat(5, 10rem)"
-    , style "grid-template-rows" "repeat(5, 10rem)"
+    , style "grid-template-columns" ("repeat(5, " ++ height ++ ")")
+    , style "grid-template-rows" ("repeat(5, " ++ width ++ ")")
     , style "grid-gap" "10px"
-    , largeFontSize
+    , squareFontSize
     , fontStyle
     ]
 

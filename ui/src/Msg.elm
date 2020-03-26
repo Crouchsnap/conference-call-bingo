@@ -26,3 +26,4 @@ type Msg
     | RatingMsg Rating.Msg
     | NoOp
     | GotViewportSize Viewport
+    | WindowResized Int Int
