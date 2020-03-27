@@ -20,7 +20,7 @@ suite =
             \_ ->
                 getHostFromLocation
                     (url Https "bingo-api.apps.pd01.useast.cf.ford.com" Nothing)
-                    |> Expect.equal "https://bingo-api.apps.pd01.useast.cf.ford.com"
+                    |> Expect.equal ""
         ]
 
 

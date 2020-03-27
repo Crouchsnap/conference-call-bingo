@@ -3,33 +3,33 @@ module BingoTests exposing (suite)
 import Bingo exposing (isWinner, randomBoard)
 import Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
 import Expect exposing (Expectation)
-import Square exposing (Square, allSquares, centerSquare, falseSquare, toggleSquareInList)
+import Square exposing (Category(..), Square, centerSquare, genericSquare, squaresByCategory, toggleSquareInList)
 import Test exposing (..)
 
 
 fakeSquare : Square
 fakeSquare =
-    { text = "fake", checked = False }
+    { text = "fake", checked = False, category = Generic }
 
 
 suite : Test
 suite =
     let
-        testBoard : Board
-        testBoard =
-            randomBoard 1
+        --testBoard : Board
+        ( testBoard, _ ) =
+            randomBoard [] 1
     in
     describe "Bingo"
         [ test "board should return 25 squares" <|
             \_ -> (testBoard |> List.length) |> Expect.equal 25
         , test "board should have Free space in the center square" <|
             \_ ->
-                (testBoard |> List.drop 12 |> List.head |> Maybe.withDefault (falseSquare ""))
+                (testBoard |> List.drop 12 |> List.head |> Maybe.withDefault (genericSquare ""))
                     |> Expect.equal centerSquare
         , test "board should be in random order" <|
             \_ ->
                 (testBoard |> List.drop 13 |> List.append (testBoard |> List.take 12))
-                    |> Expect.notEqual (List.take 24 allSquares)
+                    |> Expect.notEqual (List.take 24 (squaresByCategory []))
         , test "toggle square should toggle the right square" <|
             let
                 firstSquare =

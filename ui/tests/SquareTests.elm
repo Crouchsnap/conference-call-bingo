@@ -1,7 +1,7 @@
 module SquareTests exposing (suite)
 
 import Expect exposing (Expectation)
-import Square exposing (Square, centerSquare, falseSquare, toggleSquareInList)
+import Square exposing (Category(..), Square, centerSquare, genericSquare, toggleSquareInList)
 import Test exposing (..)
 
 
@@ -12,7 +12,7 @@ suite =
             \_ ->
                 let
                     testSquare =
-                        falseSquare ""
+                        genericSquare ""
                 in
                 [ testSquare ]
                     |> toggleSquareInList testSquare
@@ -24,7 +24,7 @@ suite =
             \_ ->
                 let
                     testSquare =
-                        Square "" True
+                        Square "" True Generic
                 in
                 [ testSquare ]
                     |> toggleSquareInList testSquare

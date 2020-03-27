@@ -17,7 +17,7 @@ import Rating
 import RemoteData exposing (WebData)
 import Requests exposing (errorToString)
 import Score exposing (GameResult, Score, emptyGameResult)
-import Square exposing (Square, toggleSquareInList)
+import Square exposing (Category(..), Square, toggleSquareInList)
 import Style exposing (..)
 import Task
 import Time exposing (Posix)
@@ -324,7 +324,7 @@ update msg model =
         GotCurrentTime time ->
             let
                 ( board, next ) =
-                    Time.posixToMillis time |> randomBoard
+                    Time.posixToMillis time |> randomBoard [ Fordism ]
 
                 ( offsets, nextNext ) =
                     randomOffset next

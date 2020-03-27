@@ -1,7 +1,7 @@
 module Board exposing (Board, areIndicesChecked, backDiagonal, column, forwardDiagonal, possibleWinningCombinations, row, rowColumnNumbers)
 
 import Array
-import Square exposing (Square, falseSquare)
+import Square exposing (Square, genericSquare)
 
 
 type alias Board =
@@ -20,7 +20,7 @@ getSquare board index =
     board
         |> Array.fromList
         |> Array.get index
-        |> Maybe.withDefault (falseSquare "")
+        |> Maybe.withDefault (genericSquare "")
 
 
 backDiagonal : List Int

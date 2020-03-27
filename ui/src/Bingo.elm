@@ -3,15 +3,15 @@ module Bingo exposing (isWinner, randomBoard)
 import Board exposing (Board, areIndicesChecked, possibleWinningCombinations)
 import Random
 import Random.List
-import Square exposing (Square, allSquares, centerSquare)
+import Square exposing (Category(..), Square, centerSquare, squaresByCategory)
 
 
-randomBoard : Int -> ( Board, Random.Seed )
-randomBoard seed =
+randomBoard : List Category -> Int -> ( Board, Random.Seed )
+randomBoard categories seed =
     let
         ( output, next ) =
             Random.initialSeed seed
-                |> Random.step (Random.List.shuffle allSquares)
+                |> Random.step (Random.List.shuffle (squaresByCategory categories))
     in
     ( List.take 12 output
         ++ [ centerSquare ]

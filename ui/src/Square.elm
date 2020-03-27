@@ -1,74 +1,93 @@
-module Square exposing (Square, allSquares, centerSquare, falseSquare, toggleSquare, toggleSquareInList)
+module Square exposing (Category(..), Square, centerSquare, genericSquare, squaresByCategory, toggleSquare, toggleSquareInList)
 
 
 type alias Square =
-    { text : String, checked : Bool }
+    { text : String, checked : Bool, category : Category }
 
 
-falseSquare : String -> Square
-falseSquare text =
-    Square text False
+type Category
+    = Generic
+    | Fordism
+    | Center
+
+
+genericSquare : String -> Square
+genericSquare text =
+    Square text False Generic
+
+
+fordismSquare : String -> Square
+fordismSquare text =
+    Square text False Fordism
 
 
 centerSquare : Square
 centerSquare =
-    Square "Free ⭐️ Space" True
+    Square "Free ⭐️ Space" True Center
 
 
-allSquares : List Square
-allSquares =
-    [ falseSquare "\"Mute your phone please\""
-    , falseSquare "5 seconds awkward silence"
-    , falseSquare "Sound of telephone ringing"
-    , falseSquare "(sigh)"
-    , falseSquare "\"Ok, let's get started\""
-    , falseSquare "(coughing)"
-    , falseSquare "Child or animal noise"
-    , falseSquare "People talking at the same time"
-    , falseSquare "\"This was shared ahead of time\""
-    , falseSquare "Echo noise or feedback"
-    , falseSquare "Sound of someone typing"
-    , falseSquare "\"Can you repeat that?\""
-    , falseSquare "\"Can you share that by email?\""
-    , falseSquare "Sound of background conversation"
-    , falseSquare "\"...technical difficulties.\""
-    , falseSquare "5th \"Thank you\""
-    , falseSquare "\"Time is just about up\""
-    , falseSquare "Powerpoint malfunction"
-    , falseSquare "\"I was on mute\""
-    , falseSquare "\"Can you see my screen?\""
-    , falseSquare "Unintended interruption"
-    , falseSquare "\"__, can you comment?\""
-    , falseSquare "\"I need to step out\""
-    , falseSquare "\"Can you share?\""
-    , falseSquare "\"You're not sharing\""
-    , falseSquare "Any acronym"
-    , falseSquare "Roundtable introductions"
-    , falseSquare "5 or more Webex beeps"
-    , falseSquare "Pet or child on webcam"
-    , falseSquare "University logo on webcam"
-    , falseSquare "\"What team are you from?\""
-    , falseSquare "\"double mute\""
-    , falseSquare "Reference to people as resources"
-    , falseSquare "\"I'll send out the deck\""
-    , falseSquare "(eating sounds)"
-    , falseSquare "\"Bingo!\""
-    , falseSquare "\"I think ____ stepped away\""
-    , falseSquare "\"Can you hear me?\""
+genericSquares : List Square
+genericSquares =
+    [ genericSquare "\"Mute your phone please\""
+    , genericSquare "5 seconds awkward silence"
+    , genericSquare "Sound of telephone ringing"
+    , genericSquare "(sigh)"
+    , genericSquare "\"Ok, let's get started\""
+    , genericSquare "(coughing)"
+    , genericSquare "Child or animal noise"
+    , genericSquare "People talking at the same time"
+    , genericSquare "\"This was shared ahead of time\""
+    , genericSquare "Echo noise or feedback"
+    , genericSquare "Sound of someone typing"
+    , genericSquare "\"Can you repeat that?\""
+    , genericSquare "\"Can you share that by email?\""
+    , genericSquare "Sound of background conversation"
+    , genericSquare "\"...technical difficulties.\""
+    , genericSquare "5th \"Thank you\""
+    , genericSquare "\"Time is just about up\""
+    , genericSquare "Powerpoint malfunction"
+    , genericSquare "\"I was on mute\""
+    , genericSquare "\"Can you see my screen?\""
+    , genericSquare "Unintended interruption"
+    , genericSquare "\"__, can you comment?\""
+    , genericSquare "\"I need to step out\""
+    , genericSquare "\"Can you share?\""
+    , genericSquare "\"You're not sharing\""
+    , genericSquare "Any acronym"
+    , genericSquare "Roundtable introductions"
+    , genericSquare "5 or more Webex beeps"
+    , genericSquare "Pet or child on webcam"
+    , genericSquare "University logo on webcam"
+    , genericSquare "\"What team are you from?\""
+    , genericSquare "\"double mute\""
+    , genericSquare "Reference to people as resources"
+    , genericSquare "\"I'll send out the deck\""
+    , genericSquare "(eating sounds)"
+    , genericSquare "\"Bingo!\""
+    , genericSquare "\"I think ____ stepped away\""
+    , genericSquare "\"Can you hear me?\""
     ]
-        ++ fordisms
 
 
 fordisms : List Square
 fordisms =
-    [ falseSquare "\"VIN number\""
-    , falseSquare "\"MVP\""
-    , falseSquare "Any vehicle program number"
-    , falseSquare "\"Go further\""
-    , falseSquare "\"LL_ approval needed\""
-    , falseSquare "Any _aaS acronym"
-    , falseSquare "A well known acronym repurposed by Ford"
+    [ fordismSquare "\"VIN number\""
+    , fordismSquare "\"MVP\""
+    , fordismSquare "Any vehicle program number"
+    , fordismSquare "\"Go further\""
+    , fordismSquare "\"LL_ approval needed\""
+    , fordismSquare "Any _aaS acronym"
+    , fordismSquare "A well known acronym repurposed by Ford"
     ]
+
+
+allCategorySquares =
+    fordisms
+
+
+squaresByCategory : List Category -> List Square
+squaresByCategory categories =
+    genericSquares ++ (allCategorySquares |> List.filter (\square -> List.member square.category categories))
 
 
 toggleSquareInList : Square -> List Square -> List Square
