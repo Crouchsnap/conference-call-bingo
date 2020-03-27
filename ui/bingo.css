@@ -1,0 +1,10 @@
+.boardTableStyle {
+    justify-content: center;
+    padding-top: 5px;
+    display: grid;
+    grid-template-columns: repeat(5,8rem);
+    grid-template-rows: repeat(5,8rem);
+    grid-gap: 10px;
+    font-size: 1rem;
+    font-family: sans-serif;
+}

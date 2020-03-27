@@ -8,7 +8,7 @@ import Browser.Events
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
 import Element exposing (Device, DeviceClass(..), classifyDevice)
 import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
-import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, style, target, title)
+import Html.Attributes exposing (class, disabled, for, href, id, maxlength, minlength, name, style, target, title)
 import Html.Events exposing (onClick, onInput)
 import List.Extra
 import Msg exposing (Msg(..))
@@ -310,9 +310,7 @@ boardView model =
             List.map2 (\square offsets -> ( square, offsets )) model.board withCenter
     in
     [ div
-        (boardTableStyle
-            model.device
-        )
+        [ class "boardTableStyle" ]
         (List.map
             (\( square, offset ) ->
                 div
