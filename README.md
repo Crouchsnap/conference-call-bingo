@@ -5,6 +5,7 @@ Elm app for playing conference call bingo in these trying times.
 ## Running
 ### Prerequisites
  - [elm](https://elm-lang.org)
+ - elm-live
  - Java 8
  - mongodb-community
  
@@ -12,7 +13,7 @@ Elm app for playing conference call bingo in these trying times.
  
 #### UI
  1. `cd ui`
- 1. `elm reactor`
+ 1. `elm-live src/Main.elm --start-page=index.html --pushstate -- --output=main.js --debug`
  1. Navigate to `http://localhost:8000`
  1. Click on `src`
  1. Click on `Main.elm`
