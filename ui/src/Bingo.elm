@@ -6,20 +6,21 @@ import Random.List
 import Square exposing (Square, allSquares, centerSquare)
 
 
-randomBoard : Int -> Board
+randomBoard : Int -> ( Board, Random.Seed )
 randomBoard seed =
     let
-        output =
+        ( output, next ) =
             Random.initialSeed seed
                 |> Random.step (Random.List.shuffle allSquares)
-                |> Tuple.first
     in
-    List.take 12 output
+    ( List.take 12 output
         ++ [ centerSquare ]
         ++ (output
                 |> List.drop 12
                 |> List.take 12
            )
+    , next
+    )
 
 
 isWinner : Board -> Bool

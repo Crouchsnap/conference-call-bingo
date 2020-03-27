@@ -12,6 +12,7 @@ import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, 
 import Html.Events exposing (onClick, onInput)
 import List.Extra
 import Msg exposing (Msg(..))
+import Random
 import Rating
 import RemoteData exposing (WebData)
 import Requests exposing (errorToString)
@@ -36,6 +37,8 @@ type alias Model =
     , formData : GameResult
     , ratingState : Rating.State
     , device : Device
+    , nextSeed : Random.Seed
+    , dotOffsets : List ( Int, Int )
     }
 
 
@@ -51,6 +54,8 @@ init _ url key =
       , formData = emptyGameResult
       , ratingState = Rating.initialState
       , device = defaultDevice
+      , nextSeed = Random.initialSeed 0
+      , dotOffsets = List.range 0 24 |> List.map (\_ -> ( 0, 0 ))
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -269,12 +274,25 @@ isFormValid gameResult =
 
 boardView : Model -> List (Html Msg)
 boardView model =
+    let
+        first12 =
+            List.take 12 model.dotOffsets
+
+        last12 =
+            List.drop 12 model.dotOffsets
+
+        withCenter =
+            first12 ++ [ ( 0, 0 ) ] ++ last12
+
+        squaresAndOffsets =
+            List.map2 (\square offsets -> ( square, offsets )) model.board withCenter
+    in
     [ div
         (boardTableStyle
             model.device
         )
         (List.map
-            (\square ->
+            (\( square, offset ) ->
                 div
                     squareContainerStyle
                     [ div
@@ -282,7 +300,7 @@ boardView model =
                         [ text square.text ]
                     ]
             )
-            model.board
+            squaresAndOffsets
         )
     ]
 
@@ -304,13 +322,22 @@ update msg model =
             )
 
         GotCurrentTime time ->
+            let
+                ( board, next ) =
+                    Time.posixToMillis time |> randomBoard
+
+                ( offsets, nextNext ) =
+                    randomOffset next
+            in
             ( { model
-                | board = Time.posixToMillis time |> randomBoard
+                | board = board
+                , nextSeed = nextNext
                 , startTime = time
                 , endTime = Time.millisToPosix 0
                 , formData = emptyGameResult
                 , ratingState = Rating.initialState
                 , submittedScoreResponse = RemoteData.NotAsked
+                , dotOffsets = offsets
               }
             , Cmd.none
             )
@@ -385,6 +412,24 @@ update msg model =
 
         NoOp ->
             ( model, Cmd.none )
+
+
+randomOffset : Random.Seed -> ( List ( Int, Int ), Random.Seed )
+randomOffset seed =
+    let
+        generator =
+            Random.int -25 25
+
+        ( xs, nextForY ) =
+            Random.step (Random.list 48 generator) seed
+
+        ( ys, next ) =
+            Random.step (Random.list 48 generator) nextForY
+
+        offsets =
+            List.map2 Tuple.pair xs ys
+    in
+    ( offsets, next )
 
 
 main =

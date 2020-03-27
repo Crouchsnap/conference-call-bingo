@@ -1,5 +1,6 @@
 module Style exposing
     ( boardTableStyle
+    , dotStyle
     , footerStyle
     , newButtonStyle
     , playerInputStyle
@@ -264,3 +265,27 @@ squareStyle { checked } =
         , style "display" "table-cell"
         , style "padding" "5px"
         ]
+
+
+dotStyle { checked } ( x, y ) =
+    let
+        translateX =
+            String.fromInt (-50 + x)
+
+        translateY =
+            String.fromInt (-50 + y)
+    in
+    if checked then
+        [ style "height" "85%"
+        , style "width" "85%"
+        , style "display" "inline-block"
+        , style "border-radius" "50%"
+        , style "background-color" "#d61106AA"
+        , style "position" "absolute"
+        , style "top" "50%"
+        , style "left" "50%"
+        , style "transform" ("translate(" ++ translateX ++ "%," ++ translateY ++ "%)")
+        ]
+
+    else
+        []
