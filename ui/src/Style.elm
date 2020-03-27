@@ -1,5 +1,6 @@
 module Style exposing
     ( boardTableStyle
+    , categoryButtonStyle
     , dotStyle
     , footerStyle
     , newButtonStyle
@@ -173,6 +174,21 @@ newButtonStyle =
     , style "bottom" "0"
     , style "left" "0"
     , style "margin-left" "4.5rem"
+    ]
+
+
+categoryButtonStyle =
+    [ style "background-color" "#002F6CCC"
+    , style "color" "white"
+    , style "border" "none"
+    , style "font-size" "18px"
+    , borderRadius
+    , style "cursor" "pointer"
+    , style "padding" "20px"
+    , style "max-height" "1rem"
+    , style "max-width" "12rem"
+    , style "text-align" "center"
+    , fontStyle
     ]
 
 

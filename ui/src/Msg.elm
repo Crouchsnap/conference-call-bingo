@@ -5,7 +5,7 @@ import Browser.Dom exposing (Viewport)
 import Rating
 import RemoteData exposing (WebData)
 import Score exposing (GameResult, Score)
-import Square exposing (Square)
+import Square exposing (Category, Square)
 import Time exposing (Posix)
 import Url exposing (Url)
 
@@ -24,6 +24,6 @@ type Msg
     | Player String
     | Suggestion String
     | RatingMsg Rating.Msg
-    | NoOp
+    | CategoryToggled Category
     | GotViewportSize Viewport
     | WindowResized Int Int

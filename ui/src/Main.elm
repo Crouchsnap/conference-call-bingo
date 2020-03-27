@@ -8,7 +8,7 @@ import Browser.Events
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
 import Element exposing (Device, DeviceClass(..), classifyDevice)
 import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
-import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, target, title)
+import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, style, target, title)
 import Html.Events exposing (onClick, onInput)
 import List.Extra
 import Msg exposing (Msg(..))
@@ -39,6 +39,7 @@ type alias Model =
     , device : Device
     , nextSeed : Random.Seed
     , dotOffsets : List ( Int, Int )
+    , categories : List Category
     }
 
 
@@ -56,6 +57,7 @@ init _ url key =
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
       , dotOffsets = List.range 0 24 |> List.map (\_ -> ( 0, 0 ))
+      , categories = []
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -81,7 +83,7 @@ view model =
                     winningView model
 
                 else
-                    boardView model
+                    [ gameView model ]
                )
             ++ [ div
                     footerStyle
@@ -272,6 +274,26 @@ isFormValid gameResult =
     initialsLength > 1 && initialsLength < 5 && gameResult.rating > 0
 
 
+gameView model =
+    div
+        [ style "display" "grid"
+        , style "grid-template-columns" "25% 50% 25%"
+        ]
+        [ categoryView model, div [] (boardView model) ]
+
+
+categoryView model =
+    div [ style "justify-content" "right", style "display" "flex", style "padding-top" "5px" ]
+        [ div (categoryButtonStyle ++ [ onClick (CategoryToggled Fordism) ])
+            [ if List.member Fordism model.categories then
+                text "Remove Fordisms"
+
+              else
+                text "Add Fordisms"
+            ]
+        ]
+
+
 boardView : Model -> List (Html Msg)
 boardView model =
     let
@@ -324,7 +346,7 @@ update msg model =
         GotCurrentTime time ->
             let
                 ( board, next ) =
-                    Time.posixToMillis time |> randomBoard [ Fordism ]
+                    Time.posixToMillis time |> randomBoard model.categories
 
                 ( offsets, nextNext ) =
                     randomOffset next
@@ -410,8 +432,18 @@ update msg model =
         WindowResized width height ->
             ( { model | device = classifyDevice { height = height, width = width } }, Cmd.none )
 
-        NoOp ->
-            ( model, Cmd.none )
+        CategoryToggled category ->
+            let
+                categories =
+                    model.categories
+                        |> (if not (List.member category model.categories) then
+                                List.append [ category ]
+
+                            else
+                                List.Extra.remove category
+                           )
+            in
+            ( { model | categories = categories }, Task.perform GotCurrentTime Time.now )
 
 
 randomOffset : Random.Seed -> ( List ( Int, Int ), Random.Seed )
