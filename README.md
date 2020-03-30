@@ -2,6 +2,8 @@
 
 [Elm](https://elm-lang.org) app for playing conference call bingo in these trying times.
 
+![](https://github.com/crouchsnap/conference-call-bingo/workflows/UI%20Tests/badge.svg)
+
 ## Running
 ### Prerequisites
  - npm
