@@ -14,7 +14,6 @@ import Html.Events exposing (onClick, onInput)
 import List.Extra
 import Msg exposing (Msg(..))
 import Random
-import RandomHelper exposing (randomOffsets)
 import Rating
 import RemoteData exposing (WebData)
 import Requests exposing (errorToString)
@@ -40,7 +39,6 @@ type alias Model =
     , ratingState : Rating.State
     , device : Device
     , nextSeed : Random.Seed
-    , dotOffsets : List ( Int, Int )
     , categories : List Category
     }
 
@@ -58,7 +56,6 @@ init _ url key =
       , ratingState = Rating.initialState
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
-      , dotOffsets = List.range 0 24 |> List.map (\_ -> ( 0, 0 ))
       , categories = []
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
@@ -293,23 +290,10 @@ categoryView model =
 
 boardView : Model -> List (Html Msg)
 boardView model =
-    let
-        first12 =
-            List.take 12 model.dotOffsets
-
-        last12 =
-            List.drop 12 model.dotOffsets
-
-        withCenter =
-            first12 ++ [ ( 0, 0 ) ] ++ last12
-
-        squaresAndOffsets =
-            List.map2 (\square offsets -> ( square, offsets )) model.board withCenter
-    in
     [ div
         [ class "boardTableStyle" ]
         (List.map
-            (\( square, offset ) ->
+            (\square ->
                 div
                     squareContainerStyle
                     [ div
@@ -321,7 +305,7 @@ boardView model =
                         )
                     ]
             )
-            squaresAndOffsets
+            model.board
         )
     ]
 
@@ -353,19 +337,15 @@ update msg model =
             let
                 ( board, next ) =
                     Time.posixToMillis time |> randomBoard model.categories
-
-                ( offsets, nextNext ) =
-                    randomOffsets next
             in
             ( { model
                 | board = board
-                , nextSeed = nextNext
+                , nextSeed = next
                 , startTime = time
                 , endTime = Time.millisToPosix 0
                 , formData = emptyGameResult
                 , ratingState = Rating.initialState
                 , submittedScoreResponse = RemoteData.NotAsked
-                , dotOffsets = offsets
               }
             , Cmd.none
             )
