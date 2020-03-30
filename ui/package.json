@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "elm-test --watch",
+    "test-ci": "elm-test",
     "start": "elm-live src/Main.elm --start-page=index.html --pushstate -- --output=main.js --debug",
     "build": "elm make src/Main.elm --output=main.js"
   },
