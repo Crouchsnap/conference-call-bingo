@@ -8,7 +8,7 @@
 ## Common questions about the game
  1. The free space is intentionally un-marked to start.
     Our bingo game counts the free space whether you mark it or not, so have fun daubing! 🖌🎨
- 1. Being able to mark something more than once is intentional. Daubing something for a fourth time will uncheck it, so don't worry if you daub something by mistake!
+ 1. Being able to mark something more than once is intentional. Daubing something for a fourth time will un-daub it, so don't worry if you daub something by mistake!
     
 
 ## Running
