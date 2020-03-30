@@ -21,6 +21,7 @@ import RemoteData exposing (WebData)
 import Requests exposing (errorToString)
 import Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
 import Square exposing (Category(..), Square, toggleCategory, toggleSquareInList)
+import Star
 import Style exposing (..)
 import Task
 import Time exposing (Posix)
@@ -237,7 +238,12 @@ boardView model =
                         squareContainerStyle
                         [ div
                             (squareStyle index ++ [ onClick (ToggleCheck square) ])
-                            ([ text square.text ]
+                            ((if square.category == Center then
+                                [ Star.star, div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ text square.text ] ]
+
+                              else
+                                [ text square.text ]
+                             )
                                 ++ (square.dots
                                         |> List.map (\dot -> dotDiv dot)
                                    )

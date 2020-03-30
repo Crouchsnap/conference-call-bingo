@@ -33,7 +33,7 @@ coronavirus text =
 
 centerSquare : Square
 centerSquare =
-    Square "Free ⭐️ Space" Center []
+    Square "Free Space" Center []
 
 
 genericSquares : List Square
@@ -119,11 +119,11 @@ toggleSquareInList : Seed -> Dot.Color -> Square -> List Square -> ( List Square
 toggleSquareInList seed color squareToToggle squares =
     let
         ( newSquare, nextSeed ) =
-            if (squareToToggle.dots |> List.length) == 3 then
-                unToggleSquare seed squareToToggle
+            if (squareToToggle.dots |> List.length) < 3 || squareToToggle.category == Center then
+                toggleSquare seed color squareToToggle
 
             else
-                toggleSquare seed color squareToToggle
+                unToggleSquare seed squareToToggle
     in
     ( List.map
         (\square ->
