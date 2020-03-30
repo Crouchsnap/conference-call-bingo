@@ -250,9 +250,9 @@ boardView model =
 
 
 dotDiv : Square -> Dot -> Html msg
-dotDiv square { color, offset } =
+dotDiv square { color, offset, shape } =
     div
-        (dotStyle (square |> Square.checked) (color |> Dot.hexColor) offset)
+        (dotStyle (square |> Square.checked) (color |> Dot.hexColor) offset shape)
         []
 
 

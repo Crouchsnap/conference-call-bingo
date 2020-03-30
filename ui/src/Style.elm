@@ -338,7 +338,7 @@ bottomRow =
     Set.fromList [ 21, 22, 23 ]
 
 
-dotStyle checked color { x, y } =
+dotStyle checked color { x, y } { topLeft, topRight, bottomRight, bottomLeft } =
     let
         translateX =
             String.fromInt (-50 + x)
@@ -350,12 +350,13 @@ dotStyle checked color { x, y } =
         [ style "height" "85%"
         , style "width" "85%"
         , style "display" "inline-block"
-        , style "border-radius" "50%"
+        , style "border-radius" (String.fromInt topLeft ++ "% " ++ String.fromInt topRight ++ "% " ++ String.fromInt bottomRight ++ "% " ++ String.fromInt bottomLeft ++ "%")
         , style "background-color" color
         , style "position" "absolute"
         , style "top" "50%"
         , style "left" "50%"
         , style "transform" ("translate(" ++ translateX ++ "%," ++ translateY ++ "%)")
+        , style "z-index" "100"
         ]
 
     else

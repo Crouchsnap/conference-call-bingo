@@ -1,7 +1,7 @@
 module Dot exposing (Color(..), Dot, Offset, Shape, defaultDot, dot, hexColor, round, zeroOffset)
 
 import Random
-import RandomHelper exposing (randomOffset)
+import RandomHelper exposing (randomOffset, randomShape)
 
 
 type Color
@@ -17,7 +17,7 @@ type alias Offset =
 
 
 type alias Shape =
-    { x : Int, y : Int }
+    { topLeft : Int, topRight : Int, bottomRight : Int, bottomLeft : Int }
 
 
 type alias Dot =
@@ -32,7 +32,7 @@ zeroOffset =
 
 
 round =
-    Shape 0 0
+    Shape 50 50 50 50
 
 
 defaultDot =
@@ -61,7 +61,10 @@ hexColor color =
 dot : Random.Seed -> Color -> ( Dot, Random.Seed )
 dot seed color =
     let
-        ( offset, nextSeed ) =
+        ( offset, nextForShape ) =
             randomOffset seed 25
+
+        ( shape, nextSeed ) =
+            randomShape nextForShape 3
     in
-    ( Dot offset round color, nextSeed )
+    ( Dot offset shape color, nextSeed )
