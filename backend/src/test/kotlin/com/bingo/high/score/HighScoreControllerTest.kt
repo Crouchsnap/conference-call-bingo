@@ -25,7 +25,7 @@ internal class HighScoreControllerTest {
     @MockBean
     lateinit var scoreRepository: ScoreRepository
 
-    val highScoresUrl = UriComponentsBuilder.fromPath("/scores").build().toUri()
+    val highScoresUrl = UriComponentsBuilder.fromPath("/api/scores").build().toUri()
     class ListHighScores : ParameterizedTypeReference<List<HighScore>>()
 
     @Test
