@@ -1,5 +1,7 @@
-# elm generated index file
-ui/index.html
+# node stuff
+ui/node_modules
+# elm generated js file
+ui/main.js
 # elm-package generated files
 ui/elm-stuff
 # elm build
