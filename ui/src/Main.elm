@@ -238,7 +238,7 @@ boardView model =
                             (squareStyle index ++ [ onClick (ToggleCheck square) ])
                             ([ text square.text ]
                                 ++ (square.dots
-                                        |> List.map (\dot -> dotDiv square dot)
+                                        |> List.map (\dot -> dotDiv dot)
                                    )
                             )
                         ]
@@ -249,10 +249,10 @@ boardView model =
     ]
 
 
-dotDiv : Square -> Dot -> Html msg
-dotDiv square { color, offset, shape } =
+dotDiv : Dot -> Html msg
+dotDiv dot =
     div
-        (dotStyle (square |> Square.checked) (color |> Dot.hexColor) offset shape)
+        (dotStyle dot)
         []
 
 

@@ -23,6 +23,7 @@ module Style exposing
     , yourScoreRowStyle
     )
 
+import Dot exposing (Dot, Offset, Shape)
 import Html
 import Html.Attributes exposing (style)
 import Msg exposing (Msg)
@@ -338,26 +339,35 @@ bottomRow =
     Set.fromList [ 21, 22, 23 ]
 
 
-dotStyle checked color { x, y } { topLeft, topRight, bottomRight, bottomLeft } =
-    let
-        translateX =
-            String.fromInt (-50 + x)
+dotStyle : Dot -> List (Html.Attribute msg)
+dotStyle { offset, shape, color } =
+    [ style "height" "85%"
+    , style "width" "85%"
+    , style "display" "inline-block"
+    , borderRadiusFromShape shape
+    , style "background-color" (color |> Dot.hexColor)
+    , style "position" "absolute"
+    , style "top" "50%"
+    , style "left" "50%"
+    , transformOffset offset
+    , style "z-index" "100"
+    ]
 
-        translateY =
-            String.fromInt (-50 + y)
-    in
-    if checked then
-        [ style "height" "85%"
-        , style "width" "85%"
-        , style "display" "inline-block"
-        , style "border-radius" (String.fromInt topLeft ++ "% " ++ String.fromInt topRight ++ "% " ++ String.fromInt bottomRight ++ "% " ++ String.fromInt bottomLeft ++ "%")
-        , style "background-color" color
-        , style "position" "absolute"
-        , style "top" "50%"
-        , style "left" "50%"
-        , style "transform" ("translate(" ++ translateX ++ "%," ++ translateY ++ "%)")
-        , style "z-index" "100"
-        ]
 
-    else
-        []
+borderRadiusFromShape : Shape -> Html.Attribute msg
+borderRadiusFromShape { topLeft, topRight, bottomRight, bottomLeft } =
+    style "border-radius"
+        (String.fromInt topLeft
+            ++ "% "
+            ++ String.fromInt topRight
+            ++ "% "
+            ++ String.fromInt bottomRight
+            ++ "% "
+            ++ String.fromInt bottomLeft
+            ++ "%"
+        )
+
+
+transformOffset : Offset -> Html.Attribute msg
+transformOffset { x, y } =
+    style "transform" ("translate(" ++ String.fromInt x ++ "%," ++ String.fromInt y ++ "%)")

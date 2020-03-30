@@ -7,7 +7,7 @@ randomOffset : Random.Seed -> Int -> ( { x : Int, y : Int }, Random.Seed )
 randomOffset seed range =
     let
         generator =
-            Random.int -range range
+            Random.int (-50 - range) (-50 + range)
 
         ( x, nextForY ) =
             Random.step generator seed
