@@ -1,11 +1,10 @@
 # [conference-call-bingo](https://bingo.apps.pd01.useast.cf.ford.com/)
 
-Elm app for playing conference call bingo in these trying times.
+[Elm](https://elm-lang.org) app for playing conference call bingo in these trying times.
 
 ## Running
 ### Prerequisites
- - [elm](https://elm-lang.org)
- - elm-live
+ - npm
  - Java 8
  - mongodb-community
  
@@ -13,10 +12,9 @@ Elm app for playing conference call bingo in these trying times.
  
 #### UI
  1. `cd ui`
- 1. `elm-live src/Main.elm --start-page=index.html --pushstate -- --output=main.js --debug`
+ 1. `npm install`
+ 1. `npm run start`
  1. Navigate to `http://localhost:8000`
- 1. Click on `src`
- 1. Click on `Main.elm`
 #### Backend
  1. `cd backend`
  1. `./gradlew bootRun`
