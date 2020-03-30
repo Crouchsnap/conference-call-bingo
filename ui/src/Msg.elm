@@ -24,6 +24,6 @@ type Msg
     | Player String
     | Suggestion String
     | RatingMsg Rating.Msg
-    | CategoryToggled Category
+    | CategoryToggled Category Bool
     | GotViewportSize Viewport
     | WindowResized Int Int

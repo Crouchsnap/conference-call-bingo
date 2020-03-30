@@ -162,7 +162,7 @@ update msg model =
         WindowResized width height ->
             ( { model | device = classifyDevice { height = height, width = width } }, Cmd.none )
 
-        CategoryToggled category ->
+        CategoryToggled category _ ->
             ( { model
                 | categories =
                     toggleCategory category
