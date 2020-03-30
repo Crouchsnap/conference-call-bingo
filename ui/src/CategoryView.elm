@@ -9,11 +9,9 @@ import Style exposing (bold, fontColor, fontStyle)
 
 
 categoryView { categories } =
-    div [ style "display" "flex", style "flex-direction" "column", style "align-items" "flex-end", style "margin" "1rem " ]
-        [ div [ style "padding-top" "5px" ]
-            [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", bold, fontStyle ] [ text "topical bingo" ]
-            , categoryToggle
-            ]
+    div [ style "display" "flex", style "flex-direction" "column", style "align-items" "flex-end", style "margin" "1rem ", style "justify-self" "flex-end" ]
+        [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", bold, fontStyle ] [ text "topical bingo" ]
+        , categoryToggle
         ]
 
 

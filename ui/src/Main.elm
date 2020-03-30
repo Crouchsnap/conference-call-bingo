@@ -215,8 +215,9 @@ gameView model =
     div
         [ style "display" "grid"
         , style "grid-template-columns" "20% 60% 20%"
+        , style "padding" "1rem"
         ]
-        [ CategoryView.categoryView model, div [] (boardView model) ]
+        [ CategoryView.categoryView model, div [ style "justify-self" "center" ] (boardView model) ]
 
 
 boardView : Model -> List (Html Msg)
