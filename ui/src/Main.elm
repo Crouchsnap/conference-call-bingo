@@ -71,7 +71,7 @@ update msg model =
         ToggleCheck squareToToggle ->
             let
                 ( updatedBoard, nextSeed ) =
-                    model.board |> toggleSquareInList model.nextSeed Dot.Magenta squareToToggle
+                    model.board |> toggleSquareInList model.nextSeed Dot.Blue squareToToggle
             in
             ( { model | board = updatedBoard, nextSeed = nextSeed }
             , if updatedBoard |> Bingo.isWinner then
@@ -176,19 +176,12 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "BINGO!"
     , body =
-        [ h1
-            titleStyle
-            [ text "CONFERENCE CALL BINGO!" ]
-        , div
-            subTitleStyle
-            [ text "Powered by ", a [ target "_blank", href "https://www.fordlabs.com" ] [ text "FordLabs" ] ]
-        ]
-            ++ (if Bingo.isWinner model.board then
-                    winningView model
+        (if Bingo.isWinner model.board then
+            winningView model
 
-                else
-                    [ gameView model ]
-               )
+         else
+            [ gameView model ]
+        )
             ++ [ div
                     footerStyle
                     [ text "Want to contribute? Check out our ", a [ target "_blank", href "https://github.com/Crouchsnap/conference-call-bingo" ] [ text "Github!" ] ]
@@ -221,30 +214,38 @@ winningScoreHeader { startTime, endTime } =
 gameView model =
     div
         [ style "display" "grid"
-        , style "grid-template-columns" "25% 50% 25%"
+        , style "grid-template-columns" "20% 60% 20%"
         ]
         [ CategoryView.categoryView model, div [] (boardView model) ]
 
 
 boardView : Model -> List (Html Msg)
 boardView model =
-    [ div
-        [ class "boardTableStyle" ]
-        (List.indexedMap
-            (\index square ->
-                div
-                    squareContainerStyle
-                    [ div
-                        (squareStyle index ++ [ onClick (ToggleCheck square) ])
-                        ([ text square.text ]
-                            ++ (square.dots
-                                    |> List.map (\dot -> dotDiv square dot)
-                               )
-                        )
-                    ]
+    [ div [ class "bingoCard" ]
+        [ div [ class "boardHeaderTopStyle" ] [ text "conference call" ]
+        , div [ class "boardHeaderStyle" ]
+            ([ "B", "I", "N", "G", "O" ]
+                |> List.map
+                    (\letter -> div [] [ text letter ])
             )
-            model.board
-        )
+        , div
+            [ class "boardTableStyle" ]
+            (List.indexedMap
+                (\index square ->
+                    div
+                        squareContainerStyle
+                        [ div
+                            (squareStyle index ++ [ onClick (ToggleCheck square) ])
+                            ([ text square.text ]
+                                ++ (square.dots
+                                        |> List.map (\dot -> dotDiv square dot)
+                                   )
+                            )
+                        ]
+                )
+                model.board
+            )
+        ]
     ]
 
 

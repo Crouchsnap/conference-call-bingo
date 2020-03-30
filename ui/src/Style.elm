@@ -30,7 +30,7 @@ import Set
 
 
 fontStyle =
-    style "font-family" "Ubuntu"
+    style "font-family" "Ubuntu, sans-serif"
 
 
 borderRadius =
@@ -71,10 +71,11 @@ subTitleStyle =
 
 footerStyle : List (Html.Attribute Msg)
 footerStyle =
-    [ smallFontSize
+    [ style "font-size" "1rem"
     , style "text-align" "center"
     , fontStyle
-    , style "padding-top" "4rem"
+    , bold
+    , style "padding-top" "1rem"
     ]
 
 
@@ -251,6 +252,7 @@ squareStyle index =
            , style "color" "#545454"
            , fontSize
            , bold
+           , style "background-color" "white"
            ]
 
 
