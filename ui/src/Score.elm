@@ -1,4 +1,4 @@
-module Score exposing (GameResult, Score, decodeGameResult, decodeScore, decodeScores, emptyGameResult, encodeGameResult, encodeScore, insertYourScore, yourScore)
+module Score exposing (GameResult, Score, decodeGameResult, decodeScore, decodeScores, emptyGameResult, encodeGameResult, encodeScore, insertYourScore, updatePlayer, updateRating, updateSuggestion, yourScore)
 
 import Json.Decode as Decode exposing (Decoder, int, nullable, string)
 import Json.Decode.Pipeline
@@ -17,6 +17,21 @@ type alias GameResult =
     , suggestion : Maybe String
     , rating : Int
     }
+
+
+updatePlayer : String -> GameResult -> GameResult
+updatePlayer player gameResult =
+    { gameResult | player = player }
+
+
+updateSuggestion : Maybe String -> GameResult -> GameResult
+updateSuggestion suggestion gameResult =
+    { gameResult | suggestion = suggestion }
+
+
+updateRating : Int -> GameResult -> GameResult
+updateRating rating gameResult =
+    { gameResult | rating = rating }
 
 
 emptyGameResult =

@@ -4,6 +4,7 @@ import Bingo exposing (isWinner, randomBoard)
 import Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
 import Dot
 import Expect exposing (Expectation)
+import Random
 import Square exposing (Category(..), Square, centerSquare, genericSquare, squaresByCategory, toggleSquareInList)
 import Test exposing (..)
 
@@ -18,7 +19,7 @@ suite =
     let
         --testBoard : Board
         ( testBoard, seed ) =
-            randomBoard [] 1
+            randomBoard [] (Random.initialSeed 1)
     in
     describe "Bingo"
         [ test "board should return 25 squares" <|

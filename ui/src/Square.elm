@@ -1,6 +1,7 @@
-module Square exposing (Category(..), Square, centerSquare, checked, genericSquare, squaresByCategory, toggleSquareInList)
+module Square exposing (Category(..), Square, centerSquare, checked, genericSquare, squaresByCategory, toggleCategory, toggleSquareInList)
 
 import Dot exposing (Dot, dot)
+import List.Extra
 import Random exposing (Seed)
 
 
@@ -132,3 +133,13 @@ toggleSquare seed color square =
 checked : Square -> Bool
 checked square =
     (square.dots |> List.isEmpty |> not) || square.category == Center
+
+
+toggleCategory category categories =
+    categories
+        |> (if not (List.member category categories) then
+                List.append [ category ]
+
+            else
+                List.Extra.remove category
+           )
