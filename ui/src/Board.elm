@@ -1,7 +1,7 @@
 module Board exposing (Board, areIndicesChecked, backDiagonal, column, forwardDiagonal, possibleWinningCombinations, row, rowColumnNumbers)
 
 import Array
-import Square exposing (Square, genericSquare)
+import Square exposing (Square, checked, genericSquare)
 
 
 type alias Board =
@@ -12,7 +12,7 @@ areIndicesChecked : Board -> List Int -> Bool
 areIndicesChecked board indices =
     indices
         |> List.map (getSquare board)
-        |> List.all .checked
+        |> List.all checked
 
 
 getSquare : Board -> Int -> Square

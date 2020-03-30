@@ -2,6 +2,8 @@
 ui/index.html
 # elm-package generated files
 ui/elm-stuff
+# elm build
+ui/main.js
 # elm-repl generated files
 repl-temp-*
 #Jetbrains IDE stuff

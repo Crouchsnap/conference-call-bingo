@@ -265,10 +265,10 @@ squareContainerStyle =
     ]
 
 
-squareStyle { checked } =
+squareStyle checked =
     List.append
         (if checked then
-            [ style "background-color" "red" ]
+            [ style "background-color" "#002F6CCC" ]
 
          else
             [ style "background-color" "#002F6CCC" ]
@@ -280,10 +280,11 @@ squareStyle { checked } =
         , style "text-align" "center"
         , style "display" "table-cell"
         , style "padding" "5px"
+        , style "position" "relative"
         ]
 
 
-dotStyle { checked } ( x, y ) =
+dotStyle checked color { x, y } =
     let
         translateX =
             String.fromInt (-50 + x)
@@ -296,7 +297,7 @@ dotStyle { checked } ( x, y ) =
         , style "width" "85%"
         , style "display" "inline-block"
         , style "border-radius" "50%"
-        , style "background-color" "#d61106AA"
+        , style "background-color" color
         , style "position" "absolute"
         , style "top" "50%"
         , style "left" "50%"

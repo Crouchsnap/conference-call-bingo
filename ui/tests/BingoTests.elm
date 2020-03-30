@@ -2,6 +2,7 @@ module BingoTests exposing (suite)
 
 import Bingo exposing (isWinner, randomBoard)
 import Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
+import Dot
 import Expect exposing (Expectation)
 import Square exposing (Category(..), Square, centerSquare, genericSquare, squaresByCategory, toggleSquareInList)
 import Test exposing (..)
@@ -9,14 +10,14 @@ import Test exposing (..)
 
 fakeSquare : Square
 fakeSquare =
-    { text = "fake", checked = False, category = Generic }
+    { text = "fake", dots = [], category = Generic }
 
 
 suite : Test
 suite =
     let
         --testBoard : Board
-        ( testBoard, _ ) =
+        ( testBoard, seed ) =
             randomBoard [] 1
     in
     describe "Bingo"
@@ -37,10 +38,13 @@ suite =
             in
             \_ ->
                 testBoard
-                    |> toggleSquareInList firstSquare
+                    |> toggleSquareInList seed Dot.Magenta firstSquare
+                    |> Tuple.first
                     |> List.head
                     |> Maybe.withDefault fakeSquare
-                    |> Expect.equal { firstSquare | checked = True }
+                    |> .dots
+                    |> List.isEmpty
+                    |> Expect.equal False
         , describe "win conditions"
             [ test "board with only free space toggled is a loser" <|
                 \_ -> testBoard |> isWinner |> Expect.equal False
@@ -105,7 +109,7 @@ checkIndices indices board =
     List.indexedMap
         (\index square ->
             if List.member index indices then
-                { square | checked = True }
+                { square | dots = [ Dot.defaultDot ] }
 
             else
                 square

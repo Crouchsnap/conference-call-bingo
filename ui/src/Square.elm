@@ -1,8 +1,11 @@
-module Square exposing (Category(..), Square, centerSquare, genericSquare, squaresByCategory, toggleSquare, toggleSquareInList)
+module Square exposing (Category(..), Square, centerSquare, checked, genericSquare, squaresByCategory, toggleSquareInList)
+
+import Dot exposing (Dot, dot)
+import Random exposing (Seed)
 
 
 type alias Square =
-    { text : String, checked : Bool, category : Category }
+    { text : String, category : Category, dots : List Dot }
 
 
 type Category
@@ -13,17 +16,17 @@ type Category
 
 genericSquare : String -> Square
 genericSquare text =
-    Square text False Generic
+    Square text Generic []
 
 
 fordismSquare : String -> Square
 fordismSquare text =
-    Square text False Fordism
+    Square text Fordism []
 
 
 centerSquare : Square
 centerSquare =
-    Square "Free ⭐️ Space" True Center
+    Square "Free ⭐️ Space" Center []
 
 
 genericSquares : List Square
@@ -90,22 +93,42 @@ squaresByCategory categories =
     genericSquares ++ (allCategorySquares |> List.filter (\square -> List.member square.category categories))
 
 
-toggleSquareInList : Square -> List Square -> List Square
-toggleSquareInList squareToToggle squares =
-    List.map
-        (\square ->
-            if square == centerSquare then
-                square
+toggleSquareInList : Seed -> Dot.Color -> Square -> List Square -> ( List Square, Seed )
+toggleSquareInList seed color squareToToggle squares =
+    let
+        ( newSquare, nextSeed ) =
+            if (squareToToggle.dots |> List.length) == 3 then
+                unToggleSquare seed squareToToggle
 
-            else if square == squareToToggle then
-                toggleSquare square
+            else
+                toggleSquare seed color squareToToggle
+    in
+    ( List.map
+        (\square ->
+            if square == squareToToggle then
+                newSquare
 
             else
                 square
         )
         squares
+    , nextSeed
+    )
 
 
-toggleSquare : Square -> Square
-toggleSquare square =
-    { square | checked = not square.checked }
+unToggleSquare seed square =
+    ( { square | dots = [] }, seed )
+
+
+toggleSquare : Seed -> Dot.Color -> Square -> ( Square, Seed )
+toggleSquare seed color square =
+    let
+        ( randomDot, nextSeed ) =
+            dot seed color
+    in
+    ( { square | dots = randomDot :: square.dots }, nextSeed )
+
+
+checked : Square -> Bool
+checked square =
+    (square.dots |> List.isEmpty |> not) || square.category == Center

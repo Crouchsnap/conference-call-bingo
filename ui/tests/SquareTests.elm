@@ -1,12 +1,18 @@
 module SquareTests exposing (suite)
 
+import Dot exposing (Dot, defaultDot)
 import Expect exposing (Expectation)
+import Random
 import Square exposing (Category(..), Square, centerSquare, genericSquare, toggleSquareInList)
 import Test exposing (..)
 
 
 suite : Test
 suite =
+    let
+        seed =
+            Random.initialSeed 0
+    in
     describe "Square"
         [ test "toggle a false Square" <|
             \_ ->
@@ -15,29 +21,32 @@ suite =
                         genericSquare ""
                 in
                 [ testSquare ]
-                    |> toggleSquareInList testSquare
+                    |> toggleSquareInList seed Dot.Blue testSquare
+                    |> Tuple.first
                     |> List.head
                     |> Maybe.withDefault testSquare
-                    |> .checked
+                    |> Square.checked
                     |> Expect.equal True
-        , test "toggle a true Square" <|
+        , test "toggle a true Square 3 times to uncheck" <|
             \_ ->
                 let
                     testSquare =
-                        Square "" True Generic
+                        Square "" Generic [ defaultDot, defaultDot, defaultDot ]
                 in
                 [ testSquare ]
-                    |> toggleSquareInList testSquare
+                    |> toggleSquareInList seed Dot.Blue testSquare
+                    |> Tuple.first
                     |> List.head
                     |> Maybe.withDefault testSquare
-                    |> .checked
+                    |> Square.checked
                     |> Expect.equal False
         , test "not toggle the center" <|
             \_ ->
                 [ centerSquare ]
-                    |> toggleSquareInList centerSquare
+                    |> toggleSquareInList seed Dot.Blue centerSquare
+                    |> Tuple.first
                     |> List.head
                     |> Maybe.withDefault centerSquare
-                    |> .checked
+                    |> Square.checked
                     |> Expect.equal True
         ]

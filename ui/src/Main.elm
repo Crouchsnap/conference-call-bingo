@@ -6,6 +6,7 @@ import Browser
 import Browser.Dom exposing (Viewport)
 import Browser.Events
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
+import Dot exposing (Dot)
 import Element exposing (Device, DeviceClass(..), classifyDevice)
 import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
 import Html.Attributes exposing (class, disabled, for, href, id, maxlength, minlength, name, style, target, title)
@@ -13,6 +14,7 @@ import Html.Events exposing (onClick, onInput)
 import List.Extra
 import Msg exposing (Msg(..))
 import Random
+import RandomHelper exposing (randomOffsets)
 import Rating
 import RemoteData exposing (WebData)
 import Requests exposing (errorToString)
@@ -73,11 +75,6 @@ view model =
         , div
             subTitleStyle
             [ text "Powered by ", a [ target "_blank", href "https://www.fordlabs.com" ] [ text "FordLabs" ] ]
-        , if model.device.class == Desktop || model.device.class == BigDesktop then
-            div subTitleStyle [ text "Now better on mobile!" ]
-
-          else
-            div [] []
         ]
             ++ (if Bingo.isWinner model.board then
                     winningView model
@@ -316,8 +313,12 @@ boardView model =
                 div
                     squareContainerStyle
                     [ div
-                        (squareStyle square ++ [ onClick (ToggleCheck square) ])
-                        [ text square.text ]
+                        (squareStyle (square |> Square.checked) ++ [ onClick (ToggleCheck square) ])
+                        ([ text square.text ]
+                            ++ (square.dots
+                                    |> List.map (\dot -> dotDiv square dot)
+                               )
+                        )
                     ]
             )
             squaresAndOffsets
@@ -325,15 +326,22 @@ boardView model =
     ]
 
 
+dotDiv : Square -> Dot -> Html msg
+dotDiv square { color, offset } =
+    div
+        (dotStyle (square |> Square.checked) (color |> Dot.hexColor) offset)
+        []
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ToggleCheck squareToToggle ->
             let
-                updatedBoard =
-                    model.board |> toggleSquareInList squareToToggle
+                ( updatedBoard, nextSeed ) =
+                    model.board |> toggleSquareInList model.nextSeed Dot.Magenta squareToToggle
             in
-            ( { model | board = updatedBoard }
+            ( { model | board = updatedBoard, nextSeed = nextSeed }
             , if updatedBoard |> Bingo.isWinner then
                 Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url ]
 
@@ -347,7 +355,7 @@ update msg model =
                     Time.posixToMillis time |> randomBoard model.categories
 
                 ( offsets, nextNext ) =
-                    randomOffset next
+                    randomOffsets next
             in
             ( { model
                 | board = board
@@ -442,24 +450,6 @@ update msg model =
                            )
             in
             ( { model | categories = categories }, Task.perform GotCurrentTime Time.now )
-
-
-randomOffset : Random.Seed -> ( List ( Int, Int ), Random.Seed )
-randomOffset seed =
-    let
-        generator =
-            Random.int -25 25
-
-        ( xs, nextForY ) =
-            Random.step (Random.list 48 generator) seed
-
-        ( ys, next ) =
-            Random.step (Random.list 48 generator) nextForY
-
-        offsets =
-            List.map2 Tuple.pair xs ys
-    in
-    ( offsets, next )
 
 
 main =
