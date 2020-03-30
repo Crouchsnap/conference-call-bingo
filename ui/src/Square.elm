@@ -12,6 +12,7 @@ type alias Square =
 type Category
     = Generic
     | Fordism
+    | Coronavirus
     | Center
 
 
@@ -23,6 +24,11 @@ genericSquare text =
 fordismSquare : String -> Square
 fordismSquare text =
     Square text Fordism []
+
+
+coronavirus : String -> Square
+coronavirus text =
+    Square text Coronavirus []
 
 
 centerSquare : Square
@@ -85,8 +91,23 @@ fordisms =
     ]
 
 
+coronaviri : List Square
+coronaviri =
+    [ coronavirus "TP"
+    , coronavirus "Corona"
+    , coronavirus "Virus"
+    , coronavirus "Hand Sanitizer"
+    , coronavirus "Wash your hands"
+    , coronavirus "Sick"
+    , coronavirus "\"does ___ store have supplies?\""
+    , coronavirus "Death rate"
+    , coronavirus "Recovery rate"
+    , coronavirus "Work from home"
+    ]
+
+
 allCategorySquares =
-    fordisms
+    fordisms ++ coronaviri
 
 
 squaresByCategory : List Category -> List Square
