@@ -230,12 +230,12 @@ boardView : Model -> List (Html Msg)
 boardView model =
     [ div
         [ class "boardTableStyle" ]
-        (List.map
-            (\square ->
+        (List.indexedMap
+            (\index square ->
                 div
                     squareContainerStyle
                     [ div
-                        (squareStyle (square |> Square.checked) ++ [ onClick (ToggleCheck square) ])
+                        (squareStyle index ++ [ onClick (ToggleCheck square) ])
                         ([ text square.text ]
                             ++ (square.dots
                                     |> List.map (\dot -> dotDiv square dot)

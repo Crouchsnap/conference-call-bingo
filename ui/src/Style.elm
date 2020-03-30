@@ -1,6 +1,5 @@
 module Style exposing
-    ( boardTableStyle
-    , categoryButtonStyle
+    ( categoryButtonStyle
     , dotStyle
     , footerStyle
     , newButtonStyle
@@ -24,14 +23,14 @@ module Style exposing
     , yourScoreRowStyle
     )
 
-import Element exposing (Device, DeviceClass(..), Orientation(..))
 import Html
 import Html.Attributes exposing (style)
 import Msg exposing (Msg)
+import Set
 
 
 fontStyle =
-    style "font-family" "sans-serif"
+    style "font-family" "Ubuntu"
 
 
 borderRadius =
@@ -47,7 +46,11 @@ smallFontSize =
 
 
 fontSize =
-    style "font-size" "1rem"
+    style "font-size" "1.25rem"
+
+
+bold =
+    style "font-weight" "bold"
 
 
 titleStyle : List (Html.Attribute Msg)
@@ -230,34 +233,6 @@ submittedMessageStyle =
     ]
 
 
-boardTableStyle : Device -> List (Html.Attribute Msg)
-boardTableStyle { class, orientation } =
-    let
-        ( width, height, squareFontSize ) =
-            case ( class, orientation ) of
-                ( Phone, Portrait ) ->
-                    ( "20%", "20%", largeFontSize )
-
-                ( Phone, Landscape ) ->
-                    ( "20%", "18%", fontSize )
-
-                ( Desktop, Landscape ) ->
-                    ( "8rem", "8rem", fontSize )
-
-                _ ->
-                    ( "10rem", "10rem", largeFontSize )
-    in
-    [ style "justify-content" "center"
-    , style "padding-top" "5px"
-    , style "display" "grid"
-    , style "grid-template-columns" ("repeat(5, " ++ height ++ ")")
-    , style "grid-template-rows" ("repeat(5, " ++ width ++ ")")
-    , style "grid-gap" "10px"
-    , squareFontSize
-    , fontStyle
-    ]
-
-
 squareContainerStyle =
     [ style "display" "table"
     , style "height" "100%"
@@ -265,23 +240,100 @@ squareContainerStyle =
     ]
 
 
-squareStyle checked =
-    List.append
-        (if checked then
-            [ style "background-color" "#002F6CCC" ]
+squareStyle index =
+    squareBorderStyle index
+        ++ [ style "cursor" "pointer"
+           , style "vertical-align" "middle"
+           , style "text-align" "center"
+           , style "display" "table-cell"
+           , style "padding" "5px"
+           , style "position" "relative"
+           , style "color" "#545454"
+           , fontSize
+           , bold
+           ]
 
-         else
-            [ style "background-color" "#002F6CCC" ]
-        )
-        [ style "color" "white"
-        , borderRadius
-        , style "cursor" "pointer"
-        , style "vertical-align" "middle"
-        , style "text-align" "center"
-        , style "display" "table-cell"
-        , style "padding" "5px"
-        , style "position" "relative"
+
+squareBorderStyle : Int -> List (Html.Attribute Msg)
+squareBorderStyle index =
+    if index == topLeftCorner then
+        [ style "border-right" "2px solid #545454"
+        , style "border-bottom" "2px solid #545454"
         ]
+
+    else if index == topRightCorner then
+        [ style "border-left" "2px solid #545454"
+        , style "border-bottom" "2px solid #545454"
+        ]
+
+    else if index == leftBottomCorner then
+        [ style "border-right" "2px solid #545454"
+        , style "border-top" "2px solid #545454"
+        ]
+
+    else if index == rightBottomCorner then
+        [ style "border-left" "2px solid #545454"
+        , style "border-top" "2px solid #545454"
+        ]
+
+    else if topRow |> Set.member index then
+        [ style "border-right" "2px solid #545454"
+        , style "border-bottom" "2px solid #545454"
+        , style "border-left" "2px solid #545454"
+        ]
+
+    else if leftColumn |> Set.member index then
+        [ style "border-right" "2px solid #545454"
+        , style "border-top" "2px solid #545454"
+        , style "border-bottom" "2px solid #545454"
+        ]
+
+    else if rightColumn |> Set.member index then
+        [ style "border-left" "2px solid #545454"
+        , style "border-top" "2px solid #545454"
+        , style "border-bottom" "2px solid #545454"
+        ]
+
+    else if bottomRow |> Set.member index then
+        [ style "border-right" "2px solid #545454"
+        , style "border-top" "2px solid #545454"
+        , style "border-left" "2px solid #545454"
+        ]
+
+    else
+        [ style "border" "2px solid #545454" ]
+
+
+topLeftCorner =
+    0
+
+
+topRightCorner =
+    4
+
+
+leftBottomCorner =
+    20
+
+
+rightBottomCorner =
+    24
+
+
+topRow =
+    Set.fromList [ 1, 2, 3 ]
+
+
+leftColumn =
+    Set.fromList [ 5, 10, 15 ]
+
+
+rightColumn =
+    Set.fromList [ 9, 14, 19 ]
+
+
+bottomRow =
+    Set.fromList [ 21, 22, 23 ]
 
 
 dotStyle checked color { x, y } =
