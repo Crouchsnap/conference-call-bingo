@@ -1,5 +1,6 @@
 module Msg exposing (Msg(..))
 
+import BoardStyle
 import Browser
 import Browser.Dom exposing (Viewport)
 import Dot
@@ -27,5 +28,6 @@ type Msg
     | RatingMsg Rating.Msg
     | CategoryToggled Category Bool
     | DauberSelected Dot.Color
+    | BoardColorSelected BoardStyle.Color
     | GotViewportSize Viewport
     | WindowResized Int Int

@@ -9,7 +9,7 @@ import Style exposing (bold, fontColor, fontStyle)
 
 
 dauberView { dauberColor } =
-    div [ class "dauberSelectorWrapper" ]
+    div [ class "boardStyleSelectorWrapper", style "margin-top" "auto" ]
         [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", bold, fontStyle, style "margin-bottom" ".5rem" ] [ text "dauber color" ]
         , dauberToggle dauberColor Blue "Blue"
         , dauberToggle dauberColor Keylime "Keylime"
@@ -32,7 +32,7 @@ dauberToggle selectedColor color colorLabel =
             else
                 [ style "border" "none" ]
     in
-    div ([ style "padding" ".5rem .75rem", onClick (DauberSelected color), style "display" "flex" ] ++ borderStyle)
+    div ([ style "padding" ".75rem", onClick (DauberSelected color), style "display" "flex", style "align-items" "center" ] ++ borderStyle)
         [ div
             [ style "background-color" (color |> Dot.hexColor)
             , style "height" "2.375rem"

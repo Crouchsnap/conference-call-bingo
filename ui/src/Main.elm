@@ -2,6 +2,8 @@ module Main exposing (Model, init, main, update, view)
 
 import Bingo exposing (randomBoard)
 import Board exposing (Board)
+import BoardColorView
+import BoardStyle exposing (Color(..))
 import Browser
 import Browser.Dom exposing (Viewport)
 import Browser.Events
@@ -45,6 +47,7 @@ type alias Model =
     , nextSeed : Random.Seed
     , categories : List Category
     , dauberColor : Dot.Color
+    , boardColor : BoardStyle.Color
     }
 
 
@@ -63,6 +66,7 @@ init _ url key =
       , nextSeed = Random.initialSeed 0
       , categories = []
       , dauberColor = Blue
+      , boardColor = OriginalRed
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -177,6 +181,9 @@ update msg model =
         DauberSelected color ->
             ( { model | dauberColor = color }, Cmd.none )
 
+        BoardColorSelected color ->
+            ( { model | boardColor = color }, Cmd.none )
+
 
 view : Model -> Browser.Document Msg
 view model =
@@ -220,15 +227,20 @@ winningScoreHeader { startTime, endTime } =
 gameView model =
     div
         [ style "display" "grid"
-        , style "grid-template-columns" "20% 60% 20%"
+        , style "grid-template-columns" "auto 55.75rem auto"
         , style "padding" "1rem"
         ]
-        [ CategoryView.categoryView, div [ style "justify-self" "center" ] (boardView model), DauberView.dauberView model ]
+        [ CategoryView.categoryView, div [ style "justify-self" "center" ] (boardView model), gameStyleSelectorView model ]
+
+
+gameStyleSelectorView model =
+    div [ style "display" "flex", style "flex-direction" "column", style "max-width" "18rem" ]
+        [ BoardColorView.boardColorView model, DauberView.dauberView model ]
 
 
 boardView : Model -> List (Html Msg)
 boardView model =
-    [ div [ class "bingoCard" ]
+    [ div [ class "bingoCard", style "background" (model.boardColor |> BoardStyle.hexColor) ]
         [ div [ class "boardHeaderTopStyle" ] [ text "conference call" ]
         , div [ class "boardHeaderStyle" ]
             ([ "B", "I", "N", "G", "O" ]
