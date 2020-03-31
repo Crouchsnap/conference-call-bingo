@@ -8,7 +8,7 @@ import Square exposing (Category(..))
 import Style exposing (bold, fontColor, fontStyle)
 
 
-categoryView { categories } =
+categoryView =
     div [ class "categoryWrapper" ]
         [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", bold, fontStyle, style "margin-bottom" ".5rem" ] [ text "topical bingo" ]
         , categoryToggle Fordism "Fordisms"

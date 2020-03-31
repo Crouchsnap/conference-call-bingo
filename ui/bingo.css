@@ -19,6 +19,13 @@
     justify-self: flex-start;
 }
 
+.dauberSelectorWrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    justify-self: flex-start;
+}
+
 
 /* ----------- Wide Desktop Screens ----------- */
 @media screen

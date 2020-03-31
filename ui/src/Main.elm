@@ -7,13 +7,13 @@ import Browser.Dom exposing (Viewport)
 import Browser.Events
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
 import CategoryView
-import Dot exposing (Dot)
+import DauberView
+import Dot exposing (Color(..), Dot)
 import Element exposing (Device, DeviceClass(..), classifyDevice)
 import GameResultForm
 import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
 import Html.Attributes exposing (class, disabled, for, href, id, maxlength, minlength, name, style, target, title)
 import Html.Events exposing (onClick, onInput)
-import List.Extra
 import Msg exposing (Msg(..))
 import Random
 import Rating
@@ -44,6 +44,7 @@ type alias Model =
     , device : Device
     , nextSeed : Random.Seed
     , categories : List Category
+    , dauberColor : Dot.Color
     }
 
 
@@ -61,6 +62,7 @@ init _ url key =
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
       , categories = []
+      , dauberColor = Blue
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -72,7 +74,7 @@ update msg model =
         ToggleCheck squareToToggle ->
             let
                 ( updatedBoard, nextSeed ) =
-                    model.board |> toggleSquareInList model.nextSeed Dot.Blue squareToToggle
+                    model.board |> toggleSquareInList model.nextSeed model.dauberColor squareToToggle
             in
             ( { model | board = updatedBoard, nextSeed = nextSeed }
             , if updatedBoard |> Bingo.isWinner then
@@ -172,6 +174,9 @@ update msg model =
             , Task.perform GotCurrentTime Time.now
             )
 
+        DauberSelected color ->
+            ( { model | dauberColor = color }, Cmd.none )
+
 
 view : Model -> Browser.Document Msg
 view model =
@@ -218,7 +223,7 @@ gameView model =
         , style "grid-template-columns" "20% 60% 20%"
         , style "padding" "1rem"
         ]
-        [ CategoryView.categoryView model, div [ style "justify-self" "center" ] (boardView model) ]
+        [ CategoryView.categoryView, div [ style "justify-self" "center" ] (boardView model), DauberView.dauberView model ]
 
 
 boardView : Model -> List (Html Msg)

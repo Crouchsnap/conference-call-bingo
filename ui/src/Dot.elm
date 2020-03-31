@@ -52,10 +52,10 @@ hexColor color =
             "#FA00C366"
 
         Ruby ->
-            "#D31336"
+            "#D3133666"
 
         Tangerine ->
-            "#ED9E28"
+            "#ED9E2866"
 
 
 dot : Random.Seed -> Color -> ( Dot, Random.Seed )

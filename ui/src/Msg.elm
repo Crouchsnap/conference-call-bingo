@@ -2,6 +2,7 @@ module Msg exposing (Msg(..))
 
 import Browser
 import Browser.Dom exposing (Viewport)
+import Dot
 import Rating
 import RemoteData exposing (WebData)
 import Score exposing (GameResult, Score)
@@ -25,5 +26,6 @@ type Msg
     | Suggestion String
     | RatingMsg Rating.Msg
     | CategoryToggled Category Bool
+    | DauberSelected Dot.Color
     | GotViewportSize Viewport
     | WindowResized Int Int
