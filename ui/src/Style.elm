@@ -26,8 +26,8 @@ module Style exposing
     )
 
 import Dot exposing (Dot, Offset, Shape)
-import Html
-import Html.Attributes exposing (class, style)
+import Html exposing (Html)
+import Html.Attributes exposing (style)
 import Msg exposing (Msg)
 import Set
 
@@ -244,7 +244,8 @@ squareContainerStyle =
     ]
 
 
-squareStyle index color =
+squareStyle : (String -> Html.Attribute Msg) -> Int -> String -> List (Html.Attribute Msg)
+squareStyle class index color =
     squareBorderStyle index
         ++ [ class (color ++ "-dauber-cursor")
            , style "vertical-align" "middle"

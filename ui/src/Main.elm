@@ -12,9 +12,10 @@ import CategoryView
 import DauberView
 import Dot exposing (Color(..), Dot)
 import Element exposing (Device, DeviceClass(..), classifyDevice)
+import FordLabsLogo
 import GameResultForm
 import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
-import Html.Attributes exposing (class, disabled, for, href, id, maxlength, minlength, name, style, target, title)
+import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, style, target, title)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 import Random
@@ -26,7 +27,8 @@ import Square exposing (Category(..), Square, toggleCategory, toggleSquareInList
 import Star
 import Style exposing (..)
 import Task
-import Theme exposing (Theme)
+import Theme exposing (Theme(..))
+import ThemeView
 import Time exposing (Posix)
 import TimeFormatter
 import TopScoresView
@@ -51,6 +53,7 @@ type alias Model =
     , boardColor : BoardStyle.Color
     , systemTheme : Theme
     , selectedTheme : Theme
+    , class : String -> Html.Attribute Msg
     }
 
 
@@ -77,6 +80,7 @@ init flags url key =
       , boardColor = OriginalRed
       , systemTheme = Theme.systemTheme flags.dark
       , selectedTheme = Theme.systemTheme flags.dark
+      , class = Theme.themedClass (Theme.systemTheme flags.dark)
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -195,24 +199,51 @@ update msg model =
             ( { model | boardColor = color }, Cmd.none )
 
         UpdateTheme theme ->
-            ( { model | selectedTheme = theme }, Cmd.none )
+            ( { model | selectedTheme = theme, class = Theme.themedClass theme }, Cmd.none )
 
 
 view : Model -> Browser.Document Msg
 view model =
+    let
+        currentView =
+            if Bingo.isWinner model.board then
+                winningView model
+
+            else
+                [ gameView model ]
+    in
     { title = "BINGO!"
     , body =
-        (if Bingo.isWinner model.board then
-            winningView model
-
-         else
-            [ gameView model ]
-        )
-            ++ [ div
-                    footerStyle
-                    [ text "Want to contribute? Check out our ", a [ target "_blank", href "https://github.com/Crouchsnap/conference-call-bingo" ] [ text "Github!" ] ]
-               ]
+        [ div [ model.class "body" ] (currentView ++ [ footerView model ]) ]
     }
+
+
+footerView : Model -> Html Msg
+footerView model =
+    let
+        { class, selectedTheme } =
+            model
+
+        ( fordLabsCircleColor, fordLabsLogoColor ) =
+            case selectedTheme |> Theme.normalizedTheme of
+                Dark ->
+                    ( "#F2F2F2", "#545454" )
+
+                _ ->
+                    ( "#545454", "white" )
+    in
+    div []
+        [ div
+            footerStyle
+            [ text "Want to contribute? Check out our ", a [ class "anchor", target "_blank", href "https://github.com/Crouchsnap/conference-call-bingo" ] [ text "Github!" ] ]
+        , div [ class "fordLabs-footer" ]
+            [ a [ class "anchor", href "https://www.fordlabs.com", target "_blank" ]
+                [ text "Powered by"
+                , FordLabsLogo.view fordLabsCircleColor fordLabsLogoColor
+                , text "FordLabs"
+                ]
+            ]
+        ]
 
 
 winningView : Model -> List (Html Msg)
@@ -248,7 +279,7 @@ gameView model =
 
 gameStyleSelectorView model =
     div [ style "display" "flex", style "flex-direction" "column", style "max-width" "18rem" ]
-        [ BoardColorView.boardColorView model, DauberView.dauberView model ]
+        [ ThemeView.themeView model, BoardColorView.boardColorView model, DauberView.dauberView model ]
 
 
 boardView : Model -> List (Html Msg)
@@ -260,6 +291,9 @@ boardView model =
 
             else
                 ""
+
+        { class } =
+            model
     in
     [ div [ class ("bingoCard" ++ fordBlue), style "background" (model.boardColor |> BoardStyle.hexColor) ]
         [ div [ class "boardHeaderTopStyle" ] [ text "conference call" ]
@@ -275,7 +309,7 @@ boardView model =
                     div
                         squareContainerStyle
                         [ div
-                            (squareStyle index (model.dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square), class "boardBorder" ])
+                            (squareStyle class index (model.dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square), class "boardBorder" ])
                             ((if square.category == Center then
                                 [ Star.star, div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ text square.text ] ]
 

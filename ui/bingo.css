@@ -1,9 +1,9 @@
-
 @font-face {
     font-family: "Antenna";
     font-weight: 500;
     src: url("./assets/fonts/antenna/FordAntennaWGL-Regular.otf");
 }
+
 @font-face {
     font-family: "Antenna";
     font-weight: bold;
@@ -11,27 +11,19 @@
 }
 
 body {
+    margin: 0;
+
+}
+
+.body {
+    height: 100%;
     background-color: white;
     color: #545454;
 }
 
-a {
-    font-weight: bold;
-    font-family: "Antenna";
-}
-
-a:link {
-    text-decoration: none;
-}
-
-a:visited {
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-a:active {
-    text-decoration: underline;
+.body-dark {
+    background-color: #545454;
+    color: #E5E5E5;
 }
 
 
@@ -62,15 +54,19 @@ a:active {
 .blue-dauber {
     background-color: #095CFF66;
 }
+
 .keylime-dauber {
     background-color: #79BA1066;
 }
+
 .magenta-dauber {
     background-color: #FA00C366;
 }
+
 .ruby-dauber {
     background-color: #D3133666;
 }
+
 .tangerine-dauber {
     background-color: #ED9E2866;
 }
@@ -84,12 +80,15 @@ a:active {
 .blue-dauber-cursor {
     cursor: url('assets/blue-dauber.png'), auto;
 }
+
 .keylime-dauber-cursor {
     cursor: url('assets/key-lime-dauber.png'), auto;
 }
+
 .magenta-dauber-cursor {
     cursor: url('assets/magenta-dauber.png'), auto;
 }
+
 .ruby-dauber-cursor {
     cursor: url('assets/ruby-dauber.png'), auto;
 }
@@ -112,6 +111,34 @@ a:active {
     justify-self: flex-start;
 }
 
+.fordLabs-footer {
+    font-weight: bold;
+    font-family: "Antenna";
+    text-align: center;
+    font-size: .8rem;
+    margin: 1rem;
+}
+
+
+.anchor-dark {
+    color: #E5E5E5;
+}
+
+.anchor:link {
+    text-decoration: none;
+}
+
+.anchor:visited {
+    text-decoration: none;
+}
+
+.anchor:hover {
+    text-decoration: underline;
+}
+
+.anchor:active {
+    text-decoration: underline;
+}
 
 /* ----------- Wide Desktop Screens ----------- */
 @media screen
@@ -155,77 +182,108 @@ and (min-device-width: 1367px) {
     padding: 1rem 4rem 2rem 4rem;
 }
 
- /*----------- Dark mode colors -----------*/
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #545454;
-        color: #E5E5E5;
-    }
-    a {
-        color: white !important;
-    }
-    .boardTableStyle {
-        background-color: #6C6C6C;
-    }
+.tri-toggle-container {
+    background-color: #C0C0C0;
+    border-radius: 1.25rem;
+    height: 2.5rem;
+    width: 13.875rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    justify-items: center;
+    align-self: center;
+    color: #575757;
+}
 
-    .boardBorder {
-        border-color: #E5E5E5 !important;
-    }
+.tri-toggle-container-dark {
+    background-color: #8A8A8A;
+    color: #E5E5E5;
+}
 
-    .fordBlueDark {
-        background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%) !important;
-    }
-    .boardOptionSelected {
-        border: 0.5px solid #E5E5E5;
-        box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
-    }
+.tri-toggle-selected {
+    background-color: #E9E9E9;
+    border-radius: 1.25rem;
+    color: #575757;
+}
 
-    .blue-dauber {
-        background-color: #75A4FF66;
-    }
-    .keylime-dauber {
-        background-color: #DCF75A66;
-    }
-    .magenta-dauber {
-        background-color: #FD99E766;
-    }
-    .ruby-dauber {
-        background-color: #C1274566;
-    }
-    .tangerine-dauber {
-        background-color: #FFB44666;
-    }
+.tri-toggle-selected-dark {
+    color: #545454;
+}
 
-    .blue-dauber-cursor {
-        cursor: url('assets/blue-dauber-dark.png'), auto;
-    }
-    .keylime-dauber-cursor {
-        cursor: url('assets/key-lime-dauber-dark.png'), auto;
-    }
-    .magenta-dauber-cursor {
-        cursor: url('assets/magenta-dauber-dark.png'), auto;
-    }
-    .ruby-dauber-cursor {
-        cursor: url('assets/ruby-dauber-dark.png'), auto;
-    }
-    .tangerine-dauber-cursor {
-        cursor: url('assets/tangerine-dauber-dark.png'), auto;
-    }
+.boardTableStyle-dark {
+    background-color: #6C6C6C;
+}
 
-    .blue-dauber {
-        background-color: #75A4FF;
-    }
-    .keylime-dauber {
-        background-color: #DCF75A;
-    }
-    .magenta-dauber {
-        background-color: #FD99E7;
-    }
-    .ruby-dauber {
-        background-color: #C12745;
-    }
-    .tangerine-dauber {
-        background-color: #FFB446;
-    }
+.boardBorder-dark {
+    border-color: #E5E5E5 !important;
+}
+
+.fordBlueDark {
+    background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%) !important;
+}
+
+.boardOptionSelected {
+    border: 0.5px solid #E5E5E5;
+    box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
+}
+
+.blue-dauber-dark {
+    background-color: #75A4FF66;
+}
+
+.keylime-dauber-dark {
+    background-color: #DCF75A66;
+}
+
+.magenta-dauber-dark {
+    background-color: #FD99E766;
+}
+
+.ruby-dauber-dark {
+    background-color: #C1274566;
+}
+
+.tangerine-dauber-dark {
+    background-color: #FFB44666;
+}
+
+.blue-dauber-cursor-dark {
+    cursor: url('assets/blue-dauber-dark.png'), auto;
+}
+
+.keylime-dauber-cursor-dark {
+    cursor: url('assets/key-lime-dauber-dark.png'), auto;
+}
+
+.magenta-dauber-cursor-dark {
+    cursor: url('assets/magenta-dauber-dark.png'), auto;
+}
+
+.ruby-dauber-cursor-dark {
+    cursor: url('assets/ruby-dauber-dark.png'), auto;
+}
+
+.tangerine-dauber-cursor-dark {
+    cursor: url('assets/tangerine-dauber-dark.png'), auto;
+}
+
+.blue-dauber-dark {
+    background-color: #75A4FF;
+}
+
+.keylime-dauber-dark {
+    background-color: #DCF75A;
+}
+
+.magenta-dauber-dark {
+    background-color: #FD99E7;
+}
+
+.ruby-dauber-dark {
+    background-color: #C12745;
+}
+
+.tangerine-dauber-dark {
+    background-color: #FFB446;
 }
 

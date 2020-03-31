@@ -2,24 +2,24 @@ module BoardColorView exposing (boardColorView)
 
 import BoardStyle exposing (Color(..), hexColor)
 import Html exposing (div, label, text)
-import Html.Attributes exposing (class, style)
+import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Style exposing (bold, fontStyle)
 
 
-boardColorView { boardColor } =
+boardColorView { boardColor, class } =
     div [ class "boardStyleSelectorWrapper" ]
         [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", bold, fontStyle, style "margin-bottom" ".5rem" ] [ text "bingo sheet color" ]
-        , boardColorSelector boardColor OriginalRed "Original Red"
-        , boardColorSelector boardColor FadedBlue "Faded Blue"
-        , boardColorSelector boardColor LuckyPurple "Lucky Purple"
-        , boardColorSelector boardColor GoofyGreen "Goofy Green"
-        , boardColorSelector boardColor FordBlue "Ford Blue"
+        , boardColorSelector class boardColor OriginalRed "Original Red"
+        , boardColorSelector class boardColor FadedBlue "Faded Blue"
+        , boardColorSelector class boardColor LuckyPurple "Lucky Purple"
+        , boardColorSelector class boardColor GoofyGreen "Goofy Green"
+        , boardColorSelector class boardColor FordBlue "Ford Blue"
         ]
 
 
-boardColorSelector selectedColor color colorLabel =
+boardColorSelector class selectedColor color colorLabel =
     let
         borderStyle =
             if selectedColor == color then

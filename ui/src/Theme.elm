@@ -1,4 +1,7 @@
-module Theme exposing (SelectedTheme, Theme(..), systemTheme)
+module Theme exposing (SelectedTheme, Theme(..), normalizedTheme, systemTheme, themedClass)
+
+import Html exposing (Attribute)
+import Html.Attributes exposing (class)
 
 
 type Theme
@@ -23,11 +26,21 @@ systemTheme dark =
             System Light
 
 
-theme : Theme -> Theme
-theme selected =
+normalizedTheme : Theme -> Theme
+normalizedTheme selected =
     case selected of
         System system ->
             system
 
         _ ->
             selected
+
+
+themedClass : Theme -> String -> Attribute msg
+themedClass applyTheme className =
+    case applyTheme |> normalizedTheme of
+        Dark ->
+            class (className ++ " " ++ className ++ "-dark")
+
+        _ ->
+            class className
