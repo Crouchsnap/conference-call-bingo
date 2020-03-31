@@ -66,6 +66,21 @@ body {
         border: 0.5px solid #E5E5E5;
         box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
     }
+    .blue-dauber {
+        cursor: url('assets/blue-dauber-dark.png'), auto;
+    }
+    .keylime-dauber {
+        cursor: url('assets/key-lime-dauber-dark.png'), auto;
+    }
+    .magenta-dauber {
+        cursor: url('assets/magenta-dauber-dark.png'), auto;
+    }
+    .ruby-dauber {
+        cursor: url('assets/ruby-dauber-dark.png'), auto;
+    }
+    .tangerine-dauber {
+        cursor: url('assets/tangerine-dauber-dark.png'), auto;
+    }
 }
 
 
