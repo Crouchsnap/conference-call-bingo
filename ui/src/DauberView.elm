@@ -28,7 +28,7 @@ dauberToggle selectedColor color colorLabel =
             else
                 [ class "boardOption" ]
     in
-    div ([ style "padding" ".75rem", onClick (DauberSelected color), style "display" "flex", style "align-items" "center" ] ++ borderStyle)
+    div ([ style "padding" ".75rem", onClick (DauberSelected color), style "display" "flex", style "align-items" "center", style "cursor" "pointer" ] ++ borderStyle)
         [ div [ class "dauber-chip", class (color |> Dot.class) ] []
-        , label [ style "font-size" "1rem", bold, fontStyle, style "padding" ".75rem" ] [ text colorLabel ]
+        , label [ style "font-size" "1rem", bold, fontStyle, style "padding" ".75rem", style "cursor" "pointer" ] [ text colorLabel ]
         ]
