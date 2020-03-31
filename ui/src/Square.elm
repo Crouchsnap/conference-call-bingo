@@ -76,6 +76,8 @@ genericSquares =
     , genericSquare "\"Bingo!\""
     , genericSquare "\"I think ____ stepped away\""
     , genericSquare "\"Can you hear me?\""
+    , genericSquare "(breathing directly into the microphone)"
+    , genericSquare "\"That's a great question...(deflection)\""
     ]
 
 
