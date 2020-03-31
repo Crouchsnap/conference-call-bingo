@@ -169,7 +169,7 @@ update msg model =
         WindowResized width height ->
             ( { model | device = classifyDevice { height = height, width = width } }, Cmd.none )
 
-        CategoryToggled category _ ->
+        CategoryToggled category ->
             ( { model
                 | categories =
                     toggleCategory category
@@ -230,7 +230,7 @@ gameView model =
         , style "grid-template-columns" "auto 55.75rem auto"
         , style "padding" "1rem"
         ]
-        [ CategoryView.categoryView, div [ style "justify-self" "center" ] (boardView model), gameStyleSelectorView model ]
+        [ CategoryView.categoryView model, div [ style "justify-self" "center" ] (boardView model), gameStyleSelectorView model ]
 
 
 gameStyleSelectorView model =

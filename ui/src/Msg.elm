@@ -26,7 +26,7 @@ type Msg
     | Player String
     | Suggestion String
     | RatingMsg Rating.Msg
-    | CategoryToggled Category Bool
+    | CategoryToggled Category
     | DauberSelected Dot.Color
     | BoardColorSelected BoardStyle.Color
     | GotViewportSize Viewport
