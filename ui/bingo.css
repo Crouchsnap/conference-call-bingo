@@ -1,4 +1,15 @@
 
+@font-face {
+    font-family: "Antenna";
+    font-weight: 500;
+    src: url("./assets/fonts/antenna/FordAntennaWGL-Regular.otf");
+}
+@font-face {
+    font-family: "Antenna";
+    font-weight: bold;
+    src: url("./assets/fonts/antenna/FordAntennaWGL-Bold.otf");
+}
+
 body {
     background-color: white;
     color: #545454;
@@ -7,6 +18,7 @@ body {
 a {
     color: white;
     font-weight: bold;
+    font-family: "Antenna";
 }
 
 a:link {
