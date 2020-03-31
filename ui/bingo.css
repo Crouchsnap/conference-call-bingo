@@ -16,7 +16,6 @@ body {
 }
 
 a {
-    color: white;
     font-weight: bold;
     font-family: "Antenna";
 }
@@ -156,11 +155,14 @@ and (min-device-width: 1367px) {
     padding: 1rem 4rem 2rem 4rem;
 }
 
-/* ----------- Dark mode colors ----------- */
+ /*----------- Dark mode colors -----------*/
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #545454;
         color: #E5E5E5;
+    }
+    a {
+        color: white !important;
     }
     .boardTableStyle {
         background-color: #545454;
