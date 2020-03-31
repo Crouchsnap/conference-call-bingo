@@ -148,7 +148,7 @@ toggleSquare seed color square =
         ( randomDot, nextSeed ) =
             dot seed color
     in
-    ( { square | dots = randomDot :: square.dots }, nextSeed )
+    ( { square | dots = List.append square.dots [ randomDot ] }, nextSeed )
 
 
 checked : Square -> Bool
