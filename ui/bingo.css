@@ -179,6 +179,23 @@ and (min-device-width: 1367px) {
         border: 0.5px solid #E5E5E5;
         box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
     }
+
+    .blue-dauber {
+        background-color: #75A4FF66;
+    }
+    .keylime-dauber {
+        background-color: #DCF75A66;
+    }
+    .magenta-dauber {
+        background-color: #FD99E766;
+    }
+    .ruby-dauber {
+        background-color: #C1274566;
+    }
+    .tangerine-dauber {
+        background-color: #FFB44666;
+    }
+
     .blue-dauber-cursor {
         cursor: url('assets/blue-dauber-dark.png'), auto;
     }
@@ -196,19 +213,19 @@ and (min-device-width: 1367px) {
     }
 
     .blue-dauber {
-        background-color: #095CFF;
+        background-color: #75A4FF;
     }
     .keylime-dauber {
-        background-color: #79BA10;
+        background-color: #DCF75A;
     }
     .magenta-dauber {
-        background-color: #FA00C3;
+        background-color: #FD99E7;
     }
     .ruby-dauber {
-        background-color: #D31336;
+        background-color: #C12745;
     }
     .tangerine-dauber {
-        background-color: #ED9E28;
+        background-color: #FFB446;
     }
 }
 
