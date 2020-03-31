@@ -339,8 +339,8 @@ bottomRow =
     Set.fromList [ 21, 22, 23 ]
 
 
-dotStyle : Dot -> List (Html.Attribute msg)
-dotStyle { offset, shape, color } =
+dotStyle : Int -> Dot -> List (Html.Attribute msg)
+dotStyle index { offset, shape, color } =
     [ style "height" "85%"
     , style "width" "85%"
     , style "display" "inline-block"
@@ -350,7 +350,7 @@ dotStyle { offset, shape, color } =
     , style "top" "50%"
     , style "left" "50%"
     , transformOffset offset
-    , style "z-index" "100"
+    , style "z-index" (index * 10 |> String.fromInt)
     ]
 
 

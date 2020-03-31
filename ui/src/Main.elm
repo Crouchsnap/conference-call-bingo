@@ -270,7 +270,7 @@ boardView model =
                                 [ text square.text ]
                              )
                                 ++ (square.dots
-                                        |> List.map (\dot -> dotDiv dot)
+                                        |> List.indexedMap (\dotIndex dot -> dotDiv dotIndex dot)
                                    )
                             )
                         ]
@@ -281,10 +281,10 @@ boardView model =
     ]
 
 
-dotDiv : Dot -> Html msg
-dotDiv dot =
+dotDiv : Int -> Dot -> Html msg
+dotDiv index dot =
     div
-        (dotStyle dot)
+        (dotStyle index dot)
         []
 
 
