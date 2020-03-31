@@ -30,6 +30,22 @@ body {
     border: none;
 }
 
+.blue-dauber {
+    cursor: url('assets/blue-dauber.png'), auto;
+}
+.keylime-dauber {
+    cursor: url('assets/key-lime-dauber.png'), auto;
+}
+.magenta-dauber {
+    cursor: url('assets/magenta-dauber.png'), auto;
+}
+.ruby-dauber {
+    cursor: url('assets/ruby-dauber.png'), auto;
+}
+.tangerine-dauber {
+    cursor: url('assets/tangerine-dauber.png'), auto;
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #545454;
@@ -79,7 +95,7 @@ and (min-device-width: 1367px) {
 
 .boardHeaderTopStyle {
     justify-content: center;
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     text-transform: uppercase;
     line-height: 50px;
     text-align: center;
@@ -93,12 +109,13 @@ and (min-device-width: 1367px) {
     padding: 0 1rem;
     display: grid;
     grid-template-columns: repeat(5, 8.75rem);
-    font-size: 5.5rem;
+    font-size: 5.3125rem;
     margin: 0 1rem;
     text-align: center;
     font-family: Stoke, serif;
     color: white;
     max-width: calc(5 * 8.75rem + 2rem);
+    line-height: 90%;
 }
 
 .bingoCard {

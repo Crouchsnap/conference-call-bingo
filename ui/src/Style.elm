@@ -27,7 +27,7 @@ module Style exposing
 
 import Dot exposing (Dot, Offset, Shape)
 import Html
-import Html.Attributes exposing (style)
+import Html.Attributes exposing (class, style)
 import Msg exposing (Msg)
 import Set
 
@@ -244,9 +244,9 @@ squareContainerStyle =
     ]
 
 
-squareStyle index =
+squareStyle index color =
     squareBorderStyle index
-        ++ [ style "cursor" "url('assets/blue-dauber-dark.png'), auto"
+        ++ [ class (color ++ "-dauber")
            , style "vertical-align" "middle"
            , style "text-align" "center"
            , style "display" "table-cell"

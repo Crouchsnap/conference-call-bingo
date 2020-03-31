@@ -1,4 +1,4 @@
-module Dot exposing (Color(..), Dot, Offset, Shape, defaultDot, dot, hexColor, round, zeroOffset)
+module Dot exposing (Color(..), Dot, Offset, Shape, defaultDot, dot, hexColor, round, toString, zeroOffset)
 
 import Random
 import RandomHelper exposing (randomOffset, randomShape)
@@ -56,6 +56,25 @@ hexColor color =
 
         Tangerine ->
             "#ED9E2866"
+
+
+toString : Color -> String
+toString color =
+    case color of
+        Blue ->
+            "blue"
+
+        Keylime ->
+            "keylime"
+
+        Magenta ->
+            "magenta"
+
+        Ruby ->
+            "ruby"
+
+        Tangerine ->
+            "tangerine"
 
 
 dot : Random.Seed -> Color -> ( Dot, Random.Seed )
