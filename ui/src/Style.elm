@@ -246,7 +246,7 @@ squareContainerStyle =
 
 squareStyle index =
     squareBorderStyle index
-        ++ [ style "cursor" "url('blue-dauber.png'), auto"
+        ++ [ style "cursor" "url('assets/blue-dauber-dark.png'), auto"
            , style "vertical-align" "middle"
            , style "text-align" "center"
            , style "display" "table-cell"
