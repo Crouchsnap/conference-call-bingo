@@ -37,7 +37,8 @@
         return ('Not IE');
     }
     if (IEdetection() === 'Not IE') {
-        const app = Elm.Main.init();
+        var flags = {dark: window.matchMedia("(prefers-color-scheme:dark)").matches};
+        const app = Elm.Main.init({flags: flags});
     } else {
         document.body.innerHTML = "<div style='text-align: center;'><h1>For the best experience please open using Chrome, Firefox, Safari or any modern browser really.</h1>\n" +
             "    <h2>🙏 Please stop using IE 🙏</h2></div>";

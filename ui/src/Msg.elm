@@ -8,6 +8,7 @@ import Rating
 import RemoteData exposing (WebData)
 import Score exposing (GameResult, Score)
 import Square exposing (Category, Square)
+import Theme exposing (Theme)
 import Time exposing (Posix)
 import Url exposing (Url)
 
@@ -31,3 +32,4 @@ type Msg
     | BoardColorSelected BoardStyle.Color
     | GotViewportSize Viewport
     | WindowResized Int Int
+    | UpdateTheme Theme

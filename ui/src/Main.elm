@@ -26,6 +26,7 @@ import Square exposing (Category(..), Square, toggleCategory, toggleSquareInList
 import Star
 import Style exposing (..)
 import Task
+import Theme exposing (Theme)
 import Time exposing (Posix)
 import TimeFormatter
 import TopScoresView
@@ -48,11 +49,18 @@ type alias Model =
     , categories : List Category
     , dauberColor : Dot.Color
     , boardColor : BoardStyle.Color
+    , systemTheme : Theme
+    , selectedTheme : Theme
     }
 
 
-init : () -> Url -> Navigation.Key -> ( Model, Cmd Msg )
-init _ url key =
+type alias Flags =
+    { dark : Bool
+    }
+
+
+init : Flags -> Url -> Navigation.Key -> ( Model, Cmd Msg )
+init flags url key =
     ( { board = []
       , startTime = Time.millisToPosix 0
       , endTime = Time.millisToPosix 0
@@ -67,6 +75,8 @@ init _ url key =
       , categories = []
       , dauberColor = Blue
       , boardColor = OriginalRed
+      , systemTheme = Theme.systemTheme flags.dark
+      , selectedTheme = Theme.systemTheme flags.dark
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -183,6 +193,9 @@ update msg model =
 
         BoardColorSelected color ->
             ( { model | boardColor = color }, Cmd.none )
+
+        UpdateTheme theme ->
+            ( { model | selectedTheme = theme }, Cmd.none )
 
 
 view : Model -> Browser.Document Msg
