@@ -11,13 +11,23 @@
     <script src="main.js"></script>
 </head>
 <body>
-<!--[if IE]>
-<div class="warning"><p>For the best experience please open using Chrome, Firefox, Safari or any modern browser
-    really.</p>
-    <p>Please stop using IE 🙏</p></div>
-<![endif]-->
+<script type="application/javascript">
+    function isJavascript() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        return msie > 0;
+    }
+    if (isJavascript()) {
+        console.log("Here");
+        document.body.innerHTML = "<div style='text-align: center;'><h1>For the best experience please open using Chrome, Firefox, Safari or any modern browser really.</h1>\n" +
+            "    <h2>🙏 Please stop using IE 🙏</h2></div>";
+    } else {
+        const app = Elm.Main.init();
+    }
 
-<script>const app = Elm.Main.init();</script>
+</script>
+
+
 
 </body>
 <footer style="text-align: center; font-family: sans-serif; font-size: .8rem; margin: 1rem">
