@@ -36,7 +36,7 @@ boardColorSelector selectedColor color colorLabel =
             else
                 []
     in
-    div ([ style "padding" ".75rem", onClick (BoardColorSelected color), style "display" "flex", style "align-items" "center" ] ++ borderStyle)
+    div ([ style "padding" ".75rem", onClick (BoardColorSelected color), style "display" "flex", style "align-items" "center", style "cursor" "pointer" ] ++ borderStyle)
         [ div
             ([ style "background" (color |> hexColor)
              , style "height" "3.5rem"
@@ -45,5 +45,5 @@ boardColorSelector selectedColor color colorLabel =
                 ++ fordBlueBackGround
             )
             []
-        , label [ style "font-size" "1rem", bold, fontStyle, style "padding" ".75rem" ] [ text colorLabel ]
+        , label [ style "font-size" "1rem", bold, fontStyle, style "padding" ".75rem", style "cursor" "pointer" ] [ text colorLabel ]
         ]
