@@ -350,7 +350,7 @@ dotStyle index { offset, shape, color } =
     , style "top" "50%"
     , style "left" "50%"
     , transformOffset offset
-    , style "z-index" (index * 10 |> String.fromInt)
+    , style "z-index" ((index + 1) * 10 |> String.fromInt)
     ]
 
 
