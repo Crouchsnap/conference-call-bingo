@@ -240,7 +240,15 @@ gameStyleSelectorView model =
 
 boardView : Model -> List (Html Msg)
 boardView model =
-    [ div [ class "bingoCard", style "background" (model.boardColor |> BoardStyle.hexColor) ]
+    let
+        fordBlue =
+            if model.boardColor == FordBlue then
+                " fordBlueDark"
+
+            else
+                ""
+    in
+    [ div [ class ("bingoCard" ++ fordBlue), style "background" (model.boardColor |> BoardStyle.hexColor) ]
         [ div [ class "boardHeaderTopStyle" ] [ text "conference call" ]
         , div [ class "boardHeaderStyle" ]
             ([ "B", "I", "N", "G", "O" ]
@@ -254,7 +262,7 @@ boardView model =
                     div
                         squareContainerStyle
                         [ div
-                            (squareStyle index ++ [ onClick (ToggleCheck square) ])
+                            (squareStyle index ++ [ onClick (ToggleCheck square), class "boardBorder" ])
                             ((if square.category == Center then
                                 [ Star.star, div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ text square.text ] ]
 

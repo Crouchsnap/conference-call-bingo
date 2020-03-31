@@ -1,4 +1,11 @@
 
+body {
+    background-color: white;
+    color: #545454;
+}
+
+
+
 .boardTableStyle {
     justify-content: center;
     padding: 1rem;
@@ -11,6 +18,41 @@
     background-color: white;
     max-width: calc(5 * 8.75rem + 2rem);
 }
+
+.boardOptionSelected {
+    border: 0.5px solid #545454;
+    box-sizing: border-box;
+    box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+}
+
+.boardOption {
+    border: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #545454;
+        color: #E5E5E5;
+    }
+    .boardTableStyle {
+        background-color: #545454;
+    }
+
+    .boardBorder {
+        border-color: #E5E5E5 !important;
+    }
+
+    .fordBlueDark {
+        background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%) !important;
+    }
+    .boardOptionSelected {
+        border: 0.5px solid #E5E5E5;
+        box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
+    }
+}
+
+
 
 .categoryWrapper {
     display: flex;

@@ -2,10 +2,10 @@ module BoardColorView exposing (boardColorView)
 
 import BoardStyle exposing (Color(..), hexColor)
 import Html exposing (div, label, text)
-import Html.Attributes exposing (class, for, name, style, type_)
-import Html.Events exposing (onCheck, onClick)
+import Html.Attributes exposing (class, style)
+import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import Style exposing (bold, fontColor, fontStyle)
+import Style exposing (bold, fontStyle)
 
 
 boardColorView { boardColor } =
@@ -23,21 +23,27 @@ boardColorSelector selectedColor color colorLabel =
     let
         borderStyle =
             if selectedColor == color then
-                [ style "border" "0.5px solid #545454"
-                , style "box-sizing" "border-box"
-                , style "box-shadow" "2px 3px 4px rgba(0, 0, 0, 0.15)"
-                , style "border-radius" "4px"
+                [ class "boardOptionSelected"
                 ]
 
             else
-                [ style "border" "none" ]
+                [ class "boardOption" ]
+
+        fordBlueBackGround =
+            if color == FordBlue then
+                [ class "fordBlueDark" ]
+
+            else
+                []
     in
     div ([ style "padding" ".75rem", onClick (BoardColorSelected color), style "display" "flex", style "align-items" "center" ] ++ borderStyle)
         [ div
-            [ style "background" (color |> hexColor)
-            , style "height" "3.5rem"
-            , style "width" "3.5rem"
-            ]
+            ([ style "background" (color |> hexColor)
+             , style "height" "3.5rem"
+             , style "width" "3.5rem"
+             ]
+                ++ fordBlueBackGround
+            )
             []
-        , label [ style "font-size" "1rem", bold, fontColor, fontStyle, style "padding" ".75rem" ] [ text colorLabel ]
+        , label [ style "font-size" "1rem", bold, fontStyle, style "padding" ".75rem" ] [ text colorLabel ]
         ]

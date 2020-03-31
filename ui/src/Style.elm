@@ -2,7 +2,6 @@ module Style exposing
     ( bold
     , categoryButtonStyle
     , dotStyle
-    , fontColor
     , fontStyle
     , footerStyle
     , newButtonStyle
@@ -55,10 +54,6 @@ fontSize =
 
 bold =
     style "font-weight" "bold"
-
-
-fontColor =
-    style "color" "#545454"
 
 
 titleStyle : List (Html.Attribute Msg)
@@ -257,10 +252,8 @@ squareStyle index =
            , style "display" "table-cell"
            , style "padding" "5px"
            , style "position" "relative"
-           , fontColor
            , fontSize
            , bold
-           , style "background-color" "white"
            ]
 
 
