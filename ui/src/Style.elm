@@ -246,7 +246,7 @@ squareContainerStyle =
 
 squareStyle index color =
     squareBorderStyle index
-        ++ [ class (color ++ "-dauber")
+        ++ [ class (color ++ "-dauber-cursor")
            , style "vertical-align" "middle"
            , style "text-align" "center"
            , style "display" "table-cell"

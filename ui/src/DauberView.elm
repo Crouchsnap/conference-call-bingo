@@ -29,12 +29,6 @@ dauberToggle selectedColor color colorLabel =
                 [ class "boardOption" ]
     in
     div ([ style "padding" ".75rem", onClick (DauberSelected color), style "display" "flex", style "align-items" "center" ] ++ borderStyle)
-        [ div
-            [ style "background-color" (color |> Dot.hexColor)
-            , style "height" "2.375rem"
-            , style "width" "2.375rem"
-            , style "border-radius" "50%"
-            ]
-            []
+        [ div [ class "dauber-chip", class (color |> Dot.class) ] []
         , label [ style "font-size" "1rem", bold, fontStyle, style "padding" ".75rem" ] [ text colorLabel ]
         ]
