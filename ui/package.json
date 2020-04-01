@@ -13,7 +13,7 @@
     "build": "elm make src/Main.elm --output=main.js"
   },
   "author": "jcrouc15@ford.com",
-  "license": "Apache 2.0",
+  "license": "Beerware",
   "dependencies": {
     "elm": "^0.19.1-3",
     "elm-live": "^4.0.2",
