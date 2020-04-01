@@ -2,6 +2,8 @@
 
 [Elm](https://elm-lang.org) app for playing conference call bingo in these trying times.
 
+Credit to sscheman@ford.com for the design!
+
 ![](https://github.com/crouchsnap/conference-call-bingo/workflows/UI%20Tests/badge.svg)
 ![](https://github.com/Crouchsnap/conference-call-bingo/workflows/Backend%20Tests/badge.svg)
 
