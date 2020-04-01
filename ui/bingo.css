@@ -245,6 +245,18 @@ and (min-device-width: 1367px) {
 .ford-blue{
     background: linear-gradient(180deg, #4CA9E3 0%, #0F2955 89.58%);
 }
+.original-red-dark{
+    background: #B44542;
+}
+.faded-blue-dark{
+    background: #749CB5;
+}
+.lucky-purple-dark{
+    background: #4B376B;
+}
+.goofy-green-dark{
+    background: #5A9138;
+}
 .ford-blue-dark {
     background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%);
 }
