@@ -230,9 +230,23 @@ and (min-device-width: 1367px) {
 .boardBorder-dark {
     border-color: #E5E5E5 !important;
 }
-
-.fordBlueDark {
-    background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%) !important;
+.original-red{
+    background: #EB514D;
+}
+.faded-blue{
+    background: #97CBEB;
+}
+.lucky-purple{
+    background: #896DD6;
+}
+.goofy-green{
+    background: #84D552;
+}
+.ford-blue{
+    background: linear-gradient(180deg, #4CA9E3 0%, #0F2955 89.58%);
+}
+.ford-blue-dark {
+    background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%);
 }
 
 .boardOptionSelected-dark {

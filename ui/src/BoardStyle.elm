@@ -1,4 +1,4 @@
-module BoardStyle exposing (Color(..), hexColor)
+module BoardStyle exposing (Color(..), colorClass)
 
 
 type Color
@@ -9,19 +9,19 @@ type Color
     | FordBlue
 
 
-hexColor color =
+colorClass color =
     case color of
         OriginalRed ->
-            "#EB514D"
+            "original-red"
 
         FadedBlue ->
-            "#97CBEB"
+            "faded-blue"
 
         LuckyPurple ->
-            "#896DD6"
+            "lucky-purple"
 
         GoofyGreen ->
-            "#84D552"
+            "goofy-green"
 
         FordBlue ->
-            "linear-gradient(180deg, #4CA9E3 0%, #0F2955 89.58%)"
+            "ford-blue"

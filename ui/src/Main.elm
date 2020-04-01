@@ -285,17 +285,10 @@ gameStyleSelectorView model =
 boardView : Model -> List (Html Msg)
 boardView model =
     let
-        fordBlue =
-            if model.boardColor == FordBlue then
-                " fordBlueDark"
-
-            else
-                ""
-
         { class } =
             model
     in
-    [ div [ class ("bingoCard" ++ fordBlue), style "background" (model.boardColor |> BoardStyle.hexColor) ]
+    [ div [ class "bingoCard", class (model.boardColor |> BoardStyle.colorClass) ]
         [ div [ class "boardHeaderTopStyle" ] [ text "conference call" ]
         , div [ class "boardHeaderStyle" ]
             ([ "B", "I", "N", "G", "O" ]

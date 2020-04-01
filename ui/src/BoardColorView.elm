@@ -1,6 +1,6 @@
 module BoardColorView exposing (boardColorView)
 
-import BoardStyle exposing (Color(..), hexColor)
+import BoardStyle exposing (Color(..), colorClass)
 import Html exposing (div, label, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
@@ -28,22 +28,13 @@ boardColorSelector class selectedColor color colorLabel =
 
             else
                 [ class "boardOption" ]
-
-        fordBlueBackGround =
-            if color == FordBlue then
-                [ class "fordBlueDark" ]
-
-            else
-                []
     in
     div ([ style "padding" ".75rem", onClick (BoardColorSelected color), style "display" "flex", style "align-items" "center", style "cursor" "pointer" ] ++ borderStyle)
         [ div
-            ([ style "background" (color |> hexColor)
-             , style "height" "3.5rem"
-             , style "width" "3.5rem"
-             ]
-                ++ fordBlueBackGround
-            )
+            [ style "height" "3.5rem"
+            , style "width" "3.5rem"
+            , class (color |> colorClass)
+            ]
             []
         , label [ style "font-size" "1rem", bold, fontStyle, style "padding" ".75rem", style "cursor" "pointer" ] [ text colorLabel ]
         ]
