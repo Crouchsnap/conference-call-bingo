@@ -90,6 +90,9 @@ fordisms =
     , fordismSquare "\"LL_ approval needed\""
     , fordismSquare "Any _aaS acronym"
     , fordismSquare "A well known acronym repurposed by Ford"
+    , fordismSquare "Now, near, far"
+    , fordismSquare "I'll send a note"
+    , fordismSquare "First name reference to an exec you don't know"
     ]
 
 
