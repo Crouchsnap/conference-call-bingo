@@ -30,13 +30,12 @@ body {
     background-color: white;
     color: #545454;
     min-height: 100vh;
+    overflow: auto;
 }
 
 .body-dark {
     background-color: #545454;
     color: #E5E5E5;
-    min-height: 100vh;
-
 }
 
 
