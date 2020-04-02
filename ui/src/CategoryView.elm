@@ -25,7 +25,7 @@ categoryToggle class categories category categoryLabel =
             else
                 []
     in
-    div [ style "padding" ".5rem .75rem", style "display" "flex", onClick (CategoryToggled category) ]
+    div [ style "display" "flex", onClick (CategoryToggled category) ]
         [ div [ class "container" ]
             [ input [ name categoryLabel, checked (categories |> List.member category), type_ "checkbox" ] []
             , div ([ class "checkmark" ] ++ classes) []
