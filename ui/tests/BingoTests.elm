@@ -4,14 +4,16 @@ import Bingo exposing (isWinner, randomBoard)
 import Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
 import Dot
 import Expect exposing (Expectation)
+import Html exposing (text)
+import Msg exposing (Msg)
 import Random
 import Square exposing (Category(..), Square, centerSquare, genericSquare, squaresByCategory, toggleSquareInList)
 import Test exposing (..)
 
 
-fakeSquare : Square
+fakeSquare : Square Msg
 fakeSquare =
-    { text = "fake", dots = [], category = Generic }
+    { html = text "fake", dots = [], category = Generic }
 
 
 suite : Test
@@ -105,7 +107,7 @@ suite =
         ]
 
 
-checkIndices : List Int -> Board -> Board
+checkIndices : List Int -> Board msg -> Board msg
 checkIndices indices board =
     List.indexedMap
         (\index square ->

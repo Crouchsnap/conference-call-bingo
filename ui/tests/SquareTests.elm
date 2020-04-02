@@ -2,6 +2,7 @@ module SquareTests exposing (suite)
 
 import Dot exposing (Dot, defaultDot)
 import Expect exposing (Expectation)
+import Html exposing (text)
 import Random
 import Square exposing (Category(..), Square, centerSquare, genericSquare, toggleSquareInList)
 import Test exposing (..)
@@ -31,7 +32,7 @@ suite =
             \_ ->
                 let
                     testSquare =
-                        Square "" Generic [ defaultDot, defaultDot, defaultDot ]
+                        Square (text "") Generic [ defaultDot, defaultDot, defaultDot ]
                 in
                 [ testSquare ]
                     |> toggleSquareInList seed Dot.Blue testSquare
