@@ -310,7 +310,7 @@ boardView model =
                                 [ square.html ]
                              )
                                 ++ (square.dots
-                                        |> List.indexedMap (\dotIndex dot -> dotDiv dotIndex dot)
+                                        |> List.indexedMap dotDiv
                                    )
                             )
                         ]

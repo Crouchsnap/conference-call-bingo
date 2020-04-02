@@ -116,6 +116,67 @@ body {
     justify-self: flex-start;
 }
 
+.container {
+    display: block;
+    position: relative;
+    padding-left: 1rem;
+    /*margin-bottom: 12px;*/
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: .75rem;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    border: 1px solid #545454;
+}
+
+.checkmark-dark {
+    border-color: #E5E5E5;
+}
+.checkmark-checked {
+    background-color: #45A0F4;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+.container .checkmark:after {
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 1px 1px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
 .boardStyleSelectorWrapper {
     display: flex;
     flex-direction: column;
@@ -231,33 +292,43 @@ and (min-device-width: 1367px) {
 .boardBorder-dark {
     border-color: #E5E5E5 !important;
 }
-.original-red{
+
+.original-red {
     background: #EB514D;
 }
-.faded-blue{
+
+.faded-blue {
     background: #97CBEB;
 }
-.lucky-purple{
+
+.lucky-purple {
     background: #896DD6;
 }
-.goofy-green{
+
+.goofy-green {
     background: #84D552;
 }
-.ford-blue{
+
+.ford-blue {
     background: linear-gradient(180deg, #4CA9E3 0%, #0F2955 89.58%);
 }
-.original-red-dark{
+
+.original-red-dark {
     background: #B44542;
 }
-.faded-blue-dark{
+
+.faded-blue-dark {
     background: #749CB5;
 }
-.lucky-purple-dark{
+
+.lucky-purple-dark {
     background: #4B376B;
 }
-.goofy-green-dark{
+
+.goofy-green-dark {
     background: #5A9138;
 }
+
 .ford-blue-dark {
     background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%);
 }
