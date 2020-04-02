@@ -8,12 +8,16 @@ import Square exposing (Category(..))
 import Style exposing (bold, fontStyle)
 
 
-categoryView { class, categories } =
-    div [ class "categoryWrapper" ]
-        [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", bold, fontStyle, style "margin-bottom" ".5rem" ] [ text "topical bingo" ]
-        , categoryToggle class categories Fordism "Fordisms"
-        , categoryToggle class categories Coronavirus "Coronavirus"
-        ]
+categoryView { class, categories } show =
+    if show then
+        div [ class "categoryWrapper" ]
+            [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", bold, fontStyle, style "margin-bottom" ".5rem" ] [ text "topical bingo" ]
+            , categoryToggle class categories Fordism "Fordisms"
+            , categoryToggle class categories Coronavirus "Coronavirus"
+            ]
+
+    else
+        div [] []
 
 
 categoryToggle class categories category categoryLabel =

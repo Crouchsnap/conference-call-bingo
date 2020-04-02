@@ -204,17 +204,9 @@ update msg model =
 
 view : Model -> Browser.Document Msg
 view model =
-    let
-        currentView =
-            if Bingo.isWinner model.board then
-                winningView model
-
-            else
-                [ gameView model ]
-    in
     { title = "BINGO!"
     , body =
-        [ div [ model.class "body" ] (currentView ++ [ footerView model ]) ]
+        [ div [ model.class "body" ] [ gameView model, footerView model ] ]
     }
 
 
@@ -246,15 +238,17 @@ footerView model =
         ]
 
 
-winningView : Model -> List (Html Msg)
+winningView : Model -> Html Msg
 winningView model =
-    winningScoreHeader model
-        ++ [ div
-                (winningViewContainerStyle ++ [ id "table" ])
-                [ GameResultForm.submitGame model
-                , TopScoresView.topScoreView model
-                ]
-           ]
+    div []
+        (winningScoreHeader model
+            ++ [ div
+                    (winningViewContainerStyle ++ [ id "table" ])
+                    [ GameResultForm.submitGame model
+                    , TopScoresView.topScoreView model
+                    ]
+               ]
+        )
 
 
 winningScoreHeader : Model -> List (Html Msg)
@@ -269,21 +263,39 @@ winningScoreHeader { startTime, endTime } =
 
 
 gameView model =
+    let
+        gameFinished =
+            Bingo.isWinner model.board
+
+        content =
+            if gameFinished then
+                winningView
+
+            else
+                boardGridView
+    in
     div
         [ style "display" "grid"
-        , style "grid-template-columns" "auto 55.75rem auto"
+        , style "grid-template-columns" "1fr auto 1fr"
         , style "padding" "1rem"
         ]
-        [ CategoryView.categoryView model, div [ style "justify-self" "center" ] (boardView model), gameStyleSelectorView model ]
+        [ CategoryView.categoryView model (not gameFinished), div [ style "justify-self" "center" ] (boardView model content), gameStyleSelectorView model (not gameFinished) ]
 
 
-gameStyleSelectorView model =
+gameStyleSelectorView model show =
     div [ style "display" "flex", style "flex-direction" "column", style "max-width" "18rem" ]
-        [ ThemeView.themeView model, BoardColorView.boardColorView model, DauberView.dauberView model ]
+        ([ ThemeView.themeView model ]
+            ++ (if show then
+                    [ BoardColorView.boardColorView model, DauberView.dauberView model ]
+
+                else
+                    []
+               )
+        )
 
 
-boardView : Model -> List (Html Msg)
-boardView model =
+boardView : Model -> (Model -> Html Msg) -> List (Html Msg)
+boardView model content =
     let
         { class } =
             model
@@ -295,30 +307,34 @@ boardView model =
                 |> List.map
                     (\letter -> div [] [ text letter ])
             )
-        , div
-            [ class "boardTableStyle" ]
-            (List.indexedMap
-                (\index square ->
-                    div
-                        squareContainerStyle
-                        [ div
-                            (squareStyle class index (model.dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square), class "boardBorder" ])
-                            ((if square.category == Center then
-                                [ Star.star, div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
-
-                              else
-                                [ square.html ]
-                             )
-                                ++ (square.dots
-                                        |> List.indexedMap dotDiv
-                                   )
-                            )
-                        ]
-                )
-                model.board
-            )
+        , content model
         ]
     ]
+
+
+boardGridView { class, board, dauberColor } =
+    div
+        [ class "boardTableStyle" ]
+        (List.indexedMap
+            (\index square ->
+                div
+                    squareContainerStyle
+                    [ div
+                        (squareStyle class index (dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square), class "boardBorder" ])
+                        ((if square.category == Center then
+                            [ Star.star, div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
+
+                          else
+                            [ square.html ]
+                         )
+                            ++ (square.dots
+                                    |> List.indexedMap dotDiv
+                               )
+                        )
+                    ]
+            )
+            board
+        )
 
 
 dotDiv : Int -> Dot -> Html msg
