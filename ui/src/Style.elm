@@ -78,7 +78,6 @@ footerStyle =
     , style "text-align" "center"
     , fontStyle
     , bold
-    , style "padding-top" "1rem"
     ]
 
 

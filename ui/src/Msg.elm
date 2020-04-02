@@ -16,7 +16,7 @@ import Url exposing (Url)
 type Msg
     = GotCurrentTime Time.Posix
     | GotEndTime Time.Posix
-    | ToggleCheck Square
+    | ToggleCheck (Square Msg)
     | NewGame
     | HighScoresResponse (WebData (List Score))
     | GameResponse (WebData ())

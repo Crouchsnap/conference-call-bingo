@@ -6,7 +6,7 @@ import Random.List
 import Square exposing (Category(..), Square, centerSquare, squaresByCategory)
 
 
-randomBoard : List Category -> Random.Seed -> ( Board, Random.Seed )
+randomBoard : List Category -> Random.Seed -> ( Board msg, Random.Seed )
 randomBoard categories seed =
     let
         ( output, next ) =
@@ -23,7 +23,7 @@ randomBoard categories seed =
     )
 
 
-isWinner : Board -> Bool
+isWinner : Board msg -> Bool
 isWinner board =
     possibleWinningCombinations
         |> List.any (areIndicesChecked board)

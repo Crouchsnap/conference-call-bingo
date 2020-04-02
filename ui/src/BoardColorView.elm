@@ -31,8 +31,8 @@ boardColorSelector class selectedColor color colorLabel =
     in
     div ([ style "padding" ".75rem", onClick (BoardColorSelected color), style "display" "flex", style "align-items" "center", style "cursor" "pointer" ] ++ borderStyle)
         [ div
-            [ style "height" "3.5rem"
-            , style "width" "3.5rem"
+            [ style "height" "3rem"
+            , style "width" "3rem"
             , class (color |> colorClass)
             ]
             []

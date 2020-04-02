@@ -42,12 +42,12 @@ body {
 .boardTableStyle {
     justify-content: center;
     padding: 1rem;
+    margin: .5rem;
     display: grid;
     grid-template-columns: repeat(5, 8.75rem);
     grid-template-rows: repeat(5, 8.75rem);
     font-size: 1rem;
     font-family: Ubuntu, sans-serif;
-    margin: 1rem;
     background-color: white;
     max-width: calc(5 * 8.75rem + 2rem);
 }
@@ -162,13 +162,14 @@ and (min-device-width: 1367px) {
 
 .boardHeaderTopStyle {
     justify-content: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-transform: uppercase;
     line-height: 50px;
     text-align: center;
-    letter-spacing: .875rem;
+    letter-spacing: 1.13rem;
     font-family: Stoke, serif;
     color: white;
+    padding-left: 1.5rem;
 }
 
 .boardHeaderStyle {
@@ -176,7 +177,7 @@ and (min-device-width: 1367px) {
     padding: 0 1rem;
     display: grid;
     grid-template-columns: repeat(5, 8.75rem);
-    font-size: 5.3125rem;
+    font-size: 4rem;
     margin: 0 1rem;
     text-align: center;
     font-family: Stoke, serif;
@@ -191,7 +192,7 @@ and (min-device-width: 1367px) {
     align-items: center;
     justify-content: center;
     max-width: calc(5 * 8.75rem + 8rem);
-    padding: 1rem 4rem 2rem 4rem;
+    padding: .5rem 3.5rem;
 }
 
 .tri-toggle-container {

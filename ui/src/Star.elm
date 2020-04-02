@@ -12,8 +12,8 @@ star =
         , Html.style "top" "50%"
         , Html.style "left" "50%"
         , Html.style "transform" "translate(-50%, -50%)"
-        , width "136"
-        , height "130"
+        , width "125"
+        , height "125"
         , viewBox "0 0 136 130"
         , fill "none"
         ]

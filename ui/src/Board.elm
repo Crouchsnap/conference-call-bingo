@@ -4,18 +4,18 @@ import Array
 import Square exposing (Square, checked, genericSquare)
 
 
-type alias Board =
-    List Square
+type alias Board msg =
+    List (Square msg)
 
 
-areIndicesChecked : Board -> List Int -> Bool
+areIndicesChecked : Board msg -> List Int -> Bool
 areIndicesChecked board indices =
     indices
         |> List.map (getSquare board)
         |> List.all checked
 
 
-getSquare : Board -> Int -> Square
+getSquare : Board msg -> Int -> Square msg
 getSquare board index =
     board
         |> Array.fromList

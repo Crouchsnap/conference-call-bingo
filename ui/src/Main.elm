@@ -37,7 +37,7 @@ import ViewportHelper exposing (defaultDevice, viewportToDevice)
 
 
 type alias Model =
-    { board : Board
+    { board : Board Msg
     , startTime : Posix
     , endTime : Posix
     , highScores : WebData (List Score)
@@ -304,10 +304,10 @@ boardView model =
                         [ div
                             (squareStyle class index (model.dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square), class "boardBorder" ])
                             ((if square.category == Center then
-                                [ Star.star, div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ text square.text ] ]
+                                [ Star.star, div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
 
                               else
-                                [ text square.text ]
+                                [ square.html ]
                              )
                                 ++ (square.dots
                                         |> List.indexedMap (\dotIndex dot -> dotDiv dotIndex dot)

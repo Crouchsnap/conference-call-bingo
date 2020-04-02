@@ -1,12 +1,13 @@
 module Square exposing (Category(..), Square, centerSquare, checked, genericSquare, squaresByCategory, toggleCategory, toggleSquareInList)
 
 import Dot exposing (Dot, dot)
+import Html exposing (Html, br, div)
 import List.Extra
 import Random exposing (Seed)
 
 
-type alias Square =
-    { text : String, category : Category, dots : List Dot }
+type alias Square msg =
+    { html : Html msg, category : Category, dots : List Dot }
 
 
 type Category
@@ -16,27 +17,27 @@ type Category
     | Center
 
 
-genericSquare : String -> Square
+genericSquare : String -> Square msg
 genericSquare text =
-    Square text Generic []
+    Square (Html.text text) Generic []
 
 
-fordismSquare : String -> Square
+fordismSquare : String -> Square msg
 fordismSquare text =
-    Square text Fordism []
+    Square (Html.text text) Fordism []
 
 
-coronavirus : String -> Square
+coronavirus : String -> Square msg
 coronavirus text =
-    Square text Coronavirus []
+    Square (Html.text text) Coronavirus []
 
 
-centerSquare : Square
+centerSquare : Square msg
 centerSquare =
-    Square "Free Space" Center []
+    Square (div [] [ Html.text "Free", br [] [], Html.text "Space" ]) Center []
 
 
-genericSquares : List Square
+genericSquares : List (Square msg)
 genericSquares =
     [ genericSquare "\"Mute your phone please\""
     , genericSquare "5 seconds awkward silence"
@@ -81,7 +82,7 @@ genericSquares =
     ]
 
 
-fordisms : List Square
+fordisms : List (Square msg)
 fordisms =
     [ fordismSquare "\"VIN number\""
     , fordismSquare "\"MVP\""
@@ -96,7 +97,7 @@ fordisms =
     ]
 
 
-coronaviri : List Square
+coronaviri : List (Square msg)
 coronaviri =
     [ coronavirus "TP"
     , coronavirus "Corona"
@@ -115,12 +116,12 @@ allCategorySquares =
     fordisms ++ coronaviri
 
 
-squaresByCategory : List Category -> List Square
+squaresByCategory : List Category -> List (Square msg)
 squaresByCategory categories =
     genericSquares ++ (allCategorySquares |> List.filter (\square -> List.member square.category categories))
 
 
-toggleSquareInList : Seed -> Dot.Color -> Square -> List Square -> ( List Square, Seed )
+toggleSquareInList : Seed -> Dot.Color -> Square msg -> List (Square msg) -> ( List (Square msg), Seed )
 toggleSquareInList seed color squareToToggle squares =
     let
         ( newSquare, nextSeed ) =
@@ -147,7 +148,7 @@ unToggleSquare seed square =
     ( { square | dots = [] }, seed )
 
 
-toggleSquare : Seed -> Dot.Color -> Square -> ( Square, Seed )
+toggleSquare : Seed -> Dot.Color -> Square msg -> ( Square msg, Seed )
 toggleSquare seed color square =
     let
         ( randomDot, nextSeed ) =
@@ -156,7 +157,7 @@ toggleSquare seed color square =
     ( { square | dots = List.append square.dots [ randomDot ] }, nextSeed )
 
 
-checked : Square -> Bool
+checked : Square msg -> Bool
 checked square =
     (square.dots |> List.isEmpty |> not) || square.category == Center
 

@@ -9,7 +9,7 @@ import Style exposing (bold, fontStyle)
 
 
 dauberView { class, dauberColor } =
-    div [ class "boardStyleSelectorWrapper", style "margin-top" "auto" ]
+    div [ class "boardStyleSelectorWrapper", style "margin-top" "auto", style "margin-bottom" "0" ]
         [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", bold, fontStyle, style "margin-bottom" ".5rem" ] [ text "dauber color" ]
         , dauberToggle class dauberColor Blue "Blue"
         , dauberToggle class dauberColor Keylime "Keylime"
