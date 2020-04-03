@@ -25,6 +25,7 @@ body {
     max-height: 100%;
     font-family: Ubuntu, sans-serif;
 }
+
 button,
 input,
 textarea {
@@ -73,6 +74,7 @@ button[disabled] {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 .square-container {
     display: table;
     height: 100%;
@@ -178,6 +180,15 @@ button[disabled] {
     margin-top: .5rem;
     font-size: 1rem;
     font-weight: bold;
+}
+
+.suggestion-input {
+    padding: .3125rem;
+    border-radius: 5px;
+    width: 25rem;
+    min-height: 4rem;
+    font-weigt: bold;
+    font-size: 1rem;
 }
 
 .submitScoreButton-dark {

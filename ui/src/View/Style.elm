@@ -1,7 +1,6 @@
 module View.Style exposing
     ( dotStyle
     , squareStyle
-    , suggestionInputStyle
     )
 
 import Game.Dot as Dot exposing (Dot, Offset, Shape)
@@ -11,22 +10,8 @@ import Msg exposing (Msg)
 import Set
 
 
-borderRadius =
-    style "border-radius" "5px"
-
-
 fontSize =
     style "font-size" "1.25rem"
-
-
-suggestionInputStyle =
-    [ style "padding" "5px"
-    , borderRadius
-    , style "width" "25rem"
-    , style "min-height" "4rem"
-    , style "font-weight" "bold"
-    , style "font-size" "1rem"
-    ]
 
 
 squareStyle : (String -> Html.Attribute Msg) -> Int -> String -> List (Html.Attribute Msg)

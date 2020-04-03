@@ -7,7 +7,6 @@ import Msg exposing (Msg(..))
 import Rating
 import RemoteData
 import Requests exposing (errorToString)
-import View.Style exposing (suggestionInputStyle)
 import Win.Score exposing (GameResult)
 
 
@@ -30,14 +29,13 @@ submitGame { class, submittedScoreResponse, ratingState, formData } =
                     , label [ style "margin" ".5rem", for "suggestion" ] [ text "Give us feedback or tell us what squares you’d like to add!" ]
                     , div []
                         [ textarea
-                            (suggestionInputStyle
-                                ++ [ name "suggestion"
-                                   , placeholder "I loved it! I want to add..."
-                                   , title "Enter a suggestion (max 100 characters)"
-                                   , maxlength 100
-                                   , onInput Suggestion
-                                   ]
-                            )
+                            [ name "suggestion"
+                            , class "suggestion-input"
+                            , placeholder "I loved it! I want to add..."
+                            , title "Enter a suggestion (max 100 characters)"
+                            , maxlength 100
+                            , onInput Suggestion
+                            ]
                             []
                         ]
                     , div []
