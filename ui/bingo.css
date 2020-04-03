@@ -73,7 +73,11 @@ button[disabled] {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
+.square-container {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
 
 .winning-container {
     background-color: white;

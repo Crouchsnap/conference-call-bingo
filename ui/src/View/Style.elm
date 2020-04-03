@@ -1,6 +1,5 @@
 module View.Style exposing
     ( dotStyle
-    , squareContainerStyle
     , squareStyle
     , submitScoreFormStyle
     , submittedMessageStyle
@@ -49,13 +48,6 @@ submitScoreFormStyle =
 
 submittedMessageStyle =
     [ largeFontSize
-    ]
-
-
-squareContainerStyle =
-    [ style "display" "table"
-    , style "height" "100%"
-    , style "width" "100%"
     ]
 
 

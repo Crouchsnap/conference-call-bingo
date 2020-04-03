@@ -7,7 +7,7 @@ import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import View.Star as Star
-import View.Style exposing (dotStyle, squareContainerStyle, squareStyle)
+import View.Style exposing (dotStyle, squareStyle)
 
 
 boardGridView { class, board, dauberColor } =
@@ -16,7 +16,7 @@ boardGridView { class, board, dauberColor } =
         (List.indexedMap
             (\index square ->
                 div
-                    squareContainerStyle
+                    [ class "square-container" ]
                     [ div
                         (squareStyle class index (dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square), class "boardBorder" ])
                         ((if square.category == Center then
