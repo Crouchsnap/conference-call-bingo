@@ -26,7 +26,8 @@ body {
     font-family: Ubuntu, sans-serif;
 }
 button,
-input {
+input,
+textarea {
     font-family: Ubuntu, sans-serif;
 }
 
@@ -40,7 +41,6 @@ button[disabled] {
     color: #545454;
     min-height: 100vh;
     overflow: auto;
-    font-family: Ubuntu, sans-serif;
 }
 
 .body-dark {
@@ -62,7 +62,6 @@ button[disabled] {
     grid-template-columns: repeat(5, 8.75rem);
     grid-template-rows: repeat(5, 8.75rem);
     font-size: 1rem;
-    font-family: Ubuntu, sans-serif;
     background-color: white;
     max-width: calc(5 * 8.75rem + 2rem);
 }
@@ -81,7 +80,6 @@ button[disabled] {
     display: flex;
     align-items: center;
     flex-direction: column;
-    font-family: Ubuntu, sans-serif;
     margin: .5rem;
     width: 46.25rem;
     height: 45.75rem;
