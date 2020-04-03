@@ -7,119 +7,52 @@ import Game.Dot as Dot exposing (Dot, Offset, Shape)
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Msg exposing (Msg)
-import Set
-
-
-fontSize =
-    style "font-size" "1.25rem"
 
 
 squareStyle : (String -> Html.Attribute Msg) -> Int -> String -> List (Html.Attribute Msg)
 squareStyle class index color =
-    squareBorderStyle index
-        ++ [ class (color ++ "-dauber-cursor")
-           , style "vertical-align" "middle"
-           , style "text-align" "center"
-           , style "display" "table-cell"
-           , style "padding" "5px"
-           , style "position" "relative"
-           , fontSize
-           , style "font-weight" "bold"
+    squareBorderStyle class index
+        ++ [ class "square"
+           , class (color ++ "-dauber-cursor")
            ]
 
 
-squareBorderStyle : Int -> List (Html.Attribute Msg)
-squareBorderStyle index =
-    if index == topLeftCorner then
-        [ style "border-right" "2px solid #545454"
-        , style "border-bottom" "2px solid #545454"
+squareBorderStyle : (String -> Html.Attribute Msg) -> Int -> List (Html.Attribute Msg)
+squareBorderStyle class index =
+    if index == rightBottomCorner then
+        [ class "square-border-none" ]
+
+    else if isRightColumn index then
+        [ class "square-border-bottom"
         ]
 
-    else if index == topRightCorner then
-        [ style "border-left" "2px solid #545454"
-        , style "border-bottom" "2px solid #545454"
-        ]
-
-    else if index == leftBottomCorner then
-        [ style "border-right" "2px solid #545454"
-        , style "border-top" "2px solid #545454"
-        ]
-
-    else if index == rightBottomCorner then
-        [ style "border-left" "2px solid #545454"
-        , style "border-top" "2px solid #545454"
-        ]
-
-    else if topRow |> Set.member index then
-        [ style "border-right" "2px solid #545454"
-        , style "border-bottom" "2px solid #545454"
-        , style "border-left" "2px solid #545454"
-        ]
-
-    else if leftColumn |> Set.member index then
-        [ style "border-right" "2px solid #545454"
-        , style "border-top" "2px solid #545454"
-        , style "border-bottom" "2px solid #545454"
-        ]
-
-    else if rightColumn |> Set.member index then
-        [ style "border-left" "2px solid #545454"
-        , style "border-top" "2px solid #545454"
-        , style "border-bottom" "2px solid #545454"
-        ]
-
-    else if bottomRow |> Set.member index then
-        [ style "border-right" "2px solid #545454"
-        , style "border-top" "2px solid #545454"
-        , style "border-left" "2px solid #545454"
+    else if isBottomRow index then
+        [ class "square-border-right"
         ]
 
     else
-        [ style "border" "2px solid #545454" ]
+        [ class "square-border-right"
+        , class "square-border-bottom"
+        ]
 
 
-topLeftCorner =
-    0
+isRightColumn index =
+    modBy 5 (index + 1) == 0
 
 
-topRightCorner =
-    4
-
-
-leftBottomCorner =
-    20
+isBottomRow index =
+    index > 19
 
 
 rightBottomCorner =
     24
 
 
-topRow =
-    Set.fromList [ 1, 2, 3 ]
-
-
-leftColumn =
-    Set.fromList [ 5, 10, 15 ]
-
-
-rightColumn =
-    Set.fromList [ 9, 14, 19 ]
-
-
-bottomRow =
-    Set.fromList [ 21, 22, 23 ]
-
-
-dotStyle : Int -> Dot -> List (Html.Attribute msg)
-dotStyle index { offset, shape, color } =
-    [ style "height" "85%"
-    , style "width" "85%"
-    , style "display" "inline-block"
-    , borderRadiusFromShape shape
+dotStyle : (String -> Html.Attribute msg) -> Int -> Dot -> List (Html.Attribute msg)
+dotStyle class index { offset, shape, color } =
+    [ class "dot"
     , style "background-color" (color |> Dot.hexColor)
-    , style "position" "absolute"
-    , style "top" "50%"
-    , style "left" "50%"
+    , borderRadiusFromShape shape
     , transformOffset offset
     , style "z-index" ((index + 1) * 10 |> String.fromInt)
     ]

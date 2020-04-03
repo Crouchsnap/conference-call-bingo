@@ -80,6 +80,14 @@ button[disabled] {
     height: 100%;
     width: 100%;
 }
+.dot {
+    height: 85%;
+    width: 85%;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
 
 .winning-container {
     background-color: white;
@@ -241,6 +249,28 @@ button[disabled] {
     height: 2.375rem;
     width: 2.375rem;
     border-radius: 50%;
+}
+
+.square {
+    vertical-align: middle;
+    text-align: center;
+    display: table-cell;
+    padding: 5px;
+    position: relative;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.square-border-right {
+    border-right: 4px solid #545454;
+}
+
+.square-border-bottom {
+    border-bottom: 4px solid #545454;
+}
+
+.square-border-none {
+    border: none;
 }
 
 .blue-dauber-cursor {

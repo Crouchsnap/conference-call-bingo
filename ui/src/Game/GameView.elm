@@ -26,7 +26,7 @@ boardGridView { class, board, dauberColor } =
                             [ square.html ]
                          )
                             ++ (square.dots
-                                    |> List.indexedMap dotDiv
+                                    |> List.indexedMap (dotDiv class)
                                )
                         )
                     ]
@@ -35,8 +35,8 @@ boardGridView { class, board, dauberColor } =
         )
 
 
-dotDiv : Int -> Dot -> Html msg
-dotDiv index dot =
+dotDiv : (String -> Html.Attribute msg) -> Int -> Dot -> Html msg
+dotDiv class index dot =
     div
-        (dotStyle index dot)
+        (dotStyle class index dot)
         []
