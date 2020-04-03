@@ -1,6 +1,5 @@
 module View.Style exposing
-    ( bold
-    , dotStyle
+    ( dotStyle
     , fontStyle
     , squareContainerStyle
     , squareStyle
@@ -32,17 +31,13 @@ fontSize =
     style "font-size" "1.25rem"
 
 
-bold =
-    style "font-weight" "bold"
-
-
 suggestionInputStyle =
     [ style "padding" "5px"
     , borderRadius
     , style "width" "25rem"
     , style "min-height" "4rem"
     , fontStyle
-    , bold
+    , style "font-weight" "bold"
     , style "font-size" "1rem"
     ]
 
@@ -53,7 +48,7 @@ submitScoreFormStyle =
     , style "text-align" "center"
     , style "margin-top" ".5rem"
     , style "font-size" "1rem"
-    , bold
+    , style "font-weight" "bold"
     , style "box-shadow" "inset 0 0 0 10px rgba(0, 255, 0, 0.5);"
     ]
 
@@ -81,7 +76,7 @@ squareStyle class index color =
            , style "padding" "5px"
            , style "position" "relative"
            , fontSize
-           , bold
+           , style "font-weight" "bold"
            ]
 
 

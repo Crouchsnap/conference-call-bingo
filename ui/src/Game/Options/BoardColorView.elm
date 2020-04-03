@@ -5,12 +5,12 @@ import Html exposing (div, label, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import View.Style exposing (bold, fontStyle)
+import View.Style exposing (fontStyle)
 
 
 boardColorView { boardColor, class } =
     div [ class "boardStyleSelectorWrapper" ]
-        [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", bold, fontStyle, style "margin-bottom" ".5rem" ] [ text "bingo sheet color" ]
+        [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", style "font-weight" "bold", fontStyle, style "margin-bottom" ".5rem" ] [ text "bingo sheet color" ]
         , boardColorSelector class boardColor OriginalRed "Original Red"
         , boardColorSelector class boardColor FadedBlue "Faded Blue"
         , boardColorSelector class boardColor LuckyPurple "Lucky Purple"
@@ -36,5 +36,5 @@ boardColorSelector class selectedColor color colorLabel =
             , class (color |> colorClass)
             ]
             []
-        , label [ style "font-size" "1rem", bold, fontStyle, style "padding" ".75rem", style "cursor" "pointer" ] [ text colorLabel ]
+        , label [ class "board-option-label" ] [ text colorLabel ]
         ]

@@ -5,13 +5,20 @@ import Html exposing (div, input, label, text)
 import Html.Attributes exposing (checked, for, name, style, type_)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import View.Style exposing (bold, fontStyle)
+import View.Style exposing (fontStyle)
 
 
 categoryView { class, categories } show =
     if show then
         div [ class "categoryWrapper" ]
-            [ div [ style "text-transform" "uppercase", style "font-size" "1.25rem", bold, fontStyle, style "margin-bottom" ".5rem" ] [ text "topical bingo" ]
+            [ div
+                [ style "text-transform" "uppercase"
+                , style "font-size" "1.25rem"
+                , style "font-weight" "bold"
+                , fontStyle
+                , style "margin-bottom" ".5rem"
+                ]
+                [ text "topical bingo" ]
             , categoryToggle class categories Fordism "Fordisms"
             , categoryToggle class categories Coronavirus "Coronavirus"
             ]
@@ -34,5 +41,5 @@ categoryToggle class categories category categoryLabel =
             [ input [ name categoryLabel, checked (categories |> List.member category), type_ "checkbox" ] []
             , div ([ class "checkmark" ] ++ classes) []
             ]
-        , label [ for categoryLabel, style "font-size" "1rem", bold, fontStyle, style "padding" ".75rem" ] [ text categoryLabel ]
+        , label [ for categoryLabel, style "font-size" "1rem", style "font-weight" "bold", fontStyle, style "padding" ".75rem" ] [ text categoryLabel ]
         ]
