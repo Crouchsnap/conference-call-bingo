@@ -23,12 +23,10 @@ squareBorderStyle class index =
         [ class "square-border-none" ]
 
     else if isRightColumn index then
-        [ class "square-border-bottom"
-        ]
+        [ class "square-border-bottom" ]
 
     else if isBottomRow index then
-        [ class "square-border-right"
-        ]
+        [ class "square-border-right" ]
 
     else
         [ class "square-border-right"
