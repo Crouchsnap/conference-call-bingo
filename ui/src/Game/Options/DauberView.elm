@@ -1,11 +1,11 @@
-module DauberView exposing (dauberView)
+module Game.Options.DauberView exposing (dauberView)
 
-import Dot exposing (Color(..))
+import Game.Dot as Dot exposing (Color(..))
 import Html exposing (div, label, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import Style exposing (bold, fontStyle)
+import View.Style exposing (bold, fontStyle)
 
 
 dauberView { class, dauberColor } =

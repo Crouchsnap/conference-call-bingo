@@ -1,39 +1,35 @@
 module Main exposing (Model, init, main, update, view)
 
-import Bingo exposing (randomBoard)
-import Board exposing (Board)
-import BoardColorView
-import BoardStyle exposing (Color(..))
 import Browser
 import Browser.Dom exposing (Viewport)
 import Browser.Events
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
-import CategoryView
-import DauberView
-import Dot exposing (Color(..), Dot)
 import Element exposing (Device, DeviceClass(..), classifyDevice)
-import FordLabsLogo
-import GameResultForm
-import Html exposing (Html, a, br, button, div, h1, h2, input, label, text, textarea)
-import Html.Attributes exposing (disabled, for, href, id, maxlength, minlength, name, style, target, title)
-import Html.Events exposing (onClick, onInput)
+import Footer.Footer as Footer
+import Game.Bingo as Bingo exposing (randomBoard)
+import Game.Board exposing (Board)
+import Game.Dot as Dot exposing (Color(..), Dot)
+import Game.GameView as GameView
+import Game.Options.BoardColorView as BoardColorView
+import Game.Options.BoardStyle as BoardStyle exposing (Color(..))
+import Game.Options.CategoryView as CategoryView
+import Game.Options.DauberView as DauberView
+import Game.Square exposing (Category(..), Square, toggleCategory, toggleSquareInList)
+import Html exposing (Html, div, text)
+import Html.Attributes exposing (href, style)
 import Msg exposing (Msg(..))
 import Random
 import Rating
 import RemoteData exposing (WebData)
-import Requests exposing (errorToString)
-import Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
-import Square exposing (Category(..), Square, toggleCategory, toggleSquareInList)
-import Star
-import Style exposing (..)
+import Requests
 import Task
-import Theme exposing (Theme(..))
-import ThemeView
 import Time exposing (Posix)
-import TimeFormatter
-import TopScoresView
 import Url exposing (Url)
-import ViewportHelper exposing (defaultDevice, viewportToDevice)
+import View.Theme as Theme exposing (Theme(..))
+import View.ThemeView as ThemeView
+import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
+import Win.Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
+import Win.WinningView as WinningView
 
 
 type alias Model =
@@ -210,77 +206,32 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "BINGO!"
     , body =
-        [ div [ model.class "body" ] [ gameView model, footerView model ] ]
+        [ div
+            [ model.class "body" ]
+            [ bodyView model, Footer.footerView model ]
+        ]
     }
 
 
-footerView : Model -> Html Msg
-footerView model =
-    let
-        { class, selectedTheme } =
-            model
-
-        ( fordLabsCircleColor, fordLabsLogoColor ) =
-            case selectedTheme |> Theme.normalizedTheme of
-                Dark ->
-                    ( "#F2F2F2", "#545454" )
-
-                _ ->
-                    ( "#545454", "white" )
-    in
-    div []
-        [ div
-            footerStyle
-            [ text "Want to contribute? Check out our ", a [ class "anchor", target "_blank", href "https://github.com/Crouchsnap/conference-call-bingo" ] [ text "Github!" ] ]
-        , div [ class "fordLabs-footer" ]
-            [ a [ class "anchor", href "https://www.fordlabs.com", target "_blank" ]
-                [ text "Powered by"
-                , FordLabsLogo.view fordLabsCircleColor fordLabsLogoColor
-                , text "FordLabs"
-                ]
-            ]
-        ]
-
-
-winningView : Model -> Html Msg
-winningView model =
-    div [ model.class "winning-container" ]
-        (winningScoreHeader model
-            ++ [ div
-                    [ id "table" ]
-                    [ TopScoresView.topScoreView model
-                    , GameResultForm.submitGame model
-                    ]
-               ]
-        )
-
-
-winningScoreHeader : Model -> List (Html Msg)
-winningScoreHeader { startTime, endTime, class } =
-    [ div
-        [ class "winning-header" ]
-        [ div [ class "winning-header-emoji" ] [ text "🎉" ], div [ style "z-index" "10" ] [ text "Bingo!", div [ class "winning-star" ] [ Star.star "160" ] ], div [ class "winning-header-emoji" ] [ text "🎉" ] ]
-    ]
-
-
-gameView model =
+bodyView model =
     let
         gameFinished =
             Bingo.isWinner model.board
 
         content =
             if gameFinished then
-                winningView
+                WinningView.winningView
 
             else
-                boardGridView
+                GameView.boardGridView
     in
     div
-        [ style "display" "grid"
-        , style "grid-template-columns" "1fr auto 1fr"
-        , style "padding" "1rem"
+        [ model.class "body-container"
         ]
-        [ CategoryView.categoryView model (not gameFinished), div [ style "justify-self" "center" ] (boardView model content), gameStyleSelectorView model (not gameFinished) ]
+        [ CategoryView.categoryView model (not gameFinished)
+        , boardView model content
+        , gameStyleSelectorView model (not gameFinished)
+        ]
 
 
 gameStyleSelectorView model show =
@@ -295,54 +246,23 @@ gameStyleSelectorView model show =
         )
 
 
-boardView : Model -> (Model -> Html Msg) -> List (Html Msg)
+boardView : Model -> (Model -> Html Msg) -> Html Msg
 boardView model content =
     let
         { class } =
             model
     in
-    [ div [ class "bingoCard", class (model.boardColor |> BoardStyle.colorClass) ]
-        [ div [ class "boardHeaderTopStyle" ] [ text "conference call" ]
-        , div [ class "boardHeaderStyle" ]
-            ([ "B", "I", "N", "G", "O" ]
-                |> List.map
-                    (\letter -> div [] [ text letter ])
-            )
-        , content model
+    div [ style "justify-self" "center" ]
+        [ div [ class "bingoCard", class (model.boardColor |> BoardStyle.colorClass) ]
+            [ div [ class "boardHeaderTopStyle" ] [ text "conference call" ]
+            , div [ class "boardHeaderStyle" ]
+                ([ "B", "I", "N", "G", "O" ]
+                    |> List.map
+                        (\letter -> div [] [ text letter ])
+                )
+            , content model
+            ]
         ]
-    ]
-
-
-boardGridView { class, board, dauberColor } =
-    div
-        [ class "boardTableStyle" ]
-        (List.indexedMap
-            (\index square ->
-                div
-                    squareContainerStyle
-                    [ div
-                        (squareStyle class index (dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square), class "boardBorder" ])
-                        ((if square.category == Center then
-                            [ div [ class "center-star" ] [ Star.star "125" ], div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
-
-                          else
-                            [ square.html ]
-                         )
-                            ++ (square.dots
-                                    |> List.indexedMap dotDiv
-                               )
-                        )
-                    ]
-            )
-            board
-        )
-
-
-dotDiv : Int -> Dot -> Html msg
-dotDiv index dot =
-    div
-        (dotStyle index dot)
-        []
 
 
 main =

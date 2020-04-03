@@ -1,8 +1,7 @@
-module Style exposing
+module View.Style exposing
     ( bold
     , dotStyle
     , fontStyle
-    , footerStyle
     , squareContainerStyle
     , squareStyle
     , submitScoreFormStyle
@@ -10,7 +9,7 @@ module Style exposing
     , suggestionInputStyle
     )
 
-import Dot exposing (Dot, Offset, Shape)
+import Game.Dot as Dot exposing (Dot, Offset, Shape)
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Msg exposing (Msg)
@@ -35,15 +34,6 @@ fontSize =
 
 bold =
     style "font-weight" "bold"
-
-
-footerStyle : List (Html.Attribute Msg)
-footerStyle =
-    [ style "font-size" "1rem"
-    , style "text-align" "center"
-    , fontStyle
-    , bold
-    ]
 
 
 suggestionInputStyle =

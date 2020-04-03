@@ -1,4 +1,4 @@
-module RandomHelper exposing (randomOffset, randomShape)
+module Game.RandomHelper exposing (randomOffset, randomShape)
 
 import Random
 

@@ -1,11 +1,11 @@
-module CategoryView exposing (categoryView)
+module Game.Options.CategoryView exposing (categoryView)
 
+import Game.Square exposing (Category(..))
 import Html exposing (div, input, label, text)
 import Html.Attributes exposing (checked, for, name, style, type_)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import Square exposing (Category(..))
-import Style exposing (bold, fontStyle)
+import View.Style exposing (bold, fontStyle)
 
 
 categoryView { class, categories } show =

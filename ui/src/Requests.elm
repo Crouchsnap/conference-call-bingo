@@ -3,8 +3,8 @@ module Requests exposing (errorToString, getHighScores, getHostFromLocation, sub
 import Http exposing (Error(..), expectJson, expectWhatever)
 import Msg exposing (Msg(..))
 import RemoteData exposing (RemoteData, WebData)
-import Score exposing (GameResult, Score, decodeScores, encodeGameResult)
 import Url exposing (Url)
+import Win.Score exposing (GameResult, Score, decodeScores, encodeGameResult)
 
 
 getHighScores : Url -> Cmd Msg

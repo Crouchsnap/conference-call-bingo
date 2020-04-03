@@ -1,11 +1,11 @@
-module ThemeView exposing (themeToggle, themeView)
+module View.ThemeView exposing (themeToggle, themeView)
 
 import Html exposing (div, label, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import Style exposing (fontStyle)
-import Theme exposing (Theme(..), themedClass)
+import View.Style exposing (fontStyle)
+import View.Theme exposing (Theme(..), themedClass)
 
 
 themeView { selectedTheme, systemTheme } =

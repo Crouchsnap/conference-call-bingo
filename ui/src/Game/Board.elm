@@ -1,7 +1,7 @@
-module Board exposing (Board, areIndicesChecked, backDiagonal, column, forwardDiagonal, possibleWinningCombinations, row, rowColumnNumbers)
+module Game.Board exposing (Board, areIndicesChecked, backDiagonal, column, forwardDiagonal, possibleWinningCombinations, row, rowColumnNumbers)
 
 import Array
-import Square exposing (Square, checked, genericSquare)
+import Game.Square exposing (Square, checked, genericSquare)
 
 
 type alias Board msg =

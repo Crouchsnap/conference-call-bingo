@@ -1,13 +1,13 @@
-module BingoTests exposing (suite)
+module Game.BingoTests exposing (suite)
 
-import Bingo exposing (isWinner, randomBoard)
-import Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
-import Dot
 import Expect exposing (Expectation)
+import Game.Bingo exposing (isWinner, randomBoard)
+import Game.Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
+import Game.Dot as Dot
+import Game.Square exposing (Category(..), Square, centerSquare, genericSquare, squaresByCategory, toggleSquareInList)
 import Html exposing (text)
 import Msg exposing (Msg)
 import Random
-import Square exposing (Category(..), Square, centerSquare, genericSquare, squaresByCategory, toggleSquareInList)
 import Test exposing (..)
 
 

@@ -1,7 +1,7 @@
-module FordLabsLogo exposing (view)
+module Footer.FordLabsLogo exposing (svg)
 
 import Html.Attributes as Html
-import Svg exposing (svg)
+import Svg
 import Svg.Attributes exposing (cx, cy, d, fill, height, r, viewBox, width)
 
 
@@ -17,8 +17,8 @@ import Svg.Attributes exposing (cx, cy, d, fill, height, r, viewBox, width)
 --       </svg>
 
 
-view circleColor textColor =
-    svg
+svg circleColor textColor =
+    Svg.svg
         [ Html.style "vertical-align" "middle"
         , Html.style "margin" "0 .25rem"
         , width "20"

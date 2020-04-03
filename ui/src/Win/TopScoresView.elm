@@ -1,4 +1,4 @@
-module TopScoresView exposing (scoreRow, scoresWithYourScore, topScoreView)
+module Win.TopScoresView exposing (scoreRow, scoresWithYourScore, topScoreView)
 
 import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (maxlength, minlength, name, placeholder, title)
@@ -6,9 +6,9 @@ import Html.Events exposing (onInput)
 import List.Extra
 import Msg exposing (Msg(..))
 import RemoteData exposing (WebData)
-import Score exposing (Score)
 import Time exposing (Posix)
-import TimeFormatter
+import Win.Score as Score exposing (Score)
+import Win.TimeFormatter as TimeFormatter
 
 
 topScoreView : { model | highScores : WebData (List Score), startTime : Posix, endTime : Posix, class : String -> Html.Attribute Msg } -> Html Msg

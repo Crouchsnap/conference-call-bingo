@@ -1,11 +1,11 @@
-module BoardColorView exposing (boardColorView)
+module Game.Options.BoardColorView exposing (boardColorView)
 
-import BoardStyle exposing (Color(..), colorClass)
+import Game.Options.BoardStyle exposing (Color(..), colorClass)
 import Html exposing (div, label, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import Style exposing (bold, fontStyle)
+import View.Style exposing (bold, fontStyle)
 
 
 boardColorView { boardColor, class } =

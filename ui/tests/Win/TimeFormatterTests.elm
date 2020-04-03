@@ -1,9 +1,9 @@
-module TimeFormatterTests exposing (suite)
+module Win.TimeFormatterTests exposing (suite)
 
 import Expect exposing (Expectation)
 import Test exposing (..)
 import Time
-import TimeFormatter exposing (winingTimeDifference)
+import Win.TimeFormatter exposing (winingTimeDifference)
 
 
 suite : Test

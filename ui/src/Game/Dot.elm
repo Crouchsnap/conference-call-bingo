@@ -1,7 +1,7 @@
-module Dot exposing (Color(..), Dot, Offset, Shape, class, defaultDot, dot, hexColor, round, toString, zeroOffset)
+module Game.Dot exposing (Color(..), Dot, Offset, Shape, class, defaultDot, dot, hexColor, round, toString, zeroOffset)
 
+import Game.RandomHelper exposing (randomOffset, randomShape)
 import Random
-import RandomHelper exposing (randomOffset, randomShape)
 
 
 type Color

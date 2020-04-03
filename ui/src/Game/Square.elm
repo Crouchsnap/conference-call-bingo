@@ -1,6 +1,6 @@
-module Square exposing (Category(..), Square, centerSquare, checked, genericSquare, squaresByCategory, toggleCategory, toggleSquareInList)
+module Game.Square exposing (Category(..), Square, centerSquare, checked, genericSquare, squaresByCategory, toggleCategory, toggleSquareInList)
 
-import Dot exposing (Dot, dot)
+import Game.Dot as Dot exposing (Dot, dot)
 import Html exposing (Html, br, div)
 import List.Extra
 import Random exposing (Seed)

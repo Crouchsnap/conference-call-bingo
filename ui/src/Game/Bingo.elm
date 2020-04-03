@@ -1,9 +1,9 @@
-module Bingo exposing (isWinner, randomBoard)
+module Game.Bingo exposing (isWinner, randomBoard)
 
-import Board exposing (Board, areIndicesChecked, possibleWinningCombinations)
+import Game.Board exposing (Board, areIndicesChecked, possibleWinningCombinations)
+import Game.Square exposing (Category(..), Square, centerSquare, squaresByCategory)
 import Random
 import Random.List
-import Square exposing (Category(..), Square, centerSquare, squaresByCategory)
 
 
 randomBoard : List Category -> Random.Seed -> ( Board msg, Random.Seed )

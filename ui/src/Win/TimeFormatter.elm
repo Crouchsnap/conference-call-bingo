@@ -1,4 +1,4 @@
-module TimeFormatter exposing (timeDifference, winingTime, winingTimeDifference)
+module Win.TimeFormatter exposing (timeDifference, winingTime, winingTimeDifference)
 
 import Time exposing (Posix)
 

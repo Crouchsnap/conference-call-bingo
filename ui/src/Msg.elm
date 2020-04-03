@@ -1,16 +1,16 @@
 module Msg exposing (Msg(..))
 
-import BoardStyle
 import Browser
 import Browser.Dom exposing (Viewport)
-import Dot
+import Game.Dot as Dot
+import Game.Options.BoardStyle as BoardStyle
+import Game.Square exposing (Category, Square)
 import Rating
 import RemoteData exposing (WebData)
-import Score exposing (GameResult, Score)
-import Square exposing (Category, Square)
-import Theme exposing (Theme)
 import Time exposing (Posix)
 import Url exposing (Url)
+import View.Theme exposing (Theme)
+import Win.Score exposing (GameResult, Score)
 
 
 type Msg

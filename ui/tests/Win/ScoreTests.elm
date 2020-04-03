@@ -1,9 +1,9 @@
-module ScoreTests exposing (suite)
+module Win.ScoreTests exposing (suite)
 
 import Expect exposing (Expectation)
 import Json.Decode exposing (decodeString)
-import Score exposing (Score, decodeGameResult, decodeScore, decodeScores, encodeGameResult, encodeScore, insertYourScore, yourScore)
 import Test exposing (..)
+import Win.Score exposing (Score, decodeGameResult, decodeScore, decodeScores, encodeGameResult, encodeScore, insertYourScore, yourScore)
 
 
 suite : Test

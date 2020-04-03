@@ -1,4 +1,4 @@
-module Star exposing (star)
+module View.Star exposing (star)
 
 import Html
 import Svg exposing (svg)

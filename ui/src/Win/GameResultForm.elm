@@ -1,4 +1,4 @@
-module GameResultForm exposing (isFormValid, submitGame)
+module Win.GameResultForm exposing (isFormValid, submitGame)
 
 import Html exposing (button, div, label, text, textarea)
 import Html.Attributes exposing (disabled, for, maxlength, name, placeholder, style, title)
@@ -7,8 +7,8 @@ import Msg exposing (Msg(..))
 import Rating
 import RemoteData
 import Requests exposing (errorToString)
-import Score exposing (GameResult)
-import Style exposing (submitScoreFormStyle, submittedMessageStyle, suggestionInputStyle)
+import View.Style exposing (submitScoreFormStyle, submittedMessageStyle, suggestionInputStyle)
+import Win.Score exposing (GameResult)
 
 
 submitGame { class, submittedScoreResponse, ratingState, formData } =

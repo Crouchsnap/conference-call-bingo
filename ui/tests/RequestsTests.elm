@@ -1,9 +1,7 @@
 module RequestsTests exposing (suite, url)
 
 import Expect exposing (Expectation)
-import Json.Decode exposing (decodeString)
 import Requests exposing (getHostFromLocation)
-import Score exposing (decodeGameResult, decodeScore, decodeScores, encodeGameResult, encodeScore)
 import Test exposing (..)
 import Url exposing (Protocol(..), Url)
 

@@ -1,4 +1,4 @@
-module BoardStyle exposing (Color(..), colorClass)
+module Game.Options.BoardStyle exposing (Color(..), colorClass)
 
 
 type Color

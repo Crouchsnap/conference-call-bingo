@@ -1,4 +1,4 @@
-module ViewportHelper exposing (..)
+module View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 
 import Browser.Dom exposing (Viewport)
 import Element exposing (Device, DeviceClass(..), Orientation(..), classifyDevice)

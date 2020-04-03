@@ -1,12 +1,11 @@
-module TopScoresViewTests exposing (suite)
+module Win.TopScoresViewTests exposing (suite)
 
 import Expect exposing (Expectation)
-import Json.Decode exposing (decodeString)
 import RemoteData
-import Score exposing (Score, decodeGameResult, decodeScore, decodeScores, encodeGameResult, encodeScore, insertYourScore, yourScore)
 import Test exposing (..)
 import Time exposing (Posix)
-import TopScoresView exposing (scoresWithYourScore)
+import Win.Score exposing (Score)
+import Win.TopScoresView exposing (scoresWithYourScore)
 
 
 suite : Test
