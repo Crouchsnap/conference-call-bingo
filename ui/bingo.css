@@ -25,12 +25,17 @@ body {
     max-height: 100%;
 }
 
+button:disabled,
+button[disabled]{
+    opacity: .4 !important;
+}
 
 .body {
     background-color: white;
     color: #545454;
     min-height: 100vh;
     overflow: auto;
+    font-family: Ubuntu;
 }
 
 .body-dark {
@@ -50,6 +55,114 @@ body {
     font-family: Ubuntu, sans-serif;
     background-color: white;
     max-width: calc(5 * 8.75rem + 2rem);
+}
+
+.center-star {
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.winning-container {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: Ubuntu, sans-serif;
+    margin: .5rem;
+    width: 46.25rem;
+    height: 45.75rem;
+}
+
+.winning-container-dark {
+    background-color: #6C6C6C;
+}
+
+.winning-header {
+    font-size: 3.125rem;
+    align-items: center;
+    display: flex;
+    font-weight: bold;
+    margin: 2rem;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.winning-star {
+    z-index: -1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+}
+
+.winning-header-emoji {
+    font-size: 6rem;
+    vertical-align: center;
+    margin: 0 3rem;
+}
+
+.topScoreHeaderStyle {
+    text-align: center;
+    grid-column: span 3;
+    font-size: 1.25rem;
+    border: none;
+    margin-bottom: .5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.topScoreTableStyle {
+    display: grid;
+    text-align: left;
+    grid-template-columns: 20% auto 20%;
+    margin-left: 1rem;
+    background: rgba(236, 185, 4, 0.5);
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.topScoreTableStyle-dark {
+    background: rgba(236, 185, 4);
+}
+
+.topScoreColumnHeaderStyle {
+}
+
+.topScoreRow {
+    font-size: 1rem;
+    margin: .3rem 0;
+}
+
+.player-input {
+    background: rgba(255, 255, 255, 0.8);
+    border: 0.5px solid rgba(84, 84, 84, 0.8);
+    box-sizing: border-box;
+    box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 1rem;
+    padding: 0 .75rem;
+    margin-right: 1rem;
+    max-width: 10rem;
+}
+
+.submitScoreButton {
+    font-size: 1.9rem;
+    line-height: 100%;
+    padding: 1rem;
+    background: #ED9E28;
+    border-radius: 8px;
+    margin: 1rem;
+    color: #545454;
+}
+
+.submitScoreButton-dark {
+    color: #E5E5E5;
+}
+.centered {
+    text-align: center;
 }
 
 .boardOptionSelected {
@@ -120,7 +233,6 @@ body {
     display: block;
     position: relative;
     padding-left: 1rem;
-    /*margin-bottom: 12px;*/
     cursor: pointer;
     font-size: 22px;
     -webkit-user-select: none;
@@ -152,6 +264,7 @@ body {
 .checkmark-dark {
     border-color: #E5E5E5;
 }
+
 .checkmark-checked {
     background-color: #45A0F4;
 }
@@ -165,6 +278,7 @@ body {
 .container input:checked ~ .checkmark:after {
     display: block;
 }
+
 .container .checkmark:after {
     left: 5px;
     top: 1px;

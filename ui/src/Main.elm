@@ -64,6 +64,10 @@ type alias Flags =
 
 init : Flags -> Url -> Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
+    let
+        theme =
+            Theme.systemTheme flags.dark
+    in
     ( { board = []
       , startTime = Time.millisToPosix 0
       , endTime = Time.millisToPosix 0
@@ -78,9 +82,9 @@ init flags url key =
       , categories = []
       , dauberColor = Blue
       , boardColor = OriginalRed
-      , systemTheme = Theme.systemTheme flags.dark
-      , selectedTheme = Theme.systemTheme flags.dark
-      , class = Theme.themedClass (Theme.systemTheme flags.dark)
+      , systemTheme = theme
+      , selectedTheme = theme
+      , class = Theme.themedClass theme
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -136,7 +140,7 @@ update msg model =
             ( { model | highScores = response }, Cmd.none )
 
         GameResponse response ->
-            ( { model | submittedScoreResponse = response }, Cmd.none )
+            { model | submittedScoreResponse = response } |> update NewGame
 
         RequestHighScores ->
             ( model, Requests.getHighScores model.url )
@@ -240,25 +244,22 @@ footerView model =
 
 winningView : Model -> Html Msg
 winningView model =
-    div []
+    div [ model.class "winning-container" ]
         (winningScoreHeader model
             ++ [ div
-                    (winningViewContainerStyle ++ [ id "table" ])
-                    [ GameResultForm.submitGame model
-                    , TopScoresView.topScoreView model
+                    [ id "table" ]
+                    [ TopScoresView.topScoreView model
+                    , GameResultForm.submitGame model
                     ]
                ]
         )
 
 
 winningScoreHeader : Model -> List (Html Msg)
-winningScoreHeader { startTime, endTime } =
-    [ h1
-        winningScoreHeaderStyle
-        [ text "🎉 Bingo! 🎉" ]
-    , h2
-        winningScoreHeaderStyle
-        [ text ("Your winning time: " ++ TimeFormatter.winingTimeDifference startTime endTime) ]
+winningScoreHeader { startTime, endTime, class } =
+    [ div
+        [ class "winning-header" ]
+        [ div [ class "winning-header-emoji" ] [ text "🎉" ], div [ style "z-index" "10" ] [ text "Bingo!", div [ class "winning-star" ] [ Star.star "160" ] ], div [ class "winning-header-emoji" ] [ text "🎉" ] ]
     ]
 
 
@@ -322,7 +323,7 @@ boardGridView { class, board, dauberColor } =
                     [ div
                         (squareStyle class index (dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square), class "boardBorder" ])
                         ((if square.category == Center then
-                            [ Star.star, div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
+                            [ div [ class "center-star" ] [ Star.star "125" ], div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
 
                           else
                             [ square.html ]

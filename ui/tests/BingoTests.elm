@@ -19,7 +19,6 @@ fakeSquare =
 suite : Test
 suite =
     let
-        --testBoard : Board
         ( testBoard, seed ) =
             randomBoard [] (Random.initialSeed 1)
     in

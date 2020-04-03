@@ -1,4 +1,4 @@
-module Score exposing (GameResult, Score, decodeGameResult, decodeScore, decodeScores, emptyGameResult, encodeGameResult, encodeScore, insertYourScore, updatePlayer, updateRating, updateSuggestion, yourScore)
+module Score exposing (GameResult, Score, decodeGameResult, decodeScore, decodeScores, emptyGameResult, encodeGameResult, encodeScore, insertYourScore, isYourScore, updatePlayer, updateRating, updateSuggestion, yourScore)
 
 import Json.Decode as Decode exposing (Decoder, int, nullable, string)
 import Json.Decode.Pipeline
@@ -41,6 +41,11 @@ emptyGameResult =
 yourScore : Int -> Score
 yourScore score =
     Score score "Your Score"
+
+
+isYourScore : Score -> Bool
+isYourScore { player } =
+    player == "Your Score"
 
 
 insertYourScore : Score -> List Score -> List ( Int, Score )

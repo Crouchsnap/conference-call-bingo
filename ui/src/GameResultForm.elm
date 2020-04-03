@@ -1,24 +1,24 @@
 module GameResultForm exposing (isFormValid, submitGame)
 
-import Html exposing (br, button, div, input, label, text, textarea)
-import Html.Attributes exposing (disabled, for, maxlength, minlength, name, title)
+import Html exposing (button, div, label, text, textarea)
+import Html.Attributes exposing (disabled, for, maxlength, name, placeholder, style, title)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 import Rating
 import RemoteData
 import Requests exposing (errorToString)
 import Score exposing (GameResult)
-import Style exposing (playerInputStyle, submitGameStyle, submitScoreButtonStyle, submitScoreFormStyle, submittedMessageStyle, suggestionInputStyle)
+import Style exposing (submitScoreFormStyle, submittedMessageStyle, suggestionInputStyle)
 
 
-submitGame { submittedScoreResponse, ratingState, formData } =
+submitGame { class, submittedScoreResponse, ratingState, formData } =
     div
-        submitGameStyle
+        []
         (case submittedScoreResponse of
             RemoteData.NotAsked ->
                 [ div
                     submitScoreFormStyle
-                    [ div [] [ text "Rate Your Experience" ]
+                    [ div [] [ text "Please rate Your Experience" ]
                     , Html.map RatingMsg
                         (Rating.styleView
                             [ ( "color", "gold" )
@@ -27,24 +27,12 @@ submitGame { submittedScoreResponse, ratingState, formData } =
                             ]
                             ratingState
                         )
-                    , label [ for "player" ] [ text "Initials" ]
-                    , div []
-                        [ input
-                            (playerInputStyle
-                                ++ [ name "player"
-                                   , title "Enter 2 to 4 Characters"
-                                   , minlength 2
-                                   , maxlength 4
-                                   , onInput Player
-                                   ]
-                            )
-                            []
-                        ]
-                    , label [ for "suggestion" ] [ text "What Square would you like to add?", br [] [], text "Or any other feedback?" ]
+                    , label [ style "margin" ".5rem", for "suggestion" ] [ text "Give us feedback or tell us what squares you’d like to add!" ]
                     , div []
                         [ textarea
                             (suggestionInputStyle
                                 ++ [ name "suggestion"
+                                   , placeholder "I loved it! I want to add..."
                                    , title "Enter a suggestion (max 100 characters)"
                                    , maxlength 100
                                    , onInput Suggestion
@@ -58,12 +46,11 @@ submitGame { submittedScoreResponse, ratingState, formData } =
                                 not (isFormValid formData)
                           in
                           button
-                            (submitScoreButtonStyle disable
-                                ++ [ disabled disable
-                                   , onClick SubmitGame
-                                   ]
-                            )
-                            [ text "Submit Your Score" ]
+                            [ class "submitScoreButton"
+                            , disabled disable
+                            , onClick SubmitGame
+                            ]
+                            [ text "Play Again!" ]
                         ]
                     ]
                 ]

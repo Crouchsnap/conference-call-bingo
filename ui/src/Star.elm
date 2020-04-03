@@ -1,19 +1,15 @@
 module Star exposing (star)
 
-import Html.Attributes as Html
+import Html
 import Svg exposing (svg)
 import Svg.Attributes exposing (d, fill, height, viewBox, width)
 
 
-star =
+star : String -> Html.Html msg
+star size =
     svg
-        [ Html.style "z-index" "1"
-        , Html.style "position" "absolute"
-        , Html.style "top" "50%"
-        , Html.style "left" "50%"
-        , Html.style "transform" "translate(-50%, -50%)"
-        , width "125"
-        , height "125"
+        [ width size
+        , height size
         , viewBox "0 0 136 130"
         , fill "none"
         ]
