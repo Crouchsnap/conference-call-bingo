@@ -7,7 +7,7 @@ import Msg exposing (Msg(..))
 import Rating
 import RemoteData
 import Requests exposing (errorToString)
-import View.Style exposing (submittedMessageStyle, suggestionInputStyle)
+import View.Style exposing (suggestionInputStyle)
 import Win.Score exposing (GameResult)
 
 
@@ -57,7 +57,7 @@ submitGame { class, submittedScoreResponse, ratingState, formData } =
 
             RemoteData.Success _ ->
                 [ div
-                    submittedMessageStyle
+                    [ style "font-size" "1.5rem" ]
                     [ text "😀Thanks for your feedback!😀" ]
                 ]
 

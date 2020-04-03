@@ -1,7 +1,6 @@
 module View.Style exposing
     ( dotStyle
     , squareStyle
-    , submittedMessageStyle
     , suggestionInputStyle
     )
 
@@ -16,10 +15,6 @@ borderRadius =
     style "border-radius" "5px"
 
 
-largeFontSize =
-    style "font-size" "1.5rem"
-
-
 fontSize =
     style "font-size" "1.25rem"
 
@@ -31,11 +26,6 @@ suggestionInputStyle =
     , style "min-height" "4rem"
     , style "font-weight" "bold"
     , style "font-size" "1rem"
-    ]
-
-
-submittedMessageStyle =
-    [ largeFontSize
     ]
 
 
