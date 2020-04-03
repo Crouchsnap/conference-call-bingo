@@ -23,6 +23,11 @@ body {
     min-height: 100%;
     height: 100%;
     max-height: 100%;
+    font-family: Ubuntu, sans-serif;
+}
+button,
+input {
+    font-family: Ubuntu, sans-serif;
 }
 
 button:disabled,
@@ -35,7 +40,7 @@ button[disabled] {
     color: #545454;
     min-height: 100vh;
     overflow: auto;
-    font-family: Ubuntu;
+    font-family: Ubuntu, sans-serif;
 }
 
 .body-dark {

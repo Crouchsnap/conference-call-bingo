@@ -1,6 +1,5 @@
 module View.Style exposing
     ( dotStyle
-    , fontStyle
     , squareContainerStyle
     , squareStyle
     , submitScoreFormStyle
@@ -13,10 +12,6 @@ import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Msg exposing (Msg)
 import Set
-
-
-fontStyle =
-    style "font-family" "Ubuntu, sans-serif"
 
 
 borderRadius =
@@ -36,7 +31,6 @@ suggestionInputStyle =
     , borderRadius
     , style "width" "25rem"
     , style "min-height" "4rem"
-    , fontStyle
     , style "font-weight" "bold"
     , style "font-size" "1rem"
     ]
@@ -54,8 +48,7 @@ submitScoreFormStyle =
 
 
 submittedMessageStyle =
-    [ fontStyle
-    , largeFontSize
+    [ largeFontSize
     ]
 
 

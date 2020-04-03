@@ -4,7 +4,6 @@ import Html exposing (div, label, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import View.Style exposing (fontStyle)
 import View.Theme exposing (Theme(..), themedClass)
 
 
@@ -33,7 +32,6 @@ themeToggleOption selectedTheme theme label =
          , style "width" "100%"
          , style "align-items" "center"
          , style "justify-items" "center"
-         , fontStyle
          , onClick (UpdateTheme theme)
          ]
             ++ (if selectedTheme == theme then
@@ -47,4 +45,4 @@ themeToggleOption selectedTheme theme label =
 
 
 themeToggleSelected label =
-    div [ style "line-height" "90%", fontStyle ] [ text label ]
+    div [ style "line-height" "90%" ] [ text label ]
