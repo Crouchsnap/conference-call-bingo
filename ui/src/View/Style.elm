@@ -1,7 +1,6 @@
 module View.Style exposing
     ( dotStyle
     , squareStyle
-    , submitScoreFormStyle
     , submittedMessageStyle
     , suggestionInputStyle
     )
@@ -32,17 +31,6 @@ suggestionInputStyle =
     , style "min-height" "4rem"
     , style "font-weight" "bold"
     , style "font-size" "1rem"
-    ]
-
-
-submitScoreFormStyle =
-    [ style "justify-content" "right"
-    , style "display" "grid"
-    , style "text-align" "center"
-    , style "margin-top" ".5rem"
-    , style "font-size" "1rem"
-    , style "font-weight" "bold"
-    , style "box-shadow" "inset 0 0 0 10px rgba(0, 255, 0, 0.5);"
     ]
 
 

@@ -171,6 +171,15 @@ button[disabled] {
     color: #545454;
 }
 
+.submit-score-form {
+    justify-content: right;
+    display: grid;
+    text-align: center;
+    margin-top: .5rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
 .submitScoreButton-dark {
     color: #E5E5E5;
 }

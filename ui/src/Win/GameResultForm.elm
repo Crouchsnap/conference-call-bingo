@@ -7,7 +7,7 @@ import Msg exposing (Msg(..))
 import Rating
 import RemoteData
 import Requests exposing (errorToString)
-import View.Style exposing (submitScoreFormStyle, submittedMessageStyle, suggestionInputStyle)
+import View.Style exposing (submittedMessageStyle, suggestionInputStyle)
 import Win.Score exposing (GameResult)
 
 
@@ -17,7 +17,7 @@ submitGame { class, submittedScoreResponse, ratingState, formData } =
         (case submittedScoreResponse of
             RemoteData.NotAsked ->
                 [ div
-                    submitScoreFormStyle
+                    [ class "submit-score-form" ]
                     [ div [] [ text "Please rate Your Experience" ]
                     , Html.map RatingMsg
                         (Rating.styleView
