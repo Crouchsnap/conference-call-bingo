@@ -1,7 +1,4 @@
-module View.Style exposing
-    ( dotStyle
-    , squareStyle
-    )
+module View.Style exposing (dotStyle, squareStyle)
 
 import Game.Dot as Dot exposing (Dot, Offset, Shape)
 import Html exposing (Html)

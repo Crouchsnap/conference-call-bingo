@@ -1,13 +1,13 @@
 @font-face {
     font-family: "Antenna";
     font-weight: 500;
-    src: url("./assets/fonts/antenna/FordAntennaWGL-Regular.otf");
+    src: url("../assets/fonts/antenna/FordAntennaWGL-Regular.otf");
 }
 
 @font-face {
     font-family: "Antenna";
     font-weight: bold;
-    src: url("./assets/fonts/antenna/FordAntennaWGL-Bold.otf");
+    src: url("../assets/fonts/antenna/FordAntennaWGL-Bold.otf");
 }
 
 html,
@@ -44,11 +44,6 @@ button[disabled] {
     overflow: auto;
 }
 
-.body-dark {
-    background-color: #545454;
-    color: #E5E5E5;
-}
-
 .body-container {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -80,6 +75,7 @@ button[disabled] {
     height: 100%;
     width: 100%;
 }
+
 .dot {
     height: 85%;
     width: 85%;
@@ -99,9 +95,6 @@ button[disabled] {
     height: 45.75rem;
 }
 
-.winning-container-dark {
-    background-color: #6C6C6C;
-}
 
 .winning-header {
     font-size: 3.125rem;
@@ -147,9 +140,6 @@ button[disabled] {
     padding: 1rem 2rem;
 }
 
-.topScoreTableStyle-dark {
-    background: rgba(236, 185, 4, 1);
-}
 
 .topScoreColumnHeaderStyle {
 }
@@ -199,9 +189,6 @@ button[disabled] {
     font-size: 1rem;
 }
 
-.submitScoreButton-dark {
-    color: #E5E5E5;
-}
 
 .centered {
     text-align: center;
@@ -274,23 +261,23 @@ button[disabled] {
 }
 
 .blue-dauber-cursor {
-    cursor: url('assets/blue-dauber.png'), auto;
+    cursor: url('../assets/blue-dauber.png'), auto;
 }
 
 .keylime-dauber-cursor {
-    cursor: url('assets/key-lime-dauber.png'), auto;
+    cursor: url('../assets/key-lime-dauber.png'), auto;
 }
 
 .magenta-dauber-cursor {
-    cursor: url('assets/magenta-dauber.png'), auto;
+    cursor: url('../assets/magenta-dauber.png'), auto;
 }
 
 .ruby-dauber-cursor {
-    cursor: url('assets/ruby-dauber.png'), auto;
+    cursor: url('../assets/ruby-dauber.png'), auto;
 }
 
 .tangerine-dauber-cursor {
-    cursor: url('assets/tangerine-dauber.png'), auto;
+    cursor: url('../assets/tangerine-dauber.png'), auto;
 }
 
 .categoryWrapper {
@@ -332,9 +319,6 @@ button[disabled] {
     border: 1px solid #545454;
 }
 
-.checkmark-dark {
-    border-color: #E5E5E5;
-}
 
 .checkmark-checked {
     background-color: #45A0F4;
@@ -381,10 +365,6 @@ button[disabled] {
     margin: 1rem;
 }
 
-
-.anchor-dark {
-    color: #E5E5E5;
-}
 
 .anchor:link {
     text-decoration: none;
@@ -459,27 +439,10 @@ and (min-device-width: 1367px) {
     cursor: pointer;
 }
 
-.tri-toggle-container-dark {
-    background-color: #8A8A8A;
-    color: #E5E5E5;
-}
-
 .tri-toggle-selected {
     background-color: #E9E9E9;
     border-radius: 1.25rem;
     color: #575757;
-}
-
-.tri-toggle-selected-dark {
-    color: #545454;
-}
-
-.boardTableStyle-dark {
-    background-color: #6C6C6C;
-}
-
-.boardBorder-dark {
-    border-color: #E5E5E5 !important;
 }
 
 .original-red {
@@ -501,90 +464,3 @@ and (min-device-width: 1367px) {
 .ford-blue {
     background: linear-gradient(180deg, #4CA9E3 0%, #0F2955 89.58%);
 }
-
-.original-red-dark {
-    background: #B44542;
-}
-
-.faded-blue-dark {
-    background: #749CB5;
-}
-
-.lucky-purple-dark {
-    background: #4B376B;
-}
-
-.goofy-green-dark {
-    background: #5A9138;
-}
-
-.ford-blue-dark {
-    background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%);
-}
-
-.boardOptionSelected-dark {
-    border: 0.5px solid #E5E5E5;
-    box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
-}
-
-
-.blue-dauber-dark {
-    background-color: #75A4FF66;
-}
-
-.keylime-dauber-dark {
-    background-color: #DCF75A66;
-}
-
-.magenta-dauber-dark {
-    background-color: #FD99E766;
-}
-
-.ruby-dauber-dark {
-    background-color: #C1274566;
-}
-
-.tangerine-dauber-dark {
-    background-color: #FFB44666;
-}
-
-.blue-dauber-cursor-dark {
-    cursor: url('assets/blue-dauber-dark.png'), auto;
-}
-
-.keylime-dauber-cursor-dark {
-    cursor: url('assets/key-lime-dauber-dark.png'), auto;
-}
-
-.magenta-dauber-cursor-dark {
-    cursor: url('assets/magenta-dauber-dark.png'), auto;
-}
-
-.ruby-dauber-cursor-dark {
-    cursor: url('assets/ruby-dauber-dark.png'), auto;
-}
-
-.tangerine-dauber-cursor-dark {
-    cursor: url('assets/tangerine-dauber-dark.png'), auto;
-}
-
-.blue-dauber-dark {
-    background-color: #75A4FF;
-}
-
-.keylime-dauber-dark {
-    background-color: #DCF75A;
-}
-
-.magenta-dauber-dark {
-    background-color: #FD99E7;
-}
-
-.ruby-dauber-dark {
-    background-color: #C12745;
-}
-
-.tangerine-dauber-dark {
-    background-color: #FFB446;
-}
-

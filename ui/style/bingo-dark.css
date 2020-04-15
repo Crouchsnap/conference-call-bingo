@@ -1,0 +1,131 @@
+
+.body-dark {
+    background-color: #545454;
+    color: #E5E5E5;
+}
+
+.winning-container-dark {
+    background-color: #6C6C6C;
+}
+
+.topScoreTableStyle-dark {
+    background: rgba(236, 185, 4, 1);
+}
+
+.submitScoreButton-dark {
+    color: #E5E5E5;
+}
+
+.checkmark-dark {
+    border-color: #E5E5E5;
+}
+
+.anchor-dark {
+    color: #E5E5E5;
+}
+
+.tri-toggle-container-dark {
+    background-color: #8A8A8A;
+    color: #E5E5E5;
+}
+
+
+.tri-toggle-selected-dark {
+    color: #545454;
+}
+
+.boardTableStyle-dark {
+    background-color: #6C6C6C;
+}
+
+.boardBorder-dark {
+    border-color: #E5E5E5 !important;
+}
+
+
+.original-red-dark {
+    background: #B44542;
+}
+
+.faded-blue-dark {
+    background: #749CB5;
+}
+
+.lucky-purple-dark {
+    background: #4B376B;
+}
+
+.goofy-green-dark {
+    background: #5A9138;
+}
+
+.ford-blue-dark {
+    background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%);
+}
+
+.boardOptionSelected-dark {
+    border: 0.5px solid #E5E5E5;
+    box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
+}
+
+
+.blue-dauber-dark {
+    background-color: #75A4FF66;
+}
+
+.keylime-dauber-dark {
+    background-color: #DCF75A66;
+}
+
+.magenta-dauber-dark {
+    background-color: #FD99E766;
+}
+
+.ruby-dauber-dark {
+    background-color: #C1274566;
+}
+
+.tangerine-dauber-dark {
+    background-color: #FFB44666;
+}
+
+.blue-dauber-cursor-dark {
+    cursor: url('../assets/blue-dauber-dark.png'), auto;
+}
+
+.keylime-dauber-cursor-dark {
+    cursor: url('../assets/key-lime-dauber-dark.png'), auto;
+}
+
+.magenta-dauber-cursor-dark {
+    cursor: url('../assets/magenta-dauber-dark.png'), auto;
+}
+
+.ruby-dauber-cursor-dark {
+    cursor: url('../assets/ruby-dauber-dark.png'), auto;
+}
+
+.tangerine-dauber-cursor-dark {
+    cursor: url('../assets/tangerine-dauber-dark.png'), auto;
+}
+
+.blue-dauber-dark {
+    background-color: #75A4FF;
+}
+
+.keylime-dauber-dark {
+    background-color: #DCF75A;
+}
+
+.magenta-dauber-dark {
+    background-color: #FD99E7;
+}
+
+.ruby-dauber-dark {
+    background-color: #C12745;
+}
+
+.tangerine-dauber-dark {
+    background-color: #FFB446;
+}
+
