@@ -94,6 +94,9 @@ fordisms =
     , fordismSquare "Now, near, far"
     , fordismSquare "\"I'll send a note\""
     , fordismSquare "First name reference to an exec you don't know"
+    , fordismSquare "Three or more Chrises speak during the meeting"
+    , fordismSquare "Six or more people named for Disciples present"
+    , fordismSquare "The only mens' shirts visible are white or blue"
     ]
 
 
