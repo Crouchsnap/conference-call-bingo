@@ -1,0 +1,36 @@
+@media only screen
+and (min-device-width: 375px)
+and (max-device-width: 667px)
+and (-webkit-min-device-pixel-ratio: 2) {
+    .body-container {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: none;
+    }
+
+    .bingoCard {
+        width: 95vw;
+        max-width: 95vw;
+        padding: .5rem;
+    }
+
+    .boardTableStyle{
+        grid-template-columns: repeat(5, 17.5vw);
+        grid-template-rows: repeat(5, 17.5vw);
+        max-width: none;
+    }
+    .boardHeaderStyle {
+        grid-template-columns: repeat(5, 17.5vw);
+        margin-bottom: .5rem;
+    }
+
+    .square {
+        font-size: 1.6rem;
+    }
+
+    .categoryWrapper,
+    .game-options-container {
+        display: none;
+    }
+
+}

@@ -95,6 +95,12 @@ button[disabled] {
     height: 45.75rem;
 }
 
+.game-options-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 18rem;
+}
+
 
 .winning-header {
     font-size: 3.125rem;

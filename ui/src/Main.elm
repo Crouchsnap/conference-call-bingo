@@ -235,7 +235,7 @@ bodyView model =
 
 
 gameStyleSelectorView model show =
-    div [ style "display" "flex", style "flex-direction" "column", style "max-width" "18rem" ]
+    div [ model.class "game-options-container" ]
         ([ ThemeView.themeView model ]
             ++ (if show then
                     [ BoardColorView.boardColorView model, DauberView.dauberView model ]
