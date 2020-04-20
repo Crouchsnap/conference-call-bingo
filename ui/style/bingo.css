@@ -45,13 +45,17 @@ button[disabled] {
 }
 
 .body-container {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
+    flex-direction: column;
     padding: 1rem;
 }
 
 .mobile-options-header {
-    display: none;
+    display: flex;
+    padding: .5rem;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    align-items: center;
 }
 
 .boardTableStyle {
@@ -59,11 +63,11 @@ button[disabled] {
     padding: 1rem;
     margin: .5rem;
     display: grid;
-    grid-template-columns: repeat(5, 8.75rem);
-    grid-template-rows: repeat(5, 8.75rem);
     font-size: 1rem;
     background-color: white;
-    max-width: calc(5 * 8.75rem + 2rem);
+    grid-template-columns: repeat(5, 17.5vw);
+    grid-template-rows: repeat(5, 17.5vw);
+    max-width: none;
 }
 
 .center-star {
@@ -95,16 +99,10 @@ button[disabled] {
     align-items: center;
     flex-direction: column;
     margin: .5rem;
-    width: 46.25rem;
-    height: 45.75rem;
+    padding: 1rem;
+    width: calc(5 * 17.5vw);
+    height: calc(5 * 17.5vw);
 }
-
-.game-options-container {
-    display: flex;
-    flex-direction: column;
-    max-width: 18rem;
-}
-
 
 .winning-header {
     font-size: 3.125rem;
@@ -254,8 +252,8 @@ button[disabled] {
     display: table-cell;
     padding: 5px;
     position: relative;
-    font-size: 1.25rem;
     font-weight: bold;
+    font-size: 1.6rem;
 }
 
 .square-border-right {
@@ -290,19 +288,44 @@ button[disabled] {
     cursor: url('../assets/tangerine-dauber.png'), auto;
 }
 
-.categoryWrapper {
+.categoryWrapper,
+.game-options-container {
+    display: none;
+}
+
+.game-selector-view-mobile {
+    display: flex;
+    flex-direction: column;
+    max-width: 18rem;
+}
+
+.category-title {
+    display: none;
+}
+
+.categoryWrapper-mobile {
     display: flex;
     flex-direction: column;
     margin: 1rem;
     justify-self: flex-start;
 }
 
-.category-title {
-    text-transform: uppercase;
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: .5rem;
+.category-mobile-wrapper {
+    position: relative;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
 }
+
+.options-caret-container {
+    margin: 0 .5rem
+}
+
+.options-icon {
+    justify-self: flex-end;
+    position: relative;
+}
+
 .container {
     display: block;
     position: relative;
@@ -422,9 +445,9 @@ and (min-device-width: 1367px) {
     justify-content: center;
     padding: 0 1rem;
     display: grid;
-    grid-template-columns: repeat(5, 8.75rem);
+    grid-template-columns: repeat(5, 17.5vw);
     font-size: 4rem;
-    margin: 0 1rem;
+    margin: 0 1rem 0 .5rem;
     text-align: center;
     font-family: Stoke, serif;
     color: white;
@@ -437,8 +460,9 @@ and (min-device-width: 1367px) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: calc(5 * 8.75rem + 8rem);
-    padding: .5rem 3.5rem;
+    width: 95vw;
+    max-width: 95vw;
+    padding: .5rem;
 }
 
 .tri-toggle-container {
@@ -479,4 +503,33 @@ and (min-device-width: 1367px) {
 
 .ford-blue {
     background: linear-gradient(180deg, #4CA9E3 0%, #0F2955 89.58%);
+}
+
+
+.mobile-menu {
+    position: absolute;
+    top: 2rem;
+    z-index: 100;
+    padding: 1rem;
+
+    background: #FFFFFF;
+    border: 0.5px solid #E5E5E5;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.mobile-topics {
+    left: -.5rem;
+}
+
+.mobile-options {
+    right: -.5rem;
+}
+
+.mobile-topics-dark,
+.mobile-options-dark {
+    background: #545454;
+    border: 0.5px solid #E5E5E5;
+    box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
 }
