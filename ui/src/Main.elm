@@ -15,6 +15,7 @@ import Game.Options.BoardStyle as BoardStyle exposing (Color(..))
 import Game.Options.CategoryView as CategoryView
 import Game.Options.DauberView as DauberView
 import Game.Square exposing (Category(..), Square, toggleCategory, toggleSquareInList)
+import Header.MobilHeader as MobileHeader
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (href, style)
 import Msg exposing (Msg(..))
@@ -25,6 +26,7 @@ import Requests
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
+import View.Options exposing (gameStyleSelectorView)
 import View.Theme as Theme exposing (Theme(..))
 import View.ThemeView as ThemeView
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
@@ -50,6 +52,8 @@ type alias Model =
     , systemTheme : Theme
     , selectedTheme : Theme
     , class : String -> Html.Attribute Msg
+    , showTopics : Bool
+    , showOptions : Bool
     }
 
 
@@ -81,6 +85,8 @@ init flags url key =
       , systemTheme = theme
       , selectedTheme = theme
       , class = Theme.themedClass theme
+      , showTopics = False
+      , showOptions = False
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -201,6 +207,12 @@ update msg model =
         UpdateTheme theme ->
             ( { model | selectedTheme = theme, class = Theme.themedClass theme }, Cmd.none )
 
+        ToggleTopics ->
+            ( { model | showTopics = not model.showTopics }, Cmd.none )
+
+        ToggleOptions ->
+            ( { model | showOptions = not model.showOptions }, Cmd.none )
+
 
 view : Model -> Browser.Document Msg
 view model =
@@ -228,22 +240,11 @@ bodyView model =
     div
         [ model.class "body-container"
         ]
-        [ CategoryView.categoryView model (not gameFinished)
+        [ MobileHeader.view model
+        , CategoryView.categoryView model "categoryWrapper" (not gameFinished)
         , boardView model content
-        , gameStyleSelectorView model (not gameFinished)
+        , gameStyleSelectorView model "game-options-container" (not gameFinished)
         ]
-
-
-gameStyleSelectorView model show =
-    div [ model.class "game-options-container" ]
-        ([ ThemeView.themeView model ]
-            ++ (if show then
-                    [ BoardColorView.boardColorView model, DauberView.dauberView model ]
-
-                else
-                    []
-               )
-        )
 
 
 boardView : Model -> (Model -> Html Msg) -> Html Msg

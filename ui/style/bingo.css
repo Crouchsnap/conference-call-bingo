@@ -50,6 +50,10 @@ button[disabled] {
     padding: 1rem;
 }
 
+.mobile-options-header {
+    display: none;
+}
+
 .boardTableStyle {
     justify-content: center;
     padding: 1rem;
@@ -293,6 +297,12 @@ button[disabled] {
     justify-self: flex-start;
 }
 
+.category-title {
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: .5rem;
+}
 .container {
     display: block;
     position: relative;

@@ -38,9 +38,17 @@ normalizedTheme selected =
 
 themedClass : Theme -> String -> Attribute msg
 themedClass applyTheme className =
+    let
+        classes =
+            className |> String.split " "
+    in
     case applyTheme |> normalizedTheme of
         Dark ->
-            class (className ++ " " ++ className ++ "-dark")
+            class
+                (classes
+                    |> List.map (\name -> name ++ " " ++ name ++ "-dark")
+                    |> String.join " "
+                )
 
         _ ->
-            class className
+            class (classes |> String.join " ")

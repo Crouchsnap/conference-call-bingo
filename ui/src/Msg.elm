@@ -33,3 +33,5 @@ type Msg
     | GotViewportSize Viewport
     | WindowResized Int Int
     | UpdateTheme Theme
+    | ToggleTopics
+    | ToggleOptions

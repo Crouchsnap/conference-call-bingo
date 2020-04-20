@@ -1,11 +1,45 @@
-@media only screen
-and (min-device-width: 375px)
-and (max-device-width: 667px)
-and (-webkit-min-device-pixel-ratio: 2) {
+
+.mobile-menu {
+    position: absolute;
+    top: 2rem;
+    z-index: 100;
+    padding: 1rem;
+
+    background: #FFFFFF;
+    border: 0.5px solid #E5E5E5;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.mobile-topics {
+    left: -.5rem;
+}
+
+.mobile-options {
+    right: -.5rem;
+}
+
+.mobile-topics-dark,
+.mobile-options-dark {
+    background: #545454;
+    border: 0.5px solid #E5E5E5;
+    box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
+}
+
+@media only screen and (max-width: 1024px) {
     .body-container {
         display: flex;
         flex-direction: column;
         grid-template-columns: none;
+    }
+
+    .mobile-options-header {
+        display: flex;
+        padding: .5rem;
+        font-size: 1.25rem;
+        text-transform: uppercase;
+        align-items: center;
     }
 
     .bingoCard {
@@ -24,6 +58,12 @@ and (-webkit-min-device-pixel-ratio: 2) {
         margin-bottom: .5rem;
     }
 
+    .winning-container {
+        padding: 1rem;
+        width: calc(5 * 17.5vw);
+        height: calc(5 * 17.5vw);
+    }
+
     .square {
         font-size: 1.6rem;
     }
@@ -31,6 +71,38 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .categoryWrapper,
     .game-options-container {
         display: none;
+    }
+    .categoryWrapper-mobile {
+        display: flex;
+        flex-direction: column;
+        margin: 1rem;
+        justify-self: flex-start;
+    }
+
+    .category-mobile-wrapper {
+        position: relative;
+        margin-right: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .category-title {
+        display: none;
+    }
+
+    .options-caret-container {
+        margin: 0 .5rem
+    }
+
+    .options-icon {
+        justify-self: flex-end;
+        position: relative;
+    }
+
+    .game-selector-view-mobile {
+        display: flex;
+        flex-direction: column;
+        max-width: 18rem;
     }
 
 }

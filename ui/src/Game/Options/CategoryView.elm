@@ -7,14 +7,11 @@ import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 
 
-categoryView { class, categories } show =
+categoryView { class, categories } className show =
     if show then
-        div [ class "categoryWrapper" ]
+        div [ class className ]
             [ div
-                [ style "text-transform" "uppercase"
-                , style "font-size" "1.25rem"
-                , style "font-weight" "bold"
-                , style "margin-bottom" ".5rem"
+                [ class "category-title"
                 ]
                 [ text "topical bingo" ]
             , categoryToggle class categories Fordism "Fordisms"
