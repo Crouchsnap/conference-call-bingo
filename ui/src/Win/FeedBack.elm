@@ -71,7 +71,7 @@ suggestion class =
 submitButton class gameResult =
     div []
         [ button
-            [ class "submitScoreButton"
+            [ class "submit-button"
             , disabled (not (isFormValid gameResult))
             , onClick SubmitGame
             ]

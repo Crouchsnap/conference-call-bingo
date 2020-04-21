@@ -10,7 +10,7 @@ import View.Style exposing (colorSelectorClasses)
 
 view : { model | class : String -> Html.Attribute Msg, dauberColor : Dot.Color } -> Html Msg
 view { class, dauberColor } =
-    div [ class "boardStyleSelectorWrapper bottom-item" ]
+    div [ class "options-container bottom-item" ]
         [ div [ class "options-title" ] [ text "dauber color" ]
         , dauberSelector class dauberColor Blue "Blue"
         , dauberSelector class dauberColor Keylime "Keylime"

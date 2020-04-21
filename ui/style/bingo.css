@@ -13,7 +13,6 @@
 html,
 body {
     margin: 0;
-
     padding: 0;
 
     min-width: 100%;
@@ -44,16 +43,34 @@ button[disabled] {
     overflow: auto;
 }
 
-.label {
-    font-size: 1rem;
-    font-weight: bold;
-    padding: .75rem;
-}
-
 .body-container {
     display: flex;
     flex-direction: column;
     padding: 1rem;
+}
+
+.centered {
+    text-align: center;
+}
+
+.label {
+    padding: .75rem;
+}
+
+.anchor:link {
+    text-decoration: none;
+}
+
+.anchor:visited {
+    text-decoration: none;
+}
+
+.anchor:hover {
+    text-decoration: underline;
+}
+
+.anchor:active {
+    text-decoration: underline;
 }
 
 .mobile-options-header {
@@ -61,22 +78,18 @@ button[disabled] {
     padding: .5rem;
     font-size: 1.25rem;
     text-transform: uppercase;
-    align-items: center;
 }
 
-.boardTableStyle {
-    justify-content: center;
+.board-table {
     padding: 1rem;
     margin: .5rem;
     display: grid;
-    font-size: 1rem;
     background-color: white;
     grid-template-columns: repeat(5, 17.5vw);
     grid-template-rows: repeat(5, 17.5vw);
-    max-width: none;
 }
 
-.center-star {
+.square-star {
     z-index: 1;
     position: absolute;
     top: 50%;
@@ -91,10 +104,9 @@ button[disabled] {
 }
 
 .dot {
+    position: absolute;
     height: 85%;
     width: 85%;
-    display: inline-block;
-    position: absolute;
     top: 50%;
     left: 50%;
 }
@@ -136,7 +148,6 @@ button[disabled] {
 
 .winning-header-emoji {
     font-size: 6rem;
-    vertical-align: center;
     margin: 0 3rem;
 }
 
@@ -145,48 +156,38 @@ button[disabled] {
     font-size: 2.5rem;
     cursor: pointer;
 }
-.topScoreHeaderStyle {
-    text-align: center;
-    grid-column: span 3;
+.top-score-title {
     font-size: 1.25rem;
-    border: none;
     margin-bottom: .5rem;
     text-transform: uppercase;
     font-weight: bold;
 }
 
-.topScoreTableStyle {
+.top-score-table {
     display: grid;
     text-align: left;
     grid-template-columns: 20% auto 20%;
-    margin-left: 1rem;
     background: rgba(236, 185, 4, 0.5);
     border-radius: 8px;
     padding: 1rem 2rem;
 }
 
 
-.topScoreColumnHeaderStyle {
-}
-
-.topScoreRow {
-    font-size: 1rem;
+.top-score-row {
     margin: .3rem 0;
 }
 
 .player-input {
     background: rgba(255, 255, 255, 0.8);
     border: 0.5px solid rgba(84, 84, 84, 0.8);
-    box-sizing: border-box;
     box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.15);
     border-radius: 4px;
     font-size: 1rem;
     padding: 0 .75rem;
-    margin-right: 1rem;
     max-width: 10rem;
 }
 
-.submitScoreButton {
+.submit-button {
     font-size: 1.9rem;
     line-height: 100%;
     padding: 1rem;
@@ -205,10 +206,6 @@ button[disabled] {
     font-size: 1rem;
 }
 
-
-.centered {
-    text-align: center;
-}
 
 .options-title {
     text-transform: uppercase;
@@ -327,8 +324,6 @@ button[disabled] {
     display: none;
 }
 
-
-
 .topic-wrapper-mobile {
     display: flex;
     flex-direction: column;
@@ -411,7 +406,7 @@ button[disabled] {
     transform: rotate(45deg);
 }
 
-.boardStyleSelectorWrapper {
+.options-container {
     display: flex;
     flex-direction: column;
     margin: 1rem;
@@ -435,62 +430,30 @@ button[disabled] {
     margin: 1rem;
 }
 
-
-.anchor:link {
-    text-decoration: none;
-}
-
-.anchor:visited {
-    text-decoration: none;
-}
-
-.anchor:hover {
-    text-decoration: underline;
-}
-
-.anchor:active {
-    text-decoration: underline;
-}
-
-/* ----------- Wide Desktop Screens ----------- */
-@media screen
-and (min-device-width: 1367px) {
-    .topic-wrapper {
-        justify-self: flex-end;
-    }
-}
-
-.boardHeaderTopStyle {
-    justify-content: center;
+.board-header {
     font-size: 2rem;
     text-transform: uppercase;
     line-height: 50px;
-    text-align: center;
     letter-spacing: 1.13rem;
     font-family: Stoke, serif;
-    color: white;
     padding-left: 1.5rem;
 }
 
-.boardHeaderStyle {
+.board-header-bingo {
     justify-content: center;
-    padding: 0 1rem;
     display: grid;
     grid-template-columns: repeat(5, 17.5vw);
     font-size: 4rem;
     margin: 0 1rem 0 .5rem;
     text-align: center;
     font-family: Stoke, serif;
-    color: white;
-    max-width: calc(5 * 8.75rem + 2rem);
     line-height: 90%;
 }
 
-.bingoCard {
+.board-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     width: 95vw;
     max-width: 95vw;
     padding: .5rem;

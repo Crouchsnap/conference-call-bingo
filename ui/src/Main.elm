@@ -250,16 +250,14 @@ boardView model content =
         { class } =
             model
     in
-    div [ style "justify-self" "center" ]
-        [ div [ class "bingoCard", class (model.boardColor |> BoardStyle.className) ]
-            [ div [ class "boardHeaderTopStyle" ] [ text "conference call" ]
-            , div [ class "boardHeaderStyle" ]
-                ([ "B", "I", "N", "G", "O" ]
-                    |> List.map
-                        (\letter -> div [] [ text letter ])
-                )
-            , content model
-            ]
+    div [ class "board-container", class (model.boardColor |> BoardStyle.className) ]
+        [ div [ class "board-header" ] [ text "conference call" ]
+        , div [ class "board-header-bingo" ]
+            ([ "B", "I", "N", "G", "O" ]
+                |> List.map
+                    (\letter -> div [] [ text letter ])
+            )
+        , content model
         ]
 
 

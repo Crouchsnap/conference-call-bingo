@@ -4,26 +4,23 @@
     .body-container {
         display: grid;
         grid-template-columns: 1fr auto 1fr;
-        flex-direction: row;
     }
 
     .mobile-options-header {
         display: none;
     }
 
-    .bingoCard {
-        max-width: calc(5 * 8.75rem + 8rem);
-        padding: .5rem 3.5rem;
+    .board-container {
+        padding: .5rem 4rem;
         width: initial;
     }
 
-    .boardTableStyle{
+    .board-table{
         grid-template-columns: repeat(5, 8.75rem);
         grid-template-rows: repeat(5, 8.75rem);
-        max-width: calc(5 * 8.75rem + 2rem);
     }
 
-    .boardHeaderStyle {
+    .board-header-bingo {
         grid-template-columns: repeat(5, 8.75rem);
         margin: 0 1rem;
     }
@@ -47,17 +44,15 @@
         display: flex;
         flex-direction: column;
         margin: 1rem;
+        justify-self: flex-end;
     }
 
     .topic-title {
+        display: block;
         text-transform: uppercase;
         font-size: 1.25rem;
         font-weight: bold;
         margin-bottom: .5rem;
     }
-
-
-
-
 
 }

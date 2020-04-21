@@ -9,7 +9,7 @@ import View.Style exposing (colorSelectorClasses)
 
 view : { model | boardColor : Color, class : String -> Html.Attribute Msg } -> Html Msg
 view { boardColor, class } =
-    div [ class "boardStyleSelectorWrapper" ]
+    div [ class "options-container" ]
         [ div [ class "options-title" ] [ text "bingo sheet color" ]
         , boardColorSelector class boardColor OriginalRed "Original Red"
         , boardColorSelector class boardColor FadedBlue "Faded Blue"

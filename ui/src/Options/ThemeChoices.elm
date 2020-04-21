@@ -14,7 +14,7 @@ view :
     }
     -> Html Msg
 view { selectedTheme, systemTheme } =
-    div [ themedClass selectedTheme "boardStyleSelectorWrapper" ]
+    div [ themedClass selectedTheme "options-container" ]
         [ themeToggle selectedTheme systemTheme
         ]
 

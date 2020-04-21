@@ -21,17 +21,17 @@ view :
 view { highScores, startTime, endTime, class } =
     div []
         [ div
-            [ class "topScoreHeaderStyle" ]
+            [ class "top-score-title" ]
             [ text "High Scores" ]
-        , div [ class "topScoreTableStyle" ]
+        , div [ class "top-score-table" ]
             ([ div
-                [ class "topScoreColumnHeaderStyle", class "centered" ]
+                [ class "centered" ]
                 [ text "Rank" ]
              , div
-                [ class "topScoreColumnHeaderStyle" ]
+                []
                 [ text "Player Initials" ]
              , div
-                [ class "topScoreColumnHeaderStyle" ]
+                []
                 [ text "Time" ]
              ]
                 ++ scoreRows class startTime endTime highScores
@@ -69,13 +69,13 @@ scoreRow class ( rank, score ) =
 regularScoreRow : (String -> Html.Attribute Msg) -> ( Int, Score ) -> List (Html Msg)
 regularScoreRow class ( rank, score ) =
     [ div
-        [ class "topScoreRow", class "centered" ]
+        [ class "top-score-row", class "centered" ]
         [ text (String.fromInt (rank + 1)) ]
     , div
-        [ class "topScoreRow" ]
+        [ class "top-score-row" ]
         [ text score.player ]
     , div
-        [ class "topScoreRow" ]
+        [ class "top-score-row" ]
         [ text (TimeFormatter.winingTime score.score) ]
     ]
 
@@ -83,7 +83,7 @@ regularScoreRow class ( rank, score ) =
 yourScoreRow : (String -> Html.Attribute Msg) -> ( Int, Score ) -> List (Html Msg)
 yourScoreRow class ( rank, score ) =
     [ div
-        [ class "topScoreRow", class "centered" ]
+        [ class "top-score-row", class "centered" ]
         [ text (String.fromInt (rank + 1)) ]
     , input
         [ class "player-input"
@@ -96,6 +96,6 @@ yourScoreRow class ( rank, score ) =
         ]
         []
     , div
-        [ class "topScoreRow" ]
+        [ class "top-score-row" ]
         [ text (TimeFormatter.winingTime score.score) ]
     ]

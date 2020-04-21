@@ -11,7 +11,7 @@ import View.Style exposing (dotStyle, squareStyle)
 
 
 boardGridView { class, board, dauberColor } =
-    div [ class "boardTableStyle" ] (board |> List.indexedMap (squareWrapper class dauberColor))
+    div [ class "board-table" ] (board |> List.indexedMap (squareWrapper class dauberColor))
 
 
 squareWrapper class dauberColor index square =
@@ -36,7 +36,7 @@ squareDiv class square =
 
 
 centerSquareDiv class square =
-    [ div [ class "center-star" ] [ Star.view "125" ], div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
+    [ div [ class "square-star" ] [ Star.view "125" ], div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
 
 
 dotDiv : (String -> Html.Attribute msg) -> Int -> Dot -> Html msg
