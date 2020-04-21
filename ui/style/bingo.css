@@ -312,18 +312,18 @@ button[disabled] {
 
 .category-mobile-wrapper {
     position: relative;
-    margin-right: auto;
     display: flex;
     align-items: center;
 }
 
-.options-caret-container {
+.caret-container {
     margin: 0 .5rem
 }
 
 .options-icon {
     justify-self: flex-end;
     position: relative;
+    margin-left: auto;
 }
 
 .container {

@@ -10,10 +10,8 @@ import Game.Bingo as Bingo exposing (randomBoard)
 import Game.Board exposing (Board)
 import Game.Dot as Dot exposing (Color(..), Dot)
 import Game.GameView as GameView
-import Game.Options.BoardColorView as BoardColorView
 import Game.Options.BoardStyle as BoardStyle exposing (Color(..))
 import Game.Options.CategoryView as CategoryView
-import Game.Options.DauberView as DauberView
 import Game.Square exposing (Category(..), Square, toggleCategory, toggleSquareInList)
 import Header.MobilHeader as MobileHeader
 import Html exposing (Html, div, text)
@@ -26,9 +24,8 @@ import Requests
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
-import View.Options exposing (gameStyleSelectorView)
+import View.Options as Options
 import View.Theme as Theme exposing (Theme(..))
-import View.ThemeView as ThemeView
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
 import Win.WinningView as WinningView
@@ -243,7 +240,7 @@ bodyView model =
         [ MobileHeader.view model
         , CategoryView.categoryView model "categoryWrapper" (not gameFinished)
         , boardView model content
-        , gameStyleSelectorView model "game-options-container" (not gameFinished)
+        , Options.view model "game-options-container" (not gameFinished)
         ]
 
 
