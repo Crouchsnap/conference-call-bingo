@@ -1,50 +1,49 @@
-module Win.WinningView exposing (winningScoreHeader, winningView)
+module Win.WinningView exposing (view)
 
 import Assets.Star as Star
 import Html exposing (Html, div, text)
-import Html.Attributes exposing (id, style)
 import Msg exposing (Msg)
 import Rating
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
-import Win.GameResultForm as GameResultForm
+import Win.FeedBack as Feedback
 import Win.Score exposing (GameResult, Score)
-import Win.TopScoresView as TopScoresView
+import Win.TopScoresTable as TopScoresView
 
 
-winningView :
+view :
     { model
         | class : String -> Html.Attribute Msg
         , startTime : Posix
         , endTime : Posix
         , highScores : WebData (List Score)
-        , formData : GameResult
+        , gameResult : GameResult
         , ratingState : Rating.State
         , submittedScoreResponse : WebData ()
     }
     -> Html Msg
-winningView model =
+view model =
     div [ model.class "winning-container" ]
-        (winningScoreHeader model
-            ++ [ div
-                    [ id "table" ]
-                    [ TopScoresView.topScoreView model
-                    , GameResultForm.submitGame model
-                    ]
-               ]
-        )
+        [ header model.class
+        , content model
+        ]
 
 
-winningScoreHeader : { model | class : String -> Html.Attribute Msg, startTime : Posix, endTime : Posix } -> List (Html Msg)
-winningScoreHeader { startTime, endTime, class } =
-    [ div
+content model =
+    div []
+        [ TopScoresView.view model
+        , Feedback.view model
+        ]
+
+
+header class =
+    div
         [ class "winning-header" ]
         [ div [ class "winning-header-emoji" ] [ text "🎉" ]
-        , div [ style "z-index" "10" ]
+        , div []
             [ text "Bingo!"
             , div [ class "winning-star" ]
                 [ Star.view "160" ]
             ]
         , div [ class "winning-header-emoji" ] [ text "🎉" ]
         ]
-    ]

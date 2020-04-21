@@ -1,9 +1,8 @@
-module Win.TopScoresView exposing (scoreRow, scoresWithYourScore, topScoreView)
+module Win.TopScoresTable exposing (view)
 
 import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (maxlength, minlength, name, placeholder, title)
 import Html.Events exposing (onInput)
-import List.Extra
 import Msg exposing (Msg(..))
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
@@ -11,8 +10,15 @@ import Win.Score as Score exposing (Score)
 import Win.TimeFormatter as TimeFormatter
 
 
-topScoreView : { model | highScores : WebData (List Score), startTime : Posix, endTime : Posix, class : String -> Html.Attribute Msg } -> Html Msg
-topScoreView { highScores, startTime, endTime, class } =
+view :
+    { model
+        | highScores : WebData (List Score)
+        , startTime : Posix
+        , endTime : Posix
+        , class : String -> Html.Attribute Msg
+    }
+    -> Html Msg
+view { highScores, startTime, endTime, class } =
     div []
         [ div
             [ class "topScoreHeaderStyle" ]
@@ -28,41 +34,24 @@ topScoreView { highScores, startTime, endTime, class } =
                 [ class "topScoreColumnHeaderStyle" ]
                 [ text "Time" ]
              ]
-                ++ (scoresWithYourScore 5 highScores startTime endTime
-                        |> List.map (scoreRow class)
-                        |> List.concat
-                   )
+                ++ scoreRows class startTime endTime highScores
             )
         ]
 
 
-scoresWithYourScore : Int -> WebData (List Score) -> Posix -> Posix -> List ( Int, Score )
-scoresWithYourScore size highScores startTime endTime =
+scoreRows class startTime endTime highScores =
+    highScores
+        |> extractScores
+        |> Score.scoresWithYourScore startTime endTime 5
+        |> List.map (scoreRow class)
+        |> List.concat
+
+
+extractScores : WebData (List Score) -> List Score
+extractScores highScores =
     case highScores of
         RemoteData.Success scores ->
-            let
-                yourScore =
-                    Score.yourScore (TimeFormatter.timeDifference startTime endTime)
-
-                scoresWithYourRow =
-                    Score.insertYourScore yourScore scores
-
-                yourScoreTupe =
-                    scoresWithYourRow
-                        |> List.Extra.find (\( _, score ) -> score == yourScore)
-                        |> Maybe.withDefault ( -1, Score -1 "" )
-
-                yourRow =
-                    if (yourScoreTupe |> Tuple.first) > (size - 1) then
-                        [ yourScoreTupe ]
-
-                    else
-                        []
-
-                rows =
-                    List.append (scoresWithYourRow |> List.take size) yourRow
-            in
-            rows
+            scores
 
         _ ->
             []

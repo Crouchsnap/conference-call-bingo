@@ -14,6 +14,7 @@
     .bingoCard {
         max-width: calc(5 * 8.75rem + 8rem);
         padding: .5rem 3.5rem;
+        width: initial;
     }
 
     .boardTableStyle{
@@ -28,9 +29,8 @@
     }
 
     .winning-container {
-        width: 46.25rem;
-        height: 45.75rem;
-        padding: 0;
+        width: calc(5 * 8.75rem);
+        height: calc(5 * 8.75rem);
     }
 
     .square {

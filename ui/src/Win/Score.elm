@@ -1,8 +1,27 @@
-module Win.Score exposing (GameResult, Score, decodeGameResult, decodeScore, decodeScores, emptyGameResult, encodeGameResult, encodeScore, insertYourScore, isYourScore, updatePlayer, updateRating, updateSuggestion, yourScore)
+module Win.Score exposing
+    ( GameResult
+    , Score
+    , decodeGameResult
+    , decodeScore
+    , decodeScores
+    , emptyGameResult
+    , encodeGameResult
+    , encodeScore
+    , insertYourScore
+    , isYourScore
+    , scoresWithYourScore
+    , updatePlayer
+    , updateRating
+    , updateSuggestion
+    , yourScore
+    )
 
 import Json.Decode as Decode exposing (Decoder, int, nullable, string)
 import Json.Decode.Pipeline
 import Json.Encode
+import List.Extra
+import Time exposing (Posix)
+import Win.TimeFormatter as TimeFormatter
 
 
 type alias Score =
@@ -48,12 +67,40 @@ isYourScore { player } =
     player == "Your Score"
 
 
+scoresWithYourScore : Posix -> Posix -> Int -> List Score -> List ( Int, Score )
+scoresWithYourScore startTime endTime size scores =
+    let
+        yourScore_ =
+            yourScore (TimeFormatter.timeDifference startTime endTime)
+
+        yourPlace =
+            findYourPlace yourScore_ scores
+
+        topIndexedScores =
+            insertYourScore yourScore_ scores |> List.take size
+    in
+    if yourPlace > size - 1 then
+        topIndexedScores ++ [ ( yourPlace, yourScore_ ) ]
+
+    else
+        topIndexedScores
+
+
 insertYourScore : Score -> List Score -> List ( Int, Score )
 insertYourScore score scores =
     scores
         |> List.append [ score ]
         |> List.sortBy .score
         |> List.indexedMap Tuple.pair
+
+
+findYourPlace : Score -> List Score -> Int
+findYourPlace score scores =
+    scores
+        |> List.append [ score ]
+        |> List.sortBy .score
+        |> List.Extra.elemIndex score
+        |> Maybe.withDefault -1
 
 
 decodeScores : Decoder (List Score)

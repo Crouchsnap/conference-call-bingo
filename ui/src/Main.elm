@@ -39,7 +39,7 @@ type alias Model =
     , submittedScoreResponse : WebData ()
     , url : Url
     , key : Key
-    , formData : GameResult
+    , gameResult : GameResult
     , ratingState : Rating.State
     , device : Device
     , nextSeed : Random.Seed
@@ -72,7 +72,7 @@ init flags url key =
       , submittedScoreResponse = RemoteData.NotAsked
       , url = url
       , key = key
-      , formData = emptyGameResult
+      , gameResult = emptyGameResult
       , ratingState = Rating.initialState
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
@@ -122,7 +122,7 @@ update msg model =
                 , nextSeed = next
                 , startTime = time
                 , endTime = Time.millisToPosix 0
-                , formData = emptyGameResult
+                , gameResult = emptyGameResult
                 , ratingState = Rating.initialState
                 , submittedScoreResponse = RemoteData.NotAsked
               }
@@ -146,13 +146,13 @@ update msg model =
 
         SubmitGame ->
             let
-                formData =
-                    model.formData
+                gameResult =
+                    model.gameResult
 
                 gameResultWithScore =
-                    { formData | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
+                    { gameResult | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
             in
-            ( { model | formData = formData }, Requests.submitScore model.url gameResultWithScore )
+            ( { model | gameResult = gameResult }, Requests.submitScore model.url gameResultWithScore )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -168,17 +168,17 @@ update msg model =
             )
 
         Player initials ->
-            ( { model | formData = updatePlayer initials model.formData }, Cmd.none )
+            ( { model | gameResult = updatePlayer initials model.gameResult }, Cmd.none )
 
         Suggestion suggestion ->
-            ( { model | formData = updateSuggestion (Just suggestion) model.formData }, Cmd.none )
+            ( { model | gameResult = updateSuggestion (Just suggestion) model.gameResult }, Cmd.none )
 
         RatingMsg ratingMsg ->
             let
                 newRatingState =
                     Rating.update ratingMsg model.ratingState
             in
-            ( { model | ratingState = newRatingState, formData = updateRating (Rating.get newRatingState) model.formData }, Cmd.none )
+            ( { model | ratingState = newRatingState, gameResult = updateRating (Rating.get newRatingState) model.gameResult }, Cmd.none )
 
         GotViewportSize viewport ->
             ( { model | device = viewportToDevice viewport }, Cmd.none )
@@ -229,7 +229,7 @@ bodyView model =
 
         content =
             if gameFinished then
-                WinningView.winningView
+                WinningView.view
 
             else
                 GameView.boardGridView

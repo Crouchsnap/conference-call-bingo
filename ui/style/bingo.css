@@ -104,10 +104,15 @@ button[disabled] {
     display: flex;
     align-items: center;
     flex-direction: column;
+    text-align: center;
     margin: .5rem;
     padding: 1rem;
     width: calc(5 * 17.5vw);
     height: calc(5 * 17.5vw);
+}
+.winning-container label {
+    margin: .5rem;
+    display: inline-block;
 }
 
 .winning-header {
@@ -118,6 +123,7 @@ button[disabled] {
     margin: 2rem;
     position: relative;
     text-transform: uppercase;
+    z-index: 10;
 }
 
 .winning-star {
@@ -134,6 +140,11 @@ button[disabled] {
     margin: 0 3rem;
 }
 
+.star-rating {
+    color: #ECB904;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
 .topScoreHeaderStyle {
     text-align: center;
     grid-column: span 3;
@@ -183,15 +194,6 @@ button[disabled] {
     border-radius: 8px;
     margin: 1rem;
     color: #545454;
-}
-
-.submit-score-form {
-    justify-content: right;
-    display: grid;
-    text-align: center;
-    margin-top: .5rem;
-    font-size: 1rem;
-    font-weight: bold;
 }
 
 .suggestion-input {

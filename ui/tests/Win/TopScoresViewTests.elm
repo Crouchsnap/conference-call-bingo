@@ -1,11 +1,9 @@
 module Win.TopScoresViewTests exposing (suite)
 
 import Expect exposing (Expectation)
-import RemoteData
 import Test exposing (..)
 import Time exposing (Posix)
-import Win.Score exposing (Score)
-import Win.TopScoresView exposing (scoresWithYourScore)
+import Win.Score exposing (Score, scoresWithYourScore)
 
 
 suite : Test
@@ -13,17 +11,16 @@ suite =
     describe "TopScoresView"
         [ test "should add your score into top 5" <|
             \_ ->
-                scoresWithYourScore 5
-                    (RemoteData.succeed
-                        [ Score 1 "p1"
-                        , Score 2 "p2"
-                        , Score 3 "p3"
-                        , Score 5 "p5"
-                        , Score 6 "p6"
-                        ]
-                    )
+                scoresWithYourScore
                     (Time.millisToPosix 0)
                     (Time.millisToPosix 4)
+                    5
+                    [ Score 1 "p1"
+                    , Score 2 "p2"
+                    , Score 3 "p3"
+                    , Score 5 "p5"
+                    , Score 6 "p6"
+                    ]
                     |> Expect.equal
                         [ ( 0, Score 1 "p1" )
                         , ( 1, Score 2 "p2" )
@@ -33,17 +30,16 @@ suite =
                         ]
         , test "should add your score after the top 5" <|
             \_ ->
-                scoresWithYourScore 5
-                    (RemoteData.succeed
-                        [ Score 1 "p1"
-                        , Score 2 "p2"
-                        , Score 3 "p3"
-                        , Score 4 "p4"
-                        , Score 5 "p5"
-                        ]
-                    )
+                scoresWithYourScore
                     (Time.millisToPosix 0)
                     (Time.millisToPosix 6)
+                    5
+                    [ Score 1 "p1"
+                    , Score 2 "p2"
+                    , Score 3 "p3"
+                    , Score 4 "p4"
+                    , Score 5 "p5"
+                    ]
                     |> Expect.equal
                         [ ( 0, Score 1 "p1" )
                         , ( 1, Score 2 "p2" )
@@ -54,17 +50,16 @@ suite =
                         ]
         , test "should add your score after the top 5 non contiguous" <|
             \_ ->
-                scoresWithYourScore 2
-                    (RemoteData.succeed
-                        [ Score 1 "p1"
-                        , Score 2 "p2"
-                        , Score 3 "p3"
-                        , Score 4 "p4"
-                        , Score 5 "p5"
-                        ]
-                    )
+                scoresWithYourScore
                     (Time.millisToPosix 0)
                     (Time.millisToPosix 6)
+                    2
+                    [ Score 1 "p1"
+                    , Score 2 "p2"
+                    , Score 3 "p3"
+                    , Score 4 "p4"
+                    , Score 5 "p5"
+                    ]
                     |> Expect.equal
                         [ ( 0, Score 1 "p1" )
                         , ( 1, Score 2 "p2" )
