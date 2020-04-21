@@ -2,9 +2,9 @@ module Assets.FordLabsLogo exposing (view)
 
 import Html exposing (Html)
 import Html.Attributes as Html
+import Options.Theme as Theme exposing (Theme(..))
 import Svg
 import Svg.Attributes exposing (cx, cy, d, fill, height, r, viewBox, width)
-import View.Theme as Theme exposing (Theme(..))
 
 
 view : Theme -> Html msg

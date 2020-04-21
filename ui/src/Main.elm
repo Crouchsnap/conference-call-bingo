@@ -10,13 +10,15 @@ import Game.Bingo as Bingo exposing (randomBoard)
 import Game.Board exposing (Board)
 import Game.Dot as Dot exposing (Color(..), Dot)
 import Game.GameView as GameView
-import Game.Options.BoardStyle as BoardStyle exposing (Color(..))
-import Game.Options.CategoryView as CategoryView
 import Game.Square exposing (Category(..), Square, toggleCategory, toggleSquareInList)
 import Header.MobilHeader as MobileHeader
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (href, style)
 import Msg exposing (Msg(..))
+import Options.BoardStyle as BoardStyle exposing (Color(..))
+import Options.Options as Options
+import Options.Theme as Theme exposing (Theme(..))
+import Options.TopicChoices as CategoryView
 import Random
 import Rating
 import RemoteData exposing (WebData)
@@ -24,8 +26,6 @@ import Requests
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
-import View.Options as Options
-import View.Theme as Theme exposing (Theme(..))
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
 import Win.WinningView as WinningView
@@ -217,7 +217,7 @@ view model =
     , body =
         [ div
             [ model.class "body" ]
-            [ bodyView model, Footer.footerView model ]
+            [ bodyView model, Footer.view model ]
         ]
     }
 
@@ -238,7 +238,7 @@ bodyView model =
         [ model.class "body-container"
         ]
         [ MobileHeader.view model
-        , CategoryView.categoryView model "categoryWrapper" (not gameFinished)
+        , CategoryView.view model "categoryWrapper" (not gameFinished)
         , boardView model content
         , Options.view model "game-options-container" (not gameFinished)
         ]
@@ -251,7 +251,7 @@ boardView model content =
             model
     in
     div [ style "justify-self" "center" ]
-        [ div [ class "bingoCard", class (model.boardColor |> BoardStyle.colorClass) ]
+        [ div [ class "bingoCard", class (model.boardColor |> BoardStyle.className) ]
             [ div [ class "boardHeaderTopStyle" ] [ text "conference call" ]
             , div [ class "boardHeaderStyle" ]
                 ([ "B", "I", "N", "G", "O" ]

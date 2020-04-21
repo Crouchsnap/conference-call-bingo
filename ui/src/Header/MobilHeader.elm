@@ -1,8 +1,8 @@
 module Header.MobilHeader exposing (view)
 
 import Html exposing (div)
-import View.CategoryPopup as CategoryPopup
-import View.OptionsPopup as OptionsPopup
+import Options.OptionsPopup as OptionsPopup
+import Options.TopicChoicePopup as CategoryPopup
 
 
 view model =

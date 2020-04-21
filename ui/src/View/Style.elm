@@ -1,4 +1,4 @@
-module View.Style exposing (dotStyle, squareStyle)
+module View.Style exposing (colorSelectorClasses, dotStyle, squareStyle)
 
 import Game.Dot as Dot exposing (Dot, Offset, Shape)
 import Html exposing (Html)
@@ -70,3 +70,13 @@ borderRadiusFromShape { topLeft, topRight, bottomRight, bottomLeft } =
 transformOffset : Offset -> Html.Attribute msg
 transformOffset { x, y } =
     style "transform" ("translate(" ++ String.fromInt x ++ "%," ++ String.fromInt y ++ "%)")
+
+
+colorSelectorClasses selectedColor color =
+    "color-chip-option "
+        ++ (if selectedColor == color then
+                "color-chip-option-selected"
+
+            else
+                ""
+           )

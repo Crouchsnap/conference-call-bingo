@@ -1,13 +1,19 @@
-module View.ThemeView exposing (themeToggle, themeView)
+module Options.ThemeChoices exposing (themeToggle, view)
 
-import Html exposing (div, label, text)
+import Html exposing (Html, div, label, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import View.Theme exposing (Theme(..), themedClass)
+import Options.Theme exposing (Theme(..), themedClass)
 
 
-themeView { selectedTheme, systemTheme } =
+view :
+    { model
+        | selectedTheme : Theme
+        , systemTheme : Theme
+    }
+    -> Html Msg
+view { selectedTheme, systemTheme } =
     div [ themedClass selectedTheme "boardStyleSelectorWrapper" ]
         [ themeToggle selectedTheme systemTheme
         ]

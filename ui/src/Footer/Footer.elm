@@ -1,39 +1,47 @@
-module Footer.Footer exposing (footerView)
+module Footer.Footer exposing (view)
 
 import Assets.FordLabsLogo as FordLabsLogo
 import Html exposing (Html, a, div, text)
 import Html.Attributes exposing (href, target)
 import Msg exposing (Msg)
-import View.Theme exposing (Theme(..))
+import Options.Theme exposing (Theme(..))
 
 
-footerView :
+view :
     { model
         | selectedTheme : Theme
         , class : String -> Html.Attribute Msg
     }
     -> Html Msg
-footerView { class, selectedTheme } =
+view { class, selectedTheme } =
     div []
-        [ div
-            [ class "footer-container" ]
-            [ text "Want to contribute? Check out our "
-            , a
-                [ class "anchor"
-                , href "https://github.com/Crouchsnap/conference-call-bingo"
-                , target "_blank"
-                ]
-                [ text "Github!" ]
+        [ githubLink class
+        , labsLink class selectedTheme
+        ]
+
+
+githubLink class =
+    div
+        [ class "footer-container" ]
+        [ text "Want to contribute? Check out our "
+        , a
+            [ class "anchor"
+            , href "https://github.com/Crouchsnap/conference-call-bingo"
+            , target "_blank"
             ]
-        , div [ class "fordLabs-footer" ]
-            [ a
-                [ class "anchor"
-                , href "https://www.fordlabs.com"
-                , target "_blank"
-                ]
-                [ text "Powered by"
-                , FordLabsLogo.view selectedTheme
-                , text "FordLabs"
-                ]
+            [ text "Github!" ]
+        ]
+
+
+labsLink class theme =
+    div [ class "fordLabs-footer" ]
+        [ a
+            [ class "anchor"
+            , href "https://www.fordlabs.com"
+            , target "_blank"
+            ]
+            [ text "Powered by"
+            , FordLabsLogo.view theme
+            , text "FordLabs"
             ]
         ]

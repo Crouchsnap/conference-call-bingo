@@ -1,4 +1,4 @@
-module View.Theme exposing (SelectedTheme, Theme(..), normalizedTheme, systemTheme, themedClass)
+module Options.Theme exposing (SelectedTheme, Theme(..), normalizedTheme, systemTheme, themedClass)
 
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)

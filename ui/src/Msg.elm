@@ -3,13 +3,13 @@ module Msg exposing (Msg(..))
 import Browser
 import Browser.Dom exposing (Viewport)
 import Game.Dot as Dot
-import Game.Options.BoardStyle as BoardStyle
 import Game.Square exposing (Category, Square)
+import Options.BoardStyle as BoardStyle
+import Options.Theme exposing (Theme)
 import Rating
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
 import Url exposing (Url)
-import View.Theme exposing (Theme)
 import Win.Score exposing (GameResult, Score)
 
 

@@ -63,7 +63,7 @@
     background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%);
 }
 
-.boardOptionSelected-dark {
+.color-chip-option-selected-dark {
     border: 0.5px solid #E5E5E5;
     box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
 }

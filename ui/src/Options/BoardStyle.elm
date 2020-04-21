@@ -1,4 +1,4 @@
-module Game.Options.BoardStyle exposing (Color(..), colorClass)
+module Options.BoardStyle exposing (Color(..), className)
 
 
 type Color
@@ -9,7 +9,7 @@ type Color
     | FordBlue
 
 
-colorClass color =
+className color =
     case color of
         OriginalRed ->
             "original-red"
