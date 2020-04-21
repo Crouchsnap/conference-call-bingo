@@ -9,11 +9,9 @@ import Footer.Footer as Footer
 import Game.Bingo as Bingo exposing (randomBoard)
 import Game.Board exposing (Board)
 import Game.Dot as Dot exposing (Color(..), Dot)
-import Game.GameView as GameView
 import Game.Square exposing (Square, Topic(..), toggleSquareInList, toggleTopic)
 import Header.MobilHeader as MobileHeader
-import Html exposing (Html, div, text)
-import Html.Attributes exposing (href, style)
+import Html exposing (Html, div)
 import Msg exposing (Msg(..))
 import Options.BoardStyle as BoardStyle exposing (Color(..))
 import Options.Options as Options
@@ -26,9 +24,9 @@ import Requests
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
+import View.Board as Board
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
-import Win.WinningView as WinningView
 
 
 type alias Model =
@@ -163,9 +161,7 @@ update msg model =
                     ( model, load href )
 
         UrlChanged url ->
-            ( { model | url = url }
-            , Cmd.none
-            )
+            ( { model | url = url }, Cmd.none )
 
         Player initials ->
             ( { model | gameResult = updatePlayer initials model.gameResult }, Cmd.none )
@@ -187,11 +183,7 @@ update msg model =
             ( { model | device = classifyDevice { height = height, width = width } }, Cmd.none )
 
         TopicToggled topic ->
-            ( { model
-                | topics =
-                    toggleTopic topic
-                        model.topics
-              }
+            ( { model | topics = toggleTopic topic model.topics }
             , Task.perform GotCurrentTime Time.now
             )
 
@@ -215,8 +207,7 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "BINGO!"
     , body =
-        [ div
-            [ model.class "body" ]
+        [ div [ model.class "body" ]
             [ bodyView model, Footer.view model ]
         ]
     }
@@ -226,38 +217,12 @@ bodyView model =
     let
         gameFinished =
             Bingo.isWinner model.board
-
-        content =
-            if gameFinished then
-                WinningView.view
-
-            else
-                GameView.boardGridView
     in
-    div
-        [ model.class "body-container"
-        ]
+    div [ model.class "body-container" ]
         [ MobileHeader.view model
         , TopicChoices.view model "topic-wrapper" (not gameFinished)
-        , boardView model content
+        , Board.view model gameFinished
         , Options.view model "game-options-container" (not gameFinished)
-        ]
-
-
-boardView : Model -> (Model -> Html Msg) -> Html Msg
-boardView model content =
-    let
-        { class } =
-            model
-    in
-    div [ class "board-container", class (model.boardColor |> BoardStyle.className) ]
-        [ div [ class "board-header" ] [ text "conference call" ]
-        , div [ class "board-header-bingo" ]
-            ([ "B", "I", "N", "G", "O" ]
-                |> List.map
-                    (\letter -> div [] [ text letter ])
-            )
-        , content model
         ]
 
 
