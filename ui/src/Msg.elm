@@ -1,7 +1,6 @@
 module Msg exposing (Msg(..))
 
 import Browser
-import Browser.Dom exposing (Viewport)
 import Game.Dot as Dot
 import Game.Square exposing (Category, Square)
 import Options.BoardStyle as BoardStyle
@@ -30,8 +29,6 @@ type Msg
     | CategoryToggled Category
     | DauberSelected Dot.Color
     | BoardColorSelected BoardStyle.Color
-    | GotViewportSize Viewport
-    | WindowResized Int Int
     | UpdateTheme Theme
     | ToggleTopics
     | ToggleOptions
