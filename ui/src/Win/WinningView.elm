@@ -1,12 +1,12 @@
 module Win.WinningView exposing (winningScoreHeader, winningView)
 
+import Assets.Star as Star
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (id, style)
 import Msg exposing (Msg)
 import Rating
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
-import View.Star as Star
 import Win.GameResultForm as GameResultForm
 import Win.Score exposing (GameResult, Score)
 import Win.TopScoresView as TopScoresView
@@ -43,7 +43,7 @@ winningScoreHeader { startTime, endTime, class } =
         , div [ style "z-index" "10" ]
             [ text "Bingo!"
             , div [ class "winning-star" ]
-                [ Star.star "160" ]
+                [ Star.view "160" ]
             ]
         , div [ class "winning-header-emoji" ] [ text "🎉" ]
         ]

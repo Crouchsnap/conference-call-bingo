@@ -1,12 +1,12 @@
 module Game.GameView exposing (boardGridView, dotDiv)
 
+import Assets.Star as Star
 import Game.Dot as Dot exposing (Dot)
 import Game.Square exposing (Category(..))
 import Html exposing (Html, div)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import View.Star as Star
 import View.Style exposing (dotStyle, squareStyle)
 
 
@@ -36,7 +36,7 @@ squareDiv class square =
 
 
 centerSquareDiv class square =
-    [ div [ class "center-star" ] [ Star.star "125" ], div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
+    [ div [ class "center-star" ] [ Star.view "125" ], div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
 
 
 dotDiv : (String -> Html.Attribute msg) -> Int -> Dot -> Html msg

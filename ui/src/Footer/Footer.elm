@@ -1,10 +1,10 @@
 module Footer.Footer exposing (footerView)
 
-import Footer.FordLabsLogo as FordLabsLogo
+import Assets.FordLabsLogo as FordLabsLogo
 import Html exposing (Html, a, div, text)
 import Html.Attributes exposing (href, target)
 import Msg exposing (Msg)
-import View.Theme as Theme exposing (Theme(..))
+import View.Theme exposing (Theme(..))
 
 
 footerView :
@@ -14,15 +14,6 @@ footerView :
     }
     -> Html Msg
 footerView { class, selectedTheme } =
-    let
-        ( fordLabsCircleColor, fordLabsLogoColor ) =
-            case selectedTheme |> Theme.normalizedTheme of
-                Dark ->
-                    ( "#F2F2F2", "#545454" )
-
-                _ ->
-                    ( "#545454", "white" )
-    in
     div []
         [ div
             [ class "footer-container" ]
@@ -41,7 +32,7 @@ footerView { class, selectedTheme } =
                 , target "_blank"
                 ]
                 [ text "Powered by"
-                , FordLabsLogo.svg fordLabsCircleColor fordLabsLogoColor
+                , FordLabsLogo.view selectedTheme
                 , text "FordLabs"
                 ]
             ]

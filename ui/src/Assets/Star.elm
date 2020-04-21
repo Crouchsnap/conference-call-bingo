@@ -1,12 +1,12 @@
-module View.Star exposing (star)
+module Assets.Star exposing (view)
 
 import Html
 import Svg exposing (svg)
 import Svg.Attributes exposing (d, fill, height, viewBox, width)
 
 
-star : String -> Html.Html msg
-star size =
+view : String -> Html.Html msg
+view size =
     svg
         [ width size
         , height size
