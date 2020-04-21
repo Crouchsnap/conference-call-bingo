@@ -1,7 +1,10 @@
 module Main exposing (Model, init, main, update, view)
 
 import Browser
+import Browser.Dom exposing (Viewport)
+import Browser.Events
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
+import Element exposing (Device, DeviceClass(..), classifyDevice)
 import Footer.Footer as Footer
 import Game.Bingo as Bingo exposing (randomBoard)
 import Game.Board exposing (Board)
@@ -23,6 +26,7 @@ import Requests
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
+import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
 import Win.WinningView as WinningView
 
@@ -37,6 +41,7 @@ type alias Model =
     , key : Key
     , formData : GameResult
     , ratingState : Rating.State
+    , device : Device
     , nextSeed : Random.Seed
     , categories : List Category
     , dauberColor : Dot.Color
@@ -69,6 +74,7 @@ init flags url key =
       , key = key
       , formData = emptyGameResult
       , ratingState = Rating.initialState
+      , device = defaultDevice
       , nextSeed = Random.initialSeed 0
       , categories = []
       , dauberColor = Blue
@@ -79,7 +85,7 @@ init flags url key =
       , showTopics = False
       , showOptions = False
       }
-    , Task.perform GotCurrentTime Time.now
+    , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
 
 
@@ -174,6 +180,12 @@ update msg model =
             in
             ( { model | ratingState = newRatingState, formData = updateRating (Rating.get newRatingState) model.formData }, Cmd.none )
 
+        GotViewportSize viewport ->
+            ( { model | device = viewportToDevice viewport }, Cmd.none )
+
+        WindowResized width height ->
+            ( { model | device = classifyDevice { height = height, width = width } }, Cmd.none )
+
         CategoryToggled category ->
             ( { model
                 | categories =
@@ -256,7 +268,7 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = \_ -> Sub.batch [ Browser.Events.onResize WindowResized ]
         , onUrlRequest = LinkClicked
         , onUrlChange = UrlChanged
         }
