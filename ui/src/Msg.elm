@@ -3,7 +3,7 @@ module Msg exposing (Msg(..))
 import Browser
 import Browser.Dom exposing (Viewport)
 import Game.Dot as Dot
-import Game.Square exposing (Category, Square)
+import Game.Square exposing (Square, Topic)
 import Options.BoardStyle as BoardStyle
 import Options.Theme exposing (Theme)
 import Rating
@@ -27,7 +27,7 @@ type Msg
     | Player String
     | Suggestion String
     | RatingMsg Rating.Msg
-    | CategoryToggled Category
+    | TopicToggled Topic
     | DauberSelected Dot.Color
     | BoardColorSelected BoardStyle.Color
     | GotViewportSize Viewport

@@ -1,25 +1,25 @@
 module Options.TopicChoicePopup exposing (view)
 
 import Assets.Caret as Caret
-import Game.Square exposing (Category)
+import Game.Square exposing (Topic)
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme)
-import Options.TopicChoices as CategoryView
+import Options.TopicChoices as TopicChoices
 
 
 view :
     { model
         | class : String -> Html.Attribute Msg
-        , categories : List Category
+        , topics : List Topic
         , showTopics : Bool
         , selectedTheme : Theme
     }
     -> Html Msg
 view model =
     div
-        [ model.class "category-mobile-wrapper"
+        [ model.class "topic-mobile-wrapper"
         , onClick ToggleTopics
         ]
         [ text "Topics"
@@ -32,7 +32,7 @@ view model =
 popup model =
     if model.showTopics then
         div [ model.class "mobile-menu mobile-topics" ]
-            [ CategoryView.view model "categoryWrapper-mobile" True ]
+            [ TopicChoices.view model "topic-wrapper-mobile" True ]
 
     else
         text ""

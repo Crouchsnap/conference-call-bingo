@@ -4,7 +4,7 @@ import Expect exposing (Expectation)
 import Game.Bingo exposing (isWinner, randomBoard)
 import Game.Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
 import Game.Dot as Dot
-import Game.Square exposing (Category(..), Square, centerSquare, genericSquare, squaresByCategory, toggleSquareInList)
+import Game.Square exposing (Square, Topic(..), centerSquare, genericSquare, squaresByTopic, toggleSquareInList)
 import Html exposing (text)
 import Msg exposing (Msg)
 import Random
@@ -13,7 +13,7 @@ import Test exposing (..)
 
 fakeSquare : Square Msg
 fakeSquare =
-    { html = text "fake", dots = [], category = Generic }
+    { html = text "fake", dots = [], topic = Generic }
 
 
 suite : Test
@@ -32,7 +32,7 @@ suite =
         , test "board should be in random order" <|
             \_ ->
                 (testBoard |> List.drop 13 |> List.append (testBoard |> List.take 12))
-                    |> Expect.notEqual (List.take 24 (squaresByCategory []))
+                    |> Expect.notEqual (List.take 24 (squaresByTopic []))
         , test "toggle square should toggle the right square" <|
             let
                 firstSquare =

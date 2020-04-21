@@ -43,13 +43,13 @@
         max-width: 18rem;
     }
 
-    .categoryWrapper {
+    .topic-wrapper {
         display: flex;
         flex-direction: column;
         margin: 1rem;
     }
 
-    .category-title {
+    .topic-title {
         text-transform: uppercase;
         font-size: 1.25rem;
         font-weight: bold;

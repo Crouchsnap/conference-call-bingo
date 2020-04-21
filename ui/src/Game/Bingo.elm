@@ -1,17 +1,17 @@
 module Game.Bingo exposing (isWinner, randomBoard)
 
 import Game.Board exposing (Board, areIndicesChecked, possibleWinningCombinations)
-import Game.Square exposing (Category(..), Square, centerSquare, squaresByCategory)
+import Game.Square exposing (Square, Topic(..), centerSquare, squaresByTopic)
 import Random
 import Random.List
 
 
-randomBoard : List Category -> Random.Seed -> ( Board msg, Random.Seed )
-randomBoard categories seed =
+randomBoard : List Topic -> Random.Seed -> ( Board msg, Random.Seed )
+randomBoard topics seed =
     let
         ( output, next ) =
             seed
-                |> Random.step (Random.List.shuffle (squaresByCategory categories))
+                |> Random.step (Random.List.shuffle (squaresByTopic topics))
     in
     ( List.take 12 output
         ++ [ centerSquare ]

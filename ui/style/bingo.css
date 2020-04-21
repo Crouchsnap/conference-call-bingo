@@ -310,7 +310,7 @@ button[disabled] {
     cursor: url('../assets/tangerine-dauber.png'), auto;
 }
 
-.categoryWrapper,
+.topic-wrapper,
 .game-options-container {
     display: none;
 }
@@ -321,20 +321,20 @@ button[disabled] {
     max-width: 18rem;
 }
 
-.category-title {
+.topic-title {
     display: none;
 }
 
 
 
-.categoryWrapper-mobile {
+.topic-wrapper-mobile {
     display: flex;
     flex-direction: column;
     margin: 1rem;
     justify-self: flex-start;
 }
 
-.category-mobile-wrapper {
+.topic-mobile-wrapper {
     position: relative;
     display: flex;
     align-items: center;
@@ -453,7 +453,7 @@ button[disabled] {
 /* ----------- Wide Desktop Screens ----------- */
 @media screen
 and (min-device-width: 1367px) {
-    .categoryWrapper {
+    .topic-wrapper {
         justify-self: flex-end;
     }
 }

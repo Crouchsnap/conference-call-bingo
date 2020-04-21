@@ -1,6 +1,6 @@
 module Options.TopicChoices exposing (view)
 
-import Game.Square exposing (Category(..))
+import Game.Square exposing (Topic(..))
 import Html exposing (Html, div, input, label, text)
 import Html.Attributes exposing (checked, for, name, style, type_)
 import Html.Events exposing (onClick)
@@ -8,16 +8,16 @@ import Msg exposing (Msg(..))
 
 
 view :
-    { model | class : String -> Html.Attribute Msg, categories : List Category }
+    { model | class : String -> Html.Attribute Msg, topics : List Topic }
     -> String
     -> Bool
     -> Html Msg
-view { class, categories } wrapperClass show =
+view { class, topics } wrapperClass show =
     if show then
         div [ class wrapperClass ]
             [ title class
-            , categoryToggle class "Fordisms" Fordism categories
-            , categoryToggle class "Coronavirus" Coronavirus categories
+            , topicToggle class "Fordisms" Fordism topics
+            , topicToggle class "Coronavirus" Coronavirus topics
             ]
 
     else
@@ -25,25 +25,25 @@ view { class, categories } wrapperClass show =
 
 
 title class =
-    div [ class "category-title" ] [ text "topical bingo" ]
+    div [ class "topic-title" ] [ text "topical bingo" ]
 
 
-categoryToggle class categoryLabel category categories =
-    div [ style "display" "flex", onClick (CategoryToggled category) ]
+topicToggle class topicLabel topic topics =
+    div [ style "display" "flex", onClick (TopicToggled topic) ]
         [ div [ class "container" ]
-            [ input [ name categoryLabel, checked (categories |> List.member category), type_ "checkbox" ] []
-            , div [ class (classNames category categories) ] []
+            [ input [ name topicLabel, checked (topics |> List.member topic), type_ "checkbox" ] []
+            , div [ class (classNames topic topics) ] []
             ]
         , label
-            [ for categoryLabel
+            [ for topicLabel
             , class "label"
             ]
-            [ text categoryLabel ]
+            [ text topicLabel ]
         ]
 
 
-classNames category categories =
-    if categories |> List.member category then
+classNames topic topics =
+    if topics |> List.member topic then
         "checkmark checkmark-checked"
 
     else

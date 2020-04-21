@@ -1,4 +1,4 @@
-module Game.Square exposing (Category(..), Square, centerSquare, checked, genericSquare, squaresByCategory, toggleCategory, toggleSquareInList)
+module Game.Square exposing (Square, Topic(..), centerSquare, checked, genericSquare, squaresByTopic, toggleSquareInList, toggleTopic)
 
 import Game.Dot as Dot exposing (Dot, dot)
 import Html exposing (Html, br, div)
@@ -7,10 +7,10 @@ import Random exposing (Seed)
 
 
 type alias Square msg =
-    { html : Html msg, category : Category, dots : List Dot }
+    { html : Html msg, topic : Topic, dots : List Dot }
 
 
-type Category
+type Topic
     = Generic
     | Fordism
     | Coronavirus
@@ -115,20 +115,20 @@ coronaviri =
     ]
 
 
-allCategorySquares =
+allTopics =
     fordisms ++ coronaviri
 
 
-squaresByCategory : List Category -> List (Square msg)
-squaresByCategory categories =
-    genericSquares ++ (allCategorySquares |> List.filter (\square -> List.member square.category categories))
+squaresByTopic : List Topic -> List (Square msg)
+squaresByTopic topics =
+    genericSquares ++ (allTopics |> List.filter (\square -> List.member square.topic topics))
 
 
 toggleSquareInList : Seed -> Dot.Color -> Square msg -> List (Square msg) -> ( List (Square msg), Seed )
 toggleSquareInList seed color squareToToggle squares =
     let
         ( newSquare, nextSeed ) =
-            if (squareToToggle.dots |> List.length) < 3 || squareToToggle.category == Center then
+            if (squareToToggle.dots |> List.length) < 3 || squareToToggle.topic == Center then
                 toggleSquare seed color squareToToggle
 
             else
@@ -162,14 +162,14 @@ toggleSquare seed color square =
 
 checked : Square msg -> Bool
 checked square =
-    (square.dots |> List.isEmpty |> not) || square.category == Center
+    (square.dots |> List.isEmpty |> not) || square.topic == Center
 
 
-toggleCategory category categories =
-    categories
-        |> (if not (List.member category categories) then
-                List.append [ category ]
+toggleTopic topic topics =
+    topics
+        |> (if not (List.member topic topics) then
+                List.append [ topic ]
 
             else
-                List.Extra.remove category
+                List.Extra.remove topic
            )

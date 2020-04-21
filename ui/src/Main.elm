@@ -10,7 +10,7 @@ import Game.Bingo as Bingo exposing (randomBoard)
 import Game.Board exposing (Board)
 import Game.Dot as Dot exposing (Color(..), Dot)
 import Game.GameView as GameView
-import Game.Square exposing (Category(..), Square, toggleCategory, toggleSquareInList)
+import Game.Square exposing (Square, Topic(..), toggleSquareInList, toggleTopic)
 import Header.MobilHeader as MobileHeader
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (href, style)
@@ -18,7 +18,7 @@ import Msg exposing (Msg(..))
 import Options.BoardStyle as BoardStyle exposing (Color(..))
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
-import Options.TopicChoices as CategoryView
+import Options.TopicChoices as TopicChoices
 import Random
 import Rating
 import RemoteData exposing (WebData)
@@ -43,7 +43,7 @@ type alias Model =
     , ratingState : Rating.State
     , device : Device
     , nextSeed : Random.Seed
-    , categories : List Category
+    , topics : List Topic
     , dauberColor : Dot.Color
     , boardColor : BoardStyle.Color
     , systemTheme : Theme
@@ -76,7 +76,7 @@ init flags url key =
       , ratingState = Rating.initialState
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
-      , categories = []
+      , topics = []
       , dauberColor = Blue
       , boardColor = OriginalRed
       , systemTheme = theme
@@ -115,7 +115,7 @@ update msg model =
                         model.nextSeed
 
                 ( board, next ) =
-                    seed |> randomBoard model.categories
+                    seed |> randomBoard model.topics
             in
             ( { model
                 | board = board
@@ -186,11 +186,11 @@ update msg model =
         WindowResized width height ->
             ( { model | device = classifyDevice { height = height, width = width } }, Cmd.none )
 
-        CategoryToggled category ->
+        TopicToggled topic ->
             ( { model
-                | categories =
-                    toggleCategory category
-                        model.categories
+                | topics =
+                    toggleTopic topic
+                        model.topics
               }
             , Task.perform GotCurrentTime Time.now
             )
@@ -238,7 +238,7 @@ bodyView model =
         [ model.class "body-container"
         ]
         [ MobileHeader.view model
-        , CategoryView.view model "categoryWrapper" (not gameFinished)
+        , TopicChoices.view model "topic-wrapper" (not gameFinished)
         , boardView model content
         , Options.view model "game-options-container" (not gameFinished)
         ]

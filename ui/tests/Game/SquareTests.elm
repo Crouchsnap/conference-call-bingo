@@ -2,7 +2,7 @@ module Game.SquareTests exposing (suite)
 
 import Expect exposing (Expectation)
 import Game.Dot as Dot exposing (Dot, defaultDot)
-import Game.Square as Square exposing (Category(..), Square, centerSquare, genericSquare, toggleSquareInList)
+import Game.Square as Square exposing (Square, Topic(..), centerSquare, genericSquare, toggleSquareInList)
 import Html exposing (text)
 import Random
 import Test exposing (..)

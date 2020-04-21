@@ -2,7 +2,7 @@ module Game.GameView exposing (boardGridView, dotDiv)
 
 import Assets.Star as Star
 import Game.Dot as Dot exposing (Dot)
-import Game.Square exposing (Category(..))
+import Game.Square exposing (Topic(..))
 import Html exposing (Html, div)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
@@ -26,7 +26,7 @@ squareWrapper class dauberColor index square =
 squareDiv class square =
     let
         squareHtml =
-            if square.category == Center then
+            if square.topic == Center then
                 centerSquareDiv class square
 
             else
