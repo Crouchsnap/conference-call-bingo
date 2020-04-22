@@ -14,7 +14,7 @@ view :
     { model
         | boardColor : BoardStyle.Color
         , dauberColor : Dot.Color
-        , selectedTheme : Theme
+        , state : { selectedTheme : Theme }
         , systemTheme : Theme
         , class : String -> Html.Attribute Msg
     }

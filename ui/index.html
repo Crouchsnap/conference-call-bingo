@@ -41,17 +41,25 @@
     }
 
     if (IEdetection() === 'Not IE') {
-        var flags = {dark: window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches};
+
+        const storedState = localStorage.getItem('state-app-save');
+        console.log("Retrieved state: ", storedState);
+        const startingState = storedState ? JSON.parse(storedState) : {};
+        const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches
+
+        var flags = {
+            dark,
+            state: startingState
+        };
+
         const app = Elm.Main.init({
             flags: flags,
             node: document.getElementById("elm-root")
         });
         app.ports.storeState.subscribe(function(state) {
-            console.log("State: ", JSON.stringify(state));
             if (state) {
-                var stateJson = JSON.stringify(state);
-                localStorage.setItem('state-app-save', stateJson);
-                console.log("Saved state: ", stateJson);
+                localStorage.setItem('state-app-save', state);
+                console.log("Saved state: ", state);
             }
         });
     } else {

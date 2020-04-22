@@ -9,14 +9,14 @@ import Options.Theme exposing (Theme(..))
 
 view :
     { model
-        | selectedTheme : Theme
+        | state : { state | selectedTheme : Theme }
         , class : String -> Html.Attribute Msg
     }
     -> Html Msg
-view { class, selectedTheme } =
+view { class, state } =
     div []
         [ githubLink class
-        , labsLink class selectedTheme
+        , labsLink class state.selectedTheme
         ]
 
 

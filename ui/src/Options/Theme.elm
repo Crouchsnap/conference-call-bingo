@@ -1,4 +1,4 @@
-module Options.Theme exposing (Theme(..), normalizedTheme, systemTheme, themeDecoder, themeEncoder, themedClass, toString)
+module Options.Theme exposing (Theme(..), normalizedTheme, systemTheme, systemThemeFromFlag, themeDecoder, themeEncoder, themedClass, toString)
 
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
@@ -10,6 +10,11 @@ type Theme
     = Light
     | Dark
     | System Theme
+
+
+systemThemeFromFlag : Decode.Value -> Theme
+systemThemeFromFlag value =
+    systemTheme (decodeBool value)
 
 
 systemTheme : Bool -> Theme
@@ -79,3 +84,17 @@ themeDecoder system =
                     _ ->
                         Decode.succeed system
             )
+
+
+decodeBool : Decode.Value -> Bool
+decodeBool value =
+    case Decode.decodeValue Decode.bool value of
+        Ok value_ ->
+            value_
+
+        Err error ->
+            let
+                _ =
+                    error |> Debug.log "Dark flag"
+            in
+            False

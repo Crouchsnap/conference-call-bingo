@@ -12,12 +12,13 @@ import Game.Dot as Dot exposing (Color(..), Dot)
 import Game.Square exposing (Square, Topic(..), toggleSquareInList, toggleTopic)
 import Header.MobilHeader as MobileHeader
 import Html exposing (Html, div)
+import Json.Decode
 import Msg exposing (Msg(..))
 import Options.BoardStyle as BoardStyle exposing (Color(..))
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
 import Options.TopicChoices as TopicChoices
-import Ports
+import Ports exposing (decodeBool)
 import Random
 import Rating
 import RemoteData exposing (WebData)
@@ -46,15 +47,16 @@ type alias Model =
     , dauberColor : Dot.Color
     , boardColor : BoardStyle.Color
     , systemTheme : Theme
-    , selectedTheme : Theme
     , class : String -> Html.Attribute Msg
     , showTopics : Bool
     , showOptions : Bool
+    , state : Ports.State
     }
 
 
 type alias Flags =
-    { dark : Bool
+    { dark : Json.Decode.Value
+    , state : Json.Decode.Value
     }
 
 
@@ -62,7 +64,10 @@ init : Flags -> Url -> Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
     let
         theme =
-            Theme.systemTheme flags.dark
+            Theme.systemThemeFromFlag flags.dark
+
+        state =
+            Ports.decodeStateValue theme flags.state |> Debug.log "State Decoded"
     in
     ( { board = []
       , startTime = Time.millisToPosix 0
@@ -79,10 +84,10 @@ init flags url key =
       , dauberColor = Blue
       , boardColor = OriginalRed
       , systemTheme = theme
-      , selectedTheme = theme
-      , class = Theme.themedClass theme
+      , class = Theme.themedClass state.selectedTheme
       , showTopics = False
       , showOptions = False
+      , state = state
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -195,8 +200,15 @@ update msg model =
             ( { model | boardColor = color }, Cmd.none )
 
         UpdateTheme theme ->
-            ( { model | selectedTheme = theme, class = Theme.themedClass theme }
-            , Ports.saveState (Ports.State theme)
+            let
+                currentState =
+                    model.state
+
+                updatedState =
+                    { currentState | selectedTheme = theme }
+            in
+            ( { model | state = updatedState, class = Theme.themedClass theme }
+            , Ports.saveState updatedState
             )
 
         ToggleTopics ->

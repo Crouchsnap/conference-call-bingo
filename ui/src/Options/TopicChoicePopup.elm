@@ -14,7 +14,7 @@ view :
         | class : String -> Html.Attribute Msg
         , topics : List Topic
         , showTopics : Bool
-        , selectedTheme : Theme
+        , state : { selectedTheme : Theme }
     }
     -> Html Msg
 view model =
@@ -24,7 +24,7 @@ view model =
         ]
         [ text "Topics"
         , div [ model.class "caret-container" ]
-            [ Caret.view model.selectedTheme ]
+            [ Caret.view model.state.selectedTheme ]
         , popup model
         ]
 

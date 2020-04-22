@@ -9,13 +9,13 @@ import Options.Theme exposing (Theme(..), themedClass)
 
 view :
     { model
-        | selectedTheme : Theme
+        | state : { selectedTheme : Theme }
         , systemTheme : Theme
     }
     -> Html Msg
-view { selectedTheme, systemTheme } =
-    div [ themedClass selectedTheme "options-container" ]
-        [ themeToggle selectedTheme systemTheme
+view { state, systemTheme } =
+    div [ themedClass state.selectedTheme "options-container" ]
+        [ themeToggle state.selectedTheme systemTheme
         ]
 
 
