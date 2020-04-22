@@ -5,11 +5,12 @@ import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme(..), themedClass)
+import Ports
 
 
 view :
     { model
-        | state : { selectedTheme : Theme }
+        | state : Ports.State
         , systemTheme : Theme
     }
     -> Html Msg

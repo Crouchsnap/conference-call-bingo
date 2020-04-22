@@ -1,6 +1,7 @@
-module Game.Dot exposing (Color(..), Dot, Offset, Shape, class, defaultDot, dot, hexColor, round, toString, zeroOffset)
+module Game.Dot exposing (Color(..), Dot, Offset, Shape, class, colorDecoder, defaultDot, dot, hexColor, round, toString, zeroOffset)
 
 import Game.RandomHelper exposing (randomOffset, randomShape)
+import Json.Decode as Decode exposing (Decoder)
 import Random
 
 
@@ -106,3 +107,29 @@ dot seed color =
             randomShape nextForShape 3
     in
     ( Dot offset shape color, nextSeed )
+
+
+colorDecoder : Decoder Color
+colorDecoder =
+    Decode.string
+        |> Decode.andThen
+            (\str ->
+                case str of
+                    "blue" ->
+                        Decode.succeed Blue
+
+                    "keylime" ->
+                        Decode.succeed Keylime
+
+                    "magenta" ->
+                        Decode.succeed Magenta
+
+                    "ruby" ->
+                        Decode.succeed Ruby
+
+                    "tangerine" ->
+                        Decode.succeed Tangerine
+
+                    _ ->
+                        Decode.succeed Blue
+            )

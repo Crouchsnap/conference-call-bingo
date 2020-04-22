@@ -10,8 +10,8 @@ import Msg exposing (Msg(..))
 import View.Style exposing (dotStyle, squareStyle)
 
 
-boardGridView { class, board, dauberColor } =
-    div [ class "board-content board-table" ] (board |> List.indexedMap (squareWrapper class dauberColor))
+boardGridView { class, board, state } =
+    div [ class "board-content board-table" ] (board |> List.indexedMap (squareWrapper class state.dauberColor))
 
 
 squareWrapper class dauberColor index square =

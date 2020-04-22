@@ -5,11 +5,12 @@ import Html exposing (Html, a, div, text)
 import Html.Attributes exposing (href, target)
 import Msg exposing (Msg)
 import Options.Theme exposing (Theme(..))
+import Ports
 
 
 view :
     { model
-        | state : { state | selectedTheme : Theme }
+        | state : Ports.State
         , class : String -> Html.Attribute Msg
     }
     -> Html Msg

@@ -14,11 +14,10 @@ import Header.MobilHeader as MobileHeader
 import Html exposing (Html, div)
 import Json.Decode
 import Msg exposing (Msg(..))
-import Options.BoardStyle as BoardStyle exposing (Color(..))
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
 import Options.TopicChoices as TopicChoices
-import Ports exposing (decodeBool)
+import Ports
 import Random
 import Rating
 import RemoteData exposing (WebData)
@@ -43,9 +42,6 @@ type alias Model =
     , ratingState : Rating.State
     , device : Device
     , nextSeed : Random.Seed
-    , topics : List Topic
-    , dauberColor : Dot.Color
-    , boardColor : BoardStyle.Color
     , systemTheme : Theme
     , class : String -> Html.Attribute Msg
     , showTopics : Bool
@@ -80,9 +76,6 @@ init flags url key =
       , ratingState = Rating.initialState
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
-      , topics = []
-      , dauberColor = Blue
-      , boardColor = OriginalRed
       , systemTheme = theme
       , class = Theme.themedClass state.selectedTheme
       , showTopics = False
@@ -99,7 +92,7 @@ update msg model =
         ToggleCheck squareToToggle ->
             let
                 ( updatedBoard, nextSeed ) =
-                    model.board |> toggleSquareInList model.nextSeed model.dauberColor squareToToggle
+                    model.board |> toggleSquareInList model.nextSeed model.state.dauberColor squareToToggle
             in
             ( { model | board = updatedBoard, nextSeed = nextSeed }
             , if updatedBoard |> Bingo.isWinner then
@@ -119,7 +112,7 @@ update msg model =
                         model.nextSeed
 
                 ( board, next ) =
-                    seed |> randomBoard model.topics
+                    seed |> randomBoard model.state.topics
             in
             ( { model
                 | board = board
@@ -189,15 +182,36 @@ update msg model =
             ( { model | device = classifyDevice { height = height, width = width } }, Cmd.none )
 
         TopicToggled topic ->
-            ( { model | topics = toggleTopic topic model.topics }
-            , Task.perform GotCurrentTime Time.now
+            let
+                currentState =
+                    model.state
+
+                updatedState =
+                    { currentState | topics = toggleTopic topic model.state.topics }
+            in
+            ( { model | state = updatedState }
+            , Cmd.batch [ Task.perform GotCurrentTime Time.now, Ports.saveState updatedState ]
             )
 
         DauberSelected color ->
-            ( { model | dauberColor = color }, Cmd.none )
+            let
+                currentState =
+                    model.state
+
+                updatedState =
+                    { currentState | dauberColor = color }
+            in
+            ( { model | state = updatedState }, Ports.saveState updatedState )
 
         BoardColorSelected color ->
-            ( { model | boardColor = color }, Cmd.none )
+            let
+                currentState =
+                    model.state
+
+                updatedState =
+                    { currentState | boardColor = color }
+            in
+            ( { model | state = updatedState }, Ports.saveState updatedState )
 
         UpdateTheme theme ->
             let

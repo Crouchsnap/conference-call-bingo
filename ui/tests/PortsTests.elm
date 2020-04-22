@@ -1,7 +1,10 @@
 module PortsTests exposing (suite)
 
 import Expect exposing (Expectation)
+import Game.Dot exposing (Color(..))
+import Game.Square exposing (Topic(..))
 import Json.Decode exposing (Decoder)
+import Options.BoardStyle exposing (Color(..))
 import Options.Theme exposing (Theme(..))
 import Ports exposing (decodeState, decodeStateValue, encodeState)
 import Test exposing (..)
@@ -15,7 +18,10 @@ suite =
                 let
                     input =
                         """
-                        { "selectedTheme" : "light" }
+                        { "selectedTheme": "light"
+                            , "topics": [ "fordism", "coronavirus" ]
+                            , "dauberColor": "keylime"
+                            , "boardColor": "goofy-green" }
                         """
 
                     decodedOutput =
@@ -24,7 +30,13 @@ suite =
                             input
                 in
                 Expect.equal decodedOutput
-                    (Ok { selectedTheme = Light })
+                    (Ok
+                        { selectedTheme = Light
+                        , topics = [ Fordism, Coronavirus ]
+                        , dauberColor = Keylime
+                        , boardColor = GoofyGreen
+                        }
+                    )
         , test "State decodes to default theme if missing" <|
             \() ->
                 let
@@ -39,11 +51,30 @@ suite =
                             input
                 in
                 Expect.equal decodedOutput
-                    (Ok { selectedTheme = Dark })
+                    (Ok
+                        { selectedTheme = Dark
+                        , topics = []
+                        , dauberColor = Blue
+                        , boardColor = OriginalRed
+                        }
+                    )
         , test "should encode state" <|
             \_ ->
                 Json.Decode.decodeValue
                     (decodeState Dark)
-                    (encodeState { selectedTheme = Light })
-                    |> Expect.equal (Ok { selectedTheme = Light })
+                    (encodeState
+                        { selectedTheme = Light
+                        , topics = [ Fordism, Coronavirus ]
+                        , dauberColor = Keylime
+                        , boardColor = GoofyGreen
+                        }
+                    )
+                    |> Expect.equal
+                        (Ok
+                            { selectedTheme = Light
+                            , topics = [ Fordism, Coronavirus ]
+                            , dauberColor = Keylime
+                            , boardColor = GoofyGreen
+                            }
+                        )
         ]

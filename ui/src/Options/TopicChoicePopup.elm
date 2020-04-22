@@ -7,14 +7,14 @@ import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme)
 import Options.TopicChoices as TopicChoices
+import Ports
 
 
 view :
     { model
         | class : String -> Html.Attribute Msg
-        , topics : List Topic
         , showTopics : Bool
-        , state : { selectedTheme : Theme }
+        , state : Ports.State
     }
     -> Html Msg
 view model =
