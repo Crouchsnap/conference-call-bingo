@@ -31,13 +31,7 @@ themeToggle selectedTheme systemTheme =
 
 themeToggleOption selectedTheme theme label =
     div
-        ([ style "display" "grid"
-         , style "text-align" "center"
-         , style "line-height" "90%"
-         , style "height" "100%"
-         , style "width" "100%"
-         , style "align-items" "center"
-         , style "justify-items" "center"
+        ([ themedClass selectedTheme "tri-toggle-option"
          , onClick (UpdateTheme theme)
          ]
             ++ (if selectedTheme == theme then
@@ -51,4 +45,4 @@ themeToggleOption selectedTheme theme label =
 
 
 themeToggleSelected label =
-    div [ style "line-height" "90%" ] [ text label ]
+    div [] [ text label ]

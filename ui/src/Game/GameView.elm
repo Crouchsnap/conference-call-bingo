@@ -11,14 +11,14 @@ import View.Style exposing (dotStyle, squareStyle)
 
 
 boardGridView { class, board, dauberColor } =
-    div [ class "board-table" ] (board |> List.indexedMap (squareWrapper class dauberColor))
+    div [ class "board-content board-table" ] (board |> List.indexedMap (squareWrapper class dauberColor))
 
 
 squareWrapper class dauberColor index square =
     div
         [ class "square-container" ]
         [ div
-            (squareStyle class index (dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square), class "boardBorder" ])
+            (squareStyle class index (dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square) ])
             (squareDiv class square)
         ]
 

@@ -3,8 +3,7 @@
     background-color: #545454;
     color: #E5E5E5;
 }
-
-.winning-container-dark {
+.board-content-dark {
     background-color: #6C6C6C;
 }
 
@@ -12,14 +11,9 @@
     background: rgba(236, 185, 4, 1);
 }
 
-.submit-button-dark {
-    color: #E5E5E5;
-}
-
-.checkmark-dark {
-    border-color: #E5E5E5;
-}
-
+.board-header-dark,
+.board-header-bingo-dark,
+.submit-button-dark,
 .anchor-dark {
     color: #E5E5E5;
 }
@@ -29,19 +23,15 @@
     color: #E5E5E5;
 }
 
-
 .tri-toggle-selected-dark {
     color: #545454;
 }
 
-.board-table-dark {
-    background-color: #6C6C6C;
+.checkmark-dark,
+.square-border-right-dark,
+.square-border-bottom-dark {
+    border-color: #E5E5E5;
 }
-
-.boardBorder-dark {
-    border-color: #E5E5E5 !important;
-}
-
 
 .original-red-dark {
     background: #B44542;
@@ -63,11 +53,15 @@
     background: linear-gradient(180deg, #326F96 0%, #0B1C39 89.58%);
 }
 
-.color-chip-option-selected-dark {
+.selected-border-dark,
+.mobile-menu-dark {
     border: 0.5px solid #E5E5E5;
     box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
 }
 
+.mobile-menu-dark {
+    background: #545454;
+}
 
 .blue-dauber-dark {
     background-color: #75A4FF66;

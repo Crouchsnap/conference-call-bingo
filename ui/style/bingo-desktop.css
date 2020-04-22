@@ -36,8 +36,6 @@
 
     .game-options-container {
         display: flex;
-        flex-direction: column;
-        max-width: 18rem;
     }
 
     .topic-wrapper {
@@ -49,10 +47,19 @@
 
     .topic-title {
         display: block;
-        text-transform: uppercase;
-        font-size: 1.25rem;
-        font-weight: bold;
-        margin-bottom: .5rem;
     }
 
+    .tri-toggle-container {
+        height: 2.5rem;
+        width: 13.875rem;
+        font-size: 1rem;
+        border-radius: 1.25rem;
+        line-height: 1;
+    }
+    .tri-toggle-selected {
+        border-radius: 1.25rem;
+    }
+    .tri-toggle-option {
+        line-height: 90%;
+    }
 }

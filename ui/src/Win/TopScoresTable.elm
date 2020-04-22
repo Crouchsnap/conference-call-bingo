@@ -86,7 +86,7 @@ yourScoreRow class ( rank, score ) =
         [ class "top-score-row", class "centered" ]
         [ text (String.fromInt (rank + 1)) ]
     , input
-        [ class "player-input"
+        [ class "player-input selected-border"
         , name "player"
         , title "Enter 2 to 4 Characters"
         , placeholder "Enter your initials"

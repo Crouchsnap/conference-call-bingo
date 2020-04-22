@@ -23,7 +23,7 @@ view :
     }
     -> Html Msg
 view model =
-    div [ model.class "winning-container" ]
+    div [ model.class "board-content winning-container" ]
         [ header model.class
         , content model
         ]

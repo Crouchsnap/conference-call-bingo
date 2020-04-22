@@ -75,7 +75,7 @@ transformOffset { x, y } =
 colorSelectorClasses selectedColor color =
     "color-chip-option "
         ++ (if selectedColor == color then
-                "color-chip-option-selected"
+                "selected-border"
 
             else
                 ""
