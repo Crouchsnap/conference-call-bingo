@@ -1,7 +1,9 @@
-module Options.Theme exposing (Theme(..), normalizedTheme, systemTheme, themedClass)
+module Options.Theme exposing (Theme(..), normalizedTheme, systemTheme, themeDecoder, themeEncoder, themedClass, toString)
 
 import Html exposing (Attribute)
 import Html.Attributes exposing (class)
+import Json.Decode as Decode exposing (Decoder)
+import Json.Encode as Encode
 
 
 type Theme
@@ -42,3 +44,38 @@ themedClass applyTheme className =
 
         _ ->
             class className
+
+
+toString : Theme -> String
+toString theme =
+    case theme of
+        Dark ->
+            "dark"
+
+        Light ->
+            "light"
+
+        System _ ->
+            "system"
+
+
+themeEncoder : Theme -> Encode.Value
+themeEncoder theme =
+    Encode.string <| toString <| theme
+
+
+themeDecoder : Theme -> Decoder Theme
+themeDecoder system =
+    Decode.string
+        |> Decode.andThen
+            (\str ->
+                case str of
+                    "light" ->
+                        Decode.succeed Light
+
+                    "dark" ->
+                        Decode.succeed Dark
+
+                    _ ->
+                        Decode.succeed system
+            )

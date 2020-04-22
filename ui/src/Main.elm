@@ -17,6 +17,7 @@ import Options.BoardStyle as BoardStyle exposing (Color(..))
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
 import Options.TopicChoices as TopicChoices
+import Ports
 import Random
 import Rating
 import RemoteData exposing (WebData)
@@ -194,7 +195,9 @@ update msg model =
             ( { model | boardColor = color }, Cmd.none )
 
         UpdateTheme theme ->
-            ( { model | selectedTheme = theme, class = Theme.themedClass theme }, Cmd.none )
+            ( { model | selectedTheme = theme, class = Theme.themedClass theme }
+            , Ports.saveState (Ports.State theme)
+            )
 
         ToggleTopics ->
             ( { model | showTopics = not model.showTopics }, Cmd.none )
