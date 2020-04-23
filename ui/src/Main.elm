@@ -64,7 +64,7 @@ init flags url key =
             Theme.systemThemeFromFlag flags.dark
 
         userSettings =
-            UserSettings.decodeUserSettingsValue theme flags.userSettings |> Debug.log "UserSettings Decoded"
+            UserSettings.decodeUserSettingsValue theme flags.userSettings
     in
     ( { board = []
       , startTime = Time.millisToPosix 0

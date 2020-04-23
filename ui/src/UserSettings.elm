@@ -50,9 +50,5 @@ decodeUserSettingsValue systemTheme value =
         Ok value_ ->
             value_
 
-        Err error ->
-            let
-                _ =
-                    error |> Debug.log "UserSettings Decoder"
-            in
+        Err _ ->
             defaultUserSettings systemTheme

@@ -92,9 +92,5 @@ decodeBool value =
         Ok value_ ->
             value_
 
-        Err error ->
-            let
-                _ =
-                    error |> Debug.log "Dark flag"
-            in
+        Err _ ->
             False

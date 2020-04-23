@@ -43,7 +43,6 @@
     if (IEdetection() === 'Not IE') {
 
         const storedUserSettings = localStorage.getItem('user-settings-app-save');
-        console.log("Retrieved user settings: ", storedUserSettings);
         const userSettings = storedUserSettings ? JSON.parse(storedUserSettings) : {};
         const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches
 
@@ -59,12 +58,14 @@
         app.ports.storeUserSettings.subscribe(function(userSettings) {
             if (userSettings) {
                 localStorage.setItem('user-settings-app-save', userSettings);
-                console.log("Saved user settings: ", userSettings);
             }
         });
     } else {
-        document.body.innerHTML = "<div style='text-align: center;'><h1>For the best experience please open using Chrome, Firefox, Safari or any modern browser really.</h1>\n" +
-            "    <h2>🙏 Please stop using IE 🙏</h2></div>";
+        document.body.innerHTML = "" +
+            "<div style='text-align: center;'>" +
+            "   <h1>For the best experience please open using Chrome, Firefox, Safari or any modern browser really.</h1>\n" +
+            "   <h2>🙏 Please stop using IE 🙏</h2>" +
+            "</div>";
     }
 
 </script>
