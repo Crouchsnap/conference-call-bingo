@@ -2,7 +2,7 @@ module Game.GameView exposing (boardGridView, dotDiv)
 
 import Assets.Star as Star
 import Game.Dot as Dot exposing (Dot)
-import Game.Square exposing (Topic(..))
+import Game.Topic exposing (Topic(..))
 import Html exposing (Html, div)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)

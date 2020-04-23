@@ -1,13 +1,10 @@
 module Options.TopicChoicePopup exposing (view)
 
 import Assets.Caret as Caret
-import Game.Square exposing (Topic)
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import Options.Theme exposing (Theme)
 import Options.TopicChoices as TopicChoices
-import Ports
 import State exposing (State)
 
 

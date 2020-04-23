@@ -4,7 +4,8 @@ import Expect exposing (Expectation)
 import Game.Bingo exposing (isWinner, randomBoard)
 import Game.Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
 import Game.Dot as Dot
-import Game.Square exposing (Square, Topic(..), centerSquare, genericSquare, squaresByTopic, toggleSquareInList)
+import Game.Square exposing (Square, centerSquare, genericSquare, squaresByTopic, toggleSquareInList)
+import Game.Topic exposing (Topic(..))
 import Html exposing (text)
 import Msg exposing (Msg)
 import Random

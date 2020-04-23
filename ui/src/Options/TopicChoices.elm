@@ -1,11 +1,10 @@
 module Options.TopicChoices exposing (view)
 
-import Game.Square exposing (Topic(..))
+import Game.Topic exposing (Topic(..))
 import Html exposing (Html, div, input, label, text)
 import Html.Attributes exposing (checked, for, name, style, type_)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import Ports
 import State exposing (State)
 
 

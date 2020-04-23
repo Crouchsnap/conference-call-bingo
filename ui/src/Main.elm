@@ -8,8 +8,8 @@ import Element exposing (Device, DeviceClass(..), classifyDevice)
 import Footer.Footer as Footer
 import Game.Bingo as Bingo exposing (randomBoard)
 import Game.Board exposing (Board)
-import Game.Dot as Dot exposing (Color(..), Dot)
-import Game.Square exposing (Square, Topic(..), toggleSquareInList, toggleTopic)
+import Game.Square exposing (Square, toggleSquareInList)
+import Game.Topic exposing (Topic(..), toggleTopic)
 import Header.MobilHeader as MobileHeader
 import Html exposing (Html, div)
 import Json.Decode

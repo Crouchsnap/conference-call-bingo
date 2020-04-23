@@ -3,7 +3,8 @@ module Msg exposing (Msg(..))
 import Browser
 import Browser.Dom exposing (Viewport)
 import Game.Dot as Dot
-import Game.Square exposing (Square, Topic)
+import Game.Square exposing (Square)
+import Game.Topic exposing (Topic)
 import Options.BoardStyle as BoardStyle
 import Options.Theme exposing (Theme)
 import Rating

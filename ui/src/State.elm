@@ -1,7 +1,7 @@
 module State exposing (State, decodeState, decodeStateValue, defaultState, encodeState)
 
 import Game.Dot as Dot exposing (Color(..))
-import Game.Square as Square exposing (Topic)
+import Game.Topic as Topic exposing (Topic)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline
 import Json.Encode as Encode
@@ -29,9 +29,9 @@ encodeState : State -> Encode.Value
 encodeState state =
     Encode.object
         [ ( "selectedTheme", Theme.themeEncoder <| state.selectedTheme )
-        , ( "topics", Encode.list Square.encodeTopic <| state.topics )
+        , ( "topics", Encode.list Topic.encodeTopic <| state.topics )
         , ( "dauberColor", Encode.string <| Dot.toString <| state.dauberColor )
-        , ( "boardColor", Encode.string <| BoardStyle.className <| state.boardColor )
+        , ( "boardColor", Encode.string <| BoardStyle.toString <| state.boardColor )
         ]
 
 
@@ -39,7 +39,7 @@ decodeState : Theme -> Decoder State
 decodeState systemTheme =
     Decode.succeed State
         |> Json.Decode.Pipeline.optional "selectedTheme" (Theme.themeDecoder systemTheme) systemTheme
-        |> Json.Decode.Pipeline.optional "topics" (Decode.list Square.topicDecoder) []
+        |> Json.Decode.Pipeline.optional "topics" (Decode.list Topic.topicDecoder) []
         |> Json.Decode.Pipeline.optional "dauberColor" Dot.colorDecoder Blue
         |> Json.Decode.Pipeline.optional "boardColor" BoardStyle.colorDecoder OriginalRed
 

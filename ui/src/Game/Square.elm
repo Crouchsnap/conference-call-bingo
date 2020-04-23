@@ -1,22 +1,13 @@
-module Game.Square exposing (Square, Topic(..), centerSquare, checked, encodeTopic, genericSquare, squaresByTopic, toString, toggleSquareInList, toggleTopic, topicDecoder)
+module Game.Square exposing (Square, centerSquare, checked, genericSquare, squaresByTopic, toggleSquareInList)
 
 import Game.Dot as Dot exposing (Dot, dot)
+import Game.Topic exposing (Topic(..))
 import Html exposing (Html, br, div)
-import Json.Decode as Decode exposing (Decoder)
-import Json.Encode as Encode
-import List.Extra
 import Random exposing (Seed)
 
 
 type alias Square msg =
     { html : Html msg, topic : Topic, dots : List Dot }
-
-
-type Topic
-    = Generic
-    | Fordism
-    | Coronavirus
-    | Center
 
 
 genericSquare : String -> Square msg
@@ -165,48 +156,3 @@ toggleSquare seed color square =
 checked : Square msg -> Bool
 checked square =
     (square.dots |> List.isEmpty |> not) || square.topic == Center
-
-
-toggleTopic topic topics =
-    topics
-        |> (if not (List.member topic topics) then
-                List.append [ topic ]
-
-            else
-                List.Extra.remove topic
-           )
-
-
-topicDecoder : Decoder Topic
-topicDecoder =
-    Decode.string
-        |> Decode.andThen
-            (\str ->
-                case str of
-                    "fordism" ->
-                        Decode.succeed Fordism
-
-                    "coronavirus" ->
-                        Decode.succeed Coronavirus
-
-                    _ ->
-                        Decode.succeed Generic
-            )
-
-
-encodeTopic : Topic -> Encode.Value
-encodeTopic topic =
-    topic |> toString |> Encode.string
-
-
-toString : Topic -> String
-toString topic =
-    case topic of
-        Fordism ->
-            "fordism"
-
-        Coronavirus ->
-            "coronavirus"
-
-        _ ->
-            ""

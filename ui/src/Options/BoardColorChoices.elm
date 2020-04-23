@@ -3,7 +3,7 @@ module Options.BoardColorChoices exposing (view)
 import Html exposing (Html, div, label, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import Options.BoardStyle exposing (Color(..), className)
+import Options.BoardStyle exposing (Color(..), toString)
 import Ports
 import State exposing (State)
 import View.Style exposing (colorSelectorClasses)
@@ -26,6 +26,6 @@ boardColorSelector class selectedColor color colorLabel =
         [ onClick (BoardColorSelected color)
         , class (colorSelectorClasses selectedColor color)
         ]
-        [ div [ class ("square-color-chip " ++ (color |> className)) ] []
+        [ div [ class ("square-color-chip " ++ (color |> toString)) ] []
         , label [ class "color-chip-label" ] [ text colorLabel ]
         ]

@@ -1,7 +1,8 @@
 module Game.Bingo exposing (isWinner, randomBoard)
 
 import Game.Board exposing (Board, areIndicesChecked, possibleWinningCombinations)
-import Game.Square exposing (Square, Topic(..), centerSquare, squaresByTopic)
+import Game.Square exposing (Square, centerSquare, squaresByTopic)
+import Game.Topic exposing (Topic(..))
 import Random
 import Random.List
 

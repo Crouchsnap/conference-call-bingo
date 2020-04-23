@@ -28,7 +28,7 @@ view :
     -> Bool
     -> Html.Html Msg
 view model gameFinished =
-    div [ model.class ("board-container " ++ (model.state.boardColor |> BoardStyle.className)) ]
+    div [ model.class ("board-container " ++ (model.state.boardColor |> BoardStyle.toString)) ]
         [ div [ model.class "board-header" ] [ text "conference call" ]
         , div [ model.class "board-header-bingo" ] bingoTitle
         , if gameFinished then

@@ -1,4 +1,4 @@
-module Options.BoardStyle exposing (Color(..), className, colorDecoder)
+module Options.BoardStyle exposing (Color(..), colorDecoder, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -11,7 +11,7 @@ type Color
     | FordBlue
 
 
-className color =
+toString color =
     case color of
         OriginalRed ->
             "original-red"
