@@ -1,4 +1,4 @@
-module State exposing (State, decodeState, decodeStateValue, defaultState, encodeState)
+module UserSettings exposing (UserSettings, decodeUserSettings, decodeUserSettingsValue, defaultUserSettings, encodeUserSettings)
 
 import Game.Dot as Dot exposing (Color(..))
 import Game.Topic as Topic exposing (Topic)
@@ -9,7 +9,7 @@ import Options.BoardStyle as BoardStyle exposing (Color(..))
 import Options.Theme as Theme exposing (Theme)
 
 
-type alias State =
+type alias UserSettings =
     { selectedTheme : Theme
     , topics : List Topic
     , dauberColor : Dot.Color
@@ -17,7 +17,7 @@ type alias State =
     }
 
 
-defaultState selectedTheme =
+defaultUserSettings selectedTheme =
     { selectedTheme = selectedTheme
     , topics = []
     , dauberColor = Blue
@@ -25,34 +25,34 @@ defaultState selectedTheme =
     }
 
 
-encodeState : State -> Encode.Value
-encodeState state =
+encodeUserSettings : UserSettings -> Encode.Value
+encodeUserSettings userSettings =
     Encode.object
-        [ ( "selectedTheme", Theme.themeEncoder <| state.selectedTheme )
-        , ( "topics", Encode.list Topic.encodeTopic <| state.topics )
-        , ( "dauberColor", Encode.string <| Dot.toString <| state.dauberColor )
-        , ( "boardColor", Encode.string <| BoardStyle.toString <| state.boardColor )
+        [ ( "selectedTheme", Theme.themeEncoder <| userSettings.selectedTheme )
+        , ( "topics", Encode.list Topic.encodeTopic <| userSettings.topics )
+        , ( "dauberColor", Encode.string <| Dot.toString <| userSettings.dauberColor )
+        , ( "boardColor", Encode.string <| BoardStyle.toString <| userSettings.boardColor )
         ]
 
 
-decodeState : Theme -> Decoder State
-decodeState systemTheme =
-    Decode.succeed State
+decodeUserSettings : Theme -> Decoder UserSettings
+decodeUserSettings systemTheme =
+    Decode.succeed UserSettings
         |> Json.Decode.Pipeline.optional "selectedTheme" (Theme.themeDecoder systemTheme) systemTheme
         |> Json.Decode.Pipeline.optional "topics" (Decode.list Topic.topicDecoder) []
         |> Json.Decode.Pipeline.optional "dauberColor" Dot.colorDecoder Blue
         |> Json.Decode.Pipeline.optional "boardColor" BoardStyle.colorDecoder OriginalRed
 
 
-decodeStateValue : Theme -> Decode.Value -> State
-decodeStateValue fallback value =
-    case Decode.decodeValue (decodeState fallback) value of
+decodeUserSettingsValue : Theme -> Decode.Value -> UserSettings
+decodeUserSettingsValue systemTheme value =
+    case Decode.decodeValue (decodeUserSettings systemTheme) value of
         Ok value_ ->
             value_
 
         Err error ->
             let
                 _ =
-                    error |> Debug.log "State Decoder"
+                    error |> Debug.log "UserSettings Decoder"
             in
-            defaultState fallback
+            defaultUserSettings systemTheme

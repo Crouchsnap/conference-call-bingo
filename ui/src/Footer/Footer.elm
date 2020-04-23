@@ -6,19 +6,19 @@ import Html.Attributes exposing (href, target)
 import Msg exposing (Msg)
 import Options.Theme exposing (Theme(..))
 import Ports
-import State exposing (State)
+import UserSettings exposing (UserSettings)
 
 
 view :
     { model
-        | state : State
+        | userSettings : UserSettings
         , class : String -> Html.Attribute Msg
     }
     -> Html Msg
-view { class, state } =
+view { class, userSettings } =
     div []
         [ githubLink class
-        , labsLink class state.selectedTheme
+        , labsLink class userSettings.selectedTheme
         ]
 
 

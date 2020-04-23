@@ -42,24 +42,24 @@
 
     if (IEdetection() === 'Not IE') {
 
-        const storedState = localStorage.getItem('state-app-save');
-        console.log("Retrieved state: ", storedState);
-        const startingState = storedState ? JSON.parse(storedState) : {};
+        const storedUserSettings = localStorage.getItem('user-settings-app-save');
+        console.log("Retrieved user settings: ", storedUserSettings);
+        const userSettings = storedUserSettings ? JSON.parse(storedUserSettings) : {};
         const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches
 
-        var flags = {
+        const flags = {
             dark,
-            state: startingState
+            userSettings
         };
 
         const app = Elm.Main.init({
             flags: flags,
             node: document.getElementById("elm-root")
         });
-        app.ports.storeState.subscribe(function(state) {
-            if (state) {
-                localStorage.setItem('state-app-save', state);
-                console.log("Saved state: ", state);
+        app.ports.storeUserSettings.subscribe(function(userSettings) {
+            if (userSettings) {
+                localStorage.setItem('user-settings-app-save', userSettings);
+                console.log("Saved user settings: ", userSettings);
             }
         });
     } else {

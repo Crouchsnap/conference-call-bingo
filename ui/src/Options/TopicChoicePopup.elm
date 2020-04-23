@@ -5,14 +5,14 @@ import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.TopicChoices as TopicChoices
-import State exposing (State)
+import UserSettings exposing (UserSettings)
 
 
 view :
     { model
         | class : String -> Html.Attribute Msg
         , showTopics : Bool
-        , state : State
+        , userSettings : UserSettings
     }
     -> Html Msg
 view model =
@@ -22,7 +22,7 @@ view model =
         ]
         [ text "Topics"
         , div [ model.class "caret-container" ]
-            [ Caret.view model.state.selectedTheme ]
+            [ Caret.view model.userSettings.selectedTheme ]
         , popup model
         ]
 

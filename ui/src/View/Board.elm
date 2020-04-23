@@ -7,8 +7,8 @@ import Msg exposing (Msg)
 import Options.BoardStyle as BoardStyle
 import Rating
 import RemoteData exposing (WebData)
-import State exposing (State)
 import Time exposing (Posix)
+import UserSettings exposing (UserSettings)
 import Win.Score exposing (GameResult, Score)
 import Win.WinningView as WinningView
 
@@ -16,7 +16,7 @@ import Win.WinningView as WinningView
 view :
     { model
         | class : String -> Html.Attribute Msg
-        , state : State
+        , userSettings : UserSettings
         , startTime : Posix
         , endTime : Posix
         , highScores : WebData (List Score)
@@ -28,7 +28,7 @@ view :
     -> Bool
     -> Html.Html Msg
 view model gameFinished =
-    div [ model.class ("board-container " ++ (model.state.boardColor |> BoardStyle.toString)) ]
+    div [ model.class ("board-container " ++ (model.userSettings.boardColor |> BoardStyle.toString)) ]
         [ div [ model.class "board-header" ] [ text "conference call" ]
         , div [ model.class "board-header-bingo" ] bingoTitle
         , if gameFinished then

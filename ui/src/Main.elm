@@ -22,10 +22,10 @@ import Random
 import Rating
 import RemoteData exposing (WebData)
 import Requests
-import State exposing (State)
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
+import UserSettings exposing (UserSettings)
 import View.Board as Board
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
@@ -47,13 +47,13 @@ type alias Model =
     , class : String -> Html.Attribute Msg
     , showTopics : Bool
     , showOptions : Bool
-    , state : State
+    , userSettings : UserSettings
     }
 
 
 type alias Flags =
     { dark : Json.Decode.Value
-    , state : Json.Decode.Value
+    , userSettings : Json.Decode.Value
     }
 
 
@@ -63,8 +63,8 @@ init flags url key =
         theme =
             Theme.systemThemeFromFlag flags.dark
 
-        state =
-            State.decodeStateValue theme flags.state |> Debug.log "State Decoded"
+        userSettings =
+            UserSettings.decodeUserSettingsValue theme flags.userSettings |> Debug.log "UserSettings Decoded"
     in
     ( { board = []
       , startTime = Time.millisToPosix 0
@@ -78,10 +78,10 @@ init flags url key =
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
       , systemTheme = theme
-      , class = Theme.themedClass state.selectedTheme
+      , class = Theme.themedClass userSettings.selectedTheme
       , showTopics = False
       , showOptions = False
-      , state = state
+      , userSettings = userSettings
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -93,7 +93,7 @@ update msg model =
         ToggleCheck squareToToggle ->
             let
                 ( updatedBoard, nextSeed ) =
-                    model.board |> toggleSquareInList model.nextSeed model.state.dauberColor squareToToggle
+                    model.board |> toggleSquareInList model.nextSeed model.userSettings.dauberColor squareToToggle
             in
             ( { model | board = updatedBoard, nextSeed = nextSeed }
             , if updatedBoard |> Bingo.isWinner then
@@ -113,7 +113,7 @@ update msg model =
                         model.nextSeed
 
                 ( board, next ) =
-                    seed |> randomBoard model.state.topics
+                    seed |> randomBoard model.userSettings.topics
             in
             ( { model
                 | board = board
@@ -184,46 +184,46 @@ update msg model =
 
         TopicToggled topic ->
             let
-                currentState =
-                    model.state
+                currentUserSettings =
+                    model.userSettings
 
-                updatedState =
-                    { currentState | topics = toggleTopic topic model.state.topics }
+                updatedUserSettings =
+                    { currentUserSettings | topics = toggleTopic topic model.userSettings.topics }
             in
-            ( { model | state = updatedState }
-            , Cmd.batch [ Task.perform GotCurrentTime Time.now, Ports.saveState updatedState ]
+            ( { model | userSettings = updatedUserSettings }
+            , Cmd.batch [ Task.perform GotCurrentTime Time.now, Ports.saveUserSettings updatedUserSettings ]
             )
 
         DauberSelected color ->
             let
-                currentState =
-                    model.state
+                currentUserSettings =
+                    model.userSettings
 
-                updatedState =
-                    { currentState | dauberColor = color }
+                updatedUserSettings =
+                    { currentUserSettings | dauberColor = color }
             in
-            ( { model | state = updatedState }, Ports.saveState updatedState )
+            ( { model | userSettings = updatedUserSettings }, Ports.saveUserSettings updatedUserSettings )
 
         BoardColorSelected color ->
             let
-                currentState =
-                    model.state
+                currentUserSettings =
+                    model.userSettings
 
-                updatedState =
-                    { currentState | boardColor = color }
+                updatedUserSettings =
+                    { currentUserSettings | boardColor = color }
             in
-            ( { model | state = updatedState }, Ports.saveState updatedState )
+            ( { model | userSettings = updatedUserSettings }, Ports.saveUserSettings updatedUserSettings )
 
         UpdateTheme theme ->
             let
-                currentState =
-                    model.state
+                currentUserSettings =
+                    model.userSettings
 
-                updatedState =
-                    { currentState | selectedTheme = theme }
+                updatedUserSettings =
+                    { currentUserSettings | selectedTheme = theme }
             in
-            ( { model | state = updatedState, class = Theme.themedClass theme }
-            , Ports.saveState updatedState
+            ( { model | userSettings = updatedUserSettings, class = Theme.themedClass theme }
+            , Ports.saveUserSettings updatedUserSettings
             )
 
         ToggleTopics ->

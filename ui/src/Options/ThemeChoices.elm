@@ -6,18 +6,18 @@ import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme(..), themedClass)
 import Ports
-import State exposing (State)
+import UserSettings exposing (UserSettings)
 
 
 view :
     { model
-        | state : State
+        | userSettings : UserSettings
         , systemTheme : Theme
     }
     -> Html Msg
-view { state, systemTheme } =
-    div [ themedClass state.selectedTheme "options-container" ]
-        [ themeToggle state.selectedTheme systemTheme
+view { userSettings, systemTheme } =
+    div [ themedClass userSettings.selectedTheme "options-container" ]
+        [ themeToggle userSettings.selectedTheme systemTheme
         ]
 
 

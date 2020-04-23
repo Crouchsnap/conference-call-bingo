@@ -9,7 +9,7 @@ import Options.Options as Options
 
 view model =
     div [ model.class "options-icon", onClick ToggleOptions ]
-        [ div [] [ Gear.view model.state.selectedTheme ]
+        [ div [] [ Gear.view model.userSettings.selectedTheme ]
         , popup model
         ]
 

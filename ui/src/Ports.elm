@@ -1,14 +1,14 @@
-port module Ports exposing (saveState)
+port module Ports exposing (saveUserSettings)
 
 import Json.Encode as Encode
-import State exposing (State, encodeState)
+import UserSettings exposing (UserSettings, encodeUserSettings)
 
 
-port storeState : String -> Cmd msg
+port storeUserSettings : String -> Cmd msg
 
 
-saveState : State -> Cmd msg
-saveState state =
-    encodeState state
+saveUserSettings : UserSettings -> Cmd msg
+saveUserSettings userSettings =
+    encodeUserSettings userSettings
         |> Encode.encode 0
-        |> storeState
+        |> storeUserSettings

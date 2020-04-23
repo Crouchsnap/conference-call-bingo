@@ -1,4 +1,4 @@
-module StateTests exposing (suite)
+module UserSettingsTests exposing (suite)
 
 import Expect exposing (Expectation)
 import Game.Dot exposing (Color(..))
@@ -6,14 +6,14 @@ import Game.Topic exposing (Topic(..))
 import Json.Decode exposing (Decoder)
 import Options.BoardStyle exposing (Color(..))
 import Options.Theme exposing (Theme(..))
-import State exposing (decodeState, encodeState)
 import Test exposing (..)
+import UserSettings exposing (decodeUserSettings, encodeUserSettings)
 
 
 suite : Test
 suite =
-    describe "State Tests"
-        [ test "State decodes to Light" <|
+    describe "UserSettings Tests"
+        [ test "UserSettings decodes to Light" <|
             \() ->
                 let
                     input =
@@ -26,7 +26,7 @@ suite =
 
                     decodedOutput =
                         Json.Decode.decodeString
-                            (decodeState Dark)
+                            (decodeUserSettings Dark)
                             input
                 in
                 Expect.equal decodedOutput
@@ -37,7 +37,7 @@ suite =
                         , boardColor = GoofyGreen
                         }
                     )
-        , test "State decodes to default theme if missing" <|
+        , test "UserSettings decodes to default theme if missing" <|
             \() ->
                 let
                     input =
@@ -47,7 +47,7 @@ suite =
 
                     decodedOutput =
                         Json.Decode.decodeString
-                            (decodeState Dark)
+                            (decodeUserSettings Dark)
                             input
                 in
                 Expect.equal decodedOutput
@@ -58,11 +58,11 @@ suite =
                         , boardColor = OriginalRed
                         }
                     )
-        , test "should encode state" <|
+        , test "should encode UserSettings" <|
             \_ ->
                 Json.Decode.decodeValue
-                    (decodeState Dark)
-                    (encodeState
+                    (decodeUserSettings Dark)
+                    (encodeUserSettings
                         { selectedTheme = Light
                         , topics = [ Fordism, Coronavirus ]
                         , dauberColor = Keylime

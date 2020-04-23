@@ -5,19 +5,19 @@ import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.BoardStyle exposing (Color(..), toString)
 import Ports
-import State exposing (State)
+import UserSettings exposing (UserSettings)
 import View.Style exposing (colorSelectorClasses)
 
 
-view : { model | state : State, class : String -> Html.Attribute Msg } -> Html Msg
-view { state, class } =
+view : { model | userSettings : UserSettings, class : String -> Html.Attribute Msg } -> Html Msg
+view { userSettings, class } =
     div [ class "options-container" ]
         [ div [ class "options-title" ] [ text "bingo sheet color" ]
-        , boardColorSelector class state.boardColor OriginalRed "Original Red"
-        , boardColorSelector class state.boardColor FadedBlue "Faded Blue"
-        , boardColorSelector class state.boardColor LuckyPurple "Lucky Purple"
-        , boardColorSelector class state.boardColor GoofyGreen "Goofy Green"
-        , boardColorSelector class state.boardColor FordBlue "Ford Blue"
+        , boardColorSelector class userSettings.boardColor OriginalRed "Original Red"
+        , boardColorSelector class userSettings.boardColor FadedBlue "Faded Blue"
+        , boardColorSelector class userSettings.boardColor LuckyPurple "Lucky Purple"
+        , boardColorSelector class userSettings.boardColor GoofyGreen "Goofy Green"
+        , boardColorSelector class userSettings.boardColor FordBlue "Ford Blue"
         ]
 
 

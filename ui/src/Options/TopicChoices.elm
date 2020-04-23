@@ -5,20 +5,20 @@ import Html exposing (Html, div, input, label, text)
 import Html.Attributes exposing (checked, for, name, style, type_)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import State exposing (State)
+import UserSettings exposing (UserSettings)
 
 
 view :
-    { model | class : String -> Html.Attribute Msg, state : State }
+    { model | class : String -> Html.Attribute Msg, userSettings : UserSettings }
     -> String
     -> Bool
     -> Html Msg
-view { class, state } wrapperClass show =
+view { class, userSettings } wrapperClass show =
     if show then
         div [ class wrapperClass ]
             [ title class
-            , topicToggle class "Fordisms" Fordism state.topics
-            , topicToggle class "Coronavirus" Coronavirus state.topics
+            , topicToggle class "Fordisms" Fordism userSettings.topics
+            , topicToggle class "Coronavirus" Coronavirus userSettings.topics
             ]
 
     else
