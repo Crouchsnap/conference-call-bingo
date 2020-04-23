@@ -6,11 +6,12 @@ import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme(..), themedClass)
 import Ports
+import State exposing (State)
 
 
 view :
     { model
-        | state : Ports.State
+        | state : State
         , systemTheme : Theme
     }
     -> Html Msg

@@ -1,4 +1,4 @@
-module PortsTests exposing (suite)
+module StateTests exposing (suite)
 
 import Expect exposing (Expectation)
 import Game.Dot exposing (Color(..))
@@ -6,7 +6,7 @@ import Game.Square exposing (Topic(..))
 import Json.Decode exposing (Decoder)
 import Options.BoardStyle exposing (Color(..))
 import Options.Theme exposing (Theme(..))
-import Ports exposing (decodeState, decodeStateValue, encodeState)
+import State exposing (decodeState, encodeState)
 import Test exposing (..)
 
 

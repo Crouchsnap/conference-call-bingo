@@ -7,11 +7,12 @@ import Options.DauberChoices as DauberChoices
 import Options.Theme exposing (Theme)
 import Options.ThemeChoices as ThemeChoices
 import Ports
+import State exposing (State)
 
 
 view :
     { model
-        | state : Ports.State
+        | state : State
         , systemTheme : Theme
         , class : String -> Html.Attribute Msg
     }

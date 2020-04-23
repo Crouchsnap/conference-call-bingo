@@ -6,10 +6,11 @@ import Html.Attributes exposing (checked, for, name, style, type_)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Ports
+import State exposing (State)
 
 
 view :
-    { model | class : String -> Html.Attribute Msg, state : Ports.State }
+    { model | class : String -> Html.Attribute Msg, state : State }
     -> String
     -> Bool
     -> Html Msg

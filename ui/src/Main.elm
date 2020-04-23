@@ -22,6 +22,7 @@ import Random
 import Rating
 import RemoteData exposing (WebData)
 import Requests
+import State exposing (State)
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
@@ -46,7 +47,7 @@ type alias Model =
     , class : String -> Html.Attribute Msg
     , showTopics : Bool
     , showOptions : Bool
-    , state : Ports.State
+    , state : State
     }
 
 
@@ -63,7 +64,7 @@ init flags url key =
             Theme.systemThemeFromFlag flags.dark
 
         state =
-            Ports.decodeStateValue theme flags.state |> Debug.log "State Decoded"
+            State.decodeStateValue theme flags.state |> Debug.log "State Decoded"
     in
     ( { board = []
       , startTime = Time.millisToPosix 0

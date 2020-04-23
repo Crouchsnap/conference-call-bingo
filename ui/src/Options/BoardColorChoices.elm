@@ -5,10 +5,11 @@ import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.BoardStyle exposing (Color(..), className)
 import Ports
+import State exposing (State)
 import View.Style exposing (colorSelectorClasses)
 
 
-view : { model | state : Ports.State, class : String -> Html.Attribute Msg } -> Html Msg
+view : { model | state : State, class : String -> Html.Attribute Msg } -> Html Msg
 view { state, class } =
     div [ class "options-container" ]
         [ div [ class "options-title" ] [ text "bingo sheet color" ]

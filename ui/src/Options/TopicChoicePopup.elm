@@ -8,13 +8,14 @@ import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme)
 import Options.TopicChoices as TopicChoices
 import Ports
+import State exposing (State)
 
 
 view :
     { model
         | class : String -> Html.Attribute Msg
         , showTopics : Bool
-        , state : Ports.State
+        , state : State
     }
     -> Html Msg
 view model =

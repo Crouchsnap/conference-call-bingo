@@ -6,10 +6,11 @@ import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Ports
+import State exposing (State)
 import View.Style exposing (colorSelectorClasses)
 
 
-view : { model | class : String -> Html.Attribute Msg, state : Ports.State } -> Html Msg
+view : { model | class : String -> Html.Attribute Msg, state : State } -> Html Msg
 view { class, state } =
     div [ class "options-container bottom-item" ]
         [ div [ class "options-title" ] [ text "dauber color" ]

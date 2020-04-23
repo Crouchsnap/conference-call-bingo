@@ -1,14 +1,13 @@
 module View.Board exposing (view)
 
-import Game.Dot exposing (Color)
 import Game.GameView as GameView
 import Game.Square exposing (Square)
 import Html exposing (div, text)
 import Msg exposing (Msg)
 import Options.BoardStyle as BoardStyle
-import Ports
-import Rating exposing (State)
+import Rating
 import RemoteData exposing (WebData)
+import State exposing (State)
 import Time exposing (Posix)
 import Win.Score exposing (GameResult, Score)
 import Win.WinningView as WinningView
@@ -17,12 +16,12 @@ import Win.WinningView as WinningView
 view :
     { model
         | class : String -> Html.Attribute Msg
-        , state : Ports.State
+        , state : State
         , startTime : Posix
         , endTime : Posix
         , highScores : WebData (List Score)
         , gameResult : GameResult
-        , ratingState : State
+        , ratingState : Rating.State
         , submittedScoreResponse : WebData ()
         , board : List (Square Msg)
     }

@@ -6,11 +6,12 @@ import Html.Attributes exposing (href, target)
 import Msg exposing (Msg)
 import Options.Theme exposing (Theme(..))
 import Ports
+import State exposing (State)
 
 
 view :
     { model
-        | state : Ports.State
+        | state : State
         , class : String -> Html.Attribute Msg
     }
     -> Html Msg
