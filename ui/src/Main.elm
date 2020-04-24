@@ -6,14 +6,16 @@ import Browser.Events
 import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
 import Element exposing (Device, DeviceClass(..), classifyDevice)
 import Footer.Footer as Footer
+import GA exposing (Event(..))
 import Game.Bingo as Bingo exposing (randomBoard)
 import Game.Board exposing (Board)
 import Game.Dot as Dot
-import Game.Square exposing (Square, toggleSquareInList)
+import Game.Square exposing (Square, genericSquare, toggleSquareInList)
 import Game.Topic exposing (Topic(..), toggleTopic)
 import Header.MobilHeader as MobileHeader
 import Html exposing (Html, div)
 import Json.Decode
+import List.Extra
 import Msg exposing (Msg(..))
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
@@ -95,13 +97,21 @@ update msg model =
             let
                 ( updatedBoard, nextSeed ) =
                     model.board |> toggleSquareInList model.nextSeed model.userSettings.dauberColor squareToToggle
+
+                gaEvent =
+                    Ports.sendGaEvent
+                        (SquareDaub
+                            ((updatedBoard |> List.Extra.find (\square -> square.text == squareToToggle.text))
+                                |> Maybe.withDefault squareToToggle
+                            )
+                        )
             in
             ( { model | board = updatedBoard, nextSeed = nextSeed }
             , if updatedBoard |> Bingo.isWinner then
-                Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url ]
+                Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url, gaEvent ]
 
               else
-                Cmd.none
+                gaEvent
             )
 
         GotCurrentTime time ->
@@ -192,7 +202,11 @@ update msg model =
                     { currentUserSettings | topics = toggleTopic topic model.userSettings.topics }
             in
             ( { model | userSettings = updatedUserSettings }
-            , Cmd.batch [ Task.perform GotCurrentTime Time.now, Ports.saveUserSettings updatedUserSettings ]
+            , Cmd.batch
+                [ Task.perform GotCurrentTime Time.now
+                , Ports.saveUserSettings updatedUserSettings
+                , Ports.sendGaEvent (TopicChange (updatedUserSettings.topics |> List.member topic) topic)
+                ]
             )
 
         DauberSelected color ->
@@ -204,7 +218,7 @@ update msg model =
                     { currentUserSettings | dauberColor = color }
             in
             ( { model | userSettings = updatedUserSettings }
-            , Cmd.batch [ Ports.saveUserSettings updatedUserSettings, Ports.sendGaEvent "dauber-color" (color |> Dot.toString) ]
+            , Cmd.batch [ Ports.saveUserSettings updatedUserSettings, Ports.sendGaEvent (DauberColor color model.userSettings.selectedTheme) ]
             )
 
         BoardColorSelected color ->
@@ -215,7 +229,9 @@ update msg model =
                 updatedUserSettings =
                     { currentUserSettings | boardColor = color }
             in
-            ( { model | userSettings = updatedUserSettings }, Ports.saveUserSettings updatedUserSettings )
+            ( { model | userSettings = updatedUserSettings }
+            , Cmd.batch [ Ports.saveUserSettings updatedUserSettings, Ports.sendGaEvent (BoardColor color model.userSettings.selectedTheme) ]
+            )
 
         UpdateTheme theme ->
             let
@@ -226,7 +242,7 @@ update msg model =
                     { currentUserSettings | selectedTheme = theme }
             in
             ( { model | userSettings = updatedUserSettings, class = Theme.themedClass theme }
-            , Ports.saveUserSettings updatedUserSettings
+            , Cmd.batch [ Ports.saveUserSettings updatedUserSettings, Ports.sendGaEvent (ThemeChange theme) ]
             )
 
         ToggleTopics ->

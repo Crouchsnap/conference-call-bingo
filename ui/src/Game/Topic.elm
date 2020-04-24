@@ -127,11 +127,14 @@ encodeTopic topic =
 toString : Topic -> String
 toString topic =
     case topic of
+        Generic ->
+            "generic"
+
         Fordism ->
             "fordism"
 
         Coronavirus ->
             "coronavirus"
 
-        _ ->
-            ""
+        Center ->
+            "center"

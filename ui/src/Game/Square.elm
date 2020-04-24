@@ -7,27 +7,27 @@ import Random exposing (Seed)
 
 
 type alias Square msg =
-    { html : Html msg, topic : Topic, dots : List Dot }
+    { html : Html msg, topic : Topic, text : String, dots : List Dot }
 
 
 genericSquare : String -> Square msg
 genericSquare text =
-    Square (Html.text text) Generic []
+    Square (Html.text text) Generic text []
 
 
 fordismSquare : String -> Square msg
 fordismSquare text =
-    Square (Html.text text) Fordism []
+    Square (Html.text text) Fordism text []
 
 
 coronavirusSquare : String -> Square msg
 coronavirusSquare text =
-    Square (Html.text text) Coronavirus []
+    Square (Html.text text) Coronavirus text []
 
 
 centerSquare : Square msg
 centerSquare =
-    Square (div [] [ Html.text "Free", br [] [], Html.text "Space" ]) Center []
+    Square (div [] [ Html.text "Free", br [] [], Html.text "Space" ]) Center "Free Space" []
 
 
 genericSquares : List (Square msg)

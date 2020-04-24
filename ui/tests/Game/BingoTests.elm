@@ -14,7 +14,7 @@ import Test exposing (..)
 
 fakeSquare : Square Msg
 fakeSquare =
-    { html = text "fake", dots = [], topic = Generic }
+    { html = text "fake", dots = [], text = "fake", topic = Generic }
 
 
 suite : Test

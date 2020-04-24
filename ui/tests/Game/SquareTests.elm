@@ -33,7 +33,7 @@ suite =
             \_ ->
                 let
                     testSquare =
-                        Square (text "") Generic [ defaultDot, defaultDot, defaultDot ]
+                        Square (text "") Generic "" [ defaultDot, defaultDot, defaultDot ]
                 in
                 [ testSquare ]
                     |> toggleSquareInList seed Dot.Blue testSquare
