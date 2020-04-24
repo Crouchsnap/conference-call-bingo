@@ -55,6 +55,8 @@ generic =
     , "(breathing directly into the microphone)"
     , "\"That's a great question...(deflection)\""
     , "Two people with the same first name present"
+    , "\"Let's give everyone a few minutes to join\""
+    , "Meeting started late"
     ]
 
 
