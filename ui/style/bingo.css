@@ -281,23 +281,23 @@ button[disabled] {
 }
 
 .blue-dauber-cursor {
-    cursor: url('../assets/blue-dauber.png'), auto;
+    cursor: url('../assets/blue-dauber.png') 5 110, auto;
 }
 
 .keylime-dauber-cursor {
-    cursor: url('../assets/key-lime-dauber.png'), auto;
+    cursor: url('../assets/key-lime-dauber.png') 5 110, auto;
 }
 
 .magenta-dauber-cursor {
-    cursor: url('../assets/magenta-dauber.png'), auto;
+    cursor: url('../assets/magenta-dauber.png') 5 110, auto;
 }
 
 .ruby-dauber-cursor {
-    cursor: url('../assets/ruby-dauber.png'), auto;
+    cursor: url('../assets/ruby-dauber.png') 5 110, auto;
 }
 
 .tangerine-dauber-cursor {
-    cursor: url('../assets/tangerine-dauber.png'), auto;
+    cursor: url('../assets/tangerine-dauber.png') 5 110, auto;
 }
 
 .game-options-container,
