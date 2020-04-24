@@ -8,6 +8,7 @@ import Element exposing (Device, DeviceClass(..), classifyDevice)
 import Footer.Footer as Footer
 import Game.Bingo as Bingo exposing (randomBoard)
 import Game.Board exposing (Board)
+import Game.Dot as Dot
 import Game.Square exposing (Square, toggleSquareInList)
 import Game.Topic exposing (Topic(..), toggleTopic)
 import Header.MobilHeader as MobileHeader
@@ -202,7 +203,9 @@ update msg model =
                 updatedUserSettings =
                     { currentUserSettings | dauberColor = color }
             in
-            ( { model | userSettings = updatedUserSettings }, Ports.saveUserSettings updatedUserSettings )
+            ( { model | userSettings = updatedUserSettings }
+            , Cmd.batch [ Ports.saveUserSettings updatedUserSettings, Ports.sendGaEvent "dauber-color" (color |> Dot.toString) ]
+            )
 
         BoardColorSelected color ->
             let

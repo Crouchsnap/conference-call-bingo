@@ -70,6 +70,15 @@
                 localStorage.setItem('user-settings-app-save', userSettings);
             }
         });
+        app.ports.publishGaEvent.subscribe(function(params){
+            let event = JSON.parse(params);
+            console.log('Sent Event:', params);
+            console.log('Sent Event:', event.eventType, event.eventCategory);
+            // gtag('event', 'dauber-color', {'event_category': 'goofy-green'});
+            gtag('event', event.eventType, {'event_category': event.eventCategory});
+        })
+
+
     } else {
         document.body.innerHTML = "" +
             "<div style='text-align: center;'>" +
