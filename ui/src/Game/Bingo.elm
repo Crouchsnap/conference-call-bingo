@@ -1,6 +1,6 @@
-module Game.Bingo exposing (isWinner, randomBoard)
+module Game.Bingo exposing (isWinner, randomBoard, winningCombos)
 
-import Game.Board exposing (Board, areIndicesChecked, possibleWinningCombinations)
+import Game.Board exposing (Board, areIndicesChecked, getSquaresIfChecked, possibleWinningCombinations)
 import Game.Square exposing (Square, centerSquare, squaresByTopic)
 import Game.Topic exposing (Topic(..))
 import Random
@@ -28,3 +28,10 @@ isWinner : Board msg -> Bool
 isWinner board =
     possibleWinningCombinations
         |> List.any (areIndicesChecked board)
+
+
+winningCombos : Board msg -> List (List (Square msg))
+winningCombos board =
+    possibleWinningCombinations
+        |> List.map (getSquaresIfChecked board)
+        |> List.filter (\innerList -> innerList |> List.isEmpty |> not)

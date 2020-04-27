@@ -1,8 +1,8 @@
 module Game.BingoTests exposing (suite)
 
 import Expect exposing (Expectation)
-import Game.Bingo exposing (isWinner, randomBoard)
-import Game.Board exposing (Board, backDiagonal, column, forwardDiagonal, row, rowColumnNumbers)
+import Game.Bingo exposing (isWinner, randomBoard, winningCombos)
+import Game.Board exposing (Board, backDiagonal, column, forwardDiagonal, getSquares, row, rowColumnNumbers)
 import Game.Dot as Dot
 import Game.Square exposing (Square, centerSquare, genericSquare, squaresByTopic, toggleSquareInList)
 import Game.Topic exposing (Topic(..))
@@ -103,6 +103,38 @@ suite =
                         testBoard |> checkIndices forwardDiagonal
                 in
                 \_ -> forwardDiagonalBoard |> isWinner |> Expect.equal True
+            , test "board with top row toggled is returns top row" <|
+                let
+                    topRowBoard =
+                        testBoard |> checkIndices (row 0)
+
+                    topRow =
+                        topRowBoard |> List.take 5
+                in
+                \_ -> topRowBoard |> winningCombos |> Expect.equal [ topRow ]
+            , test "board with top row and left column toggled is returns top row and left column" <|
+                let
+                    topRowAndLeftColumnBoard =
+                        testBoard |> checkIndices (row 0) |> checkIndices (column 0)
+
+                    topRowAndLeftColumn =
+                        [ row 0 |> getSquares topRowAndLeftColumnBoard
+                        , column 0 |> getSquares topRowAndLeftColumnBoard
+                        ]
+                in
+                \_ -> topRowAndLeftColumnBoard |> winningCombos |> Expect.equal topRowAndLeftColumn
+            , test "board with bottom row, right column and back diag toggled is returns bottom row, right column and back diag" <|
+                let
+                    bottomRowRightColumnAndBackDiagBoard =
+                        testBoard |> checkIndices (row 4) |> checkIndices (column 4) |> checkIndices backDiagonal
+
+                    bottonRowRightColumnAndBackDiag =
+                        [ row 4 |> getSquares bottomRowRightColumnAndBackDiagBoard
+                        , column 4 |> getSquares bottomRowRightColumnAndBackDiagBoard
+                        , backDiagonal |> getSquares bottomRowRightColumnAndBackDiagBoard
+                        ]
+                in
+                \_ -> bottomRowRightColumnAndBackDiagBoard |> winningCombos |> Expect.equal bottonRowRightColumnAndBackDiag
             ]
         ]
 
