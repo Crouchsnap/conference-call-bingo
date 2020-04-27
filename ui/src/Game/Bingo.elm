@@ -1,6 +1,6 @@
 module Game.Bingo exposing (isWinner, randomBoard, winningCombos)
 
-import Game.Board exposing (Board, areIndicesChecked, getSquaresIfChecked, possibleWinningCombinations)
+import Game.Board exposing (Board, getSquaresIfChecked, possibleWinningCombinations)
 import Game.Square exposing (Square, centerSquare, squaresByTopic)
 import Game.Topic exposing (Topic(..))
 import Random
@@ -26,8 +26,7 @@ randomBoard topics seed =
 
 isWinner : Board msg -> Bool
 isWinner board =
-    possibleWinningCombinations
-        |> List.any (areIndicesChecked board)
+    board |> winningCombos |> List.isEmpty |> not
 
 
 winningCombos : Board msg -> List (List (Square msg))

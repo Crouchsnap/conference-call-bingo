@@ -1,4 +1,4 @@
-module Game.Board exposing (Board, areIndicesChecked, backDiagonal, column, forwardDiagonal, getSquares, getSquaresIfChecked, possibleWinningCombinations, row, rowColumnNumbers)
+module Game.Board exposing (Board, backDiagonal, column, forwardDiagonal, getSquares, getSquaresIfChecked, possibleWinningCombinations, row, rowColumnNumbers)
 
 import Array
 import Game.Square exposing (Square, checked, genericSquare)
@@ -6,13 +6,6 @@ import Game.Square exposing (Square, checked, genericSquare)
 
 type alias Board msg =
     List (Square msg)
-
-
-areIndicesChecked : Board msg -> List Int -> Bool
-areIndicesChecked board indices =
-    indices
-        |> getSquares board
-        |> List.all checked
 
 
 getSquares : Board msg -> List Int -> List (Square msg)
