@@ -6,6 +6,11 @@
         grid-template-columns: 1fr auto 1fr;
     }
 
+    .anchor {
+        padding: 0;
+        margin: 0;
+    }
+
     .mobile-options-header {
         display: none;
     }

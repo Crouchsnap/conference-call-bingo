@@ -57,6 +57,11 @@ button[disabled] {
     padding: .75rem;
 }
 
+.anchor {
+    padding: 0 2rem;
+    margin: 0 -2rem;
+}
+
 .anchor:link {
     text-decoration: none;
 }
@@ -328,8 +333,8 @@ button[disabled] {
     position: relative;
     display: flex;
     align-items: center;
-    padding: 10rem;
-    margin: -10rem;
+    padding: 3rem;
+    margin: -3rem;
 }
 
 .caret-container {
@@ -338,8 +343,8 @@ button[disabled] {
 
 .options-icon {
     position: relative;
-    padding: 10rem;
-    margin: -10rem -10rem -10rem auto;
+    padding: 3rem 0rem 3rem 3rem;
+    margin: -3rem 0rem -3rem auto;
 }
 
 .container {
@@ -503,7 +508,7 @@ button[disabled] {
 
 .mobile-menu {
     position: absolute;
-    top: 12rem;
+    top: 5rem;
     z-index: 100;
     padding: 1rem;
 
@@ -514,11 +519,11 @@ button[disabled] {
 }
 
 .mobile-topics {
-    left: 9.5rem;
+    left: 2.5rem;
 }
 
 .mobile-options {
-    right: 9.5rem;
+    right: -.5rem;
 }
 
 .topic-wrapper,
