@@ -3,6 +3,16 @@
     background-color: #545454;
     color: #E5E5E5;
 }
+.suggestion-input-dark {
+    border: 0.5px solid #E5E5E5;
+    box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
+
+    background-color: #6C6C6C;
+}
+
+.suggestion-input-dark::placeholder {
+    color: #E5E5E5;
+}
 .board-content-dark {
     background-color: #6C6C6C;
 }

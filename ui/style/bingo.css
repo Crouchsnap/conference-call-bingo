@@ -192,9 +192,16 @@ button[disabled] {
     padding: .3125rem;
     border-radius: 5px;
     width: 25rem;
-    min-height: 4rem;
+    min-height: 2rem;
+    height: 3rem;
+    max-height: 4rem;
+    max-width: 27rem;
     font-weigt: bold;
     font-size: 1rem;
+}
+
+.suggestion-input-dark::placeholder {
+    opacity: .7;
 }
 
 .topic-title,
