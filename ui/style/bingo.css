@@ -328,6 +328,8 @@ button[disabled] {
     position: relative;
     display: flex;
     align-items: center;
+    padding: 10rem;
+    margin: -10rem;
 }
 
 .caret-container {
@@ -336,7 +338,8 @@ button[disabled] {
 
 .options-icon {
     position: relative;
-    margin-left: auto;
+    padding: 10rem;
+    margin: -10rem -10rem -10rem auto;
 }
 
 .container {
@@ -500,7 +503,7 @@ button[disabled] {
 
 .mobile-menu {
     position: absolute;
-    top: 2rem;
+    top: 12rem;
     z-index: 100;
     padding: 1rem;
 
@@ -511,11 +514,11 @@ button[disabled] {
 }
 
 .mobile-topics {
-    left: -.5rem;
+    left: 9.5rem;
 }
 
 .mobile-options {
-    right: -.5rem;
+    right: 9.5rem;
 }
 
 .topic-wrapper,
