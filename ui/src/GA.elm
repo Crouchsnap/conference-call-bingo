@@ -18,6 +18,7 @@ type Event
     | TopicChange Bool Topic
     | SquareDaub (Square Msg)
     | Winner Posix Posix
+    | SubmittedScore Posix Posix
 
 
 encodeGaEvent : Event -> Encode.Value
@@ -84,3 +85,6 @@ toString event =
 
         Winner startTime endTime ->
             ( "winner", TimeFormatter.winingTimeDifference startTime endTime )
+
+        SubmittedScore startTime endTime ->
+            ( "submittedScore", TimeFormatter.winingTimeDifference startTime endTime )

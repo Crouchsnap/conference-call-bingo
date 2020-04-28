@@ -161,7 +161,12 @@ update msg model =
                 gameResultWithScore =
                     { gameResult | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
             in
-            ( { model | gameResult = gameResult }, Requests.submitScore model.url gameResultWithScore )
+            ( { model | gameResult = gameResult }
+            , Cmd.batch
+                [ Requests.submitScore model.url gameResultWithScore
+                , Ports.sendGaEvent (SubmittedScore model.startTime model.endTime)
+                ]
+            )
 
         LinkClicked urlRequest ->
             case urlRequest of

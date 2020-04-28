@@ -102,4 +102,12 @@ suite =
                     )
                     |> Expect.equal
                         """{"eventType":"winner","eventCategory":"20:52.456"}"""
+        , test "should encode submit score event" <|
+            \_ ->
+                Json.Encode.encode 0
+                    (encodeGaEvent
+                        (SubmittedScore (Time.millisToPosix 0) (Time.millisToPosix 984651651))
+                    )
+                    |> Expect.equal
+                        """{"eventType":"submittedScore","eventCategory":"9:30:51.651"}"""
         ]
