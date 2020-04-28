@@ -7,6 +7,8 @@ import Json.Encode as Encode
 import Msg exposing (Msg)
 import Options.BoardStyle as BoardStyle
 import Options.Theme as Theme exposing (Theme(..))
+import Time exposing (Posix)
+import Win.TimeFormatter as TimeFormatter
 
 
 type Event
@@ -15,6 +17,7 @@ type Event
     | ThemeChange Theme
     | TopicChange Bool Topic
     | SquareDaub (Square Msg)
+    | Winner Posix Posix
 
 
 encodeGaEvent : Event -> Encode.Value
@@ -78,3 +81,6 @@ toString event =
 
             else
                 ( "square-clear", square.text )
+
+        Winner startTime endTime ->
+            ( "winner", TimeFormatter.winingTimeDifference startTime endTime )

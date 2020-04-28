@@ -1,4 +1,4 @@
-module Game.BingoTests exposing (suite)
+module Game.BingoTests exposing (checkIndices, suite)
 
 import Expect exposing (Expectation)
 import Game.Bingo exposing (isWinner, randomBoard, winningCombos)

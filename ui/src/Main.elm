@@ -139,7 +139,7 @@ update msg model =
             )
 
         GotEndTime time ->
-            ( { model | endTime = time }, Cmd.none )
+            ( { model | endTime = time }, Ports.sendGaEvent (Winner model.startTime time) )
 
         NewGame ->
             ( model, Task.perform GotCurrentTime Time.now )

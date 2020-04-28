@@ -1,0 +1,13 @@
+/tests
+.idea/
+/elm-stuff
+/node_modules
+elm.json
+package.json
+package-lock.json
+push.sh
+ui.iml
+/src
+
+!assets/
+!style/

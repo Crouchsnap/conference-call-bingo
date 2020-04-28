@@ -9,6 +9,7 @@ import Json.Encode
 import Options.BoardStyle exposing (Color(..))
 import Options.Theme exposing (Theme(..))
 import Test exposing (Test, describe, test)
+import Time
 
 
 suite : Test
@@ -93,4 +94,12 @@ suite =
                     )
                     |> Expect.equal
                         """{"eventType":"square-clear","eventCategory":"text"}"""
+        , test "should encode win event" <|
+            \_ ->
+                Json.Encode.encode 0
+                    (encodeGaEvent
+                        (Winner (Time.millisToPosix 0) (Time.millisToPosix 1252456))
+                    )
+                    |> Expect.equal
+                        """{"eventType":"winner","eventCategory":"20:52.456"}"""
         ]
