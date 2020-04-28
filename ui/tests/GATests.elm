@@ -110,4 +110,12 @@ suite =
                     )
                     |> Expect.equal
                         """{"eventType":"submittedScore","eventCategory":"9:30:51.651"}"""
+        , test "should encode link clicked event" <|
+            \_ ->
+                Json.Encode.encode 0
+                    (encodeGaEvent
+                        (LinkClickedEvent "the link")
+                    )
+                    |> Expect.equal
+                        """{"eventType":"linkClicked","eventCategory":"the link"}"""
         ]

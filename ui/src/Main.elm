@@ -256,6 +256,9 @@ update msg model =
         ToggleOptions ->
             ( { model | showOptions = not model.showOptions }, Cmd.none )
 
+        GAEvent event ->
+            ( model, Ports.sendGaEvent event )
+
 
 view : Model -> Browser.Document Msg
 view model =

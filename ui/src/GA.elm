@@ -1,27 +1,27 @@
 module GA exposing (Event(..), encodeGaEvent)
 
-import Game.Dot as Dot
+import Game.Dot as Dot exposing (Dot)
 import Game.Square exposing (Square)
 import Game.Topic as Topic exposing (Topic)
 import Json.Encode as Encode
-import Msg exposing (Msg)
 import Options.BoardStyle as BoardStyle
 import Options.Theme as Theme exposing (Theme(..))
 import Time exposing (Posix)
 import Win.TimeFormatter as TimeFormatter
 
 
-type Event
+type Event msg
     = DauberColor Dot.Color Theme
     | BoardColor BoardStyle.Color Theme
     | ThemeChange Theme
     | TopicChange Bool Topic
-    | SquareDaub (Square Msg)
+    | SquareDaub (Square msg)
     | Winner Posix Posix
     | SubmittedScore Posix Posix
+    | LinkClickedEvent String
 
 
-encodeGaEvent : Event -> Encode.Value
+encodeGaEvent : Event msg -> Encode.Value
 encodeGaEvent event =
     let
         ( eventType, eventCategory ) =
@@ -33,7 +33,7 @@ encodeGaEvent event =
         ]
 
 
-toString : Event -> ( String, String )
+toString : Event msg -> ( String, String )
 toString event =
     case event of
         DauberColor color theme ->
@@ -88,3 +88,6 @@ toString event =
 
         SubmittedScore startTime endTime ->
             ( "submittedScore", TimeFormatter.winingTimeDifference startTime endTime )
+
+        LinkClickedEvent link ->
+            ( "linkClicked", link )

@@ -18,7 +18,7 @@ saveUserSettings userSettings =
 port publishGaEvent : String -> Cmd msg
 
 
-sendGaEvent : GA.Event -> Cmd msg
+sendGaEvent : GA.Event msg -> Cmd msg
 sendGaEvent event =
     encodeGaEvent event
         |> Encode.encode 0

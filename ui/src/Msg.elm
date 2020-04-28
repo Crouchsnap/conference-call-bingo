@@ -2,6 +2,7 @@ module Msg exposing (Msg(..))
 
 import Browser
 import Browser.Dom exposing (Viewport)
+import GA
 import Game.Dot as Dot
 import Game.Square exposing (Square)
 import Game.Topic exposing (Topic)
@@ -36,3 +37,4 @@ type Msg
     | UpdateTheme Theme
     | ToggleTopics
     | ToggleOptions
+    | GAEvent (GA.Event Msg)

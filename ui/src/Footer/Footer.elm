@@ -1,9 +1,11 @@
 module Footer.Footer exposing (view)
 
 import Assets.FordLabsLogo as FordLabsLogo
+import GA exposing (Event(..))
 import Html exposing (Html, a, div, text)
 import Html.Attributes exposing (href, target)
-import Msg exposing (Msg)
+import Html.Events exposing (onClick)
+import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme(..))
 import Ports
 import UserSettings exposing (UserSettings)
@@ -30,6 +32,7 @@ githubLink class =
             [ class "anchor"
             , href "https://github.com/Crouchsnap/conference-call-bingo"
             , target "_blank"
+            , onClick (GAEvent (LinkClickedEvent "Github!"))
             ]
             [ text "Github!" ]
         ]
@@ -41,6 +44,7 @@ labsLink class theme =
             [ class "anchor"
             , href "https://www.fordlabs.com"
             , target "_blank"
+            , onClick (GAEvent (LinkClickedEvent "FordLabs"))
             ]
             [ text "Powered by"
             , FordLabsLogo.view theme
