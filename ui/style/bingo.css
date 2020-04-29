@@ -130,8 +130,7 @@ label {
     align-items: center;
     flex-direction: column;
     text-align: center;
-    width: calc(5 * 17.5vw);
-    height: calc(5 * 17.5vw);
+
 }
 
 .winning-container label {
@@ -225,7 +224,7 @@ label {
 }
 
 .selected-border {
-    border: 0.5px solid #545454;
+    border: 1px solid #545454;
     box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.15);
     border-radius: 4px;
 }
@@ -519,7 +518,7 @@ label {
     padding: 1rem;
 
     background: white;
-    border: 0.5px solid #E5E5E5;
+    border: 1px solid #E5E5E5;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
 }
@@ -536,4 +535,26 @@ label {
 .game-options-container,
 .topic-title{
     display: none;
+}
+
+.modal-container {
+    background: white !important;
+}
+
+/*Bootstrap overrides*/
+.modal-dialog,
+.modal-content {
+    width: 100vw;
+    max-width: unset;
+    height: 100vh;
+    max-height: 100vh;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: unset;
+}
+
+.close:focus, .close:hover {
+    color: unset;
+    opacity: .5;
 }

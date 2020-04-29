@@ -67,4 +67,38 @@
     .tri-toggle-option {
         line-height: 90%;
     }
+
+    .modal-container {
+        border: 1px solid rgba(0,0,0,.2);
+        border-radius: .3rem;
+    }
+
+    /*Bootstrap overrides*/
+    .modal-dialog,
+    .modal-content {
+        width: initial;
+        max-width: max-content;
+        height: fit-content;
+        max-height: min-content;
+        padding: initial;
+        margin: auto;
+
+    }
+
+    .modal.show .modal-dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        min-height: unset;
+    }
+
+    .modal-content {
+        margin: 0;
+    }
+
+    .modal-container-dark {
+        border: 1px solid #E5E5E5;
+        box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
+    }
 }

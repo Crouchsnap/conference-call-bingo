@@ -30,6 +30,7 @@ import Url exposing (Url)
 import UserSettings exposing (UserSettings)
 import View.Board as Board
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
+import Win.Modal as Modal
 import Win.Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
 
 
@@ -50,6 +51,7 @@ type alias Model =
     , showTopics : Bool
     , showOptions : Bool
     , userSettings : UserSettings
+    , modalVisibility : Modal.Visibility
     }
 
 
@@ -84,6 +86,7 @@ init flags url key =
       , showTopics = False
       , showOptions = False
       , userSettings = userSettings
+      , modalVisibility = Modal.hidden
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -104,9 +107,19 @@ update msg model =
                                 |> Maybe.withDefault squareToToggle
                             )
                         )
+
+                winner =
+                    updatedBoard |> Bingo.isWinner
+
+                showModal =
+                    if winner then
+                        Modal.shown
+
+                    else
+                        Modal.hidden
             in
-            ( { model | board = updatedBoard, nextSeed = nextSeed }
-            , if updatedBoard |> Bingo.isWinner then
+            ( { model | board = updatedBoard, nextSeed = nextSeed, modalVisibility = showModal }
+            , if winner then
                 Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url, gaEvent ]
 
               else
@@ -133,6 +146,7 @@ update msg model =
                 , gameResult = emptyGameResult
                 , ratingState = Rating.initialState
                 , submittedScoreResponse = RemoteData.NotAsked
+                , modalVisibility = Modal.hidden
               }
             , Cmd.none
             )
@@ -279,6 +293,7 @@ bodyView model =
         , TopicChoices.view model "topic-wrapper" (not gameFinished)
         , Board.view model gameFinished
         , Options.view model "game-options-container" (not gameFinished)
+        , Modal.view model
         ]
 
 

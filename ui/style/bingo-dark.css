@@ -4,7 +4,7 @@
     color: #E5E5E5;
 }
 .suggestion-input-dark {
-    border: 0.5px solid #E5E5E5;
+    border: 1px solid #E5E5E5;
     box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
 
     background-color: #6C6C6C;
@@ -24,7 +24,8 @@
 .board-header-dark,
 .board-header-bingo-dark,
 .submit-button-dark,
-.anchor-dark {
+.anchor-dark,
+.close-dark {
     color: #E5E5E5;
 }
 
@@ -65,7 +66,7 @@
 
 .selected-border-dark,
 .mobile-menu-dark {
-    border: 0.5px solid #E5E5E5;
+    border: 1px solid #E5E5E5;
     box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
 }
 
@@ -131,5 +132,9 @@
 
 .tangerine-dauber-dark {
     background-color: #FFB446;
+}
+
+.modal-container-dark {
+    background: #6C6C6C !important;
 }
 
