@@ -17,7 +17,7 @@ view model =
 popup model =
     if model.showOptions then
         div [ model.class "mobile-menu mobile-options" ]
-            [ Options.view model "game-selector-view-mobile" True ]
+            [ Options.view model "game-selector-view-mobile" ]
 
     else
         text ""

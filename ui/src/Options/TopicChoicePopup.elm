@@ -30,7 +30,7 @@ view model =
 popup model =
     if model.showTopics then
         div [ model.class "mobile-menu mobile-topics" ]
-            [ TopicChoices.view model "topic-wrapper-mobile" True ]
+            [ TopicChoices.view model "topic-wrapper-mobile" ]
 
     else
         text ""

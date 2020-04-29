@@ -284,15 +284,11 @@ view model =
 
 
 bodyView model =
-    let
-        gameFinished =
-            Bingo.isWinner model.board
-    in
     div [ model.class "body-container" ]
         [ MobileHeader.view model
-        , TopicChoices.view model "topic-wrapper" (not gameFinished)
-        , Board.view model gameFinished
-        , Options.view model "game-options-container" (not gameFinished)
+        , TopicChoices.view model "topic-wrapper"
+        , Board.view model
+        , Options.view model "game-options-container"
         , Modal.view model
         ]
 

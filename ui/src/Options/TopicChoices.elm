@@ -11,18 +11,13 @@ import UserSettings exposing (UserSettings)
 view :
     { model | class : String -> Html.Attribute Msg, userSettings : UserSettings }
     -> String
-    -> Bool
     -> Html Msg
-view { class, userSettings } wrapperClass show =
-    if show then
-        div [ class wrapperClass ]
-            [ title class
-            , topicToggle class "Fordisms" Fordism userSettings.topics
-            , topicToggle class "Coronavirus" Coronavirus userSettings.topics
-            ]
-
-    else
-        div [] []
+view { class, userSettings } wrapperClass =
+    div [ class wrapperClass ]
+        [ title class
+        , topicToggle class "Fordisms" Fordism userSettings.topics
+        , topicToggle class "Coronavirus" Coronavirus userSettings.topics
+        ]
 
 
 title class =

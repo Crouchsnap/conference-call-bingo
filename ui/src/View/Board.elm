@@ -10,7 +10,6 @@ import RemoteData exposing (WebData)
 import Time exposing (Posix)
 import UserSettings exposing (UserSettings)
 import Win.Score exposing (GameResult, Score)
-import Win.WinningView as WinningView
 
 
 view :
@@ -25,17 +24,12 @@ view :
         , submittedScoreResponse : WebData ()
         , board : List (Square Msg)
     }
-    -> Bool
     -> Html.Html Msg
-view model gameFinished =
+view model =
     div [ model.class ("board-container " ++ (model.userSettings.boardColor |> BoardStyle.toString)) ]
         [ div [ model.class "board-header" ] [ text "conference call" ]
         , div [ model.class "board-header-bingo" ] bingoTitle
-        , if gameFinished then
-            WinningView.view model
-
-          else
-            GameView.boardGridView model
+        , GameView.boardGridView model
         ]
 
 

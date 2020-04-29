@@ -17,18 +17,13 @@ view :
         , class : String -> Html.Attribute Msg
     }
     -> String
-    -> Bool
     -> Html Msg
-view model wrapperClass show =
+view model wrapperClass =
     div [ model.class wrapperClass ]
-        ([ ThemeChoices.view model ] ++ colorOptions model show)
+        ([ ThemeChoices.view model ] ++ colorOptions model)
 
 
-colorOptions model show =
-    if show then
-        [ BoardColorChoices.view model
-        , DauberChoices.view model
-        ]
-
-    else
-        []
+colorOptions model =
+    [ BoardColorChoices.view model
+    , DauberChoices.view model
+    ]
