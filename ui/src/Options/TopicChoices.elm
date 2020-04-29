@@ -31,7 +31,7 @@ title class =
 
 topicToggle class topicLabel topic topics =
     div [ style "display" "flex", onClick (TopicToggled topic) ]
-        [ div [ class "container" ]
+        [ div [ class "topic-container" ]
             [ input [ name topicLabel, checked (topics |> List.member topic), type_ "checkbox" ] []
             , div [ class (classNames topic topics) ] []
             ]

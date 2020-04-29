@@ -23,6 +23,7 @@ body {
     height: 100%;
     max-height: 100%;
     font-family: Ubuntu, sans-serif;
+    line-height: 1;
 }
 
 button,
@@ -34,6 +35,11 @@ textarea {
 button:disabled,
 button[disabled] {
     opacity: .4 !important;
+}
+
+label {
+     display: block;
+     margin-bottom: 0;
 }
 
 .body {
@@ -347,7 +353,7 @@ button[disabled] {
     margin: -3rem 0rem -3rem auto;
 }
 
-.container {
+.topic-container {
     display: block;
     position: relative;
     padding-left: 1rem;
@@ -360,7 +366,7 @@ button[disabled] {
 
 }
 
-.container input {
+.topic-container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -390,11 +396,11 @@ button[disabled] {
     display: none;
 }
 
-.container input:checked ~ .checkmark:after {
+.topic-container input:checked ~ .checkmark:after {
     display: block;
 }
 
-.container .checkmark:after {
+.topic-container .checkmark:after {
     left: 5px;
     top: 1px;
     width: 5px;

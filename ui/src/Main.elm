@@ -9,8 +9,7 @@ import Footer.Footer as Footer
 import GA exposing (Event(..))
 import Game.Bingo as Bingo exposing (randomBoard)
 import Game.Board exposing (Board)
-import Game.Dot as Dot
-import Game.Square exposing (Square, genericSquare, toggleSquareInList)
+import Game.Square exposing (Square, toggleSquareInList)
 import Game.Topic exposing (Topic(..), toggleTopic)
 import Header.MobilHeader as MobileHeader
 import Html exposing (Html, div)
