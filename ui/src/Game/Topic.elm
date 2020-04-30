@@ -1,4 +1,4 @@
-module Game.Topic exposing (Topic(..), coronaviri, encodeTopic, fordisms, generic, toString, toggleTopic, topicDecoder)
+module Game.Topic exposing (Topic(..), av, coronaviri, encodeTopic, fordisms, generic, toString, toggleTopic, topicDecoder)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
@@ -9,6 +9,7 @@ type Topic
     = Generic
     | Fordism
     | Coronavirus
+    | AV
     | Center
 
 
@@ -74,21 +75,46 @@ fordisms =
     , "First name reference to an exec you don't know"
     , "Five or more people named for Disciples present"
     , "The only mens' shirts visible are white or blue"
+    , "\"The business\""
     ]
 
 
 coronaviri : List String
 coronaviri =
-    [ "TP"
-    , "Corona"
-    , "Virus"
-    , "Hand Sanitizer"
-    , "Wash your hands"
-    , "Sick"
+    [ "\"TP\""
+    , "\"corona\""
+    , "\"virus\""
+    , "\"hand sanitizer\""
+    , "\"wash your hands\""
+    , "\"sick\""
     , "\"does ___ store have supplies?\""
-    , "Death rate"
-    , "Recovery rate"
-    , "Work from home"
+    , "\"death rate\""
+    , "\"recovery rate\""
+    , "\"work from home\""
+    , "\"face mask\""
+    , "\"social distancing\""
+    , "\"wait until we're back in the office\""
+    , "\"stay-at-home order\""
+    , "\"contact tracing\""
+    , "\"test rate\""
+    , "\"essential workers\""
+    , "\"reopen\""
+    ]
+
+
+av : List String
+av =
+    [ "\"lidar\""
+    , "\"GEO fenced\""
+    , "\"level 4\""
+    , "\"level 5\""
+    , "\"take overs\""
+    , "\"future state\""
+    , "\"radar\""
+    , "\"sonar\""
+    , "\"telemetry\""
+    , "\"disengage- ments\""
+    , "\"ride hailing\""
     ]
 
 
@@ -114,6 +140,9 @@ topicDecoder =
                     "coronavirus" ->
                         Decode.succeed Coronavirus
 
+                    "av" ->
+                        Decode.succeed AV
+
                     _ ->
                         Decode.succeed Generic
             )
@@ -135,6 +164,9 @@ toString topic =
 
         Coronavirus ->
             "coronavirus"
+
+        AV ->
+            "av"
 
         Center ->
             "center"

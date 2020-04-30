@@ -25,6 +25,11 @@ coronavirusSquare text =
     Square (Html.text text) Coronavirus text []
 
 
+avSquare : String -> Square msg
+avSquare text =
+    Square (Html.text text) AV text []
+
+
 centerSquare : Square msg
 centerSquare =
     Square (div [] [ Html.text "Free", br [] [], Html.text "Space" ]) Center "Free Space" []
@@ -45,8 +50,13 @@ coronavirusSquares =
     Topic.coronaviri |> List.map coronavirusSquare
 
 
+avSquares : List (Square msg)
+avSquares =
+    Topic.av |> List.map avSquare
+
+
 allTopicSquares =
-    fordismSquares ++ coronavirusSquares
+    fordismSquares ++ coronavirusSquares ++ avSquares
 
 
 squaresByTopic : List Topic -> List (Square msg)
