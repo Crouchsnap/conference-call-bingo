@@ -37,6 +37,7 @@ import Win.Score exposing (GameResult, Score, emptyGameResult, updatePlayer, upd
 type alias Model =
     { board : Board Msg
     , startTime : Posix
+    , time : Posix
     , endTime : Posix
     , highScores : WebData (List Score)
     , submittedScoreResponse : WebData ()
@@ -72,6 +73,7 @@ init flags url key =
     in
     ( { board = []
       , startTime = Time.millisToPosix 0
+      , time = Time.millisToPosix 0
       , endTime = Time.millisToPosix 0
       , highScores = RemoteData.NotAsked
       , submittedScoreResponse = RemoteData.NotAsked
@@ -262,6 +264,11 @@ update msg model =
         GAEvent event ->
             ( model, Ports.sendGaEvent event )
 
+        Tick newTime ->
+            ( { model | time = newTime }
+            , Cmd.none
+            )
+
 
 view : Model -> Browser.Document Msg
 view model =
@@ -288,7 +295,7 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = \_ -> Sub.batch [ Browser.Events.onResize WindowResized ]
+        , subscriptions = \_ -> Sub.batch [ Browser.Events.onResize WindowResized, Time.every 1000 Tick ]
         , onUrlRequest = LinkClicked
         , onUrlChange = UrlChanged
         }

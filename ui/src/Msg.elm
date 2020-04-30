@@ -38,3 +38,4 @@ type Msg
     | ToggleTopics
     | ToggleOptions
     | GAEvent (GA.Event Msg)
+    | Tick Time.Posix
