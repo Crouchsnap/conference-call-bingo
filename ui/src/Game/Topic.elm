@@ -1,4 +1,4 @@
-module Game.Topic exposing (Topic(..), av, coronaviri, encodeTopic, fordisms, generic, toString, toggleTopic, topicDecoder)
+module Game.Topic exposing (Topic(..), av, coronaviri, encodeTopic, fordisms, generic, kanye, toString, toggleTopic, topicDecoder, vehicleDevelopment)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
@@ -10,6 +10,8 @@ type Topic
     | Fordism
     | Coronavirus
     | AV
+    | VehicleDevelopemnt
+    | Kanye
     | Center
 
 
@@ -76,6 +78,12 @@ fordisms =
     , "Five or more people named for Disciples present"
     , "The only mens' shirts visible are white or blue"
     , "\"The business\""
+    , "Older GSR waxes on about anything pre-2012"
+    , "\"Can you go back to ___?\""
+    , "\"If we can move on...\""
+    , "\"Let's take that off line\""
+    , "\"I can't see what's on the screen\""
+    , "Driving noises"
     ]
 
 
@@ -118,6 +126,63 @@ av =
     ]
 
 
+vehicleDevelopment : List String
+vehicleDevelopment =
+    [ "\"TLA (Three Letter Acronym)\""
+    , "\"LL_ isn't in their TDR/EMM\""
+    , "\"can we meet without LL_?\""
+    , "\"Prefile\""
+    , "Problem with OneNote"
+    , "Administrative Assistant stalls"
+    , "Multiple people dictating to one person"
+    , "\"IRL Spellcheck\""
+    , "\"Trying to locate part in TeamCenter\""
+    , "\"TeamCenter is slow today\""
+    , "TeamCenter search returns nothing"
+    , "search returns everything but what you want"
+    , "\"Working Level\""
+    , "presenter checks emails on screen"
+    , "\"Is there a CRIPS?\""
+    , "\"WERS\""
+    , "\"FEDE\""
+    , "Speaker interchanges rule/requirement/test"
+    , "Any reference to 2008/Great Recession"
+    , "\"sister program is exception to ___\""
+    , "\"Rivian\""
+    , "\"Roush\""
+    , "\"Up to MPG\""
+    ]
+
+
+kanye : List String
+kanye =
+    [ "\"Burn that excel spread sheet\""
+    , "\"2024\""
+    , "\"We came into a broken world. And we're the cleanup crew\""
+    , "\"I love sleep; it's my favorite\""
+    , "\"Perhaps I should have been more like water today\""
+    , "\"I still think I am the greatest\""
+    , "\"Keep squares out yo circle\""
+    , "\"I'd like to meet with Tim Cook. I got some ideas\""
+    , "\"The thought police want to suppress freedom of thought\""
+    , "\"Let's be like water\""
+    , "\"If I got any cooler I would freeze to death\""
+    , "\"I wish I had a friend like me\""
+    , "\"I'm a creative genius\""
+    , "\"My greatest pain in life is that I will never be able to see myself perform live\""
+    , "\"Fur pillows are hard to actually sleep on\""
+    , "\"Distraction is the enemy of vision\""
+    , "\"I feel calm but energized\""
+    , "\"Everything you do in life stems from either fear or love\""
+    , "\"I leave my emojis bart Simpson color\""
+    , "\"The world is our office\""
+    , "\"You can't look at a glass half full or empty if it's overflowing\""
+    , "\"Tweeting is legal and also therapeutic\""
+    , "\"All you have to be is yourself\""
+    , "\"I'll do a hundred reps of controversy for a 6 pack of truth\""
+    ]
+
+
 toggleTopic topic topics =
     topics
         |> (if not (List.member topic topics) then
@@ -143,6 +208,12 @@ topicDecoder =
                     "av" ->
                         Decode.succeed AV
 
+                    "vehicleDevelopment" ->
+                        Decode.succeed VehicleDevelopemnt
+
+                    "kanye" ->
+                        Decode.succeed Kanye
+
                     _ ->
                         Decode.succeed Generic
             )
@@ -167,6 +238,12 @@ toString topic =
 
         AV ->
             "av"
+
+        VehicleDevelopemnt ->
+            "vehicleDevelopment"
+
+        Kanye ->
+            "kanye"
 
         Center ->
             "center"

@@ -18,6 +18,8 @@ view { class, userSettings } wrapperClass =
         , topicToggle class "Autonomous Vehicle" AV userSettings.topics
         , topicToggle class "Coronavirus" Coronavirus userSettings.topics
         , topicToggle class "Fordisms" Fordism userSettings.topics
+        , topicToggle class "Kanye" Kanye userSettings.topics
+        , topicToggle class "Product Development" VehicleDevelopemnt userSettings.topics
         ]
 
 

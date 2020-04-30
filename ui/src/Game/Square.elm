@@ -30,6 +30,16 @@ avSquare text =
     Square (Html.text text) AV text []
 
 
+vehicleDevelopmentSquare : String -> Square msg
+vehicleDevelopmentSquare text =
+    Square (Html.text text) VehicleDevelopemnt text []
+
+
+kanyeSquare : String -> Square msg
+kanyeSquare text =
+    Square (Html.text text) Kanye text []
+
+
 centerSquare : Square msg
 centerSquare =
     Square (div [] [ Html.text "Free", br [] [], Html.text "Space" ]) Center "Free Space" []
@@ -45,6 +55,16 @@ fordismSquares =
     Topic.fordisms |> List.map fordismSquare
 
 
+kanyeSquares : List (Square msg)
+kanyeSquares =
+    Topic.kanye |> List.map kanyeSquare
+
+
+vehicleDevelopmentSquares : List (Square msg)
+vehicleDevelopmentSquares =
+    Topic.vehicleDevelopment |> List.map vehicleDevelopmentSquare
+
+
 coronavirusSquares : List (Square msg)
 coronavirusSquares =
     Topic.coronaviri |> List.map coronavirusSquare
@@ -56,7 +76,7 @@ avSquares =
 
 
 allTopicSquares =
-    fordismSquares ++ coronavirusSquares ++ avSquares
+    fordismSquares ++ coronavirusSquares ++ avSquares ++ vehicleDevelopmentSquares ++ kanyeSquares
 
 
 squaresByTopic : List Topic -> List (Square msg)
