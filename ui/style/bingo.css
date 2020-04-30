@@ -111,8 +111,14 @@ label {
     transform: translate(-50%, -50%);
 }
 
+.square-star-innerHtml {
+    position: relative;
+    z-index: 10;
+    text-transform: uppercase;
+}
+
 .square-container {
-    display: table;
+    display: flex;
     height: 100%;
     width: 100%;
 }
@@ -283,6 +289,16 @@ label {
     position: relative;
     font-weight: bold;
     font-size: 1.6rem;
+    flex: 1;
+    display: flex;
+    word-break: break-word;
+    justify-content: center;
+}
+
+.square-innerHtml {
+    align-items: center;
+    display: flex;
+    overflow: hidden;
 }
 
 .square-border-right {

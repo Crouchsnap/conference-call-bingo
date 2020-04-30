@@ -29,7 +29,7 @@ view model =
     div [ model.class ("board-container " ++ (model.userSettings.boardColor |> BoardStyle.toString)) ]
         [ div [ model.class "board-header" ] [ text "conference call" ]
         , div [ model.class "board-header-bingo" ] bingoTitle
-        , GameView.boardGridView model
+        , GameView.view model
         ]
 
 

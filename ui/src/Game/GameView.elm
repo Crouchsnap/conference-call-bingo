@@ -1,4 +1,4 @@
-module Game.GameView exposing (boardGridView, dotDiv)
+module Game.GameView exposing (view)
 
 import Assets.Star as Star
 import Game.Dot as Dot exposing (Dot)
@@ -10,7 +10,7 @@ import Msg exposing (Msg(..))
 import View.Style exposing (dotStyle, squareStyle)
 
 
-boardGridView { class, board, userSettings } =
+view { class, board, userSettings } =
     div [ class "board-content board-table" ] (board |> List.indexedMap (squareWrapper class userSettings.dauberColor))
 
 
@@ -32,11 +32,17 @@ squareDiv class square =
             else
                 [ square.html ]
     in
-    squareHtml ++ (square.dots |> List.indexedMap (dotDiv class))
+    [ div
+        [ class "square-innerHtml" ]
+        squareHtml
+    ]
+        ++ (square.dots |> List.indexedMap (dotDiv class))
 
 
 centerSquareDiv class square =
-    [ div [ class "square-star" ] [ Star.view "125" ], div [ style "position" "relative", style "z-index" "10", style "text-transform" "uppercase" ] [ square.html ] ]
+    [ div [ class "square-star square-innerHtml" ] [ Star.view "125" ]
+    , div [ class "square-star-innerHtml" ] [ square.html ]
+    ]
 
 
 dotDiv : (String -> Html.Attribute msg) -> Int -> Dot -> Html msg
