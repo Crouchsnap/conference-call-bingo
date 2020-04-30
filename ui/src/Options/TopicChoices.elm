@@ -15,9 +15,9 @@ view :
 view { class, userSettings } wrapperClass =
     div [ class wrapperClass ]
         [ title class
-        , topicToggle class "Fordisms" Fordism userSettings.topics
-        , topicToggle class "Coronavirus" Coronavirus userSettings.topics
         , topicToggle class "Autonomous Vehicle" AV userSettings.topics
+        , topicToggle class "Coronavirus" Coronavirus userSettings.topics
+        , topicToggle class "Fordisms" Fordism userSettings.topics
         ]
 
 
