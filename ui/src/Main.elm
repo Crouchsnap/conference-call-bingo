@@ -28,7 +28,7 @@ import Task
 import Time exposing (Posix)
 import Url exposing (Url)
 import UserSettings exposing (UserSettings)
-import View.Board as Board
+import View.BingoCard as BingoCard
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.Modal as Modal
 import Win.Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
@@ -287,7 +287,7 @@ bodyView model =
     div [ model.class "body-container" ]
         [ MobileHeader.view model
         , TopicChoices.view model "topic-wrapper"
-        , Board.view model
+        , BingoCard.view model
         , Options.view model "game-options-container"
         , Modal.view model
         ]

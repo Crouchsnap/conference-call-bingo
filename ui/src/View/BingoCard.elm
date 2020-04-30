@@ -1,4 +1,4 @@
-module View.Board exposing (view)
+module View.BingoCard exposing (view)
 
 import Game.GameView as GameView
 import Game.Square exposing (Square)
