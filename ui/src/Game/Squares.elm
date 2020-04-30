@@ -1,15 +1,22 @@
-module Game.GameView exposing (view)
+module Game.Squares exposing (view)
 
 import Assets.Star as Star
 import Game.Dot as Dot exposing (Dot)
+import Game.Square exposing (Square)
 import Game.Topic exposing (Topic(..))
 import Html exposing (Html, div)
-import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import View.Style exposing (dotStyle, squareStyle)
 
 
+view :
+    { model
+        | class : String -> Html.Attribute Msg
+        , board : List (Square Msg)
+        , userSettings : { userSettings | dauberColor : Dot.Color }
+    }
+    -> Html Msg
 view { class, board, userSettings } =
     div [ class "board-content board-table" ] (board |> List.indexedMap (squareWrapper class userSettings.dauberColor))
 
@@ -32,10 +39,7 @@ squareDiv class square =
             else
                 [ square.html ]
     in
-    [ div
-        [ class "square-innerHtml" ]
-        squareHtml
-    ]
+    [ div [ class "square-innerHtml" ] squareHtml ]
         ++ (square.dots |> List.indexedMap (dotDiv class))
 
 
@@ -47,6 +51,4 @@ centerSquareDiv class square =
 
 dotDiv : (String -> Html.Attribute msg) -> Int -> Dot -> Html msg
 dotDiv class index dot =
-    div
-        (dotStyle class index dot)
-        []
+    div (dotStyle class index dot) []

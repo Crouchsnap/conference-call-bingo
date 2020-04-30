@@ -1,7 +1,7 @@
 module View.BingoCard exposing (view)
 
-import Game.GameView as GameView
 import Game.Square exposing (Square)
+import Game.Squares as Squares
 import Html exposing (div, text)
 import Msg exposing (Msg)
 import Options.BoardStyle as BoardStyle
@@ -29,7 +29,7 @@ view model =
     div [ model.class ("board-container " ++ (model.userSettings.boardColor |> BoardStyle.toString)) ]
         [ div [ model.class "board-header" ] [ text "conference call" ]
         , div [ model.class "board-header-bingo" ] bingoTitle
-        , GameView.view model
+        , Squares.view model
         ]
 
 
