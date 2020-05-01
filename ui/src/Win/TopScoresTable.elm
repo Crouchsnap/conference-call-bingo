@@ -1,8 +1,8 @@
-module Win.TopScoresTable exposing (view)
+module Win.TopScoresTable exposing (isFormValid, view)
 
-import Html exposing (Html, div, input, text)
-import Html.Attributes exposing (maxlength, minlength, name, placeholder, title)
-import Html.Events exposing (onInput)
+import Html exposing (Html, button, div, input, text)
+import Html.Attributes exposing (disabled, maxlength, minlength, name, placeholder, title)
+import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
@@ -16,9 +16,10 @@ view :
         , startTime : Posix
         , endTime : Posix
         , class : String -> Html.Attribute Msg
+        , score : Score
     }
     -> Html Msg
-view { highScores, startTime, endTime, class } =
+view { highScores, startTime, endTime, class, score } =
     div []
         [ div
             [ class "top-score-title" ]
@@ -36,6 +37,7 @@ view { highScores, startTime, endTime, class } =
              ]
                 ++ scoreRows class startTime endTime highScores
             )
+        , submitButton class
         ]
 
 
@@ -99,3 +101,22 @@ yourScoreRow class ( rank, score ) =
         [ class "top-score-row" ]
         [ text (TimeFormatter.winingTime score.score) ]
     ]
+
+
+submitButton class =
+    div []
+        [ button
+            [ class "submit-button"
+            , onClick SubmitGame
+            ]
+            [ text "Next" ]
+        ]
+
+
+isFormValid : Score -> Bool
+isFormValid score =
+    let
+        initialsLength =
+            String.length score.player
+    in
+    initialsLength > 1 && initialsLength < 5

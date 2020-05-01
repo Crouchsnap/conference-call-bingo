@@ -33,6 +33,7 @@ import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.FeedbackEntity exposing (Feedback, emptyFeedback, updateRating, updateSuggestion)
 import Win.Modal
 import Win.Score exposing (Score, emptyGameResult, updatePlayer)
+import Win.TopScoresTable exposing (isFormValid)
 
 
 type alias Model =
@@ -156,7 +157,7 @@ update msg model =
             ( { model | highScores = response }, Cmd.none )
 
         GameResponse response ->
-            { model | submittedScoreResponse = response } |> update NewGame
+            ( { model | submittedScoreResponse = response }, Cmd.none )
 
         FeedbackResponse _ ->
             model |> update NewGame
@@ -169,15 +170,28 @@ update msg model =
                 score =
                     model.score
 
-                gameResultWithScore =
+                scoreWithTime =
                     { score | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
             in
-            ( { model | score = score }
-            , Cmd.batch
-                [ Requests.submitScore model.url gameResultWithScore
-                , Ports.sendGaEvent (SubmittedScore model.startTime model.endTime)
-                ]
-            )
+            if score |> isFormValid then
+                ( { model | score = score }
+                , Cmd.batch
+                    [ Requests.submitScore model.url scoreWithTime
+                    , Ports.sendGaEvent (SubmittedScore model.startTime model.endTime)
+                    ]
+                )
+
+            else
+                ( { model | submittedScoreResponse = RemoteData.succeed () }
+                , Cmd.none
+                )
+
+        SubmitFeedback ->
+            if model.feedback.rating > 0 then
+                ( model, Requests.submitFeedback model.url model.feedback )
+
+            else
+                model |> update NewGame
 
         LinkClicked urlRequest ->
             case urlRequest of

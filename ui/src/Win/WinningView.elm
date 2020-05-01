@@ -31,8 +31,12 @@ view model =
 
 content model =
     div []
-        [ TopScoresView.view model
-        , Feedback.view model
+        [ case model.submittedScoreResponse of
+            RemoteData.NotAsked ->
+                TopScoresView.view model
+
+            _ ->
+                Feedback.view model
         ]
 
 

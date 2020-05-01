@@ -24,6 +24,7 @@ type Msg
     | GameResponse (WebData ())
     | FeedbackResponse (WebData ())
     | SubmitGame
+    | SubmitFeedback
     | RequestHighScores
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url
