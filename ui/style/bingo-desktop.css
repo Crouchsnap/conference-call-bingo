@@ -39,18 +39,19 @@
         font-size: 1.25rem;
     }
 
-    .game-options-container {
+    .theme-options-container {
         display: flex;
     }
 
-    .topic-wrapper {
+    .game-options-container {
         display: flex;
         flex-direction: column;
-        margin: 1rem;
+        margin: 1rem 1rem 0 1rem;
         justify-self: flex-end;
     }
 
-    .topic-title {
+    .topic-title,
+    .timer-container{
         display: block;
     }
 

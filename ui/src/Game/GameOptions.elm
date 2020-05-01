@@ -1,11 +1,11 @@
-module Options.Options exposing (view)
+module Game.GameOptions exposing (view)
 
+import Game.Timer as Timer
 import Html exposing (Html, div)
 import Msg exposing (Msg)
-import Options.BoardColorChoices as BoardColorChoices
-import Options.DauberChoices as DauberChoices
 import Options.Theme exposing (Theme)
-import Options.ThemeChoices as ThemeChoices
+import Options.TopicChoices as TopicChoices
+import Time exposing (Posix)
 import UserSettings exposing (UserSettings)
 
 
@@ -14,12 +14,13 @@ view :
         | userSettings : UserSettings
         , systemTheme : Theme
         , class : String -> Html.Attribute Msg
+        , startTime : Posix
+        , time : Posix
     }
     -> String
     -> Html Msg
 view model wrapperClass =
     div [ model.class wrapperClass ]
-        [ ThemeChoices.view model
-        , BoardColorChoices.view model
-        , DauberChoices.view model
+        [ TopicChoices.view model
+        , Timer.view model "timer-container options-container bottom-item"
         ]

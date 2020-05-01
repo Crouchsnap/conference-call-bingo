@@ -9,6 +9,7 @@ import Footer.Footer as Footer
 import GA exposing (Event(..))
 import Game.Bingo as Bingo exposing (randomBoard)
 import Game.Board exposing (Board)
+import Game.GameOptions as GameOptions
 import Game.Square exposing (Square, toggleSquareInList)
 import Game.Topic exposing (Topic(..), toggleTopic)
 import Header.MobilHeader as MobileHeader
@@ -265,7 +266,11 @@ update msg model =
             ( model, Ports.sendGaEvent event )
 
         Tick newTime ->
-            ( { model | time = newTime }
+            ( if Time.posixToMillis model.endTime == 0 then
+                { model | time = newTime }
+
+              else
+                model
             , Cmd.none
             )
 
@@ -283,9 +288,9 @@ view model =
 bodyView model =
     div [ model.class "body-container" ]
         [ MobileHeader.view model
-        , TopicChoices.view model "topic-wrapper"
+        , GameOptions.view model "game-options-container"
         , BingoCard.view model
-        , Options.view model "game-options-container"
+        , Options.view model "theme-options-container"
         , Win.Modal.view model
         ]
 

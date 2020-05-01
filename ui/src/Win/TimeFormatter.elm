@@ -1,4 +1,4 @@
-module Win.TimeFormatter exposing (timeDifference, winingTime, winingTimeDifference)
+module Win.TimeFormatter exposing (formatDifference, timeDifference, winingTime, winingTimeDifference)
 
 import Time exposing (Posix)
 
@@ -13,12 +13,32 @@ winingTimeDifference startTime endTime =
     timeDifference startTime endTime |> winingTime
 
 
+formatDifference : Posix -> Posix -> String
+formatDifference startTime time =
+    let
+        diff =
+            timeDifference startTime time
+    in
+    if diff > 0 then
+        diff |> timerTime
+
+    else
+        "00:00:00"
+
+
 winingTime : Int -> String
 winingTime millis =
     hoursFormat millis
         ++ minsFormat millis
         ++ secsFormat millis
         ++ millisFormat millis
+
+
+timerTime : Int -> String
+timerTime millis =
+    timerHours millis
+        ++ timerMinsFormat millis
+        ++ timerSecsFormat millis
 
 
 type Units
@@ -49,8 +69,8 @@ parse unit millis =
     floor (toFloat millis / unitsToConst unit)
 
 
-addLeadingZero : Int -> String -> String
-addLeadingZero contingentValue value =
+addLeadingZeroIfHigherMagnitude : Int -> String -> String
+addLeadingZeroIfHigherMagnitude contingentValue value =
     if String.length value == 1 && contingentValue > 0 then
         "0" ++ value
 
@@ -58,9 +78,22 @@ addLeadingZero contingentValue value =
         value
 
 
+addLeadingZero : Int -> String
+addLeadingZero value =
+    let
+        valueAsString =
+            String.fromInt value
+    in
+    if String.length valueAsString == 1 then
+        "0" ++ valueAsString
+
+    else
+        valueAsString
+
+
 millisFormat : Int -> String
 millisFormat millis =
-    String.fromInt (millis |> parse Millis |> modBy 1000)
+    "." ++ String.fromInt (millis |> parse Millis |> modBy 1000)
 
 
 secsFormat : Int -> String
@@ -69,11 +102,17 @@ secsFormat millis =
         secs =
             millis |> parse Seconds |> modBy 60
     in
-    (secs
+    secs
         |> String.fromInt
-        |> addLeadingZero (millis |> parse Minutes)
-    )
-        ++ "."
+        |> addLeadingZeroIfHigherMagnitude (millis |> parse Minutes)
+
+
+timerSecsFormat : Int -> String
+timerSecsFormat millis =
+    millis
+        |> parse Seconds
+        |> modBy 60
+        |> addLeadingZero
 
 
 minsFormat : Int -> String
@@ -86,12 +125,22 @@ minsFormat millis =
         (mins
             |> modBy 60
             |> String.fromInt
-            |> addLeadingZero (millis |> parse Hours)
+            |> addLeadingZeroIfHigherMagnitude (millis |> parse Hours)
         )
             ++ ":"
 
     else
         ""
+
+
+timerMinsFormat : Int -> String
+timerMinsFormat millis =
+    (millis
+        |> parse Minutes
+        |> modBy 60
+        |> addLeadingZero
+    )
+        ++ ":"
 
 
 hoursFormat : Int -> String
@@ -105,3 +154,13 @@ hoursFormat millis =
 
     else
         ""
+
+
+timerHours : Int -> String
+timerHours millis =
+    (millis
+        |> parse Hours
+        |> modBy 24
+        |> addLeadingZero
+    )
+        ++ ":"

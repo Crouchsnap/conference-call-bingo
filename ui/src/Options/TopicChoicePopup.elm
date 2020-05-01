@@ -1,18 +1,24 @@
 module Options.TopicChoicePopup exposing (view)
 
 import Assets.Caret as Caret
+import Game.GameOptions as GameOptions
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
+import Options.Theme exposing (Theme)
 import Options.TopicChoices as TopicChoices
+import Time exposing (Posix)
 import UserSettings exposing (UserSettings)
 
 
 view :
     { model
         | class : String -> Html.Attribute Msg
-        , showTopics : Bool
         , userSettings : UserSettings
+        , showTopics : Bool
+        , systemTheme : Theme
+        , startTime : Posix
+        , time : Posix
     }
     -> Html Msg
 view model =
@@ -30,7 +36,7 @@ view model =
 popup model =
     if model.showTopics then
         div [ model.class "mobile-menu mobile-topics" ]
-            [ TopicChoices.view model "topic-wrapper-mobile" ]
+            [ GameOptions.view model "topic-container-mobile" ]
 
     else
         text ""

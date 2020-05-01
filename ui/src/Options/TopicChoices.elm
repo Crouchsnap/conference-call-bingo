@@ -10,10 +10,9 @@ import UserSettings exposing (UserSettings)
 
 view :
     { model | class : String -> Html.Attribute Msg, userSettings : UserSettings }
-    -> String
     -> Html Msg
-view { class, userSettings } wrapperClass =
-    div [ class wrapperClass ]
+view { class, userSettings } =
+    div [ class "", style "margin" "1rem" ]
         [ title class
         , topicToggle class "Autonomous Vehicle" AV userSettings.topics
         , topicToggle class "Coronavirus" Coronavirus userSettings.topics

@@ -86,9 +86,11 @@ label {
 
 .mobile-options-header {
     display: flex;
+    grid-template-columns: 40% 20% 40%;
     padding: .5rem;
     font-size: 1.25rem;
     text-transform: uppercase;
+    justify-content: space-between;
 }
 
 .board-content {
@@ -333,7 +335,7 @@ label {
     cursor: url('../assets/tangerine-dauber_v1.png') 5 110, auto;
 }
 
-.game-options-container,
+.theme-options-container,
 .game-selector-view-mobile {
     display: flex;
     flex-direction: column;
@@ -358,6 +360,11 @@ label {
     margin: -3rem;
 }
 
+.timer-container-mobile {
+    display: flex;
+}
+
+
 .caret-container {
     margin: 0 .5rem
 }
@@ -365,7 +372,7 @@ label {
 .options-icon {
     position: relative;
     padding: 3rem 0rem 3rem 3rem;
-    margin: -3rem 0rem -3rem auto;
+    margin: -3rem 0rem -3rem 0rem;
 }
 
 .topic-container {
@@ -547,10 +554,29 @@ label {
     right: -.5rem;
 }
 
-.topic-wrapper,
 .game-options-container,
-.topic-title{
+.theme-options-container,
+.topic-title,
+.timer-container {
     display: none;
+}
+
+.timer-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 9rem;
+}
+
+.timer-title {
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.timer-time {
+    justify-self: flex-end;
+    margin-left: auto;
 }
 
 .modal-container {
