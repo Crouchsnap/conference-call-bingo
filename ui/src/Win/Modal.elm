@@ -7,7 +7,7 @@ import Msg exposing (Msg(..))
 import Rating exposing (State)
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
-import Win.Score exposing (GameResult, Score)
+import Win.Score exposing (Score)
 import Win.WinningView as WinningView
 
 
@@ -33,7 +33,7 @@ view :
         , startTime : Posix
         , endTime : Posix
         , highScores : WebData (List Score)
-        , gameResult : GameResult
+        , score : Score
         , ratingState : State
         , submittedScoreResponse : WebData ()
         , modalVisibility : Modal.Visibility

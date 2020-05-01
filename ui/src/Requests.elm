@@ -1,10 +1,11 @@
-module Requests exposing (errorToString, getHighScores, getHostFromLocation, submitScore)
+module Requests exposing (errorToString, getHighScores, getHostFromLocation, submitFeedback, submitScore)
 
 import Http exposing (Error(..), expectJson, expectWhatever)
 import Msg exposing (Msg(..))
 import RemoteData exposing (RemoteData, WebData)
 import Url exposing (Url)
-import Win.Score exposing (GameResult, Score, decodeScores, encodeGameResult)
+import Win.FeedbackEntity exposing (Feedback, encodeFeedback)
+import Win.Score exposing (Score, decodeScores, encodeScore)
 
 
 getHighScores : Url -> Cmd Msg
@@ -15,12 +16,21 @@ getHighScores url =
         }
 
 
-submitScore : Url -> GameResult -> Cmd Msg
-submitScore url gameResult =
+submitScore : Url -> Score -> Cmd Msg
+submitScore url score =
     Http.post
         { url = getHostFromLocation url ++ "/api/scores"
-        , body = Http.jsonBody (encodeGameResult gameResult)
+        , body = Http.jsonBody (encodeScore score)
         , expect = expectWhatever (RemoteData.fromResult >> GameResponse)
+        }
+
+
+submitFeedback : Url -> Feedback -> Cmd Msg
+submitFeedback url feedback =
+    Http.post
+        { url = getHostFromLocation url ++ "/api/feedback"
+        , body = Http.jsonBody (encodeFeedback feedback)
+        , expect = expectWhatever (RemoteData.fromResult >> FeedbackResponse)
         }
 
 

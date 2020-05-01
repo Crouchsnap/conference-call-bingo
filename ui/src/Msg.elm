@@ -12,7 +12,7 @@ import Rating
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
 import Url exposing (Url)
-import Win.Score exposing (GameResult, Score)
+import Win.Score exposing (Score)
 
 
 type Msg
@@ -22,6 +22,7 @@ type Msg
     | NewGame
     | HighScoresResponse (WebData (List Score))
     | GameResponse (WebData ())
+    | FeedbackResponse (WebData ())
     | SubmitGame
     | RequestHighScores
     | LinkClicked Browser.UrlRequest

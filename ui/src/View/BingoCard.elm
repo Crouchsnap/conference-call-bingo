@@ -9,7 +9,7 @@ import Rating
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
 import UserSettings exposing (UserSettings)
-import Win.Score exposing (GameResult, Score)
+import Win.Score exposing (Score)
 
 
 view :
@@ -19,7 +19,7 @@ view :
         , startTime : Posix
         , endTime : Posix
         , highScores : WebData (List Score)
-        , gameResult : GameResult
+        , score : Score
         , ratingState : Rating.State
         , submittedScoreResponse : WebData ()
         , board : List (Square Msg)

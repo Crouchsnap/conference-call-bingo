@@ -7,7 +7,7 @@ import Rating
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
 import Win.FeedBack as Feedback
-import Win.Score exposing (GameResult, Score)
+import Win.Score exposing (Score)
 import Win.TopScoresTable as TopScoresView
 
 
@@ -17,7 +17,7 @@ view :
         , startTime : Posix
         , endTime : Posix
         , highScores : WebData (List Score)
-        , gameResult : GameResult
+        , score : Score
         , ratingState : Rating.State
         , submittedScoreResponse : WebData ()
     }

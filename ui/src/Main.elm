@@ -19,7 +19,6 @@ import List.Extra
 import Msg exposing (Msg(..))
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
-import Options.TopicChoices as TopicChoices
 import Ports
 import Random
 import Rating
@@ -31,8 +30,9 @@ import Url exposing (Url)
 import UserSettings exposing (UserSettings)
 import View.BingoCard as BingoCard
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
+import Win.FeedbackEntity exposing (Feedback, emptyFeedback, updateRating, updateSuggestion)
 import Win.Modal
-import Win.Score exposing (GameResult, Score, emptyGameResult, updatePlayer, updateRating, updateSuggestion)
+import Win.Score exposing (Score, emptyGameResult, updatePlayer)
 
 
 type alias Model =
@@ -44,7 +44,8 @@ type alias Model =
     , submittedScoreResponse : WebData ()
     , url : Url
     , key : Key
-    , gameResult : GameResult
+    , score : Score
+    , feedback : Feedback
     , ratingState : Rating.State
     , device : Device
     , nextSeed : Random.Seed
@@ -80,7 +81,8 @@ init flags url key =
       , submittedScoreResponse = RemoteData.NotAsked
       , url = url
       , key = key
-      , gameResult = emptyGameResult
+      , score = emptyGameResult
+      , feedback = emptyFeedback
       , ratingState = Rating.initialState
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
@@ -136,7 +138,7 @@ update msg model =
                 , nextSeed = next
                 , startTime = time
                 , endTime = Time.millisToPosix 0
-                , gameResult = emptyGameResult
+                , score = emptyGameResult
                 , ratingState = Rating.initialState
                 , submittedScoreResponse = RemoteData.NotAsked
                 , modalVisibility = Win.Modal.hidden
@@ -156,18 +158,21 @@ update msg model =
         GameResponse response ->
             { model | submittedScoreResponse = response } |> update NewGame
 
+        FeedbackResponse _ ->
+            model |> update NewGame
+
         RequestHighScores ->
             ( model, Requests.getHighScores model.url )
 
         SubmitGame ->
             let
-                gameResult =
-                    model.gameResult
+                score =
+                    model.score
 
                 gameResultWithScore =
-                    { gameResult | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
+                    { score | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
             in
-            ( { model | gameResult = gameResult }
+            ( { model | score = score }
             , Cmd.batch
                 [ Requests.submitScore model.url gameResultWithScore
                 , Ports.sendGaEvent (SubmittedScore model.startTime model.endTime)
@@ -186,17 +191,17 @@ update msg model =
             ( { model | url = url }, Cmd.none )
 
         Player initials ->
-            ( { model | gameResult = updatePlayer initials model.gameResult }, Cmd.none )
+            ( { model | score = updatePlayer initials model.score }, Cmd.none )
 
         Suggestion suggestion ->
-            ( { model | gameResult = updateSuggestion (Just suggestion) model.gameResult }, Cmd.none )
+            ( { model | feedback = updateSuggestion (Just suggestion) model.feedback }, Cmd.none )
 
         RatingMsg ratingMsg ->
             let
                 newRatingState =
                     Rating.update ratingMsg model.ratingState
             in
-            ( { model | ratingState = newRatingState, gameResult = updateRating (Rating.get newRatingState) model.gameResult }, Cmd.none )
+            ( { model | ratingState = newRatingState, feedback = updateRating (Rating.get newRatingState) model.feedback }, Cmd.none )
 
         GotViewportSize viewport ->
             ( { model | device = viewportToDevice viewport }, Cmd.none )

@@ -7,14 +7,14 @@ import Msg exposing (Msg(..))
 import Rating
 import RemoteData exposing (WebData)
 import Requests exposing (errorToString)
-import Win.Score exposing (GameResult)
+import Win.Score exposing (Score)
 
 
 view :
     { model
         | class : String -> Html.Attribute Msg
         , ratingState : Rating.State
-        , gameResult : GameResult
+        , score : Score
         , submittedScoreResponse : WebData ()
     }
     -> Html Msg
@@ -35,14 +35,14 @@ view model =
             text "Submitting"
 
 
-submitView { class, ratingState, gameResult } =
+submitView { class, ratingState, score } =
     div
         []
         [ ratingTitle
         , Html.map RatingMsg (Rating.classView [ "star-rating" ] ratingState)
         , suggestionLabel
         , suggestion class
-        , submitButton class gameResult
+        , submitButton class score
         ]
 
 
@@ -68,21 +68,21 @@ suggestion class =
         ]
 
 
-submitButton class gameResult =
+submitButton class score =
     div []
         [ button
             [ class "submit-button"
-            , disabled (not (isFormValid gameResult))
+            , disabled (not (isFormValid score))
             , onClick SubmitGame
             ]
             [ text "Play Again!" ]
         ]
 
 
-isFormValid : GameResult -> Bool
-isFormValid gameResult =
+isFormValid : Score -> Bool
+isFormValid score =
     let
         initialsLength =
-            String.length gameResult.player
+            String.length score.player
     in
-    initialsLength > 1 && initialsLength < 5 && gameResult.rating > 0
+    initialsLength > 1 && initialsLength < 5
