@@ -14,10 +14,10 @@ winingTimeDifference startTime endTime =
 
 
 formatDifference : Posix -> Posix -> String
-formatDifference startTime time =
+formatDifference startTime endTime =
     let
         diff =
-            timeDifference startTime time
+            timeDifference startTime endTime
     in
     if diff > 0 then
         diff |> timerTime
@@ -93,7 +93,21 @@ addLeadingZero value =
 
 millisFormat : Int -> String
 millisFormat millis =
-    "." ++ String.fromInt (millis |> parse Millis |> modBy 1000)
+    let
+        millisStr =
+            millis |> parse Millis |> modBy 1000 |> String.fromInt
+    in
+    "."
+        ++ (case String.length millisStr of
+                1 ->
+                    "00" ++ millisStr
+
+                2 ->
+                    "0" ++ millisStr
+
+                _ ->
+                    millisStr
+           )
 
 
 secsFormat : Int -> String

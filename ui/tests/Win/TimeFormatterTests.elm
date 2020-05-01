@@ -10,10 +10,14 @@ suite : Test
 suite =
     describe "Time format"
         [ describe "Win Time format"
-            [ test "millis only has leading seconds zero" <|
+            [ test "6 millis only has leading seconds zero" <|
+                \_ ->
+                    winingTimeDifference (Time.millisToPosix 0) (Time.millisToPosix 6)
+                        |> Expect.equal "0.006"
+            , test "10 millis only has leading seconds zero" <|
                 \_ ->
                     winingTimeDifference (Time.millisToPosix 0) (Time.millisToPosix 10)
-                        |> Expect.equal "0.10"
+                        |> Expect.equal "0.010"
             , test "less than 10 secs only has 1 sec digit" <|
                 \_ ->
                     winingTimeDifference (Time.millisToPosix 0) (Time.millisToPosix 1545)
