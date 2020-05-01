@@ -40,7 +40,7 @@ internal class HighScoreControllerTest {
 
     @Test
     internal fun `should save a game result to the database`() {
-        val gameResult = GameResultBody(score = 123, player = "play", suggestion = "something else", rating = 5)
+        val gameResult = GameResultBody(score = 123, player = "play")
 
         val response = testRestTemplate.postForEntity(highScoresUrl, gameResult, Void::class.java)
 
@@ -49,14 +49,13 @@ internal class HighScoreControllerTest {
     }
 
     @Test
-    internal fun `shouldn't save a game result with more than 4 letters in player or higher then 5 rating`() {
-        val gameResult = GameResultBody(score = 123, player = "player", suggestion = "something else", rating = 12)
+    internal fun `shouldn't save a game result without initials`() {
+        val gameResult = GameResultBody(score = 123, player = "")
 
         val response : ResponseEntity<String> = testRestTemplate.postForEntity(highScoresUrl, gameResult, String::class.java)
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
         assertThat(response.body!!).contains("size must be between 2 and 4")
-        assertThat(response.body!!).contains("must be between 1 and 5")
         verify(scoreRepository, never()).save(any())
     }
 }
