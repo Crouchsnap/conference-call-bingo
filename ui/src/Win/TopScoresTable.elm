@@ -18,27 +18,26 @@ view :
         , class : String -> Html.Attribute Msg
         , score : Score
     }
-    -> Html Msg
+    -> List (Html Msg)
 view { highScores, startTime, endTime, class, score } =
-    div []
-        [ div
-            [ class "top-score-title" ]
-            [ text "High Scores" ]
-        , div [ class "top-score-table" ]
-            ([ div
-                [ class "centered" ]
-                [ text "Rank" ]
-             , div
-                []
-                [ text "Player Initials" ]
-             , div
-                []
-                [ text "Time" ]
-             ]
-                ++ scoreRows class startTime endTime highScores
-            )
-        , submitButton class
-        ]
+    [ div
+        [ class "top-score-title" ]
+        [ text "High Scores" ]
+    , div [ class "top-score-table" ]
+        ([ div
+            [ class "centered" ]
+            [ text "Rank" ]
+         , div
+            []
+            [ text "Player Initials" ]
+         , div
+            []
+            [ text "Time" ]
+         ]
+            ++ scoreRows class startTime endTime highScores
+        )
+    , submitButton class
+    ]
 
 
 scoreRows class startTime endTime highScores =
@@ -71,7 +70,7 @@ scoreRow class ( rank, score ) =
 regularScoreRow : (String -> Html.Attribute Msg) -> ( Int, Score ) -> List (Html Msg)
 regularScoreRow class ( rank, score ) =
     [ div
-        [ class "top-score-row", class "centered" ]
+        [ class "top-score-row centered" ]
         [ text (String.fromInt (rank + 1)) ]
     , div
         [ class "top-score-row" ]
@@ -104,13 +103,11 @@ yourScoreRow class ( rank, score ) =
 
 
 submitButton class =
-    div []
-        [ button
-            [ class "submit-button"
-            , onClick SubmitGame
-            ]
-            [ text "Next" ]
+    button
+        [ class "submit-button"
+        , onClick SubmitGame
         ]
+        [ text "Next" ]
 
 
 isFormValid : Score -> Bool

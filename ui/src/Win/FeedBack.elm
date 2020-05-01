@@ -14,20 +14,18 @@ view :
         , ratingState : Rating.State
         , score : Score
     }
-    -> Html Msg
+    -> List (Html Msg)
 view model =
     submitView model
 
 
 submitView { class, ratingState, score } =
-    div
-        []
-        [ ratingTitle
-        , Html.map RatingMsg (Rating.classView [ "star-rating" ] ratingState)
-        , suggestionLabel
-        , suggestion class
-        , submitButton class
-        ]
+    [ ratingTitle
+    , Html.map RatingMsg (Rating.classView [ "star-rating" ] ratingState)
+    , suggestionLabel
+    , suggestion class
+    , submitButton class
+    ]
 
 
 ratingTitle =
@@ -53,10 +51,8 @@ suggestion class =
 
 
 submitButton class =
-    div []
-        [ button
-            [ class "submit-button"
-            , onClick SubmitFeedback
-            ]
-            [ text "Play Again!" ]
+    button
+        [ class "submit-button"
+        , onClick SubmitFeedback
         ]
+        [ text "Play Again!" ]

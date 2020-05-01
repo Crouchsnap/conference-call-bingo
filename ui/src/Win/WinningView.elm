@@ -1,11 +1,13 @@
 module Win.WinningView exposing (view)
 
-import Assets.Star as Star
+import Assets.WinStar as WinStar
 import Html exposing (Html, div, text)
 import Msg exposing (Msg)
+import Options.Theme exposing (Theme)
 import Rating
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
+import UserSettings exposing (UserSettings)
 import Win.FeedBack as Feedback
 import Win.Score exposing (Score)
 import Win.TopScoresTable as TopScoresView
@@ -23,31 +25,25 @@ view :
     }
     -> Html Msg
 view model =
-    div [ model.class "board-content winning-container" ]
-        [ header model.class
-        , content model
-        ]
+    div [ model.class "winning-container" ]
+        ([ header model.class ]
+            ++ content model
+        )
 
 
 content model =
-    div []
-        [ case model.submittedScoreResponse of
-            RemoteData.NotAsked ->
-                TopScoresView.view model
+    case model.submittedScoreResponse of
+        RemoteData.NotAsked ->
+            TopScoresView.view model
 
-            _ ->
-                Feedback.view model
-        ]
+        _ ->
+            Feedback.view model
 
 
 header class =
     div
         [ class "winning-header" ]
         [ div [ class "winning-header-emoji" ] [ text "🎉" ]
-        , div []
-            [ text "Bingo!"
-            , div [ class "winning-star" ]
-                [ Star.view "160" ]
-            ]
+        , WinStar.view
         , div [ class "winning-header-emoji" ] [ text "🎉" ]
         ]

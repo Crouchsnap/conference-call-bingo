@@ -142,8 +142,10 @@ label {
 }
 
 .winning-container label {
-    margin: .5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
     display: inline-block;
+    max-width: 22rem;
 }
 
 .winning-header {
@@ -174,6 +176,7 @@ label {
     color: #ECB904;
     font-size: 2.5rem;
     cursor: pointer;
+    margin: 1rem;
 }
 
 .top-score-table {
@@ -183,16 +186,18 @@ label {
     background: rgba(236, 185, 4, 0.5);
     border-radius: 8px;
     padding: 1rem 2rem;
+    max-height: 15rem;
 }
 
 .top-score-row {
-    margin: .3rem 0;
+    margin: .3rem 1rem;
 }
 
 .player-input {
     background: rgba(255, 255, 255, 0.8);
     font-size: 1rem;
     padding: 0 .75rem;
+    margin-right: 1rem;
     max-width: 10rem;
 }
 
@@ -202,8 +207,10 @@ label {
     padding: 1rem;
     background: #ED9E28;
     border-radius: 8px;
-    margin: 1rem;
+    margin: auto 1rem 1rem 1rem;
     color: #545454;
+    text-transform: uppercase;
+    min-width: 12rem;
 }
 
 .suggestion-input {
@@ -211,11 +218,13 @@ label {
     border-radius: 5px;
     width: 25rem;
     min-height: 2rem;
-    height: 3rem;
-    max-height: 4rem;
+    height: 10.5rem;
+    max-height: 10.5rem;
     max-width: 27rem;
     font-weigt: bold;
     font-size: 1rem;
+    margin: 1rem;
+    resize: none !important;
 }
 
 .suggestion-input-dark::placeholder {
@@ -223,12 +232,18 @@ label {
 }
 
 .topic-title,
-.top-score-title,
 .options-title {
     text-transform: uppercase;
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: .5rem;
+}
+
+.top-score-title{
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1.75rem;
 }
 
 .selected-border {

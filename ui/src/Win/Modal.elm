@@ -4,9 +4,11 @@ import Bootstrap.Modal as Modal
 import Html exposing (Html, button, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
+import Options.Theme exposing (Theme)
 import Rating exposing (State)
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
+import UserSettings exposing (UserSettings)
 import Win.Score exposing (Score)
 import Win.WinningView as WinningView
 
@@ -37,6 +39,7 @@ view :
         , ratingState : State
         , submittedScoreResponse : WebData ()
         , modalVisibility : Modal.Visibility
+        , userSettings : UserSettings
     }
     -> Html Msg
 view model =
