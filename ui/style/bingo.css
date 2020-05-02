@@ -61,6 +61,7 @@ label {
 
 .label {
     padding: .75rem;
+    width: max-content;
 }
 
 .anchor {
@@ -138,7 +139,7 @@ label {
     align-items: center;
     flex-direction: column;
     text-align: center;
-
+    height: 40vh;
 }
 
 .winning-container label {
@@ -611,6 +612,10 @@ label {
     background: unset;
 }
 
+.close {
+    margin: -1rem;
+    padding: 1rem !important;
+}
 .close:focus, .close:hover {
     color: unset;
     opacity: .5;

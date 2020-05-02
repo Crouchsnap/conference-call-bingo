@@ -11,6 +11,11 @@
         margin: 0;
     }
 
+    .close {
+        margin: 0;
+        padding: 0 !important;
+    }
+
     .mobile-options-header {
         display: none;
     }
