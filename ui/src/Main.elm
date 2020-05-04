@@ -296,7 +296,7 @@ update msg model =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "BINGO!"
+    { title = "BINGO! - Conference Call | FordLabs"
     , body =
         [ div [ model.class "body" ]
             [ bodyView model, Footer.view model ]
