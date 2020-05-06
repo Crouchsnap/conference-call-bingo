@@ -3,12 +3,10 @@ module Win.WinningView exposing (view)
 import Assets.WinStar as WinStar
 import Html exposing (Html, div, text)
 import Msg exposing (Msg)
-import Options.Theme exposing (Theme)
 import Rating
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
-import UserSettings exposing (UserSettings)
-import Win.FeedBack as Feedback
+import Win.FeedBackView as FeedbackView
 import Win.Score exposing (Score)
 import Win.TopScoresTable as TopScoresView
 
@@ -37,7 +35,7 @@ content model =
             TopScoresView.view model
 
         _ ->
-            Feedback.view model
+            FeedbackView.view model
 
 
 header class =

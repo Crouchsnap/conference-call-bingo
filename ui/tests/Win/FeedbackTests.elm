@@ -1,15 +1,9 @@
-module Win.FeedbackEntityTests exposing (suite)
+module Win.FeedbackTests exposing (suite)
 
 import Expect exposing (Expectation)
-import Game.Dot exposing (Color(..))
-import Game.Topic exposing (Topic(..))
-import Json.Decode exposing (Decoder)
 import Json.Encode
-import Options.BoardStyle exposing (Color(..))
-import Options.Theme exposing (Theme(..))
 import Test exposing (..)
-import UserSettings exposing (decodeUserSettings, encodeUserSettings)
-import Win.FeedbackEntity exposing (Feedback, encodeFeedback)
+import Win.Feedback exposing (Feedback, encodeFeedback)
 
 
 suite : Test

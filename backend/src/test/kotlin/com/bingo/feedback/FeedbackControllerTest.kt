@@ -3,7 +3,6 @@ package com.bingo.feedback
 import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.isEqualTo
-import com.bingo.high.score.toGameResult
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,7 +29,7 @@ internal class FeedbackControllerTest {
         val response = testRestTemplate.postForEntity(feedbackUrl, feedbackRequest, Void::class.java)
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        Mockito.verify(feedbackRepository).save(feedbackRequest.toFeedbackEntity())
+        Mockito.verify(feedbackRepository).save(feedbackRequest.toFeedback())
     }
 
 

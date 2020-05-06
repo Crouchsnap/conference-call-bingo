@@ -30,7 +30,7 @@ import Url exposing (Url)
 import UserSettings exposing (UserSettings)
 import View.BingoCard as BingoCard
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
-import Win.FeedbackEntity exposing (Feedback, emptyFeedback, updateRating, updateSuggestion)
+import Win.Feedback exposing (Feedback, emptyFeedback, updateRating, updateSuggestion)
 import Win.Modal
 import Win.Score exposing (Score, emptyGameResult, updatePlayer)
 import Win.TopScoresTable exposing (isFormValid)

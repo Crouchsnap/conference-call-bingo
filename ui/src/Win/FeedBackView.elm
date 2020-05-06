@@ -1,4 +1,4 @@
-module Win.FeedBack exposing (view)
+module Win.FeedBackView exposing (view)
 
 import Html exposing (Html, button, div, label, text, textarea)
 import Html.Attributes exposing (for, maxlength, name, placeholder, title)

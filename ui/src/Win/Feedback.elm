@@ -1,4 +1,4 @@
-module Win.FeedbackEntity exposing (Feedback, emptyFeedback, encodeFeedback, updateRating, updateSuggestion)
+module Win.Feedback exposing (Feedback, emptyFeedback, encodeFeedback, updateRating, updateSuggestion)
 
 import Json.Encode
 

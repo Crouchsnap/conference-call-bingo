@@ -14,6 +14,6 @@ class FeedbackController {
 
     @PostMapping
     fun postFeedback(@Valid @RequestBody feedbackRequest: FeedbackRequest){
-        feedbackRepository.save(feedbackRequest.toFeedbackEntity())
+        feedbackRepository.save(feedbackRequest.toFeedback())
     }
 }
