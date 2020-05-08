@@ -40,6 +40,11 @@ kanyeSquare text =
     Square (Html.text text) Kanye text []
 
 
+itfcgSquare : String -> Square msg
+itfcgSquare text =
+    Square (Html.text text) ITFCG text []
+
+
 centerSquare : Square msg
 centerSquare =
     Square (div [] [ Html.text "Free", br [] [], Html.text "Space" ]) Center "Free Space" []
@@ -60,6 +65,11 @@ kanyeSquares =
     Topic.kanye |> List.map kanyeSquare
 
 
+itfcgSquares : List (Square msg)
+itfcgSquares =
+    Topic.itfcg |> List.map itfcgSquare
+
+
 vehicleDevelopmentSquares : List (Square msg)
 vehicleDevelopmentSquares =
     Topic.vehicleDevelopment |> List.map vehicleDevelopmentSquare
@@ -75,8 +85,9 @@ avSquares =
     Topic.av |> List.map avSquare
 
 
+allTopicSquares : List (Square msg)
 allTopicSquares =
-    fordismSquares ++ coronavirusSquares ++ avSquares ++ vehicleDevelopmentSquares ++ kanyeSquares
+    fordismSquares ++ coronavirusSquares ++ avSquares ++ vehicleDevelopmentSquares ++ kanyeSquares ++ itfcgSquares
 
 
 squaresByTopic : List Topic -> List (Square msg)

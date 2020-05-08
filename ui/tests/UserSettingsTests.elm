@@ -64,7 +64,7 @@ suite =
                     (decodeUserSettings Dark)
                     (encodeUserSettings
                         { selectedTheme = Light
-                        , topics = [ Fordism, Coronavirus ]
+                        , topics = [ Fordism, Coronavirus, Kanye, ITFCG ]
                         , dauberColor = Keylime
                         , boardColor = GoofyGreen
                         }
@@ -72,7 +72,7 @@ suite =
                     |> Expect.equal
                         (Ok
                             { selectedTheme = Light
-                            , topics = [ Fordism, Coronavirus ]
+                            , topics = [ Fordism, Coronavirus, Kanye, ITFCG ]
                             , dauberColor = Keylime
                             , boardColor = GoofyGreen
                             }

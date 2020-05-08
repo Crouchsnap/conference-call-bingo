@@ -1,4 +1,4 @@
-module Game.Topic exposing (Topic(..), av, coronaviri, encodeTopic, fordisms, generic, kanye, toString, toggleTopic, topicDecoder, vehicleDevelopment)
+module Game.Topic exposing (Topic(..), av, coronaviri, encodeTopic, fordisms, generic, itfcg, kanye, toString, toggleTopic, topicDecoder, vehicleDevelopment)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
@@ -13,6 +13,7 @@ type Topic
     | VehicleDevelopemnt
     | Kanye
     | Center
+    | ITFCG
 
 
 generic : List String
@@ -183,6 +184,43 @@ kanye =
     ]
 
 
+itfcg : List String
+itfcg =
+    [ "\"Co-Leads\""
+    , "\"Skip Level\""
+    , "\"Interns\""
+    , "\"New Hires\""
+    , "\"Incoming FCGs\""
+    , "\"On-Boarding\""
+    , "\"Off-Boarding\""
+    , "\"Carousel\""
+    , "\"Volunteering\""
+    , "\"Innovation\""
+    , "\"Media\""
+    , "\"Special Events\""
+    , "\"Dev Comm\""
+    , "\"Council\""
+    , "\"MegaByte\""
+    , "\"Advisors\""
+    , "\"Hackathon\""
+    , "\"Rotation\""
+    , "\"Algorithm\""
+    , "\"Building Champions\""
+    , "\"Happy Hour\""
+    , "\"FCGs\""
+    , "\"One Ford FCGs\""
+    , "\"That’s it\""
+    , "\"Thank you ___\""
+    , "\"Alright let’s get started\""
+    , "\"Thanks everyone for joining\""
+    , "\"Comms Meeting\""
+    , "\"Carousel Solve\""
+    , "\"Any questions?\""
+    , "\"Post in the chat\""
+    , "\"Forward Into Ford\""
+    ]
+
+
 toggleTopic topic topics =
     topics
         |> (if not (List.member topic topics) then
@@ -213,6 +251,9 @@ topicDecoder =
 
                     "kanye" ->
                         Decode.succeed Kanye
+
+                    "ITFCG" ->
+                        Decode.succeed ITFCG
 
                     _ ->
                         Decode.succeed Generic
@@ -247,3 +288,6 @@ toString topic =
 
         Center ->
             "center"
+
+        ITFCG ->
+            "ITFCG"
