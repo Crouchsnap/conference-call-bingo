@@ -50,7 +50,6 @@ generic =
     , "University logo on webcam"
     , "\"What team are you from?\""
     , "\"double mute\""
-    , "Reference to people as resources"
     , "\"I'll send out the deck\""
     , "(eating sounds)"
     , "\"Bingo!\""
@@ -61,6 +60,9 @@ generic =
     , "Two people with the same first name present"
     , "\"Let's give everyone a few minutes to join\""
     , "Meeting started late"
+    , "\"That’s it\""
+    , "\"Any questions?\""
+    , "\"Post in the chat\""
     ]
 
 
@@ -68,6 +70,7 @@ fordisms : List String
 fordisms =
     [ "\"VIN number\""
     , "\"MVP\""
+    , "Reference to people as resources"
     , "Any vehicle program number"
     , "\"Go further\""
     , "\"LL_ approval needed\""
@@ -187,6 +190,7 @@ kanye =
 itfcg : List String
 itfcg =
     [ "\"Co-Leads\""
+    , "\"Thanks everyone for joining\""
     , "\"Skip Level\""
     , "\"Interns\""
     , "\"New Hires\""
@@ -209,14 +213,8 @@ itfcg =
     , "\"Happy Hour\""
     , "\"FCGs\""
     , "\"One Ford FCGs\""
-    , "\"That’s it\""
-    , "\"Thank you ___\""
-    , "\"Alright let’s get started\""
-    , "\"Thanks everyone for joining\""
     , "\"Comms Meeting\""
     , "\"Carousel Solve\""
-    , "\"Any questions?\""
-    , "\"Post in the chat\""
     , "\"Forward Into Ford\""
     ]
 
