@@ -111,6 +111,9 @@ coronaviri =
     , "\"test rate\""
     , "\"essential workers\""
     , "\"reopen\""
+    , "\"In these uncertain times\""
+    , "\"Now more then ever\""
+    , "\"The new normal\""
     ]
 
 
