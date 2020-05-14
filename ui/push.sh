@@ -1,10 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
-which uglifyjs
-
-if ($? > 0) then
+if ! [ -x "$(command -v uglifyjs)" ]; then
+  echo 'installing uglify'
   npm install uglify-js --global
 fi
 
