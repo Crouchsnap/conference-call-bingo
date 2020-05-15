@@ -1,5 +1,6 @@
 module Main exposing (Model, init, main, update, view)
 
+import Assets.RatingStar as RatingStar
 import Browser
 import Browser.Dom exposing (Viewport)
 import Browser.Events
@@ -13,7 +14,7 @@ import Game.GameOptions as GameOptions
 import Game.Square exposing (Square, toggleSquareInList)
 import Game.Topic exposing (Topic(..), toggleTopic)
 import Header.MobilHeader as MobileHeader
-import Html exposing (Html, div)
+import Html exposing (Html, div, text)
 import Json.Decode
 import List.Extra
 import Msg exposing (Msg(..))
@@ -84,7 +85,7 @@ init flags url key =
       , key = key
       , score = emptyGameResult
       , feedback = emptyFeedback
-      , ratingState = Rating.initialState
+      , ratingState = Rating.initialCustomState RatingStar.selected RatingStar.unselected
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
       , systemTheme = theme
@@ -140,7 +141,7 @@ update msg model =
                 , startTime = time
                 , endTime = Time.millisToPosix 0
                 , score = emptyGameResult
-                , ratingState = Rating.initialState
+                , ratingState = model.ratingState |> Rating.set 0
                 , submittedScoreResponse = RemoteData.NotAsked
                 , modalVisibility = Win.Modal.hidden
               }
