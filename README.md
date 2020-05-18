@@ -17,9 +17,6 @@ Credit to sscheman@ford.com for the design!
 ### Prerequisites
  - npm
  - Java 8
- - mongodb-community
- 
- You'll need the mongodb service running on default settings as well.
  
 #### UI
  1. `cd ui`
