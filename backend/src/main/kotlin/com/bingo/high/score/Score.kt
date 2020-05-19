@@ -2,8 +2,6 @@ package com.bingo.high.score
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.repository.MongoRepository
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
 import javax.validation.constraints.Size
 
 
