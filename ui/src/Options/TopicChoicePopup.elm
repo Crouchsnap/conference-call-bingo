@@ -7,6 +7,7 @@ import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme)
 import Options.TopicChoices as TopicChoices
+import Rating
 import Time exposing (Posix)
 import UserSettings exposing (UserSettings)
 
@@ -19,6 +20,8 @@ view :
         , systemTheme : Theme
         , startTime : Posix
         , time : Posix
+        , ratingState : Rating.State
+        , feedbackSent : Bool
     }
     -> Html Msg
 view model =

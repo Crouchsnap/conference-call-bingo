@@ -35,6 +35,10 @@
         margin: 0 1rem;
     }
 
+    .feedback-container {
+        max-width: 16rem;
+    }
+
     .winning-container {
         width: calc(5 * 8.75rem);
         height: calc(5 * 8.75rem);
@@ -88,7 +92,6 @@
         max-height: min-content;
         padding: initial;
         margin: auto;
-
     }
 
     .modal.show .modal-dialog {

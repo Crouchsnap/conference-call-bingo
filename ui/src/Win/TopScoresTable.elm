@@ -107,7 +107,7 @@ submitButton class =
         [ class "submit-button"
         , onClick SubmitGame
         ]
-        [ text "Next" ]
+        [ text "Play Again!" ]
 
 
 isFormValid : Score -> Bool

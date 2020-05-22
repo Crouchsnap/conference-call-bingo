@@ -177,7 +177,7 @@ label {
     color: #ECB904;
     font-size: 2.5rem;
     cursor: pointer;
-    margin: 1rem;
+    margin: 1rem 0;
 }
 
 .top-score-table {
@@ -214,22 +214,51 @@ label {
     min-width: 12rem;
 }
 
-.suggestion-input {
-    padding: .3125rem;
-    border-radius: 5px;
-    width: 25rem;
-    min-height: 2rem;
-    height: 10.5rem;
-    max-height: 10.5rem;
-    max-width: 27rem;
-    font-weigt: bold;
-    font-size: 1rem;
-    margin: 1rem;
-    resize: none !important;
+.feedback-container {
+    text-transform: none;
+    font-weight: bold;
 }
 
-.suggestion-input-dark::placeholder {
+.feedback-response{
+    text-align: center;
+    padding-bottom: 10rem;
+}
+
+.submit-feedback-button {
+    border: 2px solid #ED9E28;
+    box-sizing: border-box;
+    border-radius: 8px;
+    width: 100%;
+    color: #ED9E28;
+    padding: .5rem;
+    background-color: transparent;
+    margin-top: 1.5rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.suggestion-input {
+    box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: .3125rem;
+    width: 100%;
+    min-height: 2rem;
+    height: 6rem;
+    max-height: 10.5rem;
+    max-width: 27rem;
+    font-weight: bold;
+    font-size: 1rem;
+    resize: none !important;
+    margin-top: 1.5rem;
+    border: 0.5px solid #545454;
+}
+
+.suggestion-input::placeholder {
     opacity: .7;
+    font-style: italic;
+    font-weight: 300;
+    color: #8B8B8B;
+    font-size: 1rem;
 }
 
 .topic-title,

@@ -48,6 +48,7 @@ type alias Model =
     , key : Key
     , score : Score
     , feedback : Feedback
+    , feedbackSent : Bool
     , ratingState : Rating.State
     , device : Device
     , nextSeed : Random.Seed
@@ -85,6 +86,7 @@ init flags url key =
       , key = key
       , score = emptyGameResult
       , feedback = emptyFeedback
+      , feedbackSent = False
       , ratingState = Rating.initialCustomState RatingStar.selected RatingStar.unselected
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
@@ -158,10 +160,10 @@ update msg model =
             ( { model | highScores = response }, Cmd.none )
 
         GameResponse response ->
-            ( { model | submittedScoreResponse = response }, Cmd.none )
+            { model | submittedScoreResponse = response } |> update NewGame
 
         FeedbackResponse _ ->
-            model |> update NewGame
+            ( model, Cmd.none )
 
         RequestHighScores ->
             ( model, Requests.getHighScores model.url )
@@ -183,16 +185,14 @@ update msg model =
                 )
 
             else
-                ( { model | submittedScoreResponse = RemoteData.succeed () }
-                , Cmd.none
-                )
+                model |> update NewGame
 
         SubmitFeedback ->
             if model.feedback.rating > 0 then
-                ( model, Requests.submitFeedback model.url model.feedback )
+                ( { model | feedbackSent = True }, Requests.submitFeedback model.url model.feedback )
 
             else
-                model |> update NewGame
+                ( model, Cmd.none )
 
         LinkClicked urlRequest ->
             case urlRequest of

@@ -30,12 +30,7 @@ view model =
 
 
 content model =
-    case model.submittedScoreResponse of
-        RemoteData.NotAsked ->
-            TopScoresView.view model
-
-        _ ->
-            FeedbackView.view model
+    TopScoresView.view model
 
 
 header class =
