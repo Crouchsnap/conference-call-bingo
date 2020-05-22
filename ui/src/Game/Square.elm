@@ -45,6 +45,11 @@ itfcgSquare text =
     Square (Html.text text) ITFCG text []
 
 
+architectSquare : String -> Square msg
+architectSquare text =
+    Square (Html.text text) Architect text []
+
+
 centerSquare : Square msg
 centerSquare =
     Square (div [] [ Html.text "Free", br [] [], Html.text "Space" ]) Center "Free Space" []
@@ -70,6 +75,11 @@ itfcgSquares =
     Topic.itfcg |> List.map itfcgSquare
 
 
+architectSquares : List (Square msg)
+architectSquares =
+    Topic.architect |> List.map architectSquare
+
+
 vehicleDevelopmentSquares : List (Square msg)
 vehicleDevelopmentSquares =
     Topic.vehicleDevelopment |> List.map vehicleDevelopmentSquare
@@ -87,7 +97,7 @@ avSquares =
 
 allTopicSquares : List (Square msg)
 allTopicSquares =
-    fordismSquares ++ coronavirusSquares ++ avSquares ++ vehicleDevelopmentSquares ++ kanyeSquares ++ itfcgSquares
+    fordismSquares ++ coronavirusSquares ++ avSquares ++ vehicleDevelopmentSquares ++ kanyeSquares ++ itfcgSquares ++ architectSquares
 
 
 squaresByTopic : List Topic -> List (Square msg)

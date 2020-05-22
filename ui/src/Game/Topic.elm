@@ -1,4 +1,4 @@
-module Game.Topic exposing (Topic(..), av, coronaviri, encodeTopic, fordisms, generic, itfcg, kanye, toString, toggleTopic, topicDecoder, vehicleDevelopment)
+module Game.Topic exposing (Topic(..), architect, av, coronaviri, encodeTopic, fordisms, generic, itfcg, kanye, toString, toggleTopic, topicDecoder, vehicleDevelopment)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
@@ -14,6 +14,7 @@ type Topic
     | Kanye
     | Center
     | ITFCG
+    | Architect
 
 
 generic : List String
@@ -158,6 +159,10 @@ vehicleDevelopment =
     , "\"Rivian\""
     , "\"Roush\""
     , "\"Up to MPG\""
+    , "\"Can you cut a section?\""
+    , "\"Can you turn on __?\""
+    , "speaker's unspoken contempt for a supplier"
+    , "Agenda ignored"
     ]
 
 
@@ -222,6 +227,29 @@ itfcg =
     ]
 
 
+architect : List String
+architect =
+    [ "\"Best Practice\""
+    , "\"According to the code\""
+    , "\"Value Engineering (VE)\""
+    , "\"Design intent\""
+    , "\"Additional Service Request (ASR)\""
+    , "\"FF&E\""
+    , "\"OFCI\""
+    , "\"The big idea\""
+    , "\"The concept\""
+    , "\"How do you support that?\""
+    , "\"BIM 360\""
+    , "\"Workplace of the future\""
+    , "\"submittals\""
+    , "\"plotting/printing the drawings\""
+    , "\"it's in the model\""
+    , "\"title block\""
+    , "reference to column grids"
+    , "reference to finishes"
+    ]
+
+
 toggleTopic topic topics =
     topics
         |> (if not (List.member topic topics) then
@@ -255,6 +283,9 @@ topicDecoder =
 
                     "ITFCG" ->
                         Decode.succeed ITFCG
+
+                    "architect" ->
+                        Decode.succeed Architect
 
                     _ ->
                         Decode.succeed Generic
@@ -292,3 +323,6 @@ toString topic =
 
         ITFCG ->
             "ITFCG"
+
+        Architect ->
+            "architect"
