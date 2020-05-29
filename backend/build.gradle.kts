@@ -27,7 +27,7 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     implementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
-    testImplementation( "com.willowtreeapps.assertk:assertk-jvm:0.22")
+    implementation( "com.willowtreeapps.assertk:assertk-jvm:0.22")
 }
 
 tasks.withType<Test> {
