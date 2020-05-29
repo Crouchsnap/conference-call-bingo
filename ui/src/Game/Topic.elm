@@ -65,7 +65,7 @@ generic =
     , "\"That’s it\""
     , "\"Any questions?\""
     , "\"Post in the chat\""
-    , "\"Good Morning\\Afternoon\\Evening\""
+    , "\"Good Morning\\ Afternoon\\ Evening\""
     ]
 
 
