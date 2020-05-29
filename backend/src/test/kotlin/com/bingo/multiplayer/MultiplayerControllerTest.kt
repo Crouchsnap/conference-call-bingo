@@ -2,9 +2,8 @@ package com.bingo.multiplayer
 
 import assertk.assertThat
 import assertk.assertions.contains
+import assertk.assertions.containsExactly
 import assertk.assertions.isEqualTo
-import com.bingo.high.score.GameResultBody
-import com.bingo.high.score.toGameResult
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -27,6 +26,9 @@ class MultiplayerControllerTest {
         val response = testRestTemplate.postForEntity("/api/multiplayer/start", requestBody, String::class.java)
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
-        assertThat(response.body).isEqualTo(multiplayerRepository.findAll()[0].id)
+        val actual = multiplayerRepository.findAll()[0]
+        assertThat(response.body).isEqualTo(actual.id)
+        assertThat(actual.players[0].player).isEqualTo("NK")
+
     }
 }
