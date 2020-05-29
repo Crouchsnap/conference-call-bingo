@@ -20,6 +20,7 @@ type Topic
 generic : List String
 generic =
     [ "\"Mute your phone please\""
+    , "\"WAT??\""
     , "5 seconds awkward silence"
     , "Sound of telephone ringing"
     , "(sigh)"
@@ -64,6 +65,7 @@ generic =
     , "\"That’s it\""
     , "\"Any questions?\""
     , "\"Post in the chat\""
+    , "\"Good Morning\\Afternoon\\Evening\""
     ]
 
 

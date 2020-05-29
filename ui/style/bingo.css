@@ -212,6 +212,7 @@ label {
     color: #545454;
     text-transform: uppercase;
     min-width: 12rem;
+    cursor: pointer;
 }
 
 .feedback-container {
