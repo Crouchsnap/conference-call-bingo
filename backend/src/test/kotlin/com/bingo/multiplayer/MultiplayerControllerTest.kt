@@ -7,16 +7,19 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.http.HttpStatus
+
+interface MultiplayerRepository : MongoRepository<MultiplayerGame, String>
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MultiplayerControllerTest {
 
     @Autowired
-    lateinit var multiplayerRepository:MultiplayerRepository
+    lateinit var multiplayerRepository: MultiplayerRepository
 
     @Autowired
-    lateinit var testRestTemplate:TestRestTemplate
+    lateinit var testRestTemplate: TestRestTemplate
 
     @AfterEach
     internal fun tearDown() {
@@ -75,3 +78,4 @@ class MultiplayerControllerTest {
     }
 
 }
+

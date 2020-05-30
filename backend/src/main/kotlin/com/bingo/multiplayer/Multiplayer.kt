@@ -14,13 +14,12 @@ fun AddMultiplayerRequest.toPlayer() = Player(initials = initials)
 data class Player(@Id val id: String = UUID.randomUUID().toString(), val initials: String, val score: Int = 1)
 data class MultiplayerGame(@Id val id: String? = null, val players: List<Player> = emptyList())
 
-interface MultiplayerRepository : MongoRepository<MultiplayerGame, String>
 
 enum class Operation(val amount: Int) {
     INCREMENT(1), DECREMENT(-1)
 }
 
-class StringToEnumConverter : Converter<String?, Operation?> {
+class StringToOperationConverter : Converter<String?, Operation?> {
     override fun convert(source: String): Operation =
             Operation.valueOf(source.toUpperCase())
 
