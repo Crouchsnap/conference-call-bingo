@@ -32,6 +32,9 @@
 <body>
 <div id="elm-root"></div>
 <script type="application/javascript">
+
+
+
     function IEdetection() {
         var ua = window.navigator.userAgent;
         var msie = ua.indexOf('MSIE ');
@@ -72,6 +75,25 @@
             flags: flags,
             node: document.getElementById("elm-root")
         });
+
+        let eventSource;
+
+
+        function sendUntypedEventToElm(event) {
+            app.ports.ssUntypedEventsJS.send({
+                data: event.data, // Can't be null according to spec
+                eventType: null,
+                id: event.id || null
+            });
+        }
+
+        app.ports.openSse.subscribe(function (url) {
+            if (url) {
+                eventSource = new EventSource(url);
+                eventSource.onmessage = sendUntypedEventToElm
+            }
+        })
+
         app.ports.storeUserSettings.subscribe(function(userSettings) {
             if (userSettings) {
                 localStorage.setItem('user-settings-app-save', userSettings);

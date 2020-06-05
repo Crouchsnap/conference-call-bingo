@@ -5,6 +5,12 @@ import Json.Encode as Encode
 import UserSettings exposing (UserSettings, encodeUserSettings)
 
 
+port ssUntypedEventsJS : (String -> msg) -> Sub msg
+
+
+port openSse : String -> Cmd msg
+
+
 port storeUserSettings : String -> Cmd msg
 
 
