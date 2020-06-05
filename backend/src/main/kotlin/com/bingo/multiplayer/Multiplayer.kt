@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.data.mongodb.repository.Tailable
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
+import java.time.Instant
 import java.util.*
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
@@ -23,7 +24,7 @@ data class Player(@Id val id: String = UUID.randomUUID().toString(), val initial
 data class MultiplayerGame(@Id val id: String? = null, val players: List<Player> = emptyList())
 
 @Document(collection = "score")
-data class Score(@Id val id: String? = null, val gameId: String, val playerId: String, val initials: String, val score: Int)
+data class Score(@Id val id: String? = null, val gameId: String, val playerId: String, val initials: String, val score: Int, val timestamp : Instant = Instant.now())
 data class ScoreRequest(@field:Min(value = 1, message = scoreRangeMessage)
                         @field:Max(value = 5, message = scoreRangeMessage)
                         val score: Int = 0)
@@ -34,8 +35,7 @@ data class ScoreResponse(val playerId: String = "", val initials: String = "", v
 interface MultiplayerRepository : MongoRepository<MultiplayerGame, String>
 
 @Repository
-interface MultiplayerScoreRepository : ReactiveMongoRepository<Score, String> {
-    @Tailable
-    fun findWithTailableCursorByGameId(gameId: String): Flux<Score>
+interface MultiplayerScoreRepository : MongoRepository<Score, String> {
+    fun findAllByGameId(gameId: String): List<Score>
 }
 

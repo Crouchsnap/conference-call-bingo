@@ -15,8 +15,6 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.returnResult
 
 
-interface MultiplayerRepository : MongoRepository<MultiplayerGame, String>
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MultiplayerControllerTest {
 
@@ -70,7 +68,7 @@ class MultiplayerControllerTest {
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(response.body!!).isEqualTo(ScoreResponse(playerId = multiplayerGame.players[0].id, initials = "NK", score = 4))
 
-        val actual = multiplayerScoreRepository.findAll().blockFirst()!!
+        val actual = multiplayerScoreRepository.findAll()[0]
         assertThat(actual.playerId).isEqualTo(multiplayerGame.players[0].id)
         assertThat(actual.gameId).isEqualTo(multiplayerGame.id)
         assertThat(actual.initials).isEqualTo("NK")
@@ -84,20 +82,24 @@ class MultiplayerControllerTest {
     @Test
     internal fun `scores should return 200 and a score`() {
         val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK"))))
-        val score = multiplayerScoreRepository.save(Score(gameId = multiplayerGame.id!!, playerId = multiplayerGame.players[0].id, initials = "NK", score = 3)).block()
-        val score2 = multiplayerScoreRepository.save(Score(gameId = multiplayerGame.id!!, playerId = multiplayerGame.players[0].id, initials = "NK", score = 4)).block()
+        val score = multiplayerScoreRepository.save(Score(gameId = multiplayerGame.id!!, playerId = multiplayerGame.players[0].id, initials = "NK", score = 3))
+        val score2 = multiplayerScoreRepository.save(Score(gameId = multiplayerGame.id!!, playerId = multiplayerGame.players[0].id, initials = "NK", score = 4))
 
         val result = webTestClient.get().uri("/api/multiplayer/scores/${multiplayerGame.id}")
                 .accept(MediaType.TEXT_EVENT_STREAM)
                 .exchange()
                 .expectStatus().isOk
-                .returnResult<ScoreResponse>()
+                .returnResult<List<ScoreResponse>>()
                 .responseBody
                 .take(2)
                 .collectList()
                 .block();
 
-        assertThat(result).isEqualTo(listOf(score, score2).map { it?.toScoreResponse() })
+        val individualStreamResponse = listOf(score, score2).map { it?.toScoreResponse() }
+        assertThat(result).isEqualTo(listOf(
+                individualStreamResponse
+                , individualStreamResponse
+        ))
 
     }
 

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
+import java.time.Duration
 import javax.validation.Valid
 
 
@@ -37,8 +38,12 @@ class MultiplayerController {
             multiplayerService.updateScore(gameId, playerId, scoreRequest.score)
 
     @GetMapping(path = ["/scores/{gameId}"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun scores(@PathVariable gameId: String): Flux<ScoreResponse>? =
-            multiplayerScoreRepository.findWithTailableCursorByGameId(gameId).map { it.toScoreResponse() }
+    fun scores(@PathVariable gameId: String): Flux<List<ScoreResponse>>? {
+        return Flux.interval(Duration.ofSeconds(2))
+                .map { multiplayerScoreRepository.findAllByGameId(gameId)
+                        .map { it.toScoreResponse() } }
+
+    }
 }
 
 

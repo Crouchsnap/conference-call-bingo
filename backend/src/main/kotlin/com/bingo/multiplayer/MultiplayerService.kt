@@ -27,12 +27,11 @@ class MultiplayerService {
                     MultiplayerGame::class.java)
 
 
-    fun updateScore(gameId: String, playerId: String, score: Int): Mono<ScoreResponse> {
+    fun updateScore(gameId: String, playerId: String, score: Int): ScoreResponse {
         val multiplayerGame = mongoTemplate.findById(gameId, MultiplayerGame::class.java)
         val player = multiplayerGame?.players?.find { it.id == playerId }
                 ?: throw RuntimeException("Player not found in game")
-        return multiplayerScoreRepository.save(Score(gameId = gameId, playerId = playerId, score = score, initials = player.initials))
-                .map { it.toScoreResponse() }
+        return multiplayerScoreRepository.save(Score(gameId = gameId, playerId = playerId, score = score, initials = player.initials)).toScoreResponse()
     }
 
 }
