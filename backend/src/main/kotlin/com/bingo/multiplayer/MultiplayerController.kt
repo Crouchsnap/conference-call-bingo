@@ -38,7 +38,7 @@ class MultiplayerController {
 
     @GetMapping(path = ["/scores/{gameId}"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun scores(@PathVariable gameId: String): Flux<ScoreResponse>? =
-            multiplayerScoreRepository.findWithTailableCursorByGameId(gameId).map { it.toScoreReponse() }
+            multiplayerScoreRepository.findWithTailableCursorByGameId(gameId).map { it.toScoreResponse() }
 }
 
 

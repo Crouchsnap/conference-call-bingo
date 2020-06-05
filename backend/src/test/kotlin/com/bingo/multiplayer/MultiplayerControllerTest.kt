@@ -97,7 +97,7 @@ class MultiplayerControllerTest {
                 .collectList()
                 .block();
 
-        assertThat(result).isEqualTo(listOf(score, score2).map { it?.toScoreReponse() })
+        assertThat(result).isEqualTo(listOf(score, score2).map { it?.toScoreResponse() })
 
     }
 

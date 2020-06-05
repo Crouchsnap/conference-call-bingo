@@ -32,7 +32,7 @@ class MultiplayerService {
         val player = multiplayerGame?.players?.find { it.id == playerId }
                 ?: throw RuntimeException("Player not found in game")
         return multiplayerScoreRepository.save(Score(gameId = gameId, playerId = playerId, score = score, initials = player.initials))
-                .map { it.toScoreReponse() }
+                .map { it.toScoreResponse() }
     }
 
 }
