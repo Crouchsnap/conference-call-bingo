@@ -1,7 +1,8 @@
-module Requests exposing (errorToString, getHighScores, getHostFromLocation, submitFeedback, submitScore)
+module Requests exposing (errorToString, getHighScores, getHostFromLocation, joinMultiplayerGame, startMultiplayerGame, submitFeedback, submitScore)
 
 import Http exposing (Error(..), expectJson, expectWhatever)
 import Msg exposing (Msg(..))
+import Mutiplayer.Multiplayer exposing (decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody)
 import RemoteData exposing (RemoteData, WebData)
 import Url exposing (Url)
 import Win.Feedback exposing (Feedback, encodeFeedback)
@@ -22,6 +23,24 @@ submitScore url score =
         { url = getHostFromLocation url ++ "/api/scores"
         , body = Http.jsonBody (encodeScore score)
         , expect = expectWhatever (RemoteData.fromResult >> GameResponse)
+        }
+
+
+startMultiplayerGame : Url -> String -> Cmd Msg
+startMultiplayerGame url initials =
+    Http.post
+        { url = getHostFromLocation url ++ "/api/multiplayer/start"
+        , body = Http.jsonBody (encodeStartMultiplayerBody initials)
+        , expect = expectJson (RemoteData.fromResult >> MultiplayerStartResponse) decodeStartMultiplayerResponseBody
+        }
+
+
+joinMultiplayerGame : Url -> String -> String -> Cmd Msg
+joinMultiplayerGame url initials gameId =
+    Http.post
+        { url = getHostFromLocation url ++ "/api/multiplayer/join/" ++ gameId
+        , body = Http.jsonBody (encodeStartMultiplayerBody initials)
+        , expect = expectJson (RemoteData.fromResult >> MultiplayerStartResponse) decodeStartMultiplayerResponseBody
         }
 
 

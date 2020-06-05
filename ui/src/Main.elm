@@ -294,6 +294,9 @@ update msg model =
             , Cmd.none
             )
 
+        MultiplayerStartResponse _ ->
+            ( model, Cmd.none )
+
 
 view : Model -> Browser.Document Msg
 view model =
