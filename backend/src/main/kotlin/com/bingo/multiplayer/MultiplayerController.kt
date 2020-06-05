@@ -1,9 +1,12 @@
 package com.bingo.multiplayer
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Configuration
+import org.springframework.format.FormatterRegistry
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import reactor.core.publisher.Flux
 import java.time.Duration
 import javax.validation.Valid
@@ -18,7 +21,7 @@ class MultiplayerController {
     private lateinit var multiplayerService: MultiplayerService
 
     @Autowired
-    private lateinit var multiplayerScoreRepository: MultiplayerScoreRepository
+    private lateinit var multiplayerRepository: MultiplayerRepository
 
     @PostMapping(path = ["start"])
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,17 +36,26 @@ class MultiplayerController {
         return player.id
     }
 
-    @PostMapping("score/{gameId}/{playerId}")
-    fun updateScore(@PathVariable gameId: String, @PathVariable playerId: String, @RequestBody scoreRequest: ScoreRequest) =
-            multiplayerService.updateScore(gameId, playerId, scoreRequest.score)
+    @PostMapping("{operation}/{gameId}/{playerId}")
+    fun updateScore(@PathVariable operation: Operation, @PathVariable gameId: String, @PathVariable playerId: String) =
+            multiplayerService.updateScore(operation, gameId, playerId)
 
     @GetMapping(path = ["/scores/{gameId}"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun scores(@PathVariable gameId: String): Flux<List<ScoreResponse>>? {
         return Flux.interval(Duration.ofSeconds(2))
-                .map { multiplayerScoreRepository.findAllByGameId(gameId)
+                .map { multiplayerRepository.findById(gameId).get().players
                         .map { it.toScoreResponse() } }
 
     }
 }
+
+
+@Configuration
+class OperationFormatter : WebMvcConfigurer {
+    override fun addFormatters(registry: FormatterRegistry) {
+        registry.addConverter(StringToOperationConverter())
+    }
+}
+
 
 
