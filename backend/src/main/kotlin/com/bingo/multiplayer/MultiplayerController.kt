@@ -30,10 +30,10 @@ class MultiplayerController {
 
 
     @PostMapping("join/{gameId}")
-    fun joinMultiplayer(@PathVariable gameId: String, @Valid @RequestBody addMultiplayerRequest: AddMultiplayerRequest): String {
+    fun joinMultiplayer(@PathVariable gameId: String, @Valid @RequestBody addMultiplayerRequest: AddMultiplayerRequest): CreateGameResponse {
         val player = addMultiplayerRequest.toPlayer()
         multiplayerService.addPlayer(gameId, player)
-        return player.id
+        return CreateGameResponse(gameId, player.id)
     }
 
     @PostMapping("{operation}/{gameId}/{playerId}")

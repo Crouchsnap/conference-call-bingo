@@ -31,7 +31,7 @@ class MultiplayerControllerTest {
     }
 
     @Test
-    internal fun `start game should return a game ID`() {
+    internal fun `start game should return a Create Game Response`() {
         val requestBody = AddMultiplayerRequest(initials = "NK")
 
         val response = testRestTemplate.postForEntity("/api/multiplayer/start", requestBody, CreateGameResponse::class.java)
@@ -45,19 +45,18 @@ class MultiplayerControllerTest {
     }
 
     @Test
-    internal fun `join game should return a game ID`() {
+    internal fun `join game should return a Create Game Response`() {
         val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK"))))
         val requestBody = AddMultiplayerRequest(initials = "!NK")
 
-        val response = testRestTemplate.postForEntity("/api/multiplayer/join/${multiplayerGame.id}", requestBody, String::class.java)
+        val response = testRestTemplate.postForEntity("/api/multiplayer/join/${multiplayerGame.id}", requestBody, CreateGameResponse::class.java)
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        val actual = multiplayerRepository.findAll()[0].players[1]
-        assertThat(response.body).isEqualTo(actual.id)
-        assertThat(actual.initials).isEqualTo("!NK")
-
+        val actual = multiplayerRepository.findAll()[0]
+        assertThat(response.body!!.id).isEqualTo(actual.id)
+        assertThat(response.body!!.playerId).isEqualTo(actual.players[1].id)
+        assertThat(actual.players[1].initials).isEqualTo("!NK")
     }
-
 
     @Test
     internal fun `increment score should return 200 and increment the player's score by 1`() {
@@ -68,7 +67,6 @@ class MultiplayerControllerTest {
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         val actual = multiplayerRepository.findAll()[0].players[0]
         assertThat(actual.score).isEqualTo(2)
-
     }
 
     @Test
@@ -80,7 +78,6 @@ class MultiplayerControllerTest {
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         val actual = multiplayerRepository.findAll()[0].players[0]
         assertThat(actual.score).isEqualTo(5)
-
     }
 
     @Test
@@ -92,13 +89,12 @@ class MultiplayerControllerTest {
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         val actual = multiplayerRepository.findAll()[0].players[0]
         assertThat(actual.score).isEqualTo(1)
-
     }
 
 
     @Test
     internal fun `scores should return 200 and a score`() {
-        val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK", score = 3),Player(initials = "MK"))))
+        val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK", score = 3), Player(initials = "MK"))))
 
         val result = webTestClient.get().uri("/api/multiplayer/scores/${multiplayerGame.id}")
                 .accept(MediaType.TEXT_EVENT_STREAM)
@@ -112,12 +108,9 @@ class MultiplayerControllerTest {
 
         val individualScoresResponse = multiplayerGame.players.map { it.toScoreResponse() }
         assertThat(result).isEqualTo(listOf(
+                individualScoresResponse,
                 individualScoresResponse
-                , individualScoresResponse
         ))
-
     }
-
-
 }
 
