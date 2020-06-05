@@ -25,8 +25,8 @@ class MultiplayerController {
 
     @PostMapping(path = ["start"])
     @ResponseStatus(HttpStatus.CREATED)
-    fun startMultiplayer(@Valid @RequestBody addMultiplayerRequest: AddMultiplayerRequest): String =
-            multiplayerService.createMultiplayerGame(addMultiplayerRequest.toMultiplayerGame())
+    fun startMultiplayer(@Valid @RequestBody addMultiplayerRequest: AddMultiplayerRequest): CreateGameResponse =
+            multiplayerService.createMultiplayerGame(addMultiplayerRequest.toMultiplayerGame()).toCreateGameResponse()
 
 
     @PostMapping("join/{gameId}")

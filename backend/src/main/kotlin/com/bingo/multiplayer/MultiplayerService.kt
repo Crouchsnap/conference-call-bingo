@@ -13,8 +13,8 @@ class MultiplayerService {
     @Autowired
     private lateinit var mongoTemplate: MongoTemplate
 
-    fun createMultiplayerGame(game: MultiplayerGame): String =
-            mongoTemplate.save(game).id!!
+    fun createMultiplayerGame(game: MultiplayerGame): MultiplayerGame =
+            mongoTemplate.save(game)
 
     fun addPlayer(gameId: String, player: Player) =
             mongoTemplate.findAndModify(

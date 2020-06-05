@@ -12,11 +12,13 @@ data class AddMultiplayerRequest(@field:Size(min = 2, max = 4) val initials: Str
 fun AddMultiplayerRequest.toMultiplayerGame() = MultiplayerGame(players = listOf(Player(initials = initials)))
 fun AddMultiplayerRequest.toPlayer() = Player(initials = initials)
 fun Player.toScoreResponse() = ScoreResponse(playerId = id, initials = initials, score = score)
+fun MultiplayerGame.toCreateGameResponse() = CreateGameResponse(id!!, players[0].id)
 
 
 data class Player(@Id val id: String = UUID.randomUUID().toString(), val initials: String, val score: Int = 1)
 data class MultiplayerGame(@Id val id: String? = null, val players: List<Player> = emptyList())
 data class ScoreResponse(val playerId: String = "", val initials: String = "", val score: Int = 0)
+data class CreateGameResponse(val id: String, val playerId: String = "")
 
 @Repository
 interface MultiplayerRepository : MongoRepository<MultiplayerGame, String>

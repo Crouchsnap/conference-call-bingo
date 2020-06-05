@@ -20,6 +20,9 @@ class MultiplayerControllerTest {
     lateinit var multiplayerRepository: MultiplayerRepository
 
     @Autowired
+    private lateinit var webTestClient: WebTestClient
+
+    @Autowired
     lateinit var testRestTemplate: TestRestTemplate
 
     @AfterEach
@@ -31,11 +34,12 @@ class MultiplayerControllerTest {
     internal fun `start game should return a game ID`() {
         val requestBody = AddMultiplayerRequest(initials = "NK")
 
-        val response = testRestTemplate.postForEntity("/api/multiplayer/start", requestBody, String::class.java)
+        val response = testRestTemplate.postForEntity("/api/multiplayer/start", requestBody, CreateGameResponse::class.java)
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
         val actual = multiplayerRepository.findAll()[0]
-        assertThat(response.body).isEqualTo(actual.id)
+        assertThat(response.body!!.id).isEqualTo(actual.id)
+        assertThat(response.body!!.playerId).isEqualTo(actual.players.first().id)
         assertThat(actual.players[0].initials).isEqualTo("NK")
 
     }
@@ -91,8 +95,6 @@ class MultiplayerControllerTest {
 
     }
 
-    @Autowired
-    private lateinit var webTestClient: WebTestClient
 
     @Test
     internal fun `scores should return 200 and a score`() {
