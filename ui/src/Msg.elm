@@ -43,3 +43,4 @@ type Msg
     | GAEvent (GA.Event Msg)
     | Tick Time.Posix
     | MultiplayerStartResponse (WebData StartMultiplayerResponseBody)
+    | MultiplayerScoreUpdated (WebData ())

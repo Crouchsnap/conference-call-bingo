@@ -2,7 +2,7 @@ module Requests exposing (errorToString, getHighScores, getHostFromLocation, joi
 
 import Http exposing (Error(..), expectJson, expectWhatever)
 import Msg exposing (Msg(..))
-import Mutiplayer.Multiplayer exposing (decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody)
+import Mutiplayer.Multiplayer exposing (GameUpdate, decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody, gameUpdateToString)
 import RemoteData exposing (RemoteData, WebData)
 import Url exposing (Url)
 import Win.Feedback exposing (Feedback, encodeFeedback)
@@ -23,6 +23,15 @@ submitScore url score =
         { url = getHostFromLocation url ++ "/api/scores"
         , body = Http.jsonBody (encodeScore score)
         , expect = expectWhatever (RemoteData.fromResult >> GameResponse)
+        }
+
+
+sendMultiplayerScore : Url -> String -> String -> GameUpdate -> Cmd Msg
+sendMultiplayerScore url playerId gameId gameUpdate =
+    Http.post
+        { url = getHostFromLocation url ++ "api/multiplayer/" ++ (gameUpdate |> gameUpdateToString) ++ "/" ++ gameId ++ "/" ++ playerId
+        , body = Http.emptyBody
+        , expect = expectWhatever (RemoteData.fromResult >> MultiplayerScoreUpdated)
         }
 
 

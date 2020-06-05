@@ -5,6 +5,25 @@ import Json.Decode.Pipeline
 import Json.Encode
 
 
+type GameUpdate
+    = Increment
+    | Decrement
+    | Reset
+
+
+gameUpdateToString : GameUpdate -> String
+gameUpdateToString gameUpdate =
+    case gameUpdate of
+        Increment ->
+            "increment"
+
+        Decrement ->
+            "decrement"
+
+        Reset ->
+            "reset"
+
+
 type alias StartMultiplayerResponseBody =
     { id : String, playerId : String }
 
