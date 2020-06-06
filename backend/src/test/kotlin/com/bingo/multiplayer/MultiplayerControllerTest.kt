@@ -32,7 +32,7 @@ class MultiplayerControllerTest {
 
     @Test
     internal fun `start game should return a Create Game Response`() {
-        val requestBody = AddMultiplayerRequest(initials = "NK")
+        val requestBody = AddMultiplayerRequest(initials = "NK", score = 4)
 
         val response = testRestTemplate.postForEntity("/api/multiplayer/start", requestBody, CreateGameResponse::class.java)
 
@@ -41,13 +41,13 @@ class MultiplayerControllerTest {
         assertThat(response.body!!.id).isEqualTo(actual.id)
         assertThat(response.body!!.playerId).isEqualTo(actual.players.first().id)
         assertThat(actual.players[0].initials).isEqualTo("NK")
-
+        assertThat(actual.players[0].score).isEqualTo(4)
     }
 
     @Test
     internal fun `join game should return a Create Game Response`() {
         val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK"))))
-        val requestBody = AddMultiplayerRequest(initials = "!NK")
+        val requestBody = AddMultiplayerRequest(initials = "!NK", score = 3)
 
         val response = testRestTemplate.postForEntity("/api/multiplayer/join/${multiplayerGame.id}", requestBody, CreateGameResponse::class.java)
 
@@ -55,7 +55,10 @@ class MultiplayerControllerTest {
         val actual = multiplayerRepository.findAll()[0]
         assertThat(response.body!!.id).isEqualTo(actual.id)
         assertThat(response.body!!.playerId).isEqualTo(actual.players[1].id)
+        assertThat(actual.players[0].initials).isEqualTo("NK")
+        assertThat(actual.players[0].score).isEqualTo(1)
         assertThat(actual.players[1].initials).isEqualTo("!NK")
+        assertThat(actual.players[1].score).isEqualTo(3)
     }
 
     @Test

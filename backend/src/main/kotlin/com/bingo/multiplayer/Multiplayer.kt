@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository
 import java.util.*
 import javax.validation.constraints.Size
 
-data class AddMultiplayerRequest(@field:Size(min = 2, max = 4) val initials: String = "")
+data class AddMultiplayerRequest(@field:Size(min = 2, max = 4) val initials: String = "", val score: Int = 1)
 
-fun AddMultiplayerRequest.toMultiplayerGame() = MultiplayerGame(players = listOf(Player(initials = initials)))
-fun AddMultiplayerRequest.toPlayer() = Player(initials = initials)
+fun AddMultiplayerRequest.toMultiplayerGame() = MultiplayerGame(players = listOf(Player(initials = initials, score = score)))
+fun AddMultiplayerRequest.toPlayer() = Player(initials = initials, score = score)
 fun Player.toScoreResponse() = ScoreResponse(playerId = id, initials = initials, score = score)
 fun MultiplayerGame.toCreateGameResponse() = CreateGameResponse(id!!, players[0].id)
 
