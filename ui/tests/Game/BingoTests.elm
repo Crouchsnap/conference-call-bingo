@@ -1,7 +1,7 @@
 module Game.BingoTests exposing (checkIndices, suite)
 
 import Expect exposing (Expectation)
-import Game.Bingo exposing (isWinner, randomBoard, winningCombos)
+import Game.Bingo exposing (isWinner, longestRowCount, randomBoard, winningCombos)
 import Game.Board exposing (Board, backDiagonal, column, forwardDiagonal, getSquares, row, rowColumnNumbers)
 import Game.Dot as Dot
 import Game.Square exposing (Square, centerSquare, genericSquare, squaresByTopic, toggleSquareInList)
@@ -135,6 +135,22 @@ suite =
                         ]
                 in
                 \_ -> bottomRowRightColumnAndBackDiagBoard |> winningCombos |> Expect.equal bottonRowRightColumnAndBackDiag
+            ]
+        , describe "longest row count"
+            [ test "board with only free space toggled is a 1" <|
+                \_ -> testBoard |> longestRowCount |> Expect.equal 1
+            , test "board with another square toggled is a 2" <|
+                let
+                    topRowBoard =
+                        testBoard |> checkIndices [ 2 ]
+                in
+                \_ -> topRowBoard |> longestRowCount |> Expect.equal 2
+            , test "board with top row toggled is a 5" <|
+                let
+                    topRowBoard =
+                        testBoard |> checkIndices (row 0)
+                in
+                \_ -> topRowBoard |> longestRowCount |> Expect.equal 5
             ]
         ]
 

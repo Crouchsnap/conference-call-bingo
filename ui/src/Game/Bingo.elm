@@ -1,6 +1,6 @@
-module Game.Bingo exposing (isWinner, randomBoard, winningCombos)
+module Game.Bingo exposing (isWinner, longestRowCount, randomBoard, winningCombos)
 
-import Game.Board exposing (Board, getSquaresIfChecked, possibleWinningCombinations)
+import Game.Board exposing (Board, countSquaresIfChecked, getSquaresIfChecked, possibleWinningCombinations)
 import Game.Square exposing (Square, centerSquare, squaresByTopic)
 import Game.Topic exposing (Topic(..))
 import Random
@@ -34,3 +34,11 @@ winningCombos board =
     possibleWinningCombinations
         |> List.map (getSquaresIfChecked board)
         |> List.filter (\innerList -> innerList |> List.isEmpty |> not)
+
+
+longestRowCount : Board msg -> Int
+longestRowCount board =
+    possibleWinningCombinations
+        |> List.map (countSquaresIfChecked board)
+        |> List.maximum
+        |> Maybe.withDefault 1

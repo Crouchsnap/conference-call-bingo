@@ -8,7 +8,7 @@ import Browser.Navigation as Navigation exposing (Key, load, pushUrl)
 import Element exposing (Device, DeviceClass(..), classifyDevice)
 import Footer.Footer as Footer
 import GA exposing (Event(..))
-import Game.Bingo as Bingo exposing (randomBoard)
+import Game.Bingo as Bingo exposing (longestRowCount, randomBoard)
 import Game.Board exposing (Board)
 import Game.GameOptions as GameOptions
 import Game.Square exposing (Square, toggleSquareInList)
@@ -18,7 +18,7 @@ import Html exposing (Html, div, text)
 import Json.Decode
 import List.Extra
 import Msg exposing (Msg(..))
-import Mutiplayer.Multiplayer as Mutiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
+import Mutiplayer.Multiplayer as Mutiplayer exposing (GameUpdate(..), MultiplayerScore, StartMultiplayerResponseBody)
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
 import Ports
@@ -61,6 +61,7 @@ type alias Model =
     , modalVisibility : Win.Modal.Visibility
     , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
     , multiplayerScores : List MultiplayerScore
+    , currentSquaresChecked : Int
     , betaMode : Bool
     }
 
@@ -102,6 +103,7 @@ init flags url key =
       , modalVisibility = Win.Modal.hidden
       , startMultiplayerResponseBody = RemoteData.NotAsked
       , multiplayerScores = []
+      , currentSquaresChecked = 1
       , betaMode = isBeta url
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
@@ -121,6 +123,24 @@ update msg model =
                 ( updatedBoard, nextSeed ) =
                     model.board |> toggleSquareInList model.nextSeed model.userSettings.dauberColor squareToToggle
 
+                squaresChecked =
+                    updatedBoard |> longestRowCount
+
+                multiplayerGameScoreEvent =
+                    case model.startMultiplayerResponseBody of
+                        RemoteData.Success startMultiplayerResponseBody ->
+                            if squaresChecked > model.currentSquaresChecked then
+                                Requests.sendMultiplayerScore model.url Increment startMultiplayerResponseBody
+
+                            else if squaresChecked < model.currentSquaresChecked then
+                                Requests.sendMultiplayerScore model.url Decrement startMultiplayerResponseBody
+
+                            else
+                                Cmd.none
+
+                        _ ->
+                            Cmd.none
+
                 gaEvent =
                     Ports.sendGaEvent
                         (SquareDaub
@@ -130,12 +150,12 @@ update msg model =
                         )
             in
             if updatedBoard |> Bingo.isWinner then
-                ( { model | board = updatedBoard, nextSeed = nextSeed, modalVisibility = Win.Modal.shown }
-                , Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url, gaEvent ]
+                ( { model | board = updatedBoard, nextSeed = nextSeed, modalVisibility = Win.Modal.shown, currentSquaresChecked = squaresChecked }
+                , Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url, multiplayerGameScoreEvent, gaEvent ]
                 )
 
             else
-                ( { model | board = updatedBoard, nextSeed = nextSeed }, gaEvent )
+                ( { model | board = updatedBoard, nextSeed = nextSeed, currentSquaresChecked = squaresChecked }, Cmd.batch [ multiplayerGameScoreEvent, gaEvent ] )
 
         GotCurrentTime time ->
             let
