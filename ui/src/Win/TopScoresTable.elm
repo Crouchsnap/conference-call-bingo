@@ -1,7 +1,7 @@
 module Win.TopScoresTable exposing (isFormValid, view)
 
 import Html exposing (Html, button, div, input, text)
-import Html.Attributes exposing (disabled, maxlength, minlength, name, placeholder, title)
+import Html.Attributes exposing (disabled, maxlength, minlength, name, placeholder, title, value)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 import RemoteData exposing (WebData)
@@ -94,6 +94,7 @@ yourScoreRow class ( rank, score ) =
         , minlength 2
         , maxlength 4
         , onInput Player
+        , value score.player
         ]
         []
     , div

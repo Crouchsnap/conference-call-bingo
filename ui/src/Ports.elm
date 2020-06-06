@@ -1,14 +1,15 @@
-port module Ports exposing (saveUserSettings, sendGaEvent)
+port module Ports exposing (listenToMultiplayerScores, multiplayerScoresListener, saveUserSettings, sendGaEvent)
 
 import GA exposing (encodeGaEvent)
+import Json.Decode as Decode
 import Json.Encode as Encode
 import UserSettings exposing (UserSettings, encodeUserSettings)
 
 
-port ssUntypedEventsJS : (String -> msg) -> Sub msg
+port multiplayerScoresListener : (Decode.Value -> msg) -> Sub msg
 
 
-port openSse : String -> Cmd msg
+port listenToMultiplayerScores : String -> Cmd msg
 
 
 port storeUserSettings : String -> Cmd msg

@@ -262,6 +262,26 @@ label {
     color: #8B8B8B;
     font-size: 1rem;
 }
+.multiplayer-input {
+    box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: .3125rem;
+    max-width: 5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    resize: none !important;
+    margin-top: .5rem;
+    margin-right: 1rem;
+    border: 0.5px solid #545454;
+}
+
+.multiplayer-input::placeholder {
+    opacity: .7;
+    font-style: italic;
+    font-weight: 300;
+    color: #8B8B8B;
+    font-size: 1rem;
+}
 
 .topic-title,
 .options-title {

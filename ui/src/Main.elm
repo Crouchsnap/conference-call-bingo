@@ -18,13 +18,14 @@ import Html exposing (Html, div, text)
 import Json.Decode
 import List.Extra
 import Msg exposing (Msg(..))
+import Mutiplayer.Multiplayer as Mutiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
 import Ports
 import Random
 import Rating
 import RemoteData exposing (WebData)
-import Requests
+import Requests exposing (getHostFromLocation)
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
@@ -58,6 +59,9 @@ type alias Model =
     , showOptions : Bool
     , userSettings : UserSettings
     , modalVisibility : Win.Modal.Visibility
+    , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
+    , multiplayerScores : List MultiplayerScore
+    , betaMode : Bool
     }
 
 
@@ -96,9 +100,17 @@ init flags url key =
       , showOptions = False
       , userSettings = userSettings
       , modalVisibility = Win.Modal.hidden
+      , startMultiplayerResponseBody = RemoteData.NotAsked
+      , multiplayerScores = []
+      , betaMode = isBeta url
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
+
+
+isBeta : Url -> Bool
+isBeta { path } =
+    path |> String.contains "beta"
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -197,13 +209,13 @@ update msg model =
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    ( model, pushUrl model.key (Url.toString url) )
+                    ( { model | betaMode = isBeta url }, pushUrl model.key (Url.toString url) )
 
                 Browser.External href ->
                     ( model, load href )
 
         UrlChanged url ->
-            ( { model | url = url }, Cmd.none )
+            ( { model | url = url, betaMode = isBeta url }, Cmd.none )
 
         Player initials ->
             ( { model | score = updatePlayer initials model.score }, Cmd.none )
@@ -294,16 +306,37 @@ update msg model =
             , Cmd.none
             )
 
-        MultiplayerStartResponse _ ->
-            ( model, Cmd.none )
+        MultiplayerStartResponse response ->
+            let
+                gameId =
+                    response |> RemoteData.withDefault { id = "fake", playerId = "player" } |> .id
+            in
+            ( { model | startMultiplayerResponseBody = response }
+            , Ports.listenToMultiplayerScores (getHostFromLocation model.url ++ "/api/multiplayer/scores/" ++ gameId)
+            )
 
         MultiplayerScoreUpdated _ ->
             ( model, Cmd.none )
 
+        StartMultiplayerGame ->
+            ( model, Requests.startMultiplayerGame model.url model.score.player )
+
+        MultiplayerScores value ->
+            let
+                multiplayerScores =
+                    case value of
+                        Ok scores ->
+                            scores
+
+                        _ ->
+                            model.multiplayerScores
+            in
+            ( { model | multiplayerScores = multiplayerScores }, Cmd.none )
+
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "BINGO! - Conference Call | FordLabs"
+    { title = "BINGO! - Conference Call Bingo! | FordLabs"
     , body =
         [ div [ model.class "body" ]
             [ bodyView model, Footer.view model ]
@@ -326,7 +359,13 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = \_ -> Sub.batch [ Browser.Events.onResize WindowResized, Time.every 1000 Tick ]
+        , subscriptions =
+            \_ ->
+                Sub.batch
+                    [ Browser.Events.onResize WindowResized
+                    , Time.every 1000 Tick
+                    , Ports.multiplayerScoresListener (Mutiplayer.decodeMultiplayerScoresToResult >> MultiplayerScores)
+                    ]
         , onUrlRequest = LinkClicked
         , onUrlChange = UrlChanged
         }

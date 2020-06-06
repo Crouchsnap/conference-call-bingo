@@ -5,11 +5,15 @@ import Game.GameOptions as GameOptions
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
+import Mutiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
 import Options.Theme exposing (Theme)
 import Options.TopicChoices as TopicChoices
 import Rating
+import RemoteData exposing (WebData)
 import Time exposing (Posix)
+import Url exposing (Url)
 import UserSettings exposing (UserSettings)
+import Win.Score exposing (Score)
 
 
 view :
@@ -22,6 +26,11 @@ view :
         , time : Posix
         , ratingState : Rating.State
         , feedbackSent : Bool
+        , score : Score
+        , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
+        , multiplayerScores : List MultiplayerScore
+        , url : Url
+        , betaMode : Bool
     }
     -> Html Msg
 view model =

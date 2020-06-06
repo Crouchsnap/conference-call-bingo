@@ -6,7 +6,8 @@ import GA
 import Game.Dot as Dot
 import Game.Square exposing (Square)
 import Game.Topic exposing (Topic)
-import Mutiplayer.Multiplayer exposing (StartMultiplayerResponseBody)
+import Json.Decode as Decode
+import Mutiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
 import Options.BoardStyle as BoardStyle
 import Options.Theme exposing (Theme)
 import Rating
@@ -44,3 +45,5 @@ type Msg
     | Tick Time.Posix
     | MultiplayerStartResponse (WebData StartMultiplayerResponseBody)
     | MultiplayerScoreUpdated (WebData ())
+    | StartMultiplayerGame
+    | MultiplayerScores (Result Decode.Error (List MultiplayerScore))

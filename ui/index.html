@@ -76,20 +76,15 @@
             node: document.getElementById("elm-root")
         });
 
-        let eventSource;
-
-
         function sendUntypedEventToElm(event) {
-            app.ports.ssUntypedEventsJS.send({
-                data: event.data, // Can't be null according to spec
-                eventType: null,
-                id: event.id || null
-            });
+            app.ports.multiplayerScoresListener.send(
+                JSON.parse(event.data)
+            );
         }
 
-        app.ports.openSse.subscribe(function (url) {
+        app.ports.listenToMultiplayerScores.subscribe(function (url) {
             if (url) {
-                eventSource = new EventSource(url);
+                const eventSource = new EventSource(url);
                 eventSource.onmessage = sendUntypedEventToElm
             }
         })
