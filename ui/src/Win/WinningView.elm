@@ -6,7 +6,6 @@ import Msg exposing (Msg)
 import Rating
 import RemoteData exposing (WebData)
 import Time exposing (Posix)
-import Win.FeedBackView as FeedbackView
 import Win.Score exposing (Score)
 import Win.TopScoresTable as TopScoresView
 

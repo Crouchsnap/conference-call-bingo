@@ -30,7 +30,7 @@ view { class, score, startMultiplayerResponseBody, multiplayerScores, url } =
                 div [] [ text "Starting Game..." ]
 
             Success response ->
-                showScores class url response score multiplayerScores
+                showScores class url response score (multiplayerScores |> List.filter (\s -> s.playerId /= response.playerId))
 
             _ ->
                 tryAgainView class score

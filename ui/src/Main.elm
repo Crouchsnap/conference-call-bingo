@@ -1,6 +1,7 @@
 module Main exposing (Model, init, main, update, view)
 
 import Assets.RatingStar as RatingStar
+import Bootstrap.Modal as Modal
 import Browser
 import Browser.Dom exposing (Viewport)
 import Browser.Events
@@ -20,6 +21,7 @@ import List.Extra
 import Msg exposing (Msg(..))
 import Mutiplayer.JoinModal
 import Mutiplayer.Multiplayer as Mutiplayer exposing (GameUpdate(..), MultiplayerScore, StartMultiplayerResponseBody)
+import Mutiplayer.WinModal
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
 import Ports
@@ -59,7 +61,7 @@ type alias Model =
     , showTopics : Bool
     , showOptions : Bool
     , userSettings : UserSettings
-    , modalVisibility : Win.Modal.Visibility
+    , modalVisibility : Modal.Visibility
     , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
     , multiplayerScores : List MultiplayerScore
     , currentSquaresChecked : Int
@@ -101,7 +103,7 @@ init flags url key =
       , showTopics = False
       , showOptions = False
       , userSettings = userSettings
-      , modalVisibility = Win.Modal.hidden
+      , modalVisibility = Modal.hidden
       , startMultiplayerResponseBody = RemoteData.NotAsked
       , multiplayerScores = []
       , currentSquaresChecked = 1
@@ -156,7 +158,17 @@ update msg model =
                         )
             in
             if updatedBoard |> Bingo.isWinner then
-                ( { model | board = updatedBoard, nextSeed = nextSeed, modalVisibility = Win.Modal.shown, currentSquaresChecked = squaresChecked }
+                ( { model
+                    | board = updatedBoard
+                    , nextSeed = nextSeed
+                    , modalVisibility =
+                        if model.startMultiplayerResponseBody == RemoteData.NotAsked then
+                            Modal.shown
+
+                        else
+                            Modal.hidden
+                    , currentSquaresChecked = squaresChecked
+                  }
                 , Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url, multiplayerGameScoreEvent, gaEvent ]
                 )
 
@@ -183,7 +195,7 @@ update msg model =
                 , score = emptyGameResult
                 , ratingState = model.ratingState |> Rating.set 0
                 , submittedScoreResponse = RemoteData.NotAsked
-                , modalVisibility = Win.Modal.hidden
+                , modalVisibility = Modal.hidden
               }
             , Cmd.none
             )
@@ -355,7 +367,7 @@ update msg model =
                 multiplayerScores =
                     case value of
                         Ok scores ->
-                            scores |> List.filter (\score -> score.playerId /= (model.startMultiplayerResponseBody |> RemoteData.withDefault { id = "", playerId = "" } |> .playerId))
+                            scores
 
                         _ ->
                             model.multiplayerScores
@@ -384,6 +396,7 @@ bodyView model =
         , Options.view model "theme-options-container"
         , Win.Modal.view model
         , Mutiplayer.JoinModal.view model (model.url.fragment /= Nothing && model.startMultiplayerResponseBody == RemoteData.NotAsked)
+        , Mutiplayer.WinModal.view model (model.multiplayerScores |> List.any (\score -> score.score > 4))
         ]
 
 
