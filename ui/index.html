@@ -105,6 +105,14 @@
             let event = JSON.parse(params);
             gtag('event', event.eventType, {'event_category': event.eventCategory});
         })
+        app.ports.copy.subscribe((id) => {
+            const range = document.createRange();
+            range.selectNode(document.getElementById(id));
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+        });
 
 
     } else {

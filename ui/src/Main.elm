@@ -350,12 +350,15 @@ update msg model =
                 multiplayerScores =
                     case value of
                         Ok scores ->
-                            scores
+                            scores |> List.filter (\score -> score.playerId /= (model.startMultiplayerResponseBody |> RemoteData.withDefault { id = "", playerId = "" } |> .playerId))
 
                         _ ->
                             model.multiplayerScores
             in
             ( { model | multiplayerScores = multiplayerScores }, Cmd.none )
+
+        Copy id ->
+            ( model, Ports.copy id )
 
 
 view : Model -> Browser.Document Msg

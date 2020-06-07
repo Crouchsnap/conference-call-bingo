@@ -1,9 +1,12 @@
-port module Ports exposing (listenToMultiplayerScores, multiplayerScoresListener, saveUserSettings, sendGaEvent)
+port module Ports exposing (copy, listenToMultiplayerScores, multiplayerScoresListener, saveUserSettings, sendGaEvent)
 
 import GA exposing (encodeGaEvent)
 import Json.Decode as Decode
 import Json.Encode as Encode
 import UserSettings exposing (UserSettings, encodeUserSettings)
+
+
+port copy : String -> Cmd msg
 
 
 port multiplayerScoresListener : (Decode.Value -> msg) -> Sub msg

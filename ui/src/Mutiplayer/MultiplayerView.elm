@@ -1,7 +1,7 @@
 module Mutiplayer.MultiplayerView exposing (view)
 
 import Html exposing (Html, button, div, input, label, text)
-import Html.Attributes exposing (disabled, for, maxlength, minlength, name, placeholder, style, title, value)
+import Html.Attributes exposing (disabled, for, id, maxlength, minlength, name, placeholder, style, title, value)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 import Mutiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody, buildJoinLink)
@@ -20,18 +20,21 @@ view :
     }
     -> Html Msg
 view { class, score, startMultiplayerResponseBody, multiplayerScores, url } =
-    case startMultiplayerResponseBody of
-        NotAsked ->
-            startMultiplayerGame class score
+    div [ style "margin-bottom" "2rem" ]
+        [ div [ class "topic-title" ] [ text "Multiplayer" ]
+        , case startMultiplayerResponseBody of
+            NotAsked ->
+                startMultiplayerGame class score
 
-        Loading ->
-            div [] [ text "Starting Game..." ]
+            Loading ->
+                div [] [ text "Starting Game..." ]
 
-        Success response ->
-            showScores class url response score multiplayerScores
+            Success response ->
+                showScores class url response score multiplayerScores
 
-        _ ->
-            tryAgainView class score
+            _ ->
+                tryAgainView class score
+        ]
 
 
 tryAgainView class score =
@@ -40,18 +43,41 @@ tryAgainView class score =
 
 showScores class url response score multiplayerScores =
     div []
-        ([ div [] [ div [] [ text "Link to share" ], div [] [ text (buildJoinLink url response.id) ] ]
-         , div [] [ div [] [ text "Player" ], div [] [ text "Squares in a Row" ] ]
+        ([ div [ style "display" "flex" ]
+            [ div [] [ text "Share:" ]
+            , div
+                [ id "linkToShare"
+                , style "max-width" "12rem"
+                , style "text-overflow" "scroll"
+                , style "overflow" "scroll"
+                , style "margin-left" ".5rem"
+                ]
+                [ text (buildJoinLink url response.id) ]
+            ]
+         , button [ class "submit-feedback-button", onClick (Copy "linkToShare") ] [ text "Copy Shareable Link" ]
          ]
-            ++ (multiplayerScores |> List.map scoreRow)
+            ++ (if multiplayerScores |> List.isEmpty then
+                    [ div [ style "margin-top" ".5rem" ] [ text "Waiting for others to join" ] ]
+
+                else
+                    [ div
+                        [ style "display" "grid"
+                        , style "margin-top" ".5rem"
+                        , style "grid-template-columns" "30% auto"
+                        , style "font-weight" "bold"
+                        ]
+                        [ div [] [ text "Player" ], div [] [ text "Squares in a Row" ] ]
+                    ]
+                        ++ (multiplayerScores |> List.map scoreRow)
+               )
         )
 
 
 scoreRow : MultiplayerScore -> Html Msg
 scoreRow multiplayerScore =
-    div []
-        [ div [] [ text multiplayerScore.initials ]
-        , div [] [ text (String.fromInt multiplayerScore.score) ]
+    div [ style "display" "grid", style "grid-template-columns" "30% auto" ]
+        [ div [ style "margin-left" ".3rem" ] [ text multiplayerScore.initials ]
+        , div [ style "margin-left" ".3rem" ] [ text (String.fromInt multiplayerScore.score) ]
         ]
 
 

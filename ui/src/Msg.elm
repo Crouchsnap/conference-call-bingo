@@ -48,3 +48,4 @@ type Msg
     | StartMultiplayerGame
     | JoinMultiplayerGame
     | MultiplayerScores (Result Decode.Error (List MultiplayerScore))
+    | Copy String
