@@ -2,8 +2,12 @@ package com.bingo.feedback
 
 import assertk.assertThat
 import assertk.assertions.contains
+import assertk.assertions.isBetween
 import assertk.assertions.isEqualTo
+import assertk.assertions.isEqualToIgnoringGivenProperties
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -12,11 +16,15 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.util.UriComponentsBuilder
+import java.time.Instant
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class FeedbackControllerTest {
     @Autowired
     lateinit var testRestTemplate: TestRestTemplate
+
+    @Captor
+    lateinit var feedbackArgumentCaptor: ArgumentCaptor<Feedback>
 
     @MockBean
     lateinit var feedbackRepository: FeedbackRepository
@@ -25,11 +33,16 @@ internal class FeedbackControllerTest {
     @Test
     internal fun `should save a feedback to the database`() {
         val feedbackRequest = FeedbackRequest(suggestion = "something else", rating = 5)
-
+        val beforeRequest = Instant.now()
         val response = testRestTemplate.postForEntity(feedbackUrl, feedbackRequest, Void::class.java)
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        Mockito.verify(feedbackRepository).save(feedbackRequest.toFeedback())
+        Mockito.verify(feedbackRepository).save(feedbackArgumentCaptor.capture())
+
+        val actual = feedbackArgumentCaptor.value
+        val expected = feedbackRequest.toFeedback()
+        assertThat(actual).isEqualToIgnoringGivenProperties(expected, Feedback::createdDate)
+        assertThat(actual.createdDate).isBetween(beforeRequest, expected.createdDate)
     }
 
 

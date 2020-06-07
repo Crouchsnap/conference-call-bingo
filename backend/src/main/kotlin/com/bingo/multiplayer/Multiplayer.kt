@@ -1,9 +1,11 @@
 package com.bingo.multiplayer
 
 import org.springframework.core.convert.converter.Converter
+import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
+import java.time.Instant
 import java.util.*
 import javax.validation.constraints.Size
 
@@ -16,7 +18,7 @@ fun MultiplayerGame.toCreateGameResponse() = CreateGameResponse(id!!, players[0]
 
 
 data class Player(@Id val id: String = UUID.randomUUID().toString(), val initials: String, val score: Int = 1)
-data class MultiplayerGame(@Id val id: String? = null, val players: List<Player> = emptyList())
+data class MultiplayerGame(@Id val id: String? = null, private val createdDate: Instant = Instant.now(), val players: List<Player> = emptyList())
 data class ScoreResponse(val playerId: String = "", val initials: String = "", val score: Int = 0)
 data class CreateGameResponse(val id: String, val playerId: String = "")
 

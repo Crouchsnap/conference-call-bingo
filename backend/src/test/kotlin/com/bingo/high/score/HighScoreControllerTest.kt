@@ -1,10 +1,10 @@
 package com.bingo.high.score
 
 import assertk.assertThat
-import assertk.assertions.contains
-import assertk.assertions.containsExactly
-import assertk.assertions.isEqualTo
+import assertk.assertions.*
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,12 +15,16 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.util.UriComponentsBuilder
+import java.time.Instant
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class HighScoreControllerTest {
 
     @Autowired
     lateinit var testRestTemplate: TestRestTemplate
+
+    @Captor
+    lateinit var gameResultCaptor: ArgumentCaptor<GameResult>
 
     @MockBean
     lateinit var scoreRepository: ScoreRepository
@@ -41,11 +45,17 @@ internal class HighScoreControllerTest {
     @Test
     internal fun `should save a game result to the database`() {
         val gameResult = GameResultBody(score = 123, player = "play")
+        val beforeRequest = Instant.now()
 
         val response = testRestTemplate.postForEntity(highScoresUrl, gameResult, Void::class.java)
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
-        verify(scoreRepository).save(gameResult.toGameResult())
+        verify(scoreRepository).save(gameResultCaptor.capture())
+
+        val actual = gameResultCaptor.value
+        val expected = gameResult.toGameResult()
+        assertThat(actual).isEqualToIgnoringGivenProperties(expected, GameResult::createdDate)
+        assertThat(actual.createdDate).isBetween(beforeRequest, expected.createdDate)
     }
 
     @Test
