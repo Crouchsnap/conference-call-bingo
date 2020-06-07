@@ -19,9 +19,9 @@ import Html exposing (Html, div)
 import Json.Decode
 import List.Extra
 import Msg exposing (Msg(..))
-import Mutiplayer.JoinModal
-import Mutiplayer.Multiplayer as Mutiplayer exposing (GameUpdate(..), MultiplayerScore, StartMultiplayerResponseBody)
-import Mutiplayer.WinModal
+import Multiplayer.JoinModal
+import Multiplayer.Multiplayer as Multiplayer exposing (GameUpdate(..), MultiplayerScore, StartMultiplayerResponseBody)
+import Multiplayer.WinModal
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
 import Ports
@@ -395,8 +395,8 @@ bodyView model =
         , BingoCard.view model
         , Options.view model "theme-options-container"
         , Win.Modal.view model
-        , Mutiplayer.JoinModal.view model (model.url.fragment /= Nothing && model.startMultiplayerResponseBody == RemoteData.NotAsked)
-        , Mutiplayer.WinModal.view model (model.multiplayerScores |> List.any (\score -> score.score > 4))
+        , Multiplayer.JoinModal.view model (model.url.fragment /= Nothing && model.startMultiplayerResponseBody == RemoteData.NotAsked)
+        , Multiplayer.WinModal.view model (model.multiplayerScores |> List.any (\score -> score.score > 4))
         ]
 
 
@@ -410,7 +410,7 @@ main =
                 Sub.batch
                     [ Browser.Events.onResize WindowResized
                     , Time.every 1000 Tick
-                    , Ports.multiplayerScoresListener (Mutiplayer.decodeMultiplayerScoresToResult >> MultiplayerScores)
+                    , Ports.multiplayerScoresListener (Multiplayer.decodeMultiplayerScoresToResult >> MultiplayerScores)
                     ]
         , onUrlRequest = LinkClicked
         , onUrlChange = UrlChanged

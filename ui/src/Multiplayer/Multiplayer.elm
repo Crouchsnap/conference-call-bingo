@@ -1,4 +1,4 @@
-module Mutiplayer.Multiplayer exposing (GameUpdate(..), MultiplayerScore, StartMultiplayerResponseBody, buildJoinLink, decodeMultiplayerScores, decodeMultiplayerScoresToResult, decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody, gameUpdateToString)
+module Multiplayer.Multiplayer exposing (GameUpdate(..), MultiplayerScore, StartMultiplayerResponseBody, buildJoinLink, decodeMultiplayerScores, decodeMultiplayerScoresToResult, decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody, gameUpdateToString)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline

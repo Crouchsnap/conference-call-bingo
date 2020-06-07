@@ -3,8 +3,8 @@ module Game.GameOptions exposing (view)
 import Game.Timer as Timer
 import Html exposing (Html, div, text)
 import Msg exposing (Msg)
-import Mutiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
-import Mutiplayer.MultiplayerView as MutiplayerView
+import Multiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
+import Multiplayer.MultiplayerView as MultiplayerView
 import Options.Theme exposing (Theme)
 import Options.TopicChoices as TopicChoices
 import Rating
@@ -37,7 +37,7 @@ view model wrapperClass =
     div [ model.class wrapperClass ]
         [ TopicChoices.view model
         , if model.betaMode then
-            MutiplayerView.view model
+            MultiplayerView.view model
 
           else
             text ""

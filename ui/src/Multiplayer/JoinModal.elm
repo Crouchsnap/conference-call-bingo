@@ -1,9 +1,9 @@
-module Mutiplayer.JoinModal exposing (view)
+module Multiplayer.JoinModal exposing (view)
 
 import Bootstrap.Modal as Modal
 import Html exposing (Html)
 import Msg exposing (Msg(..))
-import Mutiplayer.Join as Join
+import Multiplayer.Join as Join
 import Rating exposing (State)
 import RemoteData exposing (WebData)
 import Time exposing (Posix)

@@ -5,7 +5,7 @@ import Game.GameOptions as GameOptions
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import Mutiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
+import Multiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
 import Options.Theme exposing (Theme)
 import Options.TopicChoices as TopicChoices
 import Rating

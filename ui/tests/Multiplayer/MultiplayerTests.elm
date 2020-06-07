@@ -1,9 +1,9 @@
-module Mutiplayer.MultiplayerTests exposing (suite)
+module Multiplayer.MultiplayerTests exposing (suite)
 
 import Expect
 import Json.Decode
 import Json.Encode
-import Mutiplayer.Multiplayer exposing (buildJoinLink, decodeMultiplayerScores, decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody)
+import Multiplayer.Multiplayer exposing (buildJoinLink, decodeMultiplayerScores, decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody)
 import Test exposing (Test, describe, test)
 import Url exposing (Protocol(..))
 

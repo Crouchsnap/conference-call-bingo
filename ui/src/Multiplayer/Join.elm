@@ -1,13 +1,9 @@
-module Mutiplayer.Join exposing (view)
+module Multiplayer.Join exposing (view)
 
 import Html exposing (Html, button, div, input, label, text)
 import Html.Attributes exposing (disabled, for, maxlength, minlength, name, placeholder, style, title, value)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
-import Mutiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody, buildJoinLink)
-import RemoteData exposing (RemoteData(..), WebData)
-import Url exposing (Url)
-import Win.Score exposing (Score)
 
 
 view model =

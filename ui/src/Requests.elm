@@ -2,7 +2,7 @@ module Requests exposing (errorToString, getHighScores, getHostFromLocation, joi
 
 import Http exposing (Error(..), expectJson, expectWhatever)
 import Msg exposing (Msg(..))
-import Mutiplayer.Multiplayer exposing (GameUpdate, StartMultiplayerResponseBody, decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody, gameUpdateToString)
+import Multiplayer.Multiplayer exposing (GameUpdate, StartMultiplayerResponseBody, decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody, gameUpdateToString)
 import RemoteData exposing (RemoteData, WebData)
 import Url exposing (Url)
 import Win.Feedback exposing (Feedback, encodeFeedback)
