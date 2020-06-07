@@ -14,7 +14,7 @@ import Game.GameOptions as GameOptions
 import Game.Square exposing (Square, toggleSquareInList)
 import Game.Topic exposing (Topic(..), toggleTopic)
 import Header.MobilHeader as MobileHeader
-import Html exposing (Html, div, text)
+import Html exposing (Html, div)
 import Json.Decode
 import List.Extra
 import Msg exposing (Msg(..))
@@ -112,8 +112,13 @@ init flags url key =
 
 
 isBeta : Url -> Bool
-isBeta { path } =
-    path |> String.contains "beta"
+isBeta { query } =
+    case query of
+        Just q ->
+            q |> String.contains "beta"
+
+        Nothing ->
+            False
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
