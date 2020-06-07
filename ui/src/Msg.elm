@@ -46,4 +46,5 @@ type Msg
     | MultiplayerStartResponse (WebData StartMultiplayerResponseBody)
     | MultiplayerScoreUpdated (WebData ())
     | StartMultiplayerGame
+    | JoinMultiplayerGame
     | MultiplayerScores (Result Decode.Error (List MultiplayerScore))

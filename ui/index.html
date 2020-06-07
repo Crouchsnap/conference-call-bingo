@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>BINGO! - Conference Call Bingo! | FordLabs</title>
-    <meta name="description" content="Conference Call Bingo! a fun game to pass time during corporate virtual meetings.">
+    <meta name="description"
+          content="Conference Call Bingo! a fun game to pass time during corporate virtual meetings.">
     <meta name="robots" content="follow">
     <meta property="og:image:secure_url" content="/assets/preview.png">
     <meta property="og:image" content="/assets/preview.png">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Stoke">
@@ -22,7 +24,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164555323-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'UA-164555323-1');
@@ -32,7 +38,6 @@
 <body>
 <div id="elm-root"></div>
 <script type="application/javascript">
-
 
 
     function IEdetection() {
@@ -77,24 +82,26 @@
         });
 
         function sendUntypedEventToElm(event) {
+            console.log("data", JSON.parse(event.data));
             app.ports.multiplayerScoresListener.send(
                 JSON.parse(event.data)
             );
         }
 
         app.ports.listenToMultiplayerScores.subscribe(function (url) {
+            console.log("url", url);
             if (url) {
                 const eventSource = new EventSource(url);
                 eventSource.onmessage = sendUntypedEventToElm
             }
         })
 
-        app.ports.storeUserSettings.subscribe(function(userSettings) {
+        app.ports.storeUserSettings.subscribe(function (userSettings) {
             if (userSettings) {
                 localStorage.setItem('user-settings-app-save', userSettings);
             }
         });
-        app.ports.publishGaEvent.subscribe(function(params){
+        app.ports.publishGaEvent.subscribe(function (params) {
             let event = JSON.parse(params);
             gtag('event', event.eventType, {'event_category': event.eventCategory});
         })

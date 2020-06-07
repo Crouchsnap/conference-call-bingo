@@ -4,7 +4,7 @@ import Html exposing (Html, button, div, input, label, text)
 import Html.Attributes exposing (disabled, for, maxlength, minlength, name, placeholder, style, title, value)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
-import Mutiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
+import Mutiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody, buildJoinLink)
 import RemoteData exposing (RemoteData(..), WebData)
 import Url exposing (Url)
 import Win.Score exposing (Score)
@@ -40,7 +40,7 @@ tryAgainView class score =
 
 showScores class url response score multiplayerScores =
     div []
-        ([ div [] [ div [] [ text "Link to share" ], div [] [ text (Url.toString url ++ "?id=" ++ response.id) ] ]
+        ([ div [] [ div [] [ text "Link to share" ], div [] [ text (buildJoinLink url response.id) ] ]
          , div [] [ div [] [ text "Player" ], div [] [ text "Squares in a Row" ] ]
          ]
             ++ (multiplayerScores |> List.map scoreRow)

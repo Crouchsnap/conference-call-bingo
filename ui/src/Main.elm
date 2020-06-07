@@ -18,6 +18,7 @@ import Html exposing (Html, div, text)
 import Json.Decode
 import List.Extra
 import Msg exposing (Msg(..))
+import Mutiplayer.JoinModal
 import Mutiplayer.Multiplayer as Mutiplayer exposing (GameUpdate(..), MultiplayerScore, StartMultiplayerResponseBody)
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
@@ -339,7 +340,10 @@ update msg model =
             ( model, Cmd.none )
 
         StartMultiplayerGame ->
-            ( model, Requests.startMultiplayerGame model.url model.score.player )
+            ( model, Requests.startMultiplayerGame model.url model.score.player model.currentSquaresChecked )
+
+        JoinMultiplayerGame ->
+            ( model, Requests.joinMultiplayerGame model.url (model.url.fragment |> Maybe.withDefault "") model.score.player model.currentSquaresChecked )
 
         MultiplayerScores value ->
             let
@@ -371,6 +375,7 @@ bodyView model =
         , BingoCard.view model
         , Options.view model "theme-options-container"
         , Win.Modal.view model
+        , Mutiplayer.JoinModal.view model (model.url.fragment /= Nothing && model.startMultiplayerResponseBody == RemoteData.NotAsked)
         ]
 
 

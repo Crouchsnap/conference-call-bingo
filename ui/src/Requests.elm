@@ -42,20 +42,20 @@ sendMultiplayerScore url gameUpdate startMultiplayerResponseBody =
         }
 
 
-startMultiplayerGame : Url -> String -> Cmd Msg
-startMultiplayerGame url initials =
+startMultiplayerGame : Url -> String -> Int -> Cmd Msg
+startMultiplayerGame url initials score =
     Http.post
         { url = getHostFromLocation url ++ "/api/multiplayer/start"
-        , body = Http.jsonBody (encodeStartMultiplayerBody initials)
+        , body = Http.jsonBody (encodeStartMultiplayerBody initials score)
         , expect = expectJson (RemoteData.fromResult >> MultiplayerStartResponse) decodeStartMultiplayerResponseBody
         }
 
 
-joinMultiplayerGame : Url -> String -> String -> Cmd Msg
-joinMultiplayerGame url initials gameId =
+joinMultiplayerGame : Url -> String -> String -> Int -> Cmd Msg
+joinMultiplayerGame url gameId initials score =
     Http.post
         { url = getHostFromLocation url ++ "/api/multiplayer/join/" ++ gameId
-        , body = Http.jsonBody (encodeStartMultiplayerBody initials)
+        , body = Http.jsonBody (encodeStartMultiplayerBody initials score)
         , expect = expectJson (RemoteData.fromResult >> MultiplayerStartResponse) decodeStartMultiplayerResponseBody
         }
 

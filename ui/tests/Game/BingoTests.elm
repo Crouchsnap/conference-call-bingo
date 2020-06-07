@@ -128,13 +128,13 @@ suite =
                     bottomRowRightColumnAndBackDiagBoard =
                         testBoard |> checkIndices (row 4) |> checkIndices (column 4) |> checkIndices backDiagonal
 
-                    bottonRowRightColumnAndBackDiag =
+                    bottomRowRightColumnAndBackDiag =
                         [ row 4 |> getSquares bottomRowRightColumnAndBackDiagBoard
                         , column 4 |> getSquares bottomRowRightColumnAndBackDiagBoard
                         , backDiagonal |> getSquares bottomRowRightColumnAndBackDiagBoard
                         ]
                 in
-                \_ -> bottomRowRightColumnAndBackDiagBoard |> winningCombos |> Expect.equal bottonRowRightColumnAndBackDiag
+                \_ -> bottomRowRightColumnAndBackDiagBoard |> winningCombos |> Expect.equal bottomRowRightColumnAndBackDiag
             ]
         , describe "longest row count"
             [ test "board with only free space toggled is a 1" <|
