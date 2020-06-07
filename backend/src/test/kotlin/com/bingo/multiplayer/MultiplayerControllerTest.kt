@@ -2,6 +2,8 @@ package com.bingo.multiplayer
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isNotEqualTo
+import assertk.assertions.size
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -62,6 +64,20 @@ class MultiplayerControllerTest {
     }
 
     @Test
+    internal fun `join game should fail if game is over`() {
+        val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK", score = 5))))
+        val requestBody = AddMultiplayerRequest(initials = "!NK", score = 3)
+
+        val response = testRestTemplate.postForEntity("/api/multiplayer/join/${multiplayerGame.id}", requestBody, String::class.java)
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.CONFLICT)
+        val actual = multiplayerRepository.findAll()[0]
+        assertThat(actual.players[0].initials).isEqualTo("NK")
+        assertThat(actual.players[0].score).isEqualTo(5)
+        assertThat(actual.players).size().isEqualTo(1)
+    }
+
+    @Test
     internal fun `increment score should return 200 and increment the player's score by 1`() {
         val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK"))))
 
@@ -72,6 +88,7 @@ class MultiplayerControllerTest {
         assertThat(actual.score).isEqualTo(2)
     }
 
+
     @Test
     internal fun `decrement score should return 200 and decrement the player's score by 1`() {
         val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK", score = 6))))
@@ -81,6 +98,29 @@ class MultiplayerControllerTest {
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         val actual = multiplayerRepository.findAll()[0].players[0]
         assertThat(actual.score).isEqualTo(5)
+    }
+    @Test
+    internal fun `increment score should fail when a player has already won`() {
+        val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK", score = 2), Player(initials = "MM", score = 5), Player(initials = "NN", score = 3))))
+
+        val response = testRestTemplate.postForEntity("/api/multiplayer/increment/${multiplayerGame.id}/${multiplayerGame.players[2].id}", null, Void::class.java)
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.CONFLICT)
+        val actual = multiplayerRepository.findAll()[0].players[2]
+        println(multiplayerRepository.findAll()[0])
+        assertThat(actual.score).isEqualTo(3)
+    }
+
+    @Test
+    internal fun `decrement score should fail when a player has already won`() {
+        val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK", score = 2), Player(initials = "MM", score = 5), Player(initials = "NN", score = 3))))
+
+        val response = testRestTemplate.postForEntity("/api/multiplayer/decrement/${multiplayerGame.id}/${multiplayerGame.players[0].id}", null, Void::class.java)
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.CONFLICT)
+        val actual = multiplayerRepository.findAll()[0].players[0]
+        println(multiplayerRepository.findAll()[0])
+        assertThat(actual.score).isEqualTo(2)
     }
 
     @Test

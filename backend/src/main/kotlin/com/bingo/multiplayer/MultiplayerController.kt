@@ -1,5 +1,6 @@
 package com.bingo.multiplayer
 
+import com.mongodb.client.result.UpdateResult
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.format.FormatterRegistry
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import reactor.core.publisher.Flux
+import java.lang.RuntimeException
 import java.time.Duration
 import javax.validation.Valid
 
@@ -32,13 +34,16 @@ class MultiplayerController {
     @PostMapping("join/{gameId}")
     fun joinMultiplayer(@PathVariable gameId: String, @Valid @RequestBody addMultiplayerRequest: AddMultiplayerRequest): CreateGameResponse {
         val player = addMultiplayerRequest.toPlayer()
-        multiplayerService.addPlayer(gameId, player)
+        multiplayerService.addPlayer(gameId, player) ?: throw GameOverException("Cannot join already won game")
         return CreateGameResponse(gameId, player.id)
     }
 
     @PostMapping("{operation}/{gameId}/{playerId}")
-    fun updateScore(@PathVariable operation: Operation, @PathVariable gameId: String, @PathVariable playerId: String) =
-            multiplayerService.updateScore(operation, gameId, playerId)
+    fun updateScore(@PathVariable operation: Operation, @PathVariable gameId: String, @PathVariable playerId: String): UpdateResult {
+        val updateScore = multiplayerService.updateScore(operation, gameId, playerId)
+        if(updateScore.modifiedCount.toInt() == 0) throw GameOverException("Game is over")
+        return updateScore
+    }
 
     @GetMapping(path = ["/scores/{gameId}"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun scores(@PathVariable gameId: String): Flux<List<ScoreResponse>>? {
@@ -57,5 +62,6 @@ class OperationFormatter : WebMvcConfigurer {
     }
 }
 
-
+@ResponseStatus(HttpStatus.CONFLICT)
+class GameOverException(s: String) : RuntimeException(s)
 

@@ -16,16 +16,21 @@ class MultiplayerService {
     fun createMultiplayerGame(game: MultiplayerGame): MultiplayerGame =
             mongoTemplate.save(game)
 
-    fun addPlayer(gameId: String, player: Player) =
-            mongoTemplate.findAndModify(
-                    Query.query(Criteria.where("id").`is`(gameId)),
-                    Update().push("players", player),
-                    MultiplayerGame::class.java)
+    fun addPlayer(gameId: String, player: Player): MultiplayerGame? {
+        val findAndModify = mongoTemplate.findAndModify(
+                Query.query(Criteria.where("id").`is`(gameId)
+                        .and("players.score").ne(5)),
+                Update().push("players", player),
+                MultiplayerGame::class.java)
+        return findAndModify
+    }
 
     fun updateScore(operation: Operation, gameId: String, playerId: String) =
             mongoTemplate.updateFirst(
                     Query.query(Criteria.where("id").`is`(gameId)
-                            .and("players.id").`is`(playerId)),
+                            .and("players.id").`is`(playerId)
+                            .and("players.score").ne(5)
+                    ),
                     when (operation) {
                         Operation.RESET -> Update().set("players.$.score", operation.amount)
                         else -> Update().inc("players.$.score", operation.amount)
