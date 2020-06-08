@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>BINGO! - Conference Call Bingo! | FordLabs</title>
@@ -72,8 +72,8 @@
         var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches
 
         var flags = {
-            dark,
-            userSettings
+            dark: dark,
+            userSettings: userSettings
         };
 
         var app = Elm.Main.init({
@@ -112,7 +112,7 @@
             var event = JSON.parse(params);
             gtag('event', event.eventType, {'event_category': event.eventCategory});
         })
-        app.ports.copy.subscribe((id) => {
+        app.ports.copy.subscribe(function (id){
             var range = document.createRange();
             range.selectNode(document.getElementById(id));
             window.getSelection().removeAllRanges();
@@ -120,7 +120,6 @@
             document.execCommand("copy");
             window.getSelection().removeAllRanges();
         });
-
 
     } else {
         document.body.innerHTML = "" +
