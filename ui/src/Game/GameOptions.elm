@@ -35,7 +35,7 @@ view :
     -> Html Msg
 view model wrapperClass =
     div [ model.class wrapperClass ]
-        [ TopicChoices.view model
+        [ TopicChoices.view model (topicTitle model.class)
         , if model.betaMode then
             MultiplayerView.view model
 
@@ -44,3 +44,7 @@ view model wrapperClass =
         , Feedback.view model
         , Timer.view model "timer-container options-container"
         ]
+
+
+topicTitle class =
+    div [ class "topic-title" ] [ text "topical bingo" ]

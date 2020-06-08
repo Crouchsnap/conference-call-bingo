@@ -13,7 +13,8 @@ import UserSettings exposing (UserSettings)
 view :
     { model | class : String -> Html.Attribute Msg, userSettings : UserSettings, startMultiplayerResponseBody : WebData StartMultiplayerResponseBody }
     -> Html Msg
-view { class, userSettings, startMultiplayerResponseBody } =
+    -> Html Msg
+view { class, userSettings, startMultiplayerResponseBody } title =
     let
         multiplayerInProgress =
             case startMultiplayerResponseBody of
@@ -24,7 +25,7 @@ view { class, userSettings, startMultiplayerResponseBody } =
                     False
     in
     div [ class "", style "margin" "1rem" ]
-        ([ title class ]
+        ([ title ]
             ++ topicToggles class multiplayerInProgress userSettings.topics
         )
 
@@ -55,10 +56,6 @@ allTopicsAndLabels =
     , ( Kanye, "Kanye" )
     , ( VehicleDevelopemnt, "Product Development" )
     ]
-
-
-title class =
-    div [ class "topic-title" ] [ text "topical bingo" ]
 
 
 topicToggle : (String -> Html.Attribute Msg) -> Bool -> List Topic -> Topic -> String -> Html Msg

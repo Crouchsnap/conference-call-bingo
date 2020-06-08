@@ -149,9 +149,6 @@ update msg model =
                         _ ->
                             Cmd.none
 
-                url =
-                    model.url
-
                 gaEvent =
                     Ports.sendGaEvent
                         (SquareDaub
@@ -346,13 +343,26 @@ update msg model =
             ( model, Requests.startMultiplayerGame model.url model.score.player model.currentSquaresChecked )
 
         JoinMultiplayerGame ->
-            ( model, Requests.joinMultiplayerGame model.url (model.url.fragment |> Maybe.withDefault "") model.score.player model.currentSquaresChecked )
-
-        MultiplayerScores value ->
             let
                 url =
                     model.url
+            in
+            ( model
+            , Cmd.batch
+                [ Requests.joinMultiplayerGame model.url (model.url.fragment |> Maybe.withDefault "") model.score.player model.currentSquaresChecked
+                , Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing })
+                ]
+            )
 
+        CancelJoinMultiplayerGame ->
+            let
+                url =
+                    model.url
+            in
+            ( model, Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing }) )
+
+        MultiplayerScores value ->
+            let
                 multiplayerScores =
                     case value of
                         Ok scores ->
@@ -365,7 +375,6 @@ update msg model =
             , if multiplayerScores |> List.any (\score -> score.score == 5) then
                 Cmd.batch
                     [ Ports.stopListeningToMultiplayerScores ()
-                    , Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing })
                     ]
 
               else
