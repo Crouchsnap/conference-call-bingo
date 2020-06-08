@@ -149,6 +149,9 @@ update msg model =
                         _ ->
                             Cmd.none
 
+                url =
+                    model.url
+
                 gaEvent =
                     Ports.sendGaEvent
                         (SquareDaub
@@ -169,36 +172,19 @@ update msg model =
                             Modal.hidden
                     , currentSquaresChecked = squaresChecked
                   }
-                , Cmd.batch [ Task.perform GotEndTime Time.now, Requests.getHighScores model.url, multiplayerGameScoreEvent, gaEvent ]
+                , Cmd.batch
+                    [ Task.perform GotEndTime Time.now
+                    , Requests.getHighScores model.url
+                    , multiplayerGameScoreEvent
+                    , gaEvent
+                    ]
                 )
 
             else
                 ( { model | board = updatedBoard, nextSeed = nextSeed, currentSquaresChecked = squaresChecked }, Cmd.batch [ multiplayerGameScoreEvent, gaEvent ] )
 
         GotCurrentTime time ->
-            let
-                seed =
-                    if model.nextSeed == Random.initialSeed 0 then
-                        Time.posixToMillis time |> Random.initialSeed
-
-                    else
-                        model.nextSeed
-
-                ( board, next ) =
-                    seed |> randomBoard model.userSettings.topics
-            in
-            ( { model
-                | board = board
-                , nextSeed = next
-                , startTime = time
-                , endTime = Time.millisToPosix 0
-                , score = emptyGameResult
-                , ratingState = model.ratingState |> Rating.set 0
-                , submittedScoreResponse = RemoteData.NotAsked
-                , modalVisibility = Modal.hidden
-              }
-            , Cmd.none
-            )
+            ( model |> reset time, Cmd.none )
 
         GotEndTime time ->
             ( { model | endTime = time }, Ports.sendGaEvent (Winner model.startTime time) )
@@ -364,6 +350,9 @@ update msg model =
 
         MultiplayerScores value ->
             let
+                url =
+                    model.url
+
                 multiplayerScores =
                     case value of
                         Ok scores ->
@@ -372,10 +361,46 @@ update msg model =
                         _ ->
                             model.multiplayerScores
             in
-            ( { model | multiplayerScores = multiplayerScores }, Cmd.none )
+            ( { model | multiplayerScores = multiplayerScores }
+            , if multiplayerScores |> List.any (\score -> score.score == 5) then
+                Cmd.batch
+                    [ Ports.stopListeningToMultiplayerScores ()
+                    , Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing })
+                    ]
+
+              else
+                Cmd.none
+            )
 
         Copy id ->
             ( model, Ports.copy id )
+
+
+reset time model =
+    let
+        seed =
+            if model.nextSeed == Random.initialSeed 0 then
+                Time.posixToMillis time |> Random.initialSeed
+
+            else
+                model.nextSeed
+
+        ( board, next ) =
+            seed |> randomBoard model.userSettings.topics
+    in
+    { model
+        | board = board
+        , nextSeed = next
+        , startTime = time
+        , endTime = Time.millisToPosix 0
+        , score = emptyGameResult
+        , ratingState = model.ratingState |> Rating.set 0
+        , submittedScoreResponse = RemoteData.NotAsked
+        , modalVisibility = Modal.hidden
+        , startMultiplayerResponseBody = RemoteData.NotAsked
+        , multiplayerScores = []
+        , currentSquaresChecked = 1
+    }
 
 
 view : Model -> Browser.Document Msg
@@ -396,7 +421,7 @@ bodyView model =
         , Options.view model "theme-options-container"
         , Win.Modal.view model
         , Multiplayer.JoinModal.view model (model.url.fragment /= Nothing && model.startMultiplayerResponseBody == RemoteData.NotAsked)
-        , Multiplayer.WinModal.view model (model.multiplayerScores |> List.any (\score -> score.score > 4))
+        , Multiplayer.WinModal.view model ((model.multiplayerScores |> List.any (\score -> score.score > 4)) || (model.startMultiplayerResponseBody /= RemoteData.NotAsked && Bingo.isWinner model.board))
         ]
 
 

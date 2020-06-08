@@ -82,19 +82,26 @@
         });
 
         function sendUntypedEventToElm(event) {
-            console.log("data", JSON.parse(event.data));
             app.ports.multiplayerScoresListener.send(
                 JSON.parse(event.data)
             );
         }
 
+        let eventSource;
         app.ports.listenToMultiplayerScores.subscribe(function (url) {
-            console.log("url", url);
             if (url) {
-                const eventSource = new EventSource(url);
+                eventSource = new EventSource(url);
                 eventSource.onmessage = sendUntypedEventToElm
             }
         })
+
+        app.ports.stopListeningToMultiplayerScores.subscribe(function(anything){
+                if(eventSource) {
+                    eventSource.close();
+                    eventSource = null;
+                }
+            }
+        )
 
         app.ports.storeUserSettings.subscribe(function (userSettings) {
             if (userSettings) {

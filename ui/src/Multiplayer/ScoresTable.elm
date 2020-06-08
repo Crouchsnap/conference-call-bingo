@@ -1,8 +1,8 @@
-module Multiplayer.ScoresTable exposing (isFormValid, view)
+module Multiplayer.ScoresTable exposing (view)
 
-import Html exposing (Html, button, div, input, text)
-import Html.Attributes exposing (maxlength, minlength, name, placeholder, style, title, value)
-import Html.Events exposing (onClick, onInput)
+import Html exposing (Html, button, div, text)
+import Html.Attributes exposing (style)
+import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Multiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
 import RemoteData exposing (WebData)
@@ -16,28 +16,32 @@ view :
     }
     -> List (Html Msg)
 view { class, multiplayerScores, startMultiplayerResponseBody } =
-    [ div
-        [ class "top-score-title" ]
-        [ text "High Scores" ]
-    , div [ class "top-score-table" ]
-        ([ div
-            [ class "centered" ]
-            [ text "Rank" ]
-         , div
-            []
-            [ text "Player Initials" ]
-         , div
-            []
-            [ text "Squares in a Row" ]
-         ]
-            ++ scoreRows class startMultiplayerResponseBody multiplayerScores
-        )
-    , submitButton class
-    ]
+    let
+        receivedWinningScores =
+            multiplayerScores |> List.any (\score -> score.score > 4)
+    in
+    if receivedWinningScores then
+        [ div
+            [ class "top-score-title" ]
+            [ text "High Scores" ]
+        , div [ class "top-score-table" ]
+            ([ div [] [ text "Rank" ]
+             , div [] [ text "Player Initials" ]
+             , div [] [ text "Squares in a Row" ]
+             ]
+                ++ scoreRows class startMultiplayerResponseBody multiplayerScores
+            )
+        , submitButton class
+        ]
+
+    else
+        [ div [] [ text "Calculating" ] ]
 
 
 scoreRows class startMultiplayerResponseBody multiplayerScores =
     multiplayerScores
+        |> List.sortBy (\score -> score.score)
+        |> List.reverse
         |> List.indexedMap Tuple.pair
         |> List.map (scoreRow class startMultiplayerResponseBody)
         |> List.concat
@@ -64,22 +68,16 @@ isYourScore startMultiplayerResponseBody score =
 
 regularScoreRow : (String -> Html.Attribute Msg) -> ( Int, MultiplayerScore ) -> List (Html Msg)
 regularScoreRow class ( rank, score ) =
-    [ div
-        [ class "top-score-row centered" ]
-        [ text (String.fromInt (rank + 1)) ]
-    , div
-        [ class "top-score-row" ]
-        [ text score.initials ]
-    , div
-        [ class "top-score-row" ]
-        [ text (String.fromInt score.score) ]
+    [ div [ class "top-score-row" ] [ text (String.fromInt (rank + 1)) ]
+    , div [ class "top-score-row" ] [ text score.initials ]
+    , div [ class "top-score-row" ] [ text (String.fromInt score.score) ]
     ]
 
 
 yourScoreRow : (String -> Html.Attribute Msg) -> ( Int, MultiplayerScore ) -> List (Html Msg)
 yourScoreRow class ( rank, score ) =
     [ div
-        [ class "top-score-row centered", style "background" "#ED9E28", style "width" "100%" ]
+        [ class "top-score-row", style "background" "#ED9E28", style "width" "100%" ]
         [ text (String.fromInt (rank + 1)) ]
     , div
         [ class "top-score-row", style "background" "#ED9E28", style "width" "100%" ]
@@ -91,17 +89,4 @@ yourScoreRow class ( rank, score ) =
 
 
 submitButton class =
-    button
-        [ class "submit-button"
-        , onClick SubmitGame
-        ]
-        [ text "Play Again!" ]
-
-
-isFormValid : MultiplayerScore -> Bool
-isFormValid score =
-    let
-        initialsLength =
-            String.length score.initials
-    in
-    initialsLength > 1 && initialsLength < 5
+    button [ class "submit-button", onClick NewGame ] [ text "Play Again!" ]
