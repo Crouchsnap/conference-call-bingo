@@ -46,6 +46,7 @@ class MultiplayerControllerTest {
         assertThat(actual.players[0].score).isEqualTo(4)
     }
 
+
     @Test
     internal fun `join game should return a Create Game Response`() {
         val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK"))))
@@ -77,6 +78,37 @@ class MultiplayerControllerTest {
         assertThat(actual.players).size().isEqualTo(1)
     }
 
+    @Test
+    internal fun `leave game should return 200 and delete the user from the db`() {
+        val playerToLeave = Player(initials = "!NK", score = 3)
+        val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK"), playerToLeave, Player(initials = "NK2", score = 4))))
+
+        val response = testRestTemplate.postForEntity("/api/multiplayer/leave/${multiplayerGame.id}/${playerToLeave.id}", null, Void::class.java)
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        val actual = multiplayerRepository.findAll()[0]
+        assertThat(actual.players).size().isEqualTo(2)
+        assertThat(actual.players[0].initials).isEqualTo("NK")
+        assertThat(actual.players[0].score).isEqualTo(1)
+        assertThat(actual.players[1].initials).isEqualTo("NK2")
+        assertThat(actual.players[1].score).isEqualTo(4)
+    }
+
+    @Test
+    internal fun `leave game should fail if game is over`() {
+        val playerToLeave = Player(initials = "!NK", score = 3)
+        val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK", score = 5), playerToLeave)))
+
+        val response = testRestTemplate.postForEntity("/api/multiplayer/leave/${multiplayerGame.id}/${playerToLeave.id}", null, Void::class.java)
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.CONFLICT)
+        val actual = multiplayerRepository.findAll()[0]
+        assertThat(actual.players[0].initials).isEqualTo("NK")
+        assertThat(actual.players[0].score).isEqualTo(5)
+        assertThat(actual.players[1].initials).isEqualTo("!NK")
+        assertThat(actual.players[1].score).isEqualTo(3)
+        assertThat(actual.players).size().isEqualTo(2)
+    }
     @Test
     internal fun `increment score should return 200 and increment the player's score by 1`() {
         val multiplayerGame = multiplayerRepository.save(MultiplayerGame(players = listOf(Player(initials = "NK"))))
