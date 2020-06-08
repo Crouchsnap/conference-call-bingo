@@ -478,6 +478,9 @@ label {
 .checkmark-checked {
     background-color: #45A0F4;
 }
+.checkmark-disabled {
+    background-color: #737373;
+}
 
 .checkmark:after {
     content: "";

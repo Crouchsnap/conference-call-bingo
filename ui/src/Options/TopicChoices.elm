@@ -2,37 +2,79 @@ module Options.TopicChoices exposing (view)
 
 import Game.Topic exposing (Topic(..))
 import Html exposing (Html, div, input, label, text)
-import Html.Attributes exposing (checked, for, name, style, type_)
+import Html.Attributes exposing (checked, disabled, for, name, style, type_)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
+import Multiplayer.Multiplayer exposing (StartMultiplayerResponseBody)
+import RemoteData exposing (WebData)
 import UserSettings exposing (UserSettings)
 
 
 view :
-    { model | class : String -> Html.Attribute Msg, userSettings : UserSettings }
+    { model | class : String -> Html.Attribute Msg, userSettings : UserSettings, startMultiplayerResponseBody : WebData StartMultiplayerResponseBody }
     -> Html Msg
-view { class, userSettings } =
+view { class, userSettings, startMultiplayerResponseBody } =
+    let
+        multiplayerInProgress =
+            case startMultiplayerResponseBody of
+                RemoteData.Success _ ->
+                    True
+
+                _ ->
+                    False
+    in
     div [ class "", style "margin" "1rem" ]
-        [ title class
-        , topicToggle class "Architecture/Engineering" Architect userSettings.topics
-        , topicToggle class "Autonomous Vehicle" AV userSettings.topics
-        , topicToggle class "Coronavirus" Coronavirus userSettings.topics
-        , topicToggle class "Fordisms" Fordism userSettings.topics
-        , topicToggle class "IT-FCG" ITFCG userSettings.topics
-        , topicToggle class "Kanye" Kanye userSettings.topics
-        , topicToggle class "Product Development" VehicleDevelopemnt userSettings.topics
-        ]
+        ([ title class ]
+            ++ topicToggles class multiplayerInProgress userSettings.topics
+        )
+
+
+topicToggles class multiplayerInProgress selectedTopics =
+    allTopicsAndLabels
+        |> filterIfMultiplayerGame multiplayerInProgress selectedTopics
+        |> List.map (\( topic, label ) -> topicToggle class multiplayerInProgress selectedTopics topic label)
+
+
+filterIfMultiplayerGame : Bool -> List Topic -> List ( Topic, String ) -> List ( Topic, String )
+filterIfMultiplayerGame multiplayerInProgress selectedTopics topics =
+    if multiplayerInProgress then
+        topics
+            |> List.filter (\( topic, _ ) -> selectedTopics |> List.member topic)
+
+    else
+        topics
+
+
+allTopicsAndLabels : List ( Topic, String )
+allTopicsAndLabels =
+    [ ( Architect, "Architecture/Engineering" )
+    , ( AV, "Autonomous Vehicle" )
+    , ( Coronavirus, "Coronavirus" )
+    , ( Fordism, "Fordisms" )
+    , ( ITFCG, "IT-FCG" )
+    , ( Kanye, "Kanye" )
+    , ( VehicleDevelopemnt, "Product Development" )
+    ]
 
 
 title class =
     div [ class "topic-title" ] [ text "topical bingo" ]
 
 
-topicToggle class topicLabel topic topics =
-    div [ style "display" "flex", onClick (TopicToggled topic) ]
+topicToggle : (String -> Html.Attribute Msg) -> Bool -> List Topic -> Topic -> String -> Html Msg
+topicToggle class multiplayerInProgress selectedTopics topic topicLabel =
+    div
+        ([ style "display" "flex" ]
+            ++ (if multiplayerInProgress then
+                    []
+
+                else
+                    [ onClick (TopicToggled topic) ]
+               )
+        )
         [ div [ class "topic-container" ]
-            [ input [ name topicLabel, checked (topics |> List.member topic), type_ "checkbox" ] []
-            , div [ class (classNames topic topics) ] []
+            [ input [ name topicLabel, checked (selectedTopics |> List.member topic), disabled multiplayerInProgress, type_ "checkbox" ] []
+            , div [ class (classNames topic multiplayerInProgress selectedTopics) ] []
             ]
         , label
             [ for topicLabel
@@ -42,9 +84,24 @@ topicToggle class topicLabel topic topics =
         ]
 
 
-classNames topic topics =
-    if topics |> List.member topic then
-        "checkmark checkmark-checked"
+classNames : Topic -> Bool -> List Topic -> String
+classNames topic disabled topics =
+    let
+        baseClass =
+            "checkmark "
 
-    else
-        "checkmark"
+        checkedClass =
+            if topics |> List.member topic then
+                "checkmark-checked "
+
+            else
+                ""
+
+        disabledClass =
+            if disabled then
+                "checkmark-disabled "
+
+            else
+                ""
+    in
+    baseClass ++ checkedClass ++ disabledClass
