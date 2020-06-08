@@ -67,16 +67,16 @@
 
     if (IEdetection() === 'Not IE') {
 
-        const storedUserSettings = localStorage.getItem('user-settings-app-save');
-        const userSettings = storedUserSettings ? JSON.parse(storedUserSettings) : {};
-        const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches
+        var storedUserSettings = localStorage.getItem('user-settings-app-save');
+        var userSettings = storedUserSettings ? JSON.parse(storedUserSettings) : {};
+        var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches
 
-        const flags = {
+        var flags = {
             dark,
             userSettings
         };
 
-        const app = Elm.Main.init({
+        var app = Elm.Main.init({
             flags: flags,
             node: document.getElementById("elm-root")
         });
@@ -87,7 +87,7 @@
             );
         }
 
-        let eventSource;
+        var eventSource;
         app.ports.listenToMultiplayerScores.subscribe(function (url) {
             if (url) {
                 eventSource = new EventSource(url);
@@ -109,11 +109,11 @@
             }
         });
         app.ports.publishGaEvent.subscribe(function (params) {
-            let event = JSON.parse(params);
+            var event = JSON.parse(params);
             gtag('event', event.eventType, {'event_category': event.eventCategory});
         })
         app.ports.copy.subscribe((id) => {
-            const range = document.createRange();
+            var range = document.createRange();
             range.selectNode(document.getElementById(id));
             window.getSelection().removeAllRanges();
             window.getSelection().addRange(range);
