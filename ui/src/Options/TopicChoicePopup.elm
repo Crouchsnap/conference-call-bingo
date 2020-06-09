@@ -31,6 +31,7 @@ view :
         , multiplayerScores : List MultiplayerScore
         , url : Url
         , betaMode : Bool
+        , errors : List String
     }
     -> Html Msg
 view model =

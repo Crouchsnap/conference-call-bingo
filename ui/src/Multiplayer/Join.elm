@@ -28,11 +28,7 @@ view model =
             ]
             []
         , viewFormErrors model.class model.errors
-        , let
-            length =
-                String.length model.score.player
-          in
-          button
+        , button
             [ model.class "submit-button"
             , onClick JoinMultiplayerGame
             ]

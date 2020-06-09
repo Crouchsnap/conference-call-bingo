@@ -55,12 +55,13 @@
     .game-options-container {
         display: flex;
         flex-direction: column;
-        margin: 1rem 1rem 0 1rem;
+        width: 16rem;
+        margin: 1rem;
         justify-self: flex-end;
     }
 
     .topic-title,
-    .timer-container{
+    .timer-container {
         display: block;
     }
 

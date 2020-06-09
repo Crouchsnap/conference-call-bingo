@@ -1,36 +1,26 @@
 module Multiplayer.MultiplayerView exposing (view)
 
+import Assets.CopyIcon as CopyIcon
 import Html exposing (Html, button, div, input, label, text)
-import Html.Attributes exposing (disabled, for, id, maxlength, minlength, name, placeholder, style, title, value)
+import Html.Attributes exposing (for, id, maxlength, minlength, name, placeholder, style, title, value)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 import Multiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody, buildJoinLink)
 import RemoteData exposing (RemoteData(..), WebData)
-import Url exposing (Url)
-import Win.Score exposing (Score)
 
 
-view :
-    { model
-        | class : String -> Html.Attribute Msg
-        , score : Score
-        , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
-        , multiplayerScores : List MultiplayerScore
-        , url : Url
-    }
-    -> Html Msg
-view { class, score, startMultiplayerResponseBody, multiplayerScores, url } =
+view { class, score, errors, startMultiplayerResponseBody, multiplayerScores, url } =
     div [ style "margin-bottom" "2rem" ]
-        [ div [ class "topic-title" ] [ text "Multiplayer" ]
+        [ div [ class "topic-title" ] [ text "Multiplayer Game" ]
         , case startMultiplayerResponseBody of
             NotAsked ->
-                startMultiplayerGame class score
+                startMultiplayerGame class score errors
 
             Loading ->
                 div [] [ text "Starting Game..." ]
 
             Success response ->
-                showScores class url response score (multiplayerScores |> List.filter (\s -> s.playerId /= response.playerId))
+                showScores class url response (multiplayerScores |> List.filter (\s -> s.playerId /= response.playerId))
 
             _ ->
                 tryAgainView class score
@@ -41,52 +31,66 @@ tryAgainView class score =
     div [] [ text "Try again?" ]
 
 
-showScores class url response score multiplayerScores =
+showScores class url response multiplayerScores =
     div []
-        ([ div [ style "display" "flex" ]
-            [ div [] [ text "Share:" ]
-            , div
-                [ id "linkToShare"
-                , style "max-width" "12rem"
-                , style "text-overflow" "scroll"
-                , style "overflow" "scroll"
-                , style "margin-left" ".5rem"
+        ([ div [ style "display" "flex", style "justify-content" "space-between" ]
+            [ div [ style "font-weight" "bold" ] [ text "Share URL:" ]
+            , button
+                [ style "color" "#ED9E28"
+                , style "border" "none"
+                , style "display" "flex"
+                , style "padding" "0"
+                , style "align-items" "center"
+                , style "background" "transparent"
+                , onClick (Copy "linkToShare")
                 ]
-                [ text (buildJoinLink url response.id) ]
+                [ CopyIcon.view, div [ style "padding" "0 0 .1rem .3rem" ] [ text "Copy" ] ]
             ]
-         , button [ class "submit-feedback-button", onClick (Copy "linkToShare") ] [ text "Copy Shareable Link" ]
+         , div
+            [ id "linkToShare"
+            , style "max-width" "12rem"
+            , style "text-overflow" "scroll"
+            , style "overflow" "scroll"
+            , style "margin-top" ".5rem"
+            ]
+            [ text (buildJoinLink url response.id) ]
          ]
             ++ (if multiplayerScores |> List.isEmpty then
-                    [ div [ style "margin-top" ".5rem" ] [ text "Waiting for others to join" ] ]
+                    [ div [ style "margin-top" ".5rem", style "font-weight" "bold" ] [ text "Waiting for others to join" ] ]
 
                 else
                     [ div
                         [ style "display" "grid"
                         , style "margin-top" ".5rem"
                         , style "grid-template-columns" "30% auto"
-                        , style "font-weight" "bold"
+                        , style "text-align" "center"
                         ]
-                        [ div [] [ text "Player" ], div [] [ text "Squares in a Row" ] ]
+                        ([ div [ style "font-weight" "bold" ] [ text "Player" ], div [ style "font-weight" "bold" ] [ text "Squares in a Row" ] ]
+                            ++ (multiplayerScores |> List.map scoreRow |> List.concat)
+                        )
                     ]
-                        ++ (multiplayerScores |> List.map scoreRow)
                )
         )
 
 
-scoreRow : MultiplayerScore -> Html Msg
 scoreRow multiplayerScore =
-    div [ style "display" "grid", style "grid-template-columns" "30% auto" ]
-        [ div [ style "margin-left" ".3rem" ] [ text multiplayerScore.initials ]
-        , div [ style "margin-left" ".3rem" ] [ text (String.fromInt multiplayerScore.score) ]
+    [ div [ style "margin" ".3rem" ] [ text multiplayerScore.initials ]
+    , div [ style "margin" ".3rem" ] [ text (String.fromInt multiplayerScore.score) ]
+    ]
+
+
+startMultiplayerGame class score errors =
+    div
+        [ class ""
+        , style "margin" "1rem 0"
+
+        --, style "margin" "1rem"
+        , style "display" "flex"
+        , style "flex-direction" "column"
+
+        --, style "align-items" "center"
+        , style "min-height" "10rem"
         ]
-
-
-startMultiplayerGame class score =
-    let
-        length =
-            String.length score.player
-    in
-    div [ class "", style "margin" "1rem" ]
         [ label [ for "initials" ] [ text "Enter your initials to start" ]
         , input
             [ name "initials"
@@ -99,10 +103,17 @@ startMultiplayerGame class score =
             , value score.player
             ]
             []
+        , viewFormErrors class errors
         , button
             [ class "submit-feedback-button"
             , onClick StartMultiplayerGame
-            , disabled (length < 1 || length > 5)
             ]
             [ text "Start Game" ]
         ]
+
+
+viewFormErrors : (String -> Html.Attribute msg) -> List String -> Html msg
+viewFormErrors class errors =
+    errors
+        |> List.map (\error -> div [ class "form-errors" ] [ text error ])
+        |> div [ class "form-errors" ]

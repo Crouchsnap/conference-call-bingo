@@ -30,7 +30,7 @@ type alias Score =
 scoreValidator : Validator String Score
 scoreValidator =
     Validate.all
-        [ ifTrue isInitialsLengthValid "Please 2 to 4 characters"
+        [ ifTrue isInitialsLengthValid "Please enter 2 to 4 characters"
         ]
 
 

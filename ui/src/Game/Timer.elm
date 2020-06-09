@@ -19,4 +19,4 @@ timer { time, startTime, class } =
 
 
 title class =
-    div [ class "timer-title" ] [ text "Time:" ]
+    div [ class "timer-title" ] [ text "Time Elapsed:" ]

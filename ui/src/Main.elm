@@ -343,7 +343,12 @@ update msg model =
             ( model, Cmd.none )
 
         StartMultiplayerGame ->
-            ( model, Requests.startMultiplayerGame model.url model.score.player model.currentSquaresChecked )
+            case validate Score.scoreValidator model.score of
+                Ok _ ->
+                    ( model, Requests.startMultiplayerGame model.url model.score.player model.currentSquaresChecked )
+
+                Err errors ->
+                    ( { model | errors = errors }, Cmd.none )
 
         JoinMultiplayerGame ->
             case validate Score.scoreValidator model.score of

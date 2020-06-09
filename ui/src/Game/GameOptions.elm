@@ -30,6 +30,7 @@ view :
         , multiplayerScores : List MultiplayerScore
         , url : Url
         , betaMode : Bool
+        , errors : List String
     }
     -> String
     -> Html Msg
@@ -47,4 +48,4 @@ view model wrapperClass =
 
 
 topicTitle class =
-    div [ class "topic-title" ] [ text "topical bingo" ]
+    div [ class "topic-title" ] [ text "topics" ]
