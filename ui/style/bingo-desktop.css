@@ -1,4 +1,3 @@
-
 @media only screen and (min-width: 1025px) {
 
     .body-container {
@@ -25,7 +24,7 @@
         width: initial;
     }
 
-    .board-table{
+    .board-table {
         grid-template-columns: repeat(5, 8.75rem);
         grid-template-rows: repeat(5, 8.75rem);
     }
@@ -69,15 +68,17 @@
         border-radius: 1.25rem;
         line-height: 1;
     }
+
     .tri-toggle-selected {
         border-radius: 1.25rem;
     }
+
     .tri-toggle-option {
         line-height: 90%;
     }
 
     .modal-container {
-        border: 1px solid rgba(0,0,0,.2);
+        border: 1px solid rgba(0, 0, 0, .2);
         border-radius: .3rem;
     }
 
@@ -85,7 +86,6 @@
     .modal-dialog,
     .modal-content {
         width: initial;
-        max-width: max-content;
         height: fit-content;
         max-height: min-content;
         padding: initial;
@@ -108,4 +108,35 @@
         border: 1px solid #E5E5E5;
         box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
     }
+
+    .multiplayer-container {
+        margin-bottom: 2rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .multiplayer-game {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .multiplayer-score-table {
+        display: grid;
+        margin-top: .5rem;
+        grid-template-columns: 30% auto;
+        text-align: center;
+    }
+
+    .multiplayer-start-container {
+        margin: 1rem 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 10rem;
+    }
+
+    .multiplayer-score-table-cell {
+        margin: .3rem;
+    }
+
 }

@@ -1,7 +1,7 @@
 module View.FeedbackView exposing (view)
 
 import Html exposing (Html, button, div, label, text, textarea)
-import Html.Attributes exposing (for, maxlength, name, placeholder, style, title, value)
+import Html.Attributes exposing (for, maxlength, name, placeholder, title, value)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 import Rating

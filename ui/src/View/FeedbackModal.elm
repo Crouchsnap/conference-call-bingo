@@ -14,10 +14,7 @@ view model show =
         |> Modal.body [ style "min-width" "32rem" ]
             [ button [ model.class "close", onClick (FeedbackModal False) ] [ text "×" ]
             , div
-                [ style "align-items" "center"
-                , style "display" "flex"
-                , style "flex-direction" "column"
-                ]
+                [ model.class "modal-content" ]
                 [ FeedbackView.view model ]
             ]
         |> Modal.view

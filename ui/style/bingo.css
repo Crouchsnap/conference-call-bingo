@@ -57,6 +57,11 @@ label {
 
 .centered {
     text-align: center;
+    align-items: center;
+}
+
+.bold {
+    font-weight: bold;
 }
 
 .label {
@@ -224,6 +229,17 @@ label {
     padding: 0;
     margin: auto 0 1rem;
 }
+.copy-button {
+    color: #ED9E28;
+    border: none;
+    display: flex;
+    padding: 0;
+    align-items: center;
+    background: transparent;
+}
+.copy-button > div {
+    padding: 0 0 .1rem .3rem;
+}
 
 .feedback-container {
     text-transform: none;
@@ -241,7 +257,7 @@ label {
     padding-bottom: 10rem;
 }
 
-.submit-feedback-button {
+.submit-button-secondary {
     border: 2px solid #ED9E28;
     box-sizing: border-box;
     border-radius: 8px;
@@ -701,4 +717,10 @@ label {
     font-size: .8rem;
     list-style-type: none;
     margin: .2rem;
+}
+
+.modal-content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 }

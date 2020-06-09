@@ -1,20 +1,14 @@
 module Multiplayer.Join exposing (view)
 
-import Html exposing (Html, button, div, input, label, li, text, ul)
-import Html.Attributes exposing (disabled, for, maxlength, minlength, name, placeholder, style, title, value)
+import Html exposing (Html, button, div, input, label, text)
+import Html.Attributes exposing (for, maxlength, minlength, name, placeholder, title, value)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 
 
 view model =
     div
-        [ model.class ""
-        , style "margin" "1rem"
-        , style "display" "flex"
-        , style "flex-direction" "column"
-        , style "align-items" "center"
-        , style "min-height" "10rem"
-        ]
+        [ model.class "multiplayer-start-container centered" ]
         [ label [ for "initials" ] [ text "Enter your initials to start" ]
         , input
             [ name "initials"

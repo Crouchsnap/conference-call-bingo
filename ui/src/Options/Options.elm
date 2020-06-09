@@ -21,7 +21,7 @@ view :
 view model wrapperClass =
     div [ model.class wrapperClass ]
         [ ThemeChoices.view model
-        , button [ model.class "submit-feedback-button", onClick (FeedbackModal True) ] [ text "Give Us Feedback" ]
+        , button [ model.class "submit-button-secondary", onClick (FeedbackModal True) ] [ text "Give Us Feedback" ]
         , BoardColorChoices.view model
         , DauberChoices.view model
         ]

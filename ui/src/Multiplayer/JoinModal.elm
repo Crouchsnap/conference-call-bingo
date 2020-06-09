@@ -15,10 +15,7 @@ view model show =
         |> Modal.body [ style "min-width" "32rem" ]
             [ button [ model.class "close", onClick CancelJoinMultiplayerGame ] [ text "×" ]
             , div
-                [ style "align-items" "center"
-                , style "display" "flex"
-                , style "flex-direction" "column"
-                ]
+                [ model.class "modal-content" ]
                 [ TopicChoices.view model (topicTitle model.class) ]
             , Join.view model
             ]
@@ -33,6 +30,6 @@ view model show =
 
 topicTitle class =
     div []
-        [ div [ class "topic-title", style "margin-bottom" "2rem" ] [ text "Multiplayer game" ]
-        , div [ style "margin-bottom" "1rem" ] [ text "Select topics for this game" ]
+        [ div [ class "topic-title mb-3" ] [ text "Multiplayer game" ]
+        , div [ class "mb-3" ] [ text "Select topics for this game" ]
         ]
