@@ -1,9 +1,9 @@
-module Win.FeedbackTests exposing (suite)
+module View.FeedbackTests exposing (suite)
 
 import Expect exposing (Expectation)
 import Json.Encode
 import Test exposing (..)
-import Win.Feedback exposing (Feedback, encodeFeedback)
+import View.Feedback exposing (Feedback, encodeFeedback)
 
 
 suite : Test

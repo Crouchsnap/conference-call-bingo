@@ -5,8 +5,7 @@ import Html exposing (button, div, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import Multiplayer.Join as Join
-import Win.FeedBackView as FeedBackView
+import View.FeedbackView as FeedbackView
 
 
 view model show =
@@ -19,7 +18,7 @@ view model show =
                 , style "display" "flex"
                 , style "flex-direction" "column"
                 ]
-                [ FeedBackView.view model ]
+                [ FeedbackView.view model ]
             ]
         |> Modal.view
             (if show then

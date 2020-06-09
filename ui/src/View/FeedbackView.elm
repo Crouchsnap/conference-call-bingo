@@ -1,17 +1,19 @@
-module Win.FeedBackView exposing (view)
+module View.FeedbackView exposing (view)
 
 import Html exposing (Html, button, div, label, text, textarea)
-import Html.Attributes exposing (for, maxlength, name, placeholder, style, title)
+import Html.Attributes exposing (for, maxlength, name, placeholder, style, title, value)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 import Rating
-import Win.Score exposing (Score)
+import View.Feedback exposing (Feedback)
 
 
 view :
     { model
         | class : String -> Html.Attribute Msg
         , ratingState : Rating.State
+        , feedbackErrors : List String
+        , feedback : Feedback
     }
     -> Html Msg
 view model =
@@ -20,15 +22,16 @@ view model =
         (submitView model)
 
 
-submitView { class, ratingState } =
+submitView { class, ratingState, feedbackErrors, feedback } =
     [ ratingTitle class
     , div []
         [ subtitle class
         , Html.map RatingMsg (Rating.classView [ "star-rating" ] ratingState)
+        , viewFormErrors class feedbackErrors
         ]
     , div []
         [ suggestionLabel
-        , suggestion class
+        , suggestion class feedback
         ]
     , submitButton class
     ]
@@ -46,7 +49,7 @@ suggestionLabel =
     label [ for "suggestion" ] [ text "Give us feedback or tell us what squares you’d like to add!" ]
 
 
-suggestion class =
+suggestion class feedback =
     div []
         [ textarea
             [ name "suggestion"
@@ -55,6 +58,7 @@ suggestion class =
             , title "Enter a suggestion (max 100 characters)"
             , maxlength 100
             , onInput Suggestion
+            , value (feedback.suggestion |> Maybe.withDefault "")
             ]
             []
         ]
@@ -66,3 +70,10 @@ submitButton class =
         , onClick SubmitFeedback
         ]
         [ text "Submit" ]
+
+
+viewFormErrors : (String -> Html.Attribute msg) -> List String -> Html msg
+viewFormErrors class errors =
+    errors
+        |> List.map (\error -> div [ class "form-errors" ] [ text error ])
+        |> div [ class "form-errors" ]

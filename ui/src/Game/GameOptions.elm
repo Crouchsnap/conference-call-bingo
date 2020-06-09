@@ -12,7 +12,6 @@ import RemoteData exposing (WebData)
 import Time exposing (Posix)
 import Url exposing (Url)
 import UserSettings exposing (UserSettings)
-import Win.FeedBackView as Feedback
 import Win.Score exposing (Score)
 
 

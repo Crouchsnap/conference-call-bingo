@@ -1,6 +1,7 @@
-module Win.Feedback exposing (Feedback, emptyFeedback, encodeFeedback, updateRating, updateSuggestion)
+module View.Feedback exposing (Feedback, emptyFeedback, encodeFeedback, feedbackValidator, updateRating, updateSuggestion)
 
 import Json.Encode
+import Validate exposing (Validator, ifFalse)
 
 
 type alias Feedback =
@@ -11,6 +12,17 @@ type alias Feedback =
 
 emptyFeedback =
     Feedback Nothing 0
+
+
+feedbackValidator : Validator String Feedback
+feedbackValidator =
+    Validate.all
+        [ ifFalse isRatingMoreThanZero "Please choose a star rating"
+        ]
+
+
+isRatingMoreThanZero feedback =
+    feedback.rating > 0
 
 
 updateSuggestion : Maybe String -> Feedback -> Feedback

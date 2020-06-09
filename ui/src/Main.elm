@@ -35,9 +35,9 @@ import Url exposing (Url)
 import UserSettings exposing (UserSettings)
 import Validate exposing (validate)
 import View.BingoCard as BingoCard
+import View.Feedback as Feedback exposing (Feedback, emptyFeedback, updateRating, updateSuggestion)
 import View.FeedbackModal as FeedbackModal
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
-import Win.Feedback exposing (Feedback, emptyFeedback, updateRating, updateSuggestion)
 import Win.Modal
 import Win.Score as Score exposing (Score, emptyGameResult, updatePlayer)
 import Win.TopScoresTable exposing (isFormValid)
@@ -67,6 +67,7 @@ type alias Model =
     , multiplayerScores : List MultiplayerScore
     , currentSquaresChecked : Int
     , errors : List String
+    , feedbackErrors : List String
     , betaMode : Bool
     , openFeedback : Bool
     }
@@ -110,6 +111,7 @@ init flags url key =
       , multiplayerScores = []
       , currentSquaresChecked = 1
       , errors = []
+      , feedbackErrors = []
       , betaMode = isBeta url
       , openFeedback = False
       }
@@ -225,11 +227,14 @@ update msg model =
                 model |> update NewGame
 
         SubmitFeedback ->
-            if model.feedback.rating > 0 then
-                ( { model | openFeedback = False }, Requests.submitFeedback model.url model.feedback )
+            case validate Feedback.feedbackValidator model.feedback of
+                Ok _ ->
+                    ( { model | openFeedback = False, feedbackErrors = [], feedback = emptyFeedback, ratingState = Rating.initialCustomState RatingStar.selected RatingStar.unselected }
+                    , Requests.submitFeedback model.url model.feedback
+                    )
 
-            else
-                ( model, Cmd.none )
+                Err errors ->
+                    ( { model | feedbackErrors = errors }, Cmd.none )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -346,7 +351,7 @@ update msg model =
         StartMultiplayerGame ->
             case validate Score.scoreValidator model.score of
                 Ok _ ->
-                    ( model, Requests.startMultiplayerGame model.url model.score.player model.currentSquaresChecked )
+                    ( { model | errors = [] }, Requests.startMultiplayerGame model.url model.score.player model.currentSquaresChecked )
 
                 Err errors ->
                     ( { model | errors = errors }, Cmd.none )
@@ -358,7 +363,7 @@ update msg model =
                         url =
                             model.url
                     in
-                    ( model
+                    ( { model | errors = [] }
                     , Cmd.batch
                         [ Requests.joinMultiplayerGame model.url (model.url.fragment |> Maybe.withDefault "") model.score.player model.currentSquaresChecked
                         , Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing })

@@ -5,7 +5,7 @@ import Msg exposing (Msg(..))
 import Multiplayer.Multiplayer exposing (GameUpdate, StartMultiplayerResponseBody, decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody, gameUpdateToString)
 import RemoteData exposing (RemoteData, WebData)
 import Url exposing (Url)
-import Win.Feedback exposing (Feedback, encodeFeedback)
+import View.Feedback exposing (Feedback, encodeFeedback)
 import Win.Score exposing (Score, decodeScores, encodeScore)
 
 
