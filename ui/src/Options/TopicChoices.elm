@@ -24,7 +24,7 @@ view { class, userSettings, startMultiplayerResponseBody } title =
                 _ ->
                     False
     in
-    div [ class "", style "margin" "1rem 0" ]
+    div [ class "", style "margin" "1rem 0 2rem" ]
         ([ title ]
             ++ topicToggles class multiplayerInProgress userSettings.topics
         )

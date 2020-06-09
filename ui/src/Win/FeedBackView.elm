@@ -12,30 +12,34 @@ view :
     { model
         | class : String -> Html.Attribute Msg
         , ratingState : Rating.State
-        , feedbackSent : Bool
     }
     -> Html Msg
 view model =
-    div [ model.class "feedback-container bottom-item" ]
-        (if model.feedbackSent then
-            [ div [ model.class "feedback-response" ] [ text "Thank you for your feedback!" ] ]
-
-         else
-            submitView model
-        )
+    div
+        [ model.class "feedback-container" ]
+        (submitView model)
 
 
 submitView { class, ratingState } =
-    [ ratingTitle
-    , Html.map RatingMsg (Rating.classView [ "star-rating" ] ratingState)
-    , suggestionLabel
-    , suggestion class
+    [ ratingTitle class
+    , div []
+        [ subtitle class
+        , Html.map RatingMsg (Rating.classView [ "star-rating" ] ratingState)
+        ]
+    , div []
+        [ suggestionLabel
+        , suggestion class
+        ]
     , submitButton class
     ]
 
 
-ratingTitle =
-    label [] [ text "Rate Your Experience" ]
+ratingTitle class =
+    label [ class "topic-title" ] [ text "give us feedback" ]
+
+
+subtitle class =
+    div [] [ text "Please rate your experience" ]
 
 
 suggestionLabel =
@@ -58,7 +62,7 @@ suggestion class =
 
 submitButton class =
     button
-        [ class "submit-feedback-button"
+        [ class "submit-button"
         , onClick SubmitFeedback
         ]
         [ text "Submit" ]

@@ -38,8 +38,8 @@ button[disabled] {
 }
 
 label {
-     display: block;
-     margin-bottom: 0;
+    display: block;
+    margin-bottom: 0;
 }
 
 .body {
@@ -208,7 +208,7 @@ label {
     padding: 1rem;
     background: #ED9E28;
     border-radius: 8px;
-    margin: auto 1rem 1rem 1rem;
+    margin: 1rem;
     color: #545454;
     text-transform: uppercase;
     min-width: 12rem;
@@ -218,9 +218,15 @@ label {
 .feedback-container {
     text-transform: none;
     font-weight: bold;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 30rem;
 }
 
-.feedback-response{
+.feedback-response {
     text-align: center;
     padding-bottom: 10rem;
 }
@@ -233,7 +239,7 @@ label {
     color: #ED9E28;
     padding: .5rem;
     background-color: transparent;
-    margin-top: .5rem;
+    margin: 1rem 0;
     font-weight: bold;
     font-size: 1.25rem;
     cursor: pointer;
@@ -247,7 +253,6 @@ label {
     min-height: 2rem;
     height: 6rem;
     max-height: 10.5rem;
-    max-width: 27rem;
     font-weight: bold;
     font-size: 1rem;
     resize: none !important;
@@ -262,6 +267,7 @@ label {
     color: #8B8B8B;
     font-size: 1rem;
 }
+
 .multiplayer-input {
     box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.15);
     border-radius: 4px;
@@ -291,7 +297,7 @@ label {
     margin-bottom: .5rem;
 }
 
-.top-score-title{
+.top-score-title {
     text-transform: uppercase;
     font-size: 1.25rem;
     font-weight: bold;
@@ -410,7 +416,6 @@ label {
 }
 
 
-
 .options-container,
 .topic-wrapper-mobile {
     display: flex;
@@ -478,6 +483,7 @@ label {
 .checkmark-checked {
     background-color: #45A0F4;
 }
+
 .checkmark-disabled {
     background-color: #737373;
 }
@@ -507,6 +513,9 @@ label {
 .bottom-item {
     margin-top: auto;
     margin-bottom: 0;
+}
+.top-item {
+    margin-top: 0;
 }
 
 .footer-container {
@@ -670,6 +679,7 @@ label {
     margin: -1rem;
     padding: 1rem !important;
 }
+
 .close:focus, .close:hover {
     color: unset;
     opacity: .5;

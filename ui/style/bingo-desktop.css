@@ -35,10 +35,6 @@
         margin: 0 1rem;
     }
 
-    .feedback-container {
-        max-width: 16rem;
-    }
-
     .winning-container {
         width: calc(5 * 8.75rem);
         height: calc(5 * 8.75rem);
@@ -50,6 +46,7 @@
 
     .theme-options-container {
         display: flex;
+        margin: 0 1rem;
     }
 
     .game-options-container {

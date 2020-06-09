@@ -50,3 +50,4 @@ type Msg
     | CancelJoinMultiplayerGame
     | MultiplayerScores (Result Decode.Error (List MultiplayerScore))
     | Copy String
+    | FeedbackModal Bool

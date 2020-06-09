@@ -35,6 +35,7 @@ import Url exposing (Url)
 import UserSettings exposing (UserSettings)
 import Validate exposing (validate)
 import View.BingoCard as BingoCard
+import View.FeedbackModal as FeedbackModal
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.Feedback exposing (Feedback, emptyFeedback, updateRating, updateSuggestion)
 import Win.Modal
@@ -53,7 +54,6 @@ type alias Model =
     , key : Key
     , score : Score
     , feedback : Feedback
-    , feedbackSent : Bool
     , ratingState : Rating.State
     , device : Device
     , nextSeed : Random.Seed
@@ -68,6 +68,7 @@ type alias Model =
     , currentSquaresChecked : Int
     , errors : List String
     , betaMode : Bool
+    , openFeedback : Bool
     }
 
 
@@ -96,7 +97,6 @@ init flags url key =
       , key = key
       , score = emptyGameResult
       , feedback = emptyFeedback
-      , feedbackSent = False
       , ratingState = Rating.initialCustomState RatingStar.selected RatingStar.unselected
       , device = defaultDevice
       , nextSeed = Random.initialSeed 0
@@ -111,6 +111,7 @@ init flags url key =
       , currentSquaresChecked = 1
       , errors = []
       , betaMode = isBeta url
+      , openFeedback = False
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
     )
@@ -225,7 +226,7 @@ update msg model =
 
         SubmitFeedback ->
             if model.feedback.rating > 0 then
-                ( { model | feedbackSent = True }, Requests.submitFeedback model.url model.feedback )
+                ( { model | openFeedback = False }, Requests.submitFeedback model.url model.feedback )
 
             else
                 ( model, Cmd.none )
@@ -397,6 +398,9 @@ update msg model =
         Copy id ->
             ( model, Ports.copy id )
 
+        FeedbackModal show ->
+            ( { model | openFeedback = show }, Cmd.none )
+
 
 reset time model =
     let
@@ -444,6 +448,7 @@ bodyView model =
         , Win.Modal.view model
         , Multiplayer.JoinModal.view model (model.url.fragment /= Nothing && model.startMultiplayerResponseBody == RemoteData.NotAsked)
         , Multiplayer.WinModal.view model ((model.multiplayerScores |> List.any (\score -> score.score > 4)) || (model.startMultiplayerResponseBody /= RemoteData.NotAsked && Bingo.isWinner model.board))
+        , FeedbackModal.view model model.openFeedback
         ]
 
 

@@ -24,7 +24,6 @@ view :
         , startTime : Posix
         , time : Posix
         , ratingState : Rating.State
-        , feedbackSent : Bool
         , score : Score
         , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
         , multiplayerScores : List MultiplayerScore
@@ -42,8 +41,7 @@ view model wrapperClass =
 
           else
             text ""
-        , Feedback.view model
-        , Timer.view model "timer-container options-container"
+        , Timer.view model "timer-container options-container bottom-item"
         ]
 
 

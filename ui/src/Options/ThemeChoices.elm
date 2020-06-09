@@ -16,7 +16,7 @@ view :
     }
     -> Html Msg
 view { userSettings, systemTheme } =
-    div [ themedClass userSettings.selectedTheme "options-container" ]
+    div [ themedClass userSettings.selectedTheme "options-container top-item" ]
         [ themeToggle userSettings.selectedTheme systemTheme
         ]
 

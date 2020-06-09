@@ -1,7 +1,8 @@
 module Options.Options exposing (view)
 
-import Html exposing (Html, div)
-import Msg exposing (Msg)
+import Html exposing (Html, button, div, text)
+import Html.Events exposing (onClick)
+import Msg exposing (Msg(..))
 import Options.BoardColorChoices as BoardColorChoices
 import Options.DauberChoices as DauberChoices
 import Options.Theme exposing (Theme)
@@ -20,6 +21,7 @@ view :
 view model wrapperClass =
     div [ model.class wrapperClass ]
         [ ThemeChoices.view model
+        , button [ model.class "submit-feedback-button", onClick (FeedbackModal True) ] [ text "Give Us Feedback" ]
         , BoardColorChoices.view model
         , DauberChoices.view model
         ]

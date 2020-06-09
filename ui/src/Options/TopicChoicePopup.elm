@@ -25,7 +25,6 @@ view :
         , startTime : Posix
         , time : Posix
         , ratingState : Rating.State
-        , feedbackSent : Bool
         , score : Score
         , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
         , multiplayerScores : List MultiplayerScore
