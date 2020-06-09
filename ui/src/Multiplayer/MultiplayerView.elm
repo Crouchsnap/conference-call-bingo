@@ -10,7 +10,7 @@ import RemoteData exposing (RemoteData(..), WebData)
 
 
 view { class, score, errors, startMultiplayerResponseBody, multiplayerScores, url } =
-    div [ style "margin-bottom" "2rem" ]
+    div [ style "margin-bottom" "2rem", style "height" "100%" ]
         [ div [ class "topic-title" ] [ text "Multiplayer Game" ]
         , case startMultiplayerResponseBody of
             NotAsked ->
@@ -32,7 +32,11 @@ tryAgainView class score =
 
 
 showScores class url response multiplayerScores =
-    div []
+    div
+        [ style "height" "100%"
+        , style "display" "flex"
+        , style "flex-direction" "column"
+        ]
         ([ div [ style "display" "flex", style "justify-content" "space-between" ]
             [ div [ style "font-weight" "bold" ] [ text "Share URL:" ]
             , button
@@ -48,9 +52,6 @@ showScores class url response multiplayerScores =
             ]
          , div
             [ id "linkToShare"
-            , style "max-width" "12rem"
-            , style "text-overflow" "scroll"
-            , style "overflow" "scroll"
             , style "margin-top" ".5rem"
             ]
             [ text (buildJoinLink url response.id) ]
@@ -70,6 +71,8 @@ showScores class url response multiplayerScores =
                         )
                     ]
                )
+            ++ [ button [ class "text-button", onClick LeaveMultiplayerGame ] [ text "Leave Multiplayer Game" ]
+               ]
         )
 
 

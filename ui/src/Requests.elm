@@ -1,4 +1,4 @@
-module Requests exposing (errorToString, getHighScores, getHostFromLocation, joinMultiplayerGame, sendMultiplayerScore, startMultiplayerGame, submitFeedback, submitScore)
+module Requests exposing (errorToString, getHighScores, getHostFromLocation, joinMultiplayerGame, leaveMultiplayerGame, sendMultiplayerScore, startMultiplayerGame, submitFeedback, submitScore)
 
 import Http exposing (Error(..), expectJson, expectWhatever)
 import Msg exposing (Msg(..))
@@ -57,6 +57,20 @@ joinMultiplayerGame url gameId initials score =
         { url = getHostFromLocation url ++ "/api/multiplayer/join/" ++ gameId
         , body = Http.jsonBody (encodeStartMultiplayerBody initials score)
         , expect = expectJson (RemoteData.fromResult >> MultiplayerStartResponse) decodeStartMultiplayerResponseBody
+        }
+
+
+leaveMultiplayerGame : Url -> StartMultiplayerResponseBody -> Cmd Msg
+leaveMultiplayerGame url startMultiplayerResponseBody =
+    Http.post
+        { url =
+            getHostFromLocation url
+                ++ "/api/multiplayer/leave/"
+                ++ startMultiplayerResponseBody.id
+                ++ "/"
+                ++ startMultiplayerResponseBody.playerId
+        , body = Http.emptyBody
+        , expect = expectWhatever (RemoteData.fromResult >> LeftGameResponse)
         }
 
 

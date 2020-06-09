@@ -51,3 +51,5 @@ type Msg
     | MultiplayerScores (Result Decode.Error (List MultiplayerScore))
     | Copy String
     | FeedbackModal Bool
+    | LeaveMultiplayerGame
+    | LeftGameResponse (WebData ())

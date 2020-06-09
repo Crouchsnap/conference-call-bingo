@@ -215,6 +215,16 @@ label {
     cursor: pointer;
 }
 
+.text-button {
+    border: none;
+    background: transparent;
+    color: #ED9E28;
+    cursor: pointer;
+    align-self: flex-start;
+    padding: 0;
+    margin: auto 0 1rem;
+}
+
 .feedback-container {
     text-transform: none;
     font-weight: bold;

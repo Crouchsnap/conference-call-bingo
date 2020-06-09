@@ -406,6 +406,26 @@ update msg model =
         FeedbackModal show ->
             ( { model | openFeedback = show }, Cmd.none )
 
+        LeaveMultiplayerGame ->
+            case model.startMultiplayerResponseBody of
+                RemoteData.Success startMultiplayerResponseBody ->
+                    let
+                        ( updatedModel, updatedCmd ) =
+                            update NewGame model
+                    in
+                    ( updatedModel
+                    , Cmd.batch
+                        [ Requests.leaveMultiplayerGame model.url startMultiplayerResponseBody
+                        , updatedCmd
+                        ]
+                    )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        LeftGameResponse _ ->
+            ( model, Cmd.none )
+
 
 reset time model =
     let
