@@ -6,6 +6,7 @@ module Win.Score exposing
     , encodeScore
     , insertYourScore
     , isYourScore
+    , scoreValidator
     , scoresWithYourScore
     , updatePlayer
     , yourScore
@@ -16,6 +17,7 @@ import Json.Decode.Pipeline
 import Json.Encode
 import List.Extra
 import Time exposing (Posix)
+import Validate exposing (Validator, ifTrue)
 import Win.TimeFormatter as TimeFormatter
 
 
@@ -23,6 +25,22 @@ type alias Score =
     { score : Int
     , player : String
     }
+
+
+scoreValidator : Validator String Score
+scoreValidator =
+    Validate.all
+        [ ifTrue isInitialsLengthValid "Please 2 to 4 characters"
+        ]
+
+
+isInitialsLengthValid score =
+    let
+        length =
+            score.player
+                |> String.length
+    in
+    length < 2 || length > 5
 
 
 updatePlayer : String -> Score -> Score

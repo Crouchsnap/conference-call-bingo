@@ -33,11 +33,12 @@ import Task
 import Time exposing (Posix)
 import Url exposing (Url)
 import UserSettings exposing (UserSettings)
+import Validate exposing (validate)
 import View.BingoCard as BingoCard
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.Feedback exposing (Feedback, emptyFeedback, updateRating, updateSuggestion)
 import Win.Modal
-import Win.Score exposing (Score, emptyGameResult, updatePlayer)
+import Win.Score as Score exposing (Score, emptyGameResult, updatePlayer)
 import Win.TopScoresTable exposing (isFormValid)
 
 
@@ -65,6 +66,7 @@ type alias Model =
     , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
     , multiplayerScores : List MultiplayerScore
     , currentSquaresChecked : Int
+    , errors : List String
     , betaMode : Bool
     }
 
@@ -107,6 +109,7 @@ init flags url key =
       , startMultiplayerResponseBody = RemoteData.NotAsked
       , multiplayerScores = []
       , currentSquaresChecked = 1
+      , errors = []
       , betaMode = isBeta url
       }
     , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
@@ -343,16 +346,21 @@ update msg model =
             ( model, Requests.startMultiplayerGame model.url model.score.player model.currentSquaresChecked )
 
         JoinMultiplayerGame ->
-            let
-                url =
-                    model.url
-            in
-            ( model
-            , Cmd.batch
-                [ Requests.joinMultiplayerGame model.url (model.url.fragment |> Maybe.withDefault "") model.score.player model.currentSquaresChecked
-                , Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing })
-                ]
-            )
+            case validate Score.scoreValidator model.score of
+                Ok _ ->
+                    let
+                        url =
+                            model.url
+                    in
+                    ( model
+                    , Cmd.batch
+                        [ Requests.joinMultiplayerGame model.url (model.url.fragment |> Maybe.withDefault "") model.score.player model.currentSquaresChecked
+                        , Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing })
+                        ]
+                    )
+
+                Err errors ->
+                    ( { model | errors = errors }, Cmd.none )
 
         CancelJoinMultiplayerGame ->
             let

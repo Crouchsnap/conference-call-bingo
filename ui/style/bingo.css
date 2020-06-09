@@ -674,3 +674,10 @@ label {
     color: unset;
     opacity: .5;
 }
+
+.form-errors {
+    color: red;
+    font-size: .7rem;
+    list-style-type: none;
+    margin: .2rem;
+}

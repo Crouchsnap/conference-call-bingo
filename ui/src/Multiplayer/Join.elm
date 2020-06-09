@@ -1,16 +1,12 @@
 module Multiplayer.Join exposing (view)
 
-import Html exposing (Html, button, div, input, label, text)
+import Html exposing (Html, button, div, input, label, li, text, ul)
 import Html.Attributes exposing (disabled, for, maxlength, minlength, name, placeholder, style, title, value)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 
 
 view model =
-    let
-        length =
-            String.length model.score.player
-    in
     div
         [ model.class ""
         , style "margin" "1rem"
@@ -31,10 +27,21 @@ view model =
             , value model.score.player
             ]
             []
-        , button
+        , viewFormErrors model.class model.errors
+        , let
+            length =
+                String.length model.score.player
+          in
+          button
             [ model.class "submit-button"
             , onClick JoinMultiplayerGame
-            , disabled (length < 1 || length > 5)
             ]
             [ text "Start Game" ]
         ]
+
+
+viewFormErrors : (String -> Html.Attribute msg) -> List String -> Html msg
+viewFormErrors class errors =
+    errors
+        |> List.map (\error -> div [ class "form-errors" ] [ text error ])
+        |> div [ class "form-errors" ]
