@@ -9,15 +9,16 @@ import Multiplayer.Join as Join
 import Options.TopicChoices as TopicChoices
 
 
-view model show =
+view model msg show =
     Modal.config NewGame
         |> Modal.attrs [ model.class "modal-container" ]
         |> Modal.body [ style "min-width" "32rem" ]
             [ button [ model.class "close", onClick CancelJoinMultiplayerGame ] [ text "×" ]
             , div
                 [ model.class "modal-content" ]
-                [ TopicChoices.view model (topicTitle model.class) ]
-            , Join.view model
+                [ TopicChoices.view model (topicTitle model.class)
+                , Join.view model msg
+                ]
             ]
         |> Modal.view
             (if show then

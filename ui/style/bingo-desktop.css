@@ -15,8 +15,9 @@
         padding: 0 !important;
     }
 
-    .mobile-options-header {
-        display: none;
+
+    .desktop-only {
+        display: unset;
     }
 
     .board-container {
@@ -124,19 +125,90 @@
     .multiplayer-score-table {
         display: grid;
         margin-top: .5rem;
+        font-size: 1rem;
         grid-template-columns: 30% auto;
         text-align: center;
+        width: 95%;
+        line-height: 1rem;
+
+    }
+    .multiplayer-start-container {
+        min-height: 7rem;
     }
 
-    .multiplayer-start-container {
-        margin: 1rem 0;
-        display: flex;
-        flex-direction: column;
-        min-height: 10rem;
-    }
+
 
     .multiplayer-score-table-cell {
         margin: .3rem;
+        display: block;
+        white-space: unset;
+        display: inline-block;
+
     }
 
+    .multiplayer-score-table-header {
+        display: block;
+        font-weight: bold;
+        margin: .5rem 0;
+    }
+
+    .multiplayer-input {
+        padding: .3125rem;
+        margin-top: .5rem;
+        margin-right: 1rem;
+    }
+    .submit-button-secondary {
+
+    }
+
+    .form-errors {
+        font-size: .8rem;
+        margin: .2rem;
+    }
+    .link-to-share {
+        margin-top: .5rem;
+        justify-self: unset;
+    }
+    .waiting-placeholder {
+        margin-top: .5rem;
+        margin-left: 0;
+        text-align: left;
+    }
+
+    .copy-button {
+        padding: 0;
+        margin-left: 1rem;
+    }
+
+    .multiplayer-title {
+        padding-left: 0;
+        font-weight: bold;
+        width: unset;
+        display: block;
+        margin-bottom: 1rem;
+    }
+    .multiplayer-game {
+        display: flex;
+        align-items: center;
+        width: 90%;
+
+    }
+    .link-to-share {
+        display: flex;
+        align-items: center;
+        width: unset;
+        margin-left: 0;
+    }
+
+    .leave-button {
+        margin: auto 0 1rem 0;
+    }
+
+    .mobile {
+        display: none;
+    }
+
+
 }
+
+

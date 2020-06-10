@@ -64,6 +64,7 @@ type alias Model =
     , userSettings : UserSettings
     , modalVisibility : Modal.Visibility
     , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
+    , showStartMultiplayerGameModal : Bool
     , multiplayerScores : List MultiplayerScore
     , currentSquaresChecked : Int
     , errors : List String
@@ -108,6 +109,7 @@ init flags url key =
       , userSettings = userSettings
       , modalVisibility = Modal.hidden
       , startMultiplayerResponseBody = RemoteData.NotAsked
+      , showStartMultiplayerGameModal = False
       , multiplayerScores = []
       , currentSquaresChecked = 1
       , errors = []
@@ -342,7 +344,7 @@ update msg model =
                     response |> RemoteData.withDefault { id = "fake", playerId = "player" } |> .id
             in
             ( { model | startMultiplayerResponseBody = response }
-            , Ports.listenToMultiplayerScores (getHostFromLocation model.url ++ "/api/multiplayer/scores/" ++ gameId)
+            , Ports.openMultiplayerScoresPort model.url gameId
             )
 
         MultiplayerScoreUpdated _ ->
@@ -351,7 +353,7 @@ update msg model =
         StartMultiplayerGame ->
             case validate Score.scoreValidator model.score of
                 Ok _ ->
-                    ( { model | errors = [] }, Requests.startMultiplayerGame model.url model.score.player model.currentSquaresChecked )
+                    ( { model | errors = [], showStartMultiplayerGameModal = False }, Requests.startMultiplayerGame model.url model.score.player model.currentSquaresChecked )
 
                 Err errors ->
                     ( { model | errors = errors }, Cmd.none )
@@ -373,12 +375,15 @@ update msg model =
                 Err errors ->
                     ( { model | errors = errors }, Cmd.none )
 
+        StartMultiplayerGameModal ->
+            ( { model | showStartMultiplayerGameModal = True }, Cmd.none )
+
         CancelJoinMultiplayerGame ->
             let
                 url =
                     model.url
             in
-            ( model, Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing }) )
+            ( { model | showStartMultiplayerGameModal = False }, Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing }) )
 
         MultiplayerScores value ->
             let
@@ -449,6 +454,7 @@ reset time model =
         , submittedScoreResponse = RemoteData.NotAsked
         , modalVisibility = Modal.hidden
         , startMultiplayerResponseBody = RemoteData.NotAsked
+        , showStartMultiplayerGameModal = False
         , multiplayerScores = []
         , currentSquaresChecked = 1
     }
@@ -471,7 +477,8 @@ bodyView model =
         , BingoCard.view model
         , Options.view model "theme-options-container"
         , Win.Modal.view model
-        , Multiplayer.JoinModal.view model (model.url.fragment /= Nothing && model.startMultiplayerResponseBody == RemoteData.NotAsked)
+        , Multiplayer.JoinModal.view model JoinMultiplayerGame (model.url.fragment /= Nothing && model.startMultiplayerResponseBody == RemoteData.NotAsked)
+        , Multiplayer.JoinModal.view model StartMultiplayerGame model.showStartMultiplayerGameModal
         , Multiplayer.WinModal.view model ((model.multiplayerScores |> List.any (\score -> score.score > 4)) || (model.startMultiplayerResponseBody /= RemoteData.NotAsked && Bingo.isWinner model.board))
         , FeedbackModal.view model model.openFeedback
         ]

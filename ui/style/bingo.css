@@ -233,9 +233,10 @@ label {
     color: #ED9E28;
     border: none;
     display: flex;
-    padding: 0;
+    padding: 1rem 1rem 1rem 1rem;
     align-items: center;
     background: transparent;
+    margin: -1rem -1rem -1rem 0;
 }
 .copy-button > div {
     padding: 0 0 .1rem .3rem;
@@ -263,12 +264,12 @@ label {
     border-radius: 8px;
     width: 100%;
     color: #ED9E28;
-    padding: .5rem;
     background-color: transparent;
-    margin: 1rem 0;
     font-weight: bold;
     font-size: 1.25rem;
     cursor: pointer;
+    padding: .5rem;
+    margin: 1rem 0;
 }
 
 .suggestion-input {
@@ -297,13 +298,10 @@ label {
 .multiplayer-input {
     box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.15);
     border-radius: 4px;
-    padding: .3125rem;
     max-width: 5rem;
     font-weight: bold;
     font-size: 1rem;
     resize: none !important;
-    margin-top: .5rem;
-    margin-right: 1rem;
     border: 0.5px solid #545454;
 }
 
@@ -316,7 +314,8 @@ label {
 }
 
 .topic-title,
-.options-title {
+.options-title,
+.multiplayer-title {
     text-transform: uppercase;
     font-size: 1.25rem;
     font-weight: bold;
@@ -388,7 +387,6 @@ label {
     display: table-cell;
     padding: 5px;
     position: relative;
-    font-weight: bold;
     font-size: 1.6rem;
     flex: 1;
     display: flex;
@@ -703,7 +701,7 @@ label {
 }
 
 .close {
-    margin: -1rem;
+    margin: -1rem 0 -1rem -1rem;
     padding: 1rem !important;
 }
 
@@ -714,9 +712,7 @@ label {
 
 .form-errors {
     color: red;
-    font-size: .8rem;
     list-style-type: none;
-    margin: .2rem;
 }
 
 .modal-content {
@@ -724,3 +720,149 @@ label {
     display: flex;
     flex-direction: column;
 }
+.multiplayer-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.multiplayer-title {
+    padding-left: 1rem;
+    margin: 0;
+    font-weight: unset;
+    width: 32%;
+}
+.multiplayer-game {
+    display: flex;
+    align-items: center;
+    width: 18%;
+
+}
+.link-to-share {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    margin-left: auto;
+}
+.waiting-placeholder {
+    width: 100%;
+    margin: 1rem;
+    text-align: center;
+}
+
+.leave-button {
+   margin: 1rem;
+}
+/*.multiplayer-start-container {*/
+/*    display: grid;*/
+/*    grid-template-columns: 30% 20% auto 40%;*/
+/*    padding: .5rem;*/
+/*    font-size: 1.25rem;*/
+/*    justify-content: space-between;*/
+/*}*/
+
+.multiplayer-start-container {
+    margin: 1rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 10rem;
+    font-size: 1rem;
+    justify-content: space-between;
+}
+
+.multiplayer-score-table-header {
+    display: none;
+}
+.multiplayer-score-table-cell {
+    margin: .3rem;
+    display: inline-block;
+    white-space: nowrap;
+
+}
+.gap {
+    margin-right: 3rem;
+}
+
+/*.initials-label {*/
+/*    display: flex;*/
+/*    align-self: center;*/
+/*}*/
+
+.desktop-only {
+    display: none;
+}
+
+* { box-sizing: border-box; }
+
+
+@-webkit-keyframes ticker {
+    0% {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+    }
+
+    100% {
+        -webkit-transform: translate3d(-100%, 0, 0);
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+@keyframes ticker {
+    0% {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+    }
+
+    100% {
+        -webkit-transform: translate3d(-100%, 0, 0);
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+
+.multiplayer-score-table {
+    width: 100%;
+    display: flex;
+    font-size: 1.2rem;
+    height: 3rem;
+    line-height: 3rem;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    height: 3rem;
+    padding-left: 100%;
+    box-sizing: content-box;
+}
+.ticker-wrap .ticker {
+    font-size: 1.2rem;
+    display: inline-block;
+    height: 3rem;
+    line-height: 3rem;
+    white-space: nowrap;
+    padding-right: 100%;
+    box-sizing: content-box;
+
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-name: ticker;
+    animation-name: ticker;
+    -webkit-animation-duration: 30s;
+    animation-duration: 30s;
+}
+.ticker .multiplayer-score-table-cell  {
+     display: inline-block;
+ }
+
+
+
+
+
+

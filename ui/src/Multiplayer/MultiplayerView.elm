@@ -9,9 +9,9 @@ import Multiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerRespo
 import RemoteData exposing (RemoteData(..), WebData)
 
 
-view { class, score, errors, startMultiplayerResponseBody, multiplayerScores, url } =
-    div [ class "multiplayer-container" ]
-        ([ div [ class "topic-title" ] [ text "Multiplayer Game" ] ]
+view { class, score, errors, startMultiplayerResponseBody, multiplayerScores, url } className linkId ticker =
+    div [ class ("multiplayer-container " ++ className) ]
+        ([ div [ class "multiplayer-title" ] [ text "Multiplayer Game" ] ]
             ++ (case startMultiplayerResponseBody of
                     NotAsked ->
                         [ startMultiplayerGame class score errors ]
@@ -20,7 +20,7 @@ view { class, score, errors, startMultiplayerResponseBody, multiplayerScores, ur
                         [ div [] [ text "Starting Game..." ] ]
 
                     Success response ->
-                        showScores class url response (multiplayerScores |> List.filter (\s -> s.playerId /= response.playerId))
+                        showScores class url linkId ticker response (multiplayerScores |> List.filter (\s -> s.playerId /= response.playerId))
 
                     _ ->
                         [ tryAgainView class score ]
@@ -32,43 +32,62 @@ tryAgainView class score =
     div [] [ text "Try again?" ]
 
 
-showScores class url response multiplayerScores =
+showScores class url linkId ticker response multiplayerScores =
     [ div [ class "multiplayer-game" ]
         [ div [ class "bold" ] [ text "Share URL:" ]
         , button
-            [ class "copy-button", onClick (Copy "linkToShare") ]
+            [ class "copy-button", onClick (Copy ("linkToShare" ++ linkId)) ]
             [ CopyIcon.view, div [] [ text "Copy" ] ]
         ]
     , div
-        [ id "linkToShare", class "mt-2" ]
+        [ id ("linkToShare" ++ linkId), class "link-to-share" ]
         [ text (buildJoinLink url response.id) ]
     ]
         ++ (if multiplayerScores |> List.isEmpty then
-                [ div [ class "mt-2 bold" ] [ text "Waiting for others to join" ] ]
+                [ div [ class "waiting-placeholder bold" ] [ text "Waiting for others to join..." ] ]
 
             else
-                [ div
-                    [ class "multiplayer-score-table"
-                    ]
-                    ([ div [ class "bold" ] [ text "Player" ], div [ class "bold" ] [ text "Squares in a Row" ] ]
-                        ++ (multiplayerScores |> List.map (scoreRow class) |> List.concat)
+                [ tickerWrapper class
+                    ticker
+                    multiplayerScores
+                    (div
+                        [ class
+                            (if ticker && ((multiplayerScores |> List.length) > 3) then
+                                "ticker"
+
+                             else
+                                "multiplayer-score-table"
+                            )
+                        ]
+                        ([ div [ class "multiplayer-score-table-header" ] [ text "Player" ], div [ class "multiplayer-score-table-header" ] [ text "Squares in a Row" ] ]
+                            ++ (multiplayerScores |> List.map (scoreRow class) |> List.concat)
+                        )
                     )
                 ]
            )
-        ++ [ button [ class "text-button", onClick LeaveMultiplayerGame ] [ text "Leave Multiplayer Game" ]
+        ++ [ button [ class "leave-button text-button", onClick LeaveMultiplayerGame ] [ text "Leave Multiplayer Game" ]
            ]
 
 
 scoreRow class multiplayerScore =
     [ div [ class "multiplayer-score-table-cell" ] [ text multiplayerScore.initials ]
     , div [ class "multiplayer-score-table-cell" ] [ text (String.fromInt multiplayerScore.score) ]
+    , div [ class "multiplayer-score-table-cell mobile gap" ] [ text "Squares in a Row" ]
     ]
+
+
+tickerWrapper class ticker multiplayerScores content =
+    if ticker && ((multiplayerScores |> List.length) > 3) then
+        div [ class "ticker-wrap" ] [ content ]
+
+    else
+        content
 
 
 startMultiplayerGame class score errors =
     div
         [ class "multiplayer-start-container" ]
-        [ label [ for "initials" ] [ text "Enter your initials to start" ]
+        [ label [ for "initials", class "initials-label" ] [ text "Enter your initials to start" ]
         , input
             [ name "initials"
             , class "multiplayer-input"

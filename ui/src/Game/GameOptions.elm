@@ -36,7 +36,7 @@ view model wrapperClass =
     div [ model.class wrapperClass ]
         [ TopicChoices.view model (topicTitle model.class)
         , if model.betaMode then
-            MultiplayerView.view model
+            MultiplayerView.view model "desktop-only" "Desktop" False
 
           else
             text ""

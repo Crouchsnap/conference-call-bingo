@@ -6,7 +6,7 @@ import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 
 
-view model =
+view model msg =
     div
         [ model.class "multiplayer-start-container centered" ]
         [ label [ for "initials" ] [ text "Enter your initials to start" ]
@@ -24,7 +24,7 @@ view model =
         , viewFormErrors model.class model.errors
         , button
             [ model.class "submit-button"
-            , onClick JoinMultiplayerGame
+            , onClick msg
             ]
             [ text "Start Game" ]
         ]

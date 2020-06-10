@@ -47,6 +47,7 @@ type Msg
     | MultiplayerScoreUpdated (WebData ())
     | StartMultiplayerGame
     | JoinMultiplayerGame
+    | StartMultiplayerGameModal
     | CancelJoinMultiplayerGame
     | MultiplayerScores (Result Decode.Error (List MultiplayerScore))
     | Copy String
