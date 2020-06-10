@@ -19,6 +19,9 @@ type Event msg
     | Winner Posix Posix
     | SubmittedScore Posix Posix
     | LinkClickedEvent String
+    | MultiplayerJoin String
+    | MultiplayerLeave String
+    | MultiplayerWin String
 
 
 encodeGaEvent : Event msg -> Encode.Value
@@ -91,3 +94,12 @@ toString event =
 
         LinkClickedEvent link ->
             ( "linkClicked", link )
+
+        MultiplayerJoin gameId ->
+            ( "multiplayerJoin", gameId )
+
+        MultiplayerLeave gameId ->
+            ( "multiplayerLeave", gameId )
+
+        MultiplayerWin gameId ->
+            ( "multiplayerWin", gameId )

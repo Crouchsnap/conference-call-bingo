@@ -182,6 +182,12 @@ update msg model =
                     , Requests.getHighScores model.url
                     , multiplayerGameScoreEvent
                     , gaEvent
+                    , case model.startMultiplayerResponseBody of
+                        RemoteData.Success startMultiplayerResponseBody ->
+                            Ports.sendGaEvent (MultiplayerWin startMultiplayerResponseBody.id)
+
+                        _ ->
+                            Cmd.none
                     ]
                 )
 
@@ -344,7 +350,10 @@ update msg model =
                     response |> RemoteData.withDefault { id = "fake", playerId = "player" } |> .id
             in
             ( { model | startMultiplayerResponseBody = response }
-            , Ports.openMultiplayerScoresPort model.url gameId
+            , Cmd.batch
+                [ Ports.openMultiplayerScoresPort model.url gameId
+                , Ports.sendGaEvent (MultiplayerJoin gameId)
+                ]
             )
 
         MultiplayerScoreUpdated _ ->
@@ -422,6 +431,7 @@ update msg model =
                     , Cmd.batch
                         [ Requests.leaveMultiplayerGame model.url startMultiplayerResponseBody
                         , updatedCmd
+                        , Ports.sendGaEvent (MultiplayerLeave startMultiplayerResponseBody.id)
                         ]
                     )
 
