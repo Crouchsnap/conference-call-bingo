@@ -15,7 +15,7 @@ view model =
     div [ model.class "mobile" ]
         [ div [ model.class "mobile-options-header" ]
             [ TopicChoicePopup.view model
-            , if model.startMultiplayerResponseBody == RemoteData.NotAsked then
+            , if model.betaMode && model.startMultiplayerResponseBody == RemoteData.NotAsked then
                 div
                     [ model.class "topic-mobile-wrapper"
                     , onClick StartMultiplayerGameModal
