@@ -50,7 +50,6 @@ allTopicsAndLabels : List ( Topic, String )
 allTopicsAndLabels =
     [ ( Architect, "Architecture/Engineering" )
     , ( AV, "Autonomous Vehicle" )
-    , ( Coronavirus, "Coronavirus" )
     , ( Fordism, "Fordisms" )
     , ( Credit, "Ford Credit" )
     , ( ITFCG, "IT-FCG" )
