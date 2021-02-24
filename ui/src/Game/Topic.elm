@@ -1,4 +1,4 @@
-module Game.Topic exposing (Topic(..), architect, av, coronaviri, encodeTopic, fordisms, generic, itfcg, kanye, toString, toggleTopic, topicDecoder, vehicleDevelopment)
+module Game.Topic exposing (Topic(..), architect, av, coronaviri, encodeTopic, fordCredit, fordisms, generic, itfcg, kanye, toString, toggleTopic, topicDecoder, vehicleDevelopment)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
@@ -8,6 +8,7 @@ import List.Extra
 type Topic
     = Generic
     | Fordism
+    | Credit
     | Coronavirus
     | AV
     | VehicleDevelopemnt
@@ -252,6 +253,26 @@ architect =
     ]
 
 
+fordCredit : List String
+fordCredit =
+    [ "\"fail\""
+    , "You hear the gong"
+    , "\"Retroquest\""
+    , "\"companion app\""
+    , "\"future state\""
+    , "\"design\""
+    , "\"demo\""
+    , "\"lightning talk\""
+    , "\"shout outs\""
+    , "\"commercial\""
+    , "\"consumer\""
+    , "\"dealer\""
+    , "\"platform\""
+    , "\"experiential\""
+    , "\"foundational\""
+    ]
+
+
 toggleTopic topic topics =
     topics
         |> (if not (List.member topic topics) then
@@ -289,6 +310,9 @@ topicDecoder =
                     "architect" ->
                         Decode.succeed Architect
 
+                    "fordCredit" ->
+                        Decode.succeed Credit
+
                     _ ->
                         Decode.succeed Generic
             )
@@ -307,6 +331,9 @@ toString topic =
 
         Fordism ->
             "fordism"
+
+        Credit ->
+            "fordCredit"
 
         Coronavirus ->
             "coronavirus"

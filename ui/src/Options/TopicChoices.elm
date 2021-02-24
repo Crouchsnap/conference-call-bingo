@@ -52,6 +52,7 @@ allTopicsAndLabels =
     , ( AV, "Autonomous Vehicle" )
     , ( Coronavirus, "Coronavirus" )
     , ( Fordism, "Fordisms" )
+    , ( Credit, "Ford Credit" )
     , ( ITFCG, "IT-FCG" )
     , ( Kanye, "Kanye" )
     , ( VehicleDevelopemnt, "Product Development" )

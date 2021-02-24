@@ -45,6 +45,11 @@ itfcgSquare text =
     Square (Html.text text) ITFCG text []
 
 
+creditSquare : String -> Square msg
+creditSquare text =
+    Square (Html.text text) Credit text []
+
+
 architectSquare : String -> Square msg
 architectSquare text =
     Square (Html.text text) Architect text []
@@ -75,6 +80,11 @@ itfcgSquares =
     Topic.itfcg |> List.map itfcgSquare
 
 
+creditSquares : List (Square msg)
+creditSquares =
+    Topic.fordCredit |> List.map creditSquare
+
+
 architectSquares : List (Square msg)
 architectSquares =
     Topic.architect |> List.map architectSquare
@@ -97,7 +107,7 @@ avSquares =
 
 allTopicSquares : List (Square msg)
 allTopicSquares =
-    fordismSquares ++ coronavirusSquares ++ avSquares ++ vehicleDevelopmentSquares ++ kanyeSquares ++ itfcgSquares ++ architectSquares
+    fordismSquares ++ coronavirusSquares ++ avSquares ++ vehicleDevelopmentSquares ++ kanyeSquares ++ itfcgSquares ++ architectSquares ++ creditSquares
 
 
 squaresByTopic : List Topic -> List (Square msg)
