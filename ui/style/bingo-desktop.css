@@ -1,5 +1,8 @@
 @media only screen and (min-width: 1025px) {
 
+    body {
+        line-height: 1.25rem;
+    }
     .body-container {
         display: grid;
         grid-template-columns: 1fr auto 1fr;

@@ -30,7 +30,7 @@ body {
     height: 100%;
     max-height: 100%;
     font-family: Karla, sans-serif;
-    line-height: 1.25rem;
+    line-height: 1.5rem;
 }
 
 button,
@@ -404,7 +404,6 @@ label {
 .square {
     vertical-align: middle;
     text-align: center;
-    display: table-cell;
     padding: 5px;
     position: relative;
     font-size: 1.3rem;
