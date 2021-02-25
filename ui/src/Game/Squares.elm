@@ -33,20 +33,10 @@ squareWrapper class dauberColor index square =
 squareDiv class square =
     let
         squareHtml =
-            if square.topic == Center then
-                centerSquareDiv class square
-
-            else
-                [ square.html ]
+            [ square.html ]
     in
     [ div [ class "square-innerHtml" ] squareHtml ]
         ++ (square.dots |> List.indexedMap (dotDiv class))
-
-
-centerSquareDiv class square =
-    [ div [ class "square-star square-innerHtml" ] [ Star.view "125" ]
-    , div [ class "square-star-innerHtml" ] [ square.html ]
-    ]
 
 
 dotDiv : (String -> Html.Attribute msg) -> Int -> Dot -> Html msg

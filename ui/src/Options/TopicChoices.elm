@@ -48,14 +48,7 @@ filterIfMultiplayerGame multiplayerInProgress selectedTopics topics =
 
 allTopicsAndLabels : List ( Topic, String )
 allTopicsAndLabels =
-    [ ( Architect, "Architecture/Engineering" )
-    , ( AV, "Autonomous Vehicle" )
-    , ( Fordism, "Fordisms" )
-    , ( Credit, "Ford Credit" )
-    , ( ITFCG, "IT-FCG" )
-    , ( Kanye, "Kanye" )
-    , ( VehicleDevelopemnt, "Product Development" )
-    ]
+    []
 
 
 topicToggle : (String -> Html.Attribute Msg) -> Bool -> List Topic -> Topic -> String -> Html Msg

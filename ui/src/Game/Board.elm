@@ -1,7 +1,8 @@
 module Game.Board exposing (Board, backDiagonal, column, countSquaresIfChecked, forwardDiagonal, getSquares, getSquaresIfChecked, possibleWinningCombinations, row, rowColumnNumbers)
 
 import Array
-import Game.Square exposing (Square, checked, genericSquare)
+import Game.Square exposing (Square, checked, iwdSquare)
+import Game.Topic exposing (iwd)
 
 
 type alias Board msg =
@@ -40,7 +41,7 @@ getSquare board index =
     board
         |> Array.fromList
         |> Array.get index
-        |> Maybe.withDefault (genericSquare "")
+        |> Maybe.withDefault (iwdSquare "")
 
 
 backDiagonal : List Int
