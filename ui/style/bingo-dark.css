@@ -78,23 +78,23 @@
 }
 
 .blue-dauber-cursor-dark {
-    cursor: url('../assets/blue-dauber-dark_v1.png') 5 110, auto;
+    cursor: url('../assets/blue-dauber-dark.png') 5 110, auto;
 }
 
 .keylime-dauber-cursor-dark {
-    cursor: url('../assets/key-lime-dauber-dark_v1.png') 5 110, auto;
+    cursor: url('../assets/green-dauber-dark.png') 5 110, auto;
 }
 
 .magenta-dauber-cursor-dark {
-    cursor: url('../assets/magenta-dauber-dark_v1.png') 5 110, auto;
+    cursor: url('../assets/yellow-dauber-dark.png') 5 110, auto;
 }
 
 .ruby-dauber-cursor-dark {
-    cursor: url('../assets/ruby-dauber-dark_v1.png') 5 110, auto;
+    cursor: url('../assets/orange-dauber-dark.png') 5 110, auto;
 }
 
 .tangerine-dauber-cursor-dark {
-    cursor: url('../assets/tangerine-dauber-dark_v1.png') 5 110, auto;
+    cursor: url('../assets/gray-dauber-dark.png') 5 110, auto;
 }
 
 

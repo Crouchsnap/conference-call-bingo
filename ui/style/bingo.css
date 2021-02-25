@@ -433,23 +433,23 @@ label {
 }
 
 .blue-dauber-cursor {
-    cursor: url('../assets/blue-dauber_v1.png') 5 110, auto;
+    cursor: url('../assets/blue-dauber.png') 5 110, auto;
 }
 
 .keylime-dauber-cursor {
-    cursor: url('../assets/key-lime-dauber_v1.png') 5 110, auto;
+    cursor: url('../assets/green-dauber.png') 5 110, auto;
 }
 
 .magenta-dauber-cursor {
-    cursor: url('../assets/magenta-dauber_v1.png') 5 110, auto;
+    cursor: url('../assets/yellow-dauber.png') 5 110, auto;
 }
 
 .ruby-dauber-cursor {
-    cursor: url('../assets/ruby-dauber_v1.png') 5 110, auto;
+    cursor: url('../assets/orange-dauber.png') 5 110, auto;
 }
 
 .tangerine-dauber-cursor {
-    cursor: url('../assets/tangerine-dauber_v1.png') 5 110, auto;
+    cursor: url('../assets/gray-dauber.png') 5 110, auto;
 }
 
 .theme-options-container,
