@@ -27,9 +27,9 @@ view :
     -> Html.Html Msg
 view model =
     div [ model.class ("board-container " ++ (model.userSettings.boardColor |> BoardStyle.toString)) ]
-        [ div [ model.class "board-header" ] [ text "international" ]
+        [ div [ model.class "board-header mt-1" ] [ text "international" ]
         , br [] []
-        , div [ model.class "board-header" ] [ text "womens's day" ]
+        , div [ model.class "board-header mb-1" ] [ text "women's day" ]
         , div [ model.class "board-header-bingo" ] bingoTitle
         , Squares.view model
         ]

@@ -1,23 +1,23 @@
 
 .body-dark {
-    background-color: #545454;
-    color: #E5E5E5;
+    background-color: rgb(67, 65, 66);
+    color: rgb(218, 218, 219);
 }
 
 .multiplayer-input-dark,
 .suggestion-input-dark {
-    border: 1px solid #E5E5E5;
+    border: 1px solid rgb(218, 218, 219);
     box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
-    color: #E5E5E5;
-    background-color: #6C6C6C;
+    color: rgb(218, 218, 219);
+    background-color: rgb(135, 135, 137);
 }
 .multiplayer-input-dark::placeholder,
 .suggestion-input-dark::placeholder {
-    color: #E5E5E5;
+    color: rgb(218, 218, 219);
 }
 
 .board-content-dark {
-    background-color: #6C6C6C;
+    background-color: rgb(135, 135, 137);
 }
 
 .top-score-table-dark {
@@ -29,38 +29,38 @@
 .submit-button-dark,
 .anchor-dark,
 .close-dark {
-    color: #E5E5E5;
+    color: rgb(218, 218, 219);
 }
 
 .tri-toggle-container-dark {
     background-color: #8A8A8A;
-    color: #E5E5E5;
+    color: rgb(218, 218, 219);
 }
 
 .tri-toggle-selected-dark {
-    color: #545454;
+    color: rgb(67, 65, 66);
 }
 
 .checkmark-dark,
 .square-border-right-dark,
 .square-border-bottom-dark {
-    border-color: #E5E5E5;
+    border-color: rgb(218, 218, 219);
 }
 
 .original-red-dark {
-    background: #B44542;
+    background: rgb(128, 102, 85);
 }
 
 .faded-blue-dark {
-    background: #749CB5;
+    background: rgb(91, 118, 128);
 }
 
 .lucky-purple-dark {
-    background: #4B376B;
+    background: rgb(149, 133, 85);
 }
 
 .goofy-green-dark {
-    background: #5A9138;
+    background: rgb(97, 136, 118);
 }
 
 .ford-blue-dark {
@@ -69,32 +69,12 @@
 
 .selected-border-dark,
 .mobile-menu-dark {
-    border: 1px solid #E5E5E5;
+    border: 1px solid rgb(218, 218, 219);
     box-shadow: 2px 3px 4px rgba(229, 229, 229, 0.2);
 }
 
 .mobile-menu-dark {
-    background: #545454;
-}
-
-.blue-dauber-dark {
-    background-color: #75A4FF66;
-}
-
-.keylime-dauber-dark {
-    background-color: #DCF75A66;
-}
-
-.magenta-dauber-dark {
-    background-color: #FD99E766;
-}
-
-.ruby-dauber-dark {
-    background-color: #C1274566;
-}
-
-.tangerine-dauber-dark {
-    background-color: #FFB44666;
+    background: rgb(67, 65, 66);
 }
 
 .blue-dauber-cursor-dark {
@@ -117,27 +97,8 @@
     cursor: url('../assets/tangerine-dauber-dark_v1.png') 5 110, auto;
 }
 
-.blue-dauber-dark {
-    background-color: #75A4FF;
-}
-
-.keylime-dauber-dark {
-    background-color: #DCF75A;
-}
-
-.magenta-dauber-dark {
-    background-color: #FD99E7;
-}
-
-.ruby-dauber-dark {
-    background-color: #C12745;
-}
-
-.tangerine-dauber-dark {
-    background-color: #FFB446;
-}
 
 .modal-container-dark {
-    background: #6C6C6C !important;
+    background: rgb(135, 135, 137) !important;
 }
 

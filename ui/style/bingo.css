@@ -151,6 +151,7 @@ label {
 }
 
 .dot {
+    opacity: .6;
     position: absolute;
     height: 85%;
     width: 85%;
@@ -375,23 +376,23 @@ label {
 }
 
 .blue-dauber {
-    background-color: #095CFF66;
+    background-color: rgb(139, 188, 206);
 }
 
 .keylime-dauber {
-    background-color: #79BA1066;
+    background-color: rgb(152, 210, 177);
 }
 
 .magenta-dauber {
-    background-color: #FA00C366;
+    background-color: rgb(234, 207, 126);
 }
 
 .ruby-dauber {
-    background-color: #D3133666;
+    background-color: rgb(241, 172, 130);
 }
 
 .tangerine-dauber {
-    background-color: #ED9E2866;
+    background-color: rgb(218, 218, 219);
 }
 
 .round-color-chip {
@@ -580,7 +581,6 @@ label {
 .board-header {
     font-size: 2rem;
     text-transform: uppercase;
-    /*line-height: 50px;*/
     letter-spacing: 1.13rem;
     font-family: 'Fredoka One', serif;
     text-shadow: 2px 2px 8px black;
@@ -643,19 +643,19 @@ label {
 }
 
 .original-red {
-    background: #EB514D;
+    background: rgb(229, 123, 64);
 }
 
 .faded-blue {
-    background: #97CBEB;
+    background: rgb(47, 158, 183);
 }
 
 .lucky-purple {
-    background: #896DD6;
+    background: rgb(227, 182, 35);
 }
 
 .goofy-green {
-    background: #84D552;
+    background: rgb(70, 187, 136);
 }
 
 .ford-blue {
@@ -669,7 +669,7 @@ label {
     padding: 1rem;
 
     background: white;
-    border: 1px solid #E5E5E5;
+    border: 1px solid rgb(218, 218, 219);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
 }

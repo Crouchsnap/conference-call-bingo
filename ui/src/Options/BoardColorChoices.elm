@@ -13,10 +13,10 @@ view : { model | userSettings : UserSettings, class : String -> Html.Attribute M
 view { userSettings, class } =
     div [ class "options-container" ]
         [ div [ class "options-title" ] [ text "bingo sheet color" ]
-        , boardColorSelector class userSettings.boardColor OriginalRed "Original Red"
-        , boardColorSelector class userSettings.boardColor FadedBlue "Faded Blue"
-        , boardColorSelector class userSettings.boardColor LuckyPurple "Lucky Purple"
-        , boardColorSelector class userSettings.boardColor GoofyGreen "Goofy Green"
+        , boardColorSelector class userSettings.boardColor OriginalRed "Grace Hopper's Orange"
+        , boardColorSelector class userSettings.boardColor FadedBlue "Kamala Harris's Blue"
+        , boardColorSelector class userSettings.boardColor LuckyPurple "Ruth Bader's Gold"
+        , boardColorSelector class userSettings.boardColor GoofyGreen "Rosa Parks' Green"
         , boardColorSelector class userSettings.boardColor FordBlue "Ford Blue"
         ]
 

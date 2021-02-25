@@ -32,7 +32,7 @@ view theme =
 colors theme =
     case theme |> Theme.normalizedTheme of
         Dark ->
-            ( "#F2F2F2", "#545454" )
+            ( "#F2F2F2", "rgb(67, 65, 66)" )
 
         _ ->
-            ( "#545454", "white" )
+            ( "rgb(67, 65, 66)", "white" )

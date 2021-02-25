@@ -44,19 +44,19 @@ hexColor : Color -> String
 hexColor color =
     case color of
         Blue ->
-            "#095CFF66"
+            "rgb(139, 188, 206)"
 
         Keylime ->
-            "#79BA1066"
+            "rgb(152, 210, 177)"
 
         Magenta ->
-            "#FA00C366"
+            "rgb(234, 207, 126)"
 
         Ruby ->
-            "#D3133666"
+            "rgb(241, 172, 130)"
 
         Tangerine ->
-            "#ED9E2866"
+            "rgb(218, 218, 219)"
 
 
 class : Color -> String
