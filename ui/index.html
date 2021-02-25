@@ -121,6 +121,14 @@
             window.getSelection().removeAllRanges();
         });
 
+        function handleFirstTab(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('user-is-tabbing');
+                window.removeEventListener('keydown', handleFirstTab);
+            }
+        }
+
+        window.addEventListener('keydown', handleFirstTab);
     } else {
         document.body.innerHTML = "" +
             "<div style='text-align: center;'>" +
