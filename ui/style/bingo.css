@@ -30,7 +30,7 @@ body {
     height: 100%;
     max-height: 100%;
     font-family: Karla, sans-serif;
-    line-height: 1;
+    line-height: 1.25rem;
 }
 
 button,
@@ -584,6 +584,7 @@ label {
     letter-spacing: 1.13rem;
     font-family: 'Fredoka One', serif;
     text-shadow: 2px 2px 8px black;
+    line-height: 2.3rem;
     padding-left: 1.5rem;
     color: white;
 }

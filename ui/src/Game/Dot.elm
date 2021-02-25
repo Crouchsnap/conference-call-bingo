@@ -1,7 +1,9 @@
-module Game.Dot exposing (Color(..), Dot, Offset, Shape, class, colorDecoder, defaultDot, dot, hexColor, round, toString, zeroOffset)
+module Game.Dot exposing (Color(..), Dot, Offset, Shape, class, colorDecoder, decoder, defaultDot, dot, encode, hexColor, round, toString, zeroOffset)
 
 import Game.RandomHelper exposing (randomOffset, randomShape)
 import Json.Decode as Decode exposing (Decoder)
+import Json.Decode.Pipeline
+import Json.Encode as Encode
 import Random
 
 
@@ -133,3 +135,54 @@ colorDecoder =
                     _ ->
                         Decode.succeed Blue
             )
+
+
+decoder : Decoder Dot
+decoder =
+    Decode.succeed Dot
+        |> Json.Decode.Pipeline.optional "offset" decodeOffset { x = 0, y = 0 }
+        |> Json.Decode.Pipeline.optional "shape" decodeShape (Shape 0 0 0 0)
+        |> Json.Decode.Pipeline.optional "color" colorDecoder Blue
+
+
+encode : Dot -> Encode.Value
+encode value =
+    Encode.object
+        [ ( "offset", offsetEncoder <| value.offset )
+        , ( "shape", shapeEncoder <| value.shape )
+        , ( "color", Encode.string <| toString <| value.color )
+        ]
+
+
+shapeEncoder : Shape -> Encode.Value
+shapeEncoder shape =
+    Encode.object
+        [ ( "topLeft", Encode.int <| shape.topLeft )
+        , ( "topRight", Encode.int <| shape.topRight )
+        , ( "bottomRight", Encode.int <| shape.bottomRight )
+        , ( "bottomLeft", Encode.int <| shape.bottomLeft )
+        ]
+
+
+offsetEncoder : Offset -> Encode.Value
+offsetEncoder offset =
+    Encode.object
+        [ ( "x", Encode.int <| offset.x )
+        , ( "y", Encode.int <| offset.y )
+        ]
+
+
+decodeShape : Decoder Shape
+decodeShape =
+    Decode.succeed Shape
+        |> Json.Decode.Pipeline.optional "topLeft" Decode.int 0
+        |> Json.Decode.Pipeline.optional "topRight" Decode.int 0
+        |> Json.Decode.Pipeline.optional "bottomRight" Decode.int 0
+        |> Json.Decode.Pipeline.optional "bottomLeft" Decode.int 0
+
+
+decodeOffset : Decoder Offset
+decodeOffset =
+    Decode.succeed Offset
+        |> Json.Decode.Pipeline.optional "x" Decode.int 0
+        |> Json.Decode.Pipeline.optional "y" Decode.int 0

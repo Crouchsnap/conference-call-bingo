@@ -2,7 +2,6 @@ module Game.Board exposing (Board, backDiagonal, column, countSquaresIfChecked, 
 
 import Array
 import Game.Square exposing (Square, checked, iwdSquare)
-import Game.Topic exposing (iwd)
 
 
 type alias Board msg =

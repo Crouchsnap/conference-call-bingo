@@ -89,7 +89,7 @@ init flags url key =
         userSettings =
             UserSettings.decodeUserSettingsValue theme flags.userSettings
     in
-    ( { board = []
+    ( { board = userSettings.board
       , startTime = Time.millisToPosix 0
       , time = Time.millisToPosix 0
       , endTime = Time.millisToPosix 0
@@ -117,7 +117,15 @@ init flags url key =
       , betaMode = isBeta url
       , openFeedback = False
       }
-    , Cmd.batch [ Task.perform GotCurrentTime Time.now, Task.perform GotViewportSize Browser.Dom.getViewport ]
+    , Cmd.batch
+        ((if List.isEmpty userSettings.board then
+            [ Task.perform GotCurrentTime Time.now ]
+
+          else
+            []
+         )
+            ++ [ Task.perform GotViewportSize Browser.Dom.getViewport ]
+        )
     )
 
 
@@ -164,6 +172,12 @@ update msg model =
                                 |> Maybe.withDefault squareToToggle
                             )
                         )
+
+                currentUserSettings =
+                    model.userSettings
+
+                updatedUserSettings =
+                    { currentUserSettings | board = updatedBoard }
             in
             if updatedBoard |> Bingo.isWinner then
                 ( { model
@@ -192,7 +206,9 @@ update msg model =
                 )
 
             else
-                ( { model | board = updatedBoard, nextSeed = nextSeed, currentSquaresChecked = squaresChecked }, Cmd.batch [ multiplayerGameScoreEvent, gaEvent ] )
+                ( { model | board = updatedBoard, nextSeed = nextSeed, currentSquaresChecked = squaresChecked }
+                , Cmd.batch [ Ports.saveUserSettings updatedUserSettings, multiplayerGameScoreEvent, gaEvent ]
+                )
 
         GotCurrentTime time ->
             ( model |> reset time, Cmd.none )

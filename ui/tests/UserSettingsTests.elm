@@ -1,12 +1,15 @@
 module UserSettingsTests exposing (suite)
 
 import Expect exposing (Expectation)
-import Game.Dot exposing (Color(..))
+import Game.Dot exposing (Color(..), Dot)
+import Game.Square exposing (Square, buildSquare, iwdSquare)
 import Game.Topic exposing (Topic(..))
+import Html
 import Json.Decode exposing (Decoder)
 import Options.BoardStyle exposing (Color(..))
 import Options.Theme exposing (Theme(..))
 import Test exposing (..)
+import Time exposing (ZoneName(..))
 import UserSettings exposing (decodeUserSettings, encodeUserSettings)
 
 
@@ -35,6 +38,7 @@ suite =
                         , topics = [ Iwd ]
                         , dauberColor = Keylime
                         , boardColor = GoofyGreen
+                        , board = []
                         }
                     )
         , test "UserSettings decodes to default theme if missing" <|
@@ -56,6 +60,7 @@ suite =
                         , topics = []
                         , dauberColor = Blue
                         , boardColor = OriginalRed
+                        , board = []
                         }
                     )
         , test "should encode UserSettings" <|
@@ -67,6 +72,10 @@ suite =
                         , topics = [ Iwd ]
                         , dauberColor = Keylime
                         , boardColor = GoofyGreen
+                        , board =
+                            [ buildSquare "Something" [ Dot (Game.Dot.Offset 1 2) (Game.Dot.Shape 3 4 5 6) Keylime ]
+                            , buildSquare "Something Else" []
+                            ]
                         }
                     )
                     |> Expect.equal
@@ -75,6 +84,10 @@ suite =
                             , topics = [ Iwd ]
                             , dauberColor = Keylime
                             , boardColor = GoofyGreen
+                            , board =
+                                [ Square (Html.text "Something") Iwd "Something" [ Dot (Game.Dot.Offset 1 2) (Game.Dot.Shape 3 4 5 6) Keylime ]
+                                , Square (Html.text "Something Else") Iwd "Something Else" []
+                                ]
                             }
                         )
         ]

@@ -1,13 +1,21 @@
-module Game.Square exposing (Square, allTopicSquares, centerSquare, checked, iwdSquare, squaresByTopic, toggleSquareInList)
+module Game.Square exposing (Square, allTopicSquares, buildSquare, centerSquare, checked, decoder, encode, iwdSquare, squaresByTopic, toggleSquareInList)
 
 import Game.Dot as Dot exposing (Dot, dot)
 import Game.Topic as Topic exposing (Topic(..), centerText)
 import Html exposing (Html, br, div)
+import Json.Decode as Decode exposing (Decoder)
+import Json.Decode.Pipeline
+import Json.Encode as Encode
 import Random exposing (Seed)
 
 
 type alias Square msg =
     { html : Html msg, topic : Topic, text : String, dots : List Dot }
+
+
+buildSquare : String -> List Dot -> Square msg
+buildSquare text dots =
+    Square (Html.text text) Iwd text dots
 
 
 centerSquare : Square msg
@@ -74,3 +82,18 @@ toggleSquare seed color square =
 checked : Square msg -> Bool
 checked square =
     square.dots |> List.isEmpty |> not
+
+
+decoder : Decoder (Square msg)
+decoder =
+    Decode.succeed buildSquare
+        |> Json.Decode.Pipeline.optional "text" Decode.string ""
+        |> Json.Decode.Pipeline.optional "dots" (Decode.list Dot.decoder) []
+
+
+encode : Square msg -> Encode.Value
+encode square =
+    Encode.object
+        [ ( "text", Encode.string <| square.text )
+        , ( "dots", Encode.list Dot.encode <| square.dots )
+        ]
