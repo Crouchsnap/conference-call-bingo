@@ -34,15 +34,5 @@ view :
     -> Html Msg
 view model wrapperClass =
     div [ model.class wrapperClass ]
-        [ TopicChoices.view model (topicTitle model.class)
-        , if model.betaMode then
-            MultiplayerView.view model "desktop-only" "Desktop" False
-
-          else
-            text ""
-        , Timer.view model "timer-container options-container bottom-item"
+        [ Timer.view model "timer-container options-container bottom-item"
         ]
-
-
-topicTitle class =
-    div [ class "topic-title" ] [ text "topics" ]

@@ -4,7 +4,7 @@ import Expect exposing (Expectation)
 import Game.Bingo exposing (isWinner, longestRowCount, randomBoard, winningCombos)
 import Game.Board exposing (Board, backDiagonal, column, forwardDiagonal, getSquares, row, rowColumnNumbers)
 import Game.Dot as Dot
-import Game.Square exposing (Square, centerSquare, genericSquare, squaresByTopic, toggleSquareInList)
+import Game.Square exposing (Square, centerSquare, iwdSquare, squaresByTopic, toggleSquareInList)
 import Game.Topic exposing (Topic(..))
 import Html exposing (text)
 import Msg exposing (Msg)
@@ -14,7 +14,7 @@ import Test exposing (..)
 
 fakeSquare : Square Msg
 fakeSquare =
-    { html = text "fake", dots = [], text = "fake", topic = Generic }
+    { html = text "fake", dots = [], text = "fake", topic = Iwd }
 
 
 suite : Test
@@ -28,7 +28,7 @@ suite =
             \_ -> (testBoard |> List.length) |> Expect.equal 25
         , test "board should have Free space in the center square" <|
             \_ ->
-                (testBoard |> List.drop 12 |> List.head |> Maybe.withDefault (genericSquare ""))
+                (testBoard |> List.drop 12 |> List.head |> Maybe.withDefault (iwdSquare ""))
                     |> Expect.equal centerSquare
         , test "board should be in random order" <|
             \_ ->
@@ -137,14 +137,14 @@ suite =
                 \_ -> bottomRowRightColumnAndBackDiagBoard |> winningCombos |> Expect.equal bottomRowRightColumnAndBackDiag
             ]
         , describe "longest row count"
-            [ test "board with only free space toggled is a 1" <|
-                \_ -> testBoard |> longestRowCount |> Expect.equal 1
+            [ test "board with only free space toggled is a 0" <|
+                \_ -> testBoard |> longestRowCount |> Expect.equal 0
             , test "board with another square toggled is a 2" <|
                 let
                     topRowBoard =
-                        testBoard |> checkIndices [ 2 ]
+                        testBoard |> checkIndices [ 1 ]
                 in
-                \_ -> topRowBoard |> longestRowCount |> Expect.equal 2
+                \_ -> topRowBoard |> longestRowCount |> Expect.equal 1
             , test "board with top row toggled is a 5" <|
                 let
                     topRowBoard =

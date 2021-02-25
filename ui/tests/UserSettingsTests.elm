@@ -19,7 +19,7 @@ suite =
                     input =
                         """
                         { "selectedTheme": "light"
-                            , "topics": [ "fordism", "coronavirus" ]
+                            , "topics": [ "iwd" ]
                             , "dauberColor": "keylime"
                             , "boardColor": "goofy-green" }
                         """
@@ -32,7 +32,7 @@ suite =
                 Expect.equal decodedOutput
                     (Ok
                         { selectedTheme = Light
-                        , topics = [ Fordism, Coronavirus ]
+                        , topics = [ Iwd ]
                         , dauberColor = Keylime
                         , boardColor = GoofyGreen
                         }
@@ -64,7 +64,7 @@ suite =
                     (decodeUserSettings Dark)
                     (encodeUserSettings
                         { selectedTheme = Light
-                        , topics = [ Fordism, Coronavirus, Kanye, ITFCG ]
+                        , topics = [ Iwd ]
                         , dauberColor = Keylime
                         , boardColor = GoofyGreen
                         }
@@ -72,7 +72,7 @@ suite =
                     |> Expect.equal
                         (Ok
                             { selectedTheme = Light
-                            , topics = [ Fordism, Coronavirus, Kanye, ITFCG ]
+                            , topics = [ Iwd ]
                             , dauberColor = Keylime
                             , boardColor = GoofyGreen
                             }

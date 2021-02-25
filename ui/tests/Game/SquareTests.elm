@@ -2,7 +2,7 @@ module Game.SquareTests exposing (suite)
 
 import Expect exposing (Expectation)
 import Game.Dot as Dot exposing (Dot, defaultDot)
-import Game.Square as Square exposing (Square, centerSquare, genericSquare, toggleSquareInList)
+import Game.Square as Square exposing (Square, centerSquare, iwdSquare, toggleSquareInList)
 import Game.Topic exposing (Topic(..))
 import Html exposing (text)
 import Random
@@ -20,7 +20,7 @@ suite =
             \_ ->
                 let
                     testSquare =
-                        genericSquare ""
+                        iwdSquare ""
                 in
                 [ testSquare ]
                     |> toggleSquareInList seed Dot.Blue testSquare
@@ -33,7 +33,7 @@ suite =
             \_ ->
                 let
                     testSquare =
-                        Square (text "") Generic "" [ defaultDot, defaultDot, defaultDot ]
+                        Square (text "") Iwd "" [ defaultDot, defaultDot, defaultDot ]
                 in
                 [ testSquare ]
                     |> toggleSquareInList seed Dot.Blue testSquare

@@ -55,27 +55,11 @@ suite =
                     )
                     |> Expect.equal
                         """{"eventType":"theme","eventCategory":"system"}"""
-        , test "should encode remove topic event" <|
-            \_ ->
-                Json.Encode.encode 0
-                    (encodeGaEvent
-                        (TopicChange False Fordism)
-                    )
-                    |> Expect.equal
-                        """{"eventType":"remove-topic","eventCategory":"fordism"}"""
-        , test "should encode add topic event" <|
-            \_ ->
-                Json.Encode.encode 0
-                    (encodeGaEvent
-                        (TopicChange True Generic)
-                    )
-                    |> Expect.equal
-                        """{"eventType":"add-topic","eventCategory":"generic"}"""
         , test "should encode square daubed event" <|
             \_ ->
                 let
                     square =
-                        Square.genericSquare "text"
+                        Square.iwdSquare "text"
 
                     checkedSquare =
                         { square | dots = [ Dot.defaultDot ] }
@@ -90,7 +74,7 @@ suite =
             \_ ->
                 Json.Encode.encode 0
                     (encodeGaEvent
-                        (SquareDaub (Square.genericSquare "text"))
+                        (SquareDaub (Square.iwdSquare "text"))
                     )
                     |> Expect.equal
                         """{"eventType":"square-clear","eventCategory":"text"}"""
