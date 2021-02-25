@@ -22,14 +22,14 @@ body {
     min-height: 100%;
     height: 100%;
     max-height: 100%;
-    font-family: Ubuntu, sans-serif;
+    font-family: Karla, sans-serif;
     line-height: 1;
 }
 
 button,
 input,
 textarea {
-    font-family: Ubuntu, sans-serif;
+    font-family: Karla, sans-serif;
 }
 
 button{
@@ -573,9 +573,10 @@ label {
 .board-header {
     font-size: 2rem;
     text-transform: uppercase;
-    line-height: 50px;
+    /*line-height: 50px;*/
     letter-spacing: 1.13rem;
-    font-family: Stoke, serif;
+    font-family: 'Fredoka One', serif;
+    text-shadow: 2px 2px 8px black;
     padding-left: 1.5rem;
     color: white;
 }
@@ -584,10 +585,11 @@ label {
     justify-content: center;
     display: grid;
     grid-template-columns: repeat(5, 17.5vw);
-    font-size: 4rem;
+    font-size: 5rem;
     margin: 0 1rem 0 .5rem;
     text-align: center;
-    font-family: Stoke, serif;
+    font-family: 'Fredoka One', serif;
+    text-shadow: 4px 4px 8px black;
     line-height: 90%;
     color: white;
 }

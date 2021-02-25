@@ -16,6 +16,7 @@ type Topic
     | Center
     | ITFCG
     | Architect
+    | Iwd
 
 
 generic : List String
@@ -273,6 +274,47 @@ fordCredit =
     ]
 
 
+iwd : List String
+iwd =
+    [ "count how any women are in the room in every meeting today"
+    , "share an inspirational book, article, podcast, etc. created by a woman"
+    , "strike up a conversation with a womxn colleague you haven't had a chance to know"
+    , "Think of a woman colleague who has great leadership skills that is not currently in a leadership position and let them know!"
+    , "donate time/money to an organization that supports women"
+    , "call it out when a woman gets interrupted, make sure they get to speak"
+    , "support a woman owned business"
+    , "share an informative post for IWD on social media"
+    , "ask a woman colleague what they would like to see in regards to gender equity in the workplace"
+    , "write a thank you note to a woman colleague"
+    , "celebrate women in film"
+    , "support women authors"
+    , "involve men and people who identify beyond the gender binary in the conversation and celebration"
+    , "advocate for gender equality in your workplace"
+    , "Host or attend an online panel "
+    , "Set up a (virtual) coffee date with a woman in your network"
+    , "Acknowledge the awesome women in your life"
+    , "celebrate women's achievements"
+    , "challenge gender bias"
+    , "launch a project or initiative"
+    , "deliver female-focused activity"
+    , "Submit your #ChooseToChallenge images"
+    , "think about and commit to progressive actions"
+    , "generate a list of tangible ideas and commitments (think about how these relate to behavior and expectation)"
+    , "Fundraise for a female-focused charity"
+    , "Socialize your IWD Best Practice"
+    , "Celebrate some amazing Indigenous women making change happen"
+    , "Learn about Murdered and Missing Indigenous Women"
+    , "Learn about Indigenous Women's Rights"
+    , "Learn about impactful women"
+    , "Re-think your immediate reaction to celeb gossip"
+    , "Compile and play or share an IWD Spotify playlist"
+    , "organize a women's suffrage white out event"
+    , "quote a famous woman in a meeting"
+    , "take a selfie wearing pearls and chucks"
+    , ""
+    ]
+
+
 toggleTopic topic topics =
     topics
         |> (if not (List.member topic topics) then
@@ -312,6 +354,9 @@ topicDecoder =
 
                     "fordCredit" ->
                         Decode.succeed Credit
+
+                    "iwd" ->
+                        Decode.succeed Iwd
 
                     _ ->
                         Decode.succeed Generic
@@ -355,3 +400,6 @@ toString topic =
 
         Architect ->
             "architect"
+
+        Iwd ->
+            "iwd"
