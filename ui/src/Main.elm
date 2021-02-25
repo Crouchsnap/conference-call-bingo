@@ -488,7 +488,7 @@ reset time model =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "BINGO! - Conference Call Bingo! | FordLabs"
+    { title = "BINGO! - International Women's Day Bingo! | FordLabs"
     , body =
         [ div [ model.class "body" ]
             [ bodyView model, Footer.view model ]
