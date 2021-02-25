@@ -1,6 +1,6 @@
 module Options.BoardColorChoices exposing (view)
 
-import Html exposing (Html, div, label, text)
+import Html exposing (Html, button, div, label, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.BoardStyle exposing (Color(..), toString)
@@ -22,7 +22,7 @@ view { userSettings, class } =
 
 
 boardColorSelector class selectedColor color colorLabel =
-    div
+    button
         [ onClick (BoardColorSelected color)
         , class (colorSelectorClasses selectedColor color)
         ]

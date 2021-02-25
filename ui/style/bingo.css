@@ -32,9 +32,21 @@ textarea {
     font-family: Ubuntu, sans-serif;
 }
 
+button{
+    background: transparent;
+    border: none;
+    font: inherit;
+    color: inherit;
+    align-items: center;
+}
 button:disabled,
 button[disabled] {
     opacity: .4 !important;
+}
+
+a:focus,
+button:focus {
+    outline: 3px solid #ECB904;
 }
 
 label {
@@ -482,6 +494,10 @@ label {
     -ms-user-select: none;
     user-select: none;
 
+}
+
+.topic-container:focus-within > div {
+    outline: 3px solid #ECB904;
 }
 
 .topic-container input {

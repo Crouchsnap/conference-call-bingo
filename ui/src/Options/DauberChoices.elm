@@ -1,7 +1,7 @@
 module Options.DauberChoices exposing (view)
 
 import Game.Dot as Dot exposing (Color(..))
-import Html exposing (Html, div, label, text)
+import Html exposing (Html, button, div, label, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
@@ -23,7 +23,7 @@ view { class, userSettings } =
 
 
 dauberSelector class selectedColor color colorLabel =
-    div
+    button
         [ onClick (DauberSelected color)
         , class (colorSelectorClasses selectedColor color)
         ]

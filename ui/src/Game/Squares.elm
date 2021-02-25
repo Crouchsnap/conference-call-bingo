@@ -4,7 +4,7 @@ import Assets.Star as Star
 import Game.Dot as Dot exposing (Dot)
 import Game.Square exposing (Square)
 import Game.Topic exposing (Topic(..))
-import Html exposing (Html, div)
+import Html exposing (Html, button, div)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import View.Style exposing (dotStyle, squareStyle)
@@ -24,7 +24,7 @@ view { class, board, userSettings } =
 squareWrapper class dauberColor index square =
     div
         [ class "square-container" ]
-        [ div
+        [ button
             (squareStyle class index (dauberColor |> Dot.toString) ++ [ onClick (ToggleCheck square) ])
             (squareDiv class square)
         ]

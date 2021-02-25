@@ -1,6 +1,6 @@
 module Options.ThemeChoices exposing (themeToggle, view)
 
-import Html exposing (Html, div, label, text)
+import Html exposing (Html, button, div, label, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
@@ -32,7 +32,7 @@ themeToggle selectedTheme systemTheme =
 
 
 themeToggleOption selectedTheme theme label =
-    div
+    button
         ([ themedClass selectedTheme "tri-toggle-option"
          , onClick (UpdateTheme theme)
          ]
