@@ -1,4 +1,4 @@
-# [conference-call-bingo](https://bingo.apps.pd01.useast.cf.ford.com/)
+# [international-women's-day-bingo](https://bingo.apps.pd01.useast.cf.ford.com/)
 
 [Elm](https://elm-lang.org) app for playing international women's day bingo in these trying times.
 

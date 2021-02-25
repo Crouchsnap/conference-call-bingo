@@ -30,7 +30,7 @@ githubLink class =
         [ text "Want to contribute? Check out our "
         , a
             [ class "anchor"
-            , href "https://github.com/Crouchsnap/conference-call-bingo"
+            , href "https://github.com/Crouchsnap/conference-call-bingo/tree/iwd"
             , target "_blank"
             , onClick (GAEvent (LinkClickedEvent "Github!"))
             ]
