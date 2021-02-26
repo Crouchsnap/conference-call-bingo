@@ -91,28 +91,6 @@
             node: document.getElementById("elm-root")
         });
 
-        function sendUntypedEventToElm(event) {
-            app.ports.multiplayerScoresListener.send(
-                JSON.parse(event.data)
-            );
-        }
-
-        var eventSource;
-        app.ports.listenToMultiplayerScores.subscribe(function (url) {
-            if (url) {
-                eventSource = new EventSource(url);
-                eventSource.onmessage = sendUntypedEventToElm
-            }
-        })
-
-        app.ports.stopListeningToMultiplayerScores.subscribe(function(anything){
-                if(eventSource) {
-                    eventSource.close();
-                    eventSource = null;
-                }
-            }
-        )
-
         app.ports.storeUserSettings.subscribe(function (userSettings) {
             if (userSettings) {
                 localStorage.setItem('user-settings-app-save', userSettings);
@@ -122,14 +100,7 @@
             var event = JSON.parse(params);
             gtag('event', event.eventType, {'event_category': event.eventCategory});
         })
-        app.ports.copy.subscribe(function (id){
-            var range = document.createRange();
-            range.selectNode(document.getElementById(id));
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            document.execCommand("copy");
-            window.getSelection().removeAllRanges();
-        });
+
 
 
     } else {

@@ -102,4 +102,12 @@ suite =
                     )
                     |> Expect.equal
                         """{"eventType":"linkClicked","eventCategory":"the link"}"""
+        , test "should encode feedback event" <|
+            \_ ->
+                Json.Encode.encode 0
+                    (encodeGaEvent
+                        (Feedback 5 "You be da bomb")
+                    )
+                    |> Expect.equal
+                        """{"eventType":"feedback","eventCategory":"Rating: 5 feedback: You be da bomb"}"""
         ]

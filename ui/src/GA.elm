@@ -22,6 +22,7 @@ type Event msg
     | MultiplayerJoin String
     | MultiplayerLeave String
     | MultiplayerWin String
+    | Feedback Int String
 
 
 encodeGaEvent : Event msg -> Encode.Value
@@ -103,3 +104,6 @@ toString event =
 
         MultiplayerWin gameId ->
             ( "multiplayerWin", gameId )
+
+        Feedback rating feedback ->
+            ( "feedback", "Rating: " ++ (rating |> String.fromInt) ++ " feedback: " ++ feedback )

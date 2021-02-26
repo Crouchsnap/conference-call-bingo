@@ -221,7 +221,7 @@ update msg model =
             case validate Feedback.feedbackValidator model.feedback of
                 Ok _ ->
                     ( { model | openFeedback = False, feedbackErrors = [], feedback = emptyFeedback, ratingState = Rating.initialCustomState RatingStar.selected RatingStar.unselected }
-                    , Requests.submitFeedback model.url model.feedback
+                    , Ports.sendGaEvent (GA.Feedback model.feedback.rating (model.feedback.suggestion |> Maybe.withDefault ""))
                     )
 
                 Err errors ->

@@ -1,28 +1,8 @@
-port module Ports exposing (copy, multiplayerScoresListener, openMultiplayerScoresPort, saveUserSettings, sendGaEvent, stopListeningToMultiplayerScores)
+port module Ports exposing (saveUserSettings, sendGaEvent)
 
 import GA exposing (encodeGaEvent)
-import Json.Decode as Decode
 import Json.Encode as Encode
-import Requests exposing (getHostFromLocation)
-import Url exposing (Url)
 import UserSettings exposing (UserSettings, encodeUserSettings)
-
-
-port copy : String -> Cmd msg
-
-
-port multiplayerScoresListener : (Decode.Value -> msg) -> Sub msg
-
-
-port listenToMultiplayerScores : String -> Cmd msg
-
-
-openMultiplayerScoresPort : Url -> String -> Cmd msg
-openMultiplayerScoresPort url gameId =
-    listenToMultiplayerScores (getHostFromLocation url ++ "/api/multiplayer/scores/" ++ gameId)
-
-
-port stopListeningToMultiplayerScores : () -> Cmd msg
 
 
 port storeUserSettings : String -> Cmd msg
