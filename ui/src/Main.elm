@@ -66,6 +66,7 @@ type alias Model =
     , betaMode : Bool
     , openFeedback : Bool
     , areYouSureResetModalVisibility : Modal.Visibility
+    , aboutModalVisibility : Modal.Visibility
     }
 
 
@@ -109,6 +110,7 @@ init flags url key =
       , betaMode = isBeta url
       , openFeedback = False
       , areYouSureResetModalVisibility = Modal.hidden
+      , aboutModalVisibility = Modal.hidden
       }
     , Cmd.batch
         ((if List.isEmpty userSettings.board then
@@ -334,6 +336,12 @@ update msg model =
         CloseAreYouSureModal ->
             ( { model | areYouSureResetModalVisibility = Modal.hidden }, Cmd.none )
 
+        ShowAbout ->
+            ( { model | aboutModalVisibility = Modal.shown }, Cmd.none )
+
+        CloseAbout ->
+            ( { model | aboutModalVisibility = Modal.hidden }, Cmd.none )
+
 
 reset time model =
     let
@@ -379,6 +387,7 @@ bodyView model =
         , Win.Modal.view model
         , FeedbackModal.view model model.openFeedback
         , GameOptions.areYouSureModalView model
+        , GameOptions.aboutModalView model
         ]
 
 

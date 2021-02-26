@@ -1,8 +1,8 @@
-module Game.GameOptions exposing (areYouSureModalView, view)
+module Game.GameOptions exposing (aboutModalView, areYouSureModalView, view)
 
 import Bootstrap.Modal as Modal
 import Game.Timer as Timer
-import Html exposing (Html, button, div, h1, p, text)
+import Html exposing (Html, button, div, h1, h2, p, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme)
@@ -32,7 +32,9 @@ view :
     -> Html Msg
 view model wrapperClass =
     div [ model.class wrapperClass ]
-        [ resetButton model.class
+        [ aboutButton model.class
+        , button [ model.class "submit-button-secondary", onClick (FeedbackModal True) ] [ text "Give Us Feedback" ]
+        , resetButton model.class
         , Timer.view model "timer-container options-container bottom-item"
         ]
 
@@ -43,6 +45,14 @@ resetButton class =
         , onClick AreYouSureReset
         ]
         [ text "Reset Game" ]
+
+
+aboutButton class =
+    button
+        [ class "submit-button-secondary"
+        , onClick ShowAbout
+        ]
+        [ text "About" ]
 
 
 areYouSureModalView model =
@@ -72,3 +82,24 @@ iBeSureButton class =
         , onClick NewGame
         ]
         [ text "Reset Game" ]
+
+
+aboutModalView model =
+    Modal.config CloseAbout
+        |> Modal.attrs [ model.class "modal-container" ]
+        |> Modal.body []
+            [ button [ model.class "close", onClick CloseAbout ] [ text "×" ]
+            , div [] [ h1 [] [ text "International Women's Day 2021" ] ]
+            , div [] [ h2 [] [ text "March 8th" ] ]
+            , div [] [ p [] [ text "Something" ] ]
+            , iBeDoneButton model.class
+            ]
+        |> Modal.view model.aboutModalVisibility
+
+
+iBeDoneButton class =
+    button
+        [ class "submit-button"
+        , onClick CloseAbout
+        ]
+        [ text "Close" ]

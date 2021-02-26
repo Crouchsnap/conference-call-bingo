@@ -45,3 +45,5 @@ type Msg
     | FeedbackModal Bool
     | AreYouSureReset
     | CloseAreYouSureModal
+    | ShowAbout
+    | CloseAbout
