@@ -1,4 +1,4 @@
-# [international-women's-day-bingo](https://bingo.apps.pd01.useast.cf.ford.com/)
+# [international-women's-day-bingo](https://iwd-bingo.apps.pd01.useast.cf.ford.com/)
 
 [Elm](https://elm-lang.org) app for playing international women's day bingo in these trying times.
 
@@ -8,6 +8,8 @@ Credit to sscheman@ford.com for the design!
 ![](https://github.com/Crouchsnap/conference-call-bingo/workflows/Backend%20Tests/badge.svg)
 
 ## We're adapting International Women's Day Bingo to help folks celebrate [International Women's Day](https://www.internationalwomensday.com/)!
+
+Our bingo app now provides a bingo card with various activities you can do to support women! Generate a bingo card by visiting our [app](https://iwd-bingo.apps.pd01.useast.cf.ford.com/) on March 8th (International Women's Day) and try to get a bingo in a week's time!
     
 
 ## Running
