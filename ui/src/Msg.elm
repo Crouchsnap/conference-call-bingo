@@ -47,3 +47,4 @@ type Msg
     | CloseAreYouSureModal
     | ShowAbout
     | CloseAbout
+    | GotTimeZone Time.Zone

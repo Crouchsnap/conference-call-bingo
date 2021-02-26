@@ -1,6 +1,6 @@
 module Win.TimeFormatter exposing (formatDifference, timeDifference, winingTime, winingTimeDifference)
 
-import Time exposing (Posix)
+import Time exposing (Month(..), Posix, Zone)
 
 
 timeDifference : Posix -> Posix -> Int
@@ -8,9 +8,9 @@ timeDifference startTime endTime =
     Time.posixToMillis endTime - Time.posixToMillis startTime
 
 
-winingTimeDifference : Posix -> Posix -> String
-winingTimeDifference startTime endTime =
-    timeDifference startTime endTime |> winingTime
+winingTimeDifference : Zone -> Posix -> String
+winingTimeDifference zone endTime =
+    winingTime zone endTime
 
 
 formatDifference : Posix -> Posix -> String
@@ -26,19 +26,70 @@ formatDifference startTime endTime =
         "00:00:00"
 
 
-winingTime : Int -> String
-winingTime millis =
-    hoursFormat millis
-        ++ minsFormat millis
-        ++ secsFormat millis
-        ++ millisFormat millis
+winingTime : Zone -> Posix -> String
+winingTime zone millis =
+    (Time.toMonth zone millis |> toDanishMonth)
+        ++ " "
+        ++ (Time.toDay zone millis |> String.fromInt)
+        ++ ", "
+        ++ (Time.toHour zone millis |> String.fromInt)
+        ++ ":"
+        ++ (Time.toMinute zone millis |> String.fromInt)
+
+
+toDanishMonth : Month -> String
+toDanishMonth month =
+    case month of
+        Jan ->
+            "January"
+
+        Feb ->
+            "February"
+
+        Mar ->
+            "March"
+
+        Apr ->
+            "April"
+
+        May ->
+            "May"
+
+        Jun ->
+            "June"
+
+        Jul ->
+            "July"
+
+        Aug ->
+            "August"
+
+        Sep ->
+            "September"
+
+        Oct ->
+            "October"
+
+        Nov ->
+            "November"
+
+        Dec ->
+            "December"
 
 
 timerTime : Int -> String
 timerTime millis =
-    timerHours millis
-        ++ timerMinsFormat millis
-        ++ timerSecsFormat millis
+    let
+        days =
+            daysFormat millis
+    in
+    if String.length days > 0 then
+        days
+
+    else
+        timerHours millis
+            ++ timerMinsFormat millis
+            ++ timerSecsFormat millis
 
 
 type Units
@@ -46,6 +97,7 @@ type Units
     | Seconds
     | Minutes
     | Hours
+    | Days
 
 
 unitsToConst : Units -> Float
@@ -62,6 +114,9 @@ unitsToConst unit =
 
         Hours ->
             60 * 60 * 1000
+
+        Days ->
+            24 * 60 * 60 * 1000
 
 
 parse : Units -> Int -> Int
@@ -165,6 +220,19 @@ hoursFormat millis =
     in
     if hours > 0 then
         String.fromInt (hours |> modBy 24) ++ ":"
+
+    else
+        ""
+
+
+daysFormat : Int -> String
+daysFormat millis =
+    let
+        days =
+            millis |> parse Days
+    in
+    if days > 0 then
+        String.fromInt days ++ " Days "
 
     else
         ""

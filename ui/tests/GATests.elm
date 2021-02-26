@@ -82,18 +82,18 @@ suite =
             \_ ->
                 Json.Encode.encode 0
                     (encodeGaEvent
-                        (Winner (Time.millisToPosix 0) (Time.millisToPosix 1252456))
+                        (Winner Time.utc (Time.millisToPosix 1252456))
                     )
                     |> Expect.equal
-                        """{"eventType":"winner","eventCategory":"20:52.456"}"""
+                        """{"eventType":"winner","eventCategory":"January 1, 0:20"}"""
         , test "should encode submit score event" <|
             \_ ->
                 Json.Encode.encode 0
                     (encodeGaEvent
-                        (SubmittedScore (Time.millisToPosix 0) (Time.millisToPosix 984651651))
+                        (SubmittedScore Time.utc (Time.millisToPosix 984651651))
                     )
                     |> Expect.equal
-                        """{"eventType":"submittedScore","eventCategory":"9:30:51.651"}"""
+                        """{"eventType":"submittedScore","eventCategory":"January 12, 9:30"}"""
         , test "should encode link clicked event" <|
             \_ ->
                 Json.Encode.encode 0

@@ -9,33 +9,7 @@ import Win.TimeFormatter exposing (formatDifference, winingTimeDifference)
 suite : Test
 suite =
     describe "Time format"
-        [ describe "Win Time format"
-            [ test "6 millis only has leading seconds zero" <|
-                \_ ->
-                    winingTimeDifference (Time.millisToPosix 0) (Time.millisToPosix 6)
-                        |> Expect.equal "0.006"
-            , test "10 millis only has leading seconds zero" <|
-                \_ ->
-                    winingTimeDifference (Time.millisToPosix 0) (Time.millisToPosix 10)
-                        |> Expect.equal "0.010"
-            , test "less than 10 secs only has 1 sec digit" <|
-                \_ ->
-                    winingTimeDifference (Time.millisToPosix 0) (Time.millisToPosix 1545)
-                        |> Expect.equal "1.545"
-            , test "minutes and single digit secs has leading sec zero" <|
-                \_ ->
-                    winingTimeDifference (Time.millisToPosix 0) (Time.millisToPosix 61545)
-                        |> Expect.equal "1:01.545"
-            , test "less than 10 mins only has 1 mins digit" <|
-                \_ ->
-                    winingTimeDifference (Time.millisToPosix 0) (Time.millisToPosix 82545)
-                        |> Expect.equal "1:22.545"
-            , test "hours, single digit minutes and secs has leading min zero" <|
-                \_ ->
-                    winingTimeDifference (Time.millisToPosix 0) (Time.millisToPosix 11320545)
-                        |> Expect.equal "3:08:40.545"
-            ]
-        , describe "Timer format"
+        [ describe "Timer format"
             [ test "millis is zero" <|
                 \_ ->
                     formatDifference (Time.millisToPosix 0) (Time.millisToPosix 10)
@@ -56,5 +30,17 @@ suite =
                 \_ ->
                     formatDifference (Time.millisToPosix 1000) (Time.millisToPosix (60 * 60 * 1000 + 1000))
                         |> Expect.equal "01:00:00"
+            , test "7 days to go" <|
+                \_ ->
+                    formatDifference (Time.millisToPosix 1615222800000) (Time.millisToPosix 1615867200000)
+                        |> Expect.equal "7 Days "
+            , test "Noon on due day" <|
+                \_ ->
+                    formatDifference (Time.millisToPosix 1615824000000) (Time.millisToPosix 1615867200000)
+                        |> Expect.equal "12:00:00"
+            , test "3ish on due day" <|
+                \_ ->
+                    formatDifference (Time.millisToPosix 1615836164964) (Time.millisToPosix 1615867200000)
+                        |> Expect.equal "08:37:15"
             ]
         ]

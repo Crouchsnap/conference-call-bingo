@@ -10,17 +10,6 @@ import Win.Score exposing (Score)
 import Win.TopScoresTable as TopScoresView
 
 
-view :
-    { model
-        | class : String -> Html.Attribute Msg
-        , startTime : Posix
-        , endTime : Posix
-        , highScores : WebData (List Score)
-        , score : Score
-        , ratingState : Rating.State
-        , submittedScoreResponse : WebData ()
-    }
-    -> Html Msg
 view model =
     div [ model.class "winning-container" ]
         ([ header model.class ]

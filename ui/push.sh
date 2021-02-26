@@ -18,4 +18,4 @@ echo "Minified size:$(cat $js | wc -c) bytes  ($js)"
 echo "Gzipped size: $(cat $js | gzip -c | wc -c) bytes"
 
 
-cf push bingo -b staticfile_buildpack --no-manifest
+cf push iwd-bingo -b staticfile_buildpack --no-manifest

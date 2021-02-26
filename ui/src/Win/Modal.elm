@@ -12,19 +12,6 @@ import Win.Score exposing (Score)
 import Win.WinningView as WinningView
 
 
-view :
-    { a
-        | class : String -> Html.Attribute Msg
-        , startTime : Posix
-        , endTime : Posix
-        , highScores : WebData (List Score)
-        , score : Score
-        , ratingState : State
-        , submittedScoreResponse : WebData ()
-        , modalVisibility : Modal.Visibility
-        , userSettings : UserSettings
-    }
-    -> Html Msg
 view model =
     Modal.config NewGame
         |> Modal.attrs [ model.class "modal-container" ]

@@ -25,7 +25,7 @@ import Ports
 import Random
 import Rating
 import RemoteData exposing (WebData)
-import Requests exposing (getHostFromLocation)
+import Requests
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
@@ -36,8 +36,7 @@ import View.Feedback as Feedback exposing (Feedback, emptyFeedback, updateRating
 import View.FeedbackModal as FeedbackModal
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.Modal
-import Win.Score as Score exposing (Score, emptyGameResult, updatePlayer)
-import Win.TopScoresTable exposing (isFormValid)
+import Win.Score exposing (Score, emptyGameResult, updatePlayer)
 
 
 type alias Model =
@@ -63,10 +62,10 @@ type alias Model =
     , currentSquaresChecked : Int
     , errors : List String
     , feedbackErrors : List String
-    , betaMode : Bool
     , openFeedback : Bool
     , areYouSureResetModalVisibility : Modal.Visibility
     , aboutModalVisibility : Modal.Visibility
+    , timeZone : Time.Zone
     }
 
 
@@ -107,31 +106,21 @@ init flags url key =
       , currentSquaresChecked = 0
       , errors = []
       , feedbackErrors = []
-      , betaMode = isBeta url
       , openFeedback = False
       , areYouSureResetModalVisibility = Modal.hidden
       , aboutModalVisibility = Modal.hidden
+      , timeZone = Time.utc
       }
     , Cmd.batch
         ((if List.isEmpty userSettings.board then
             [ Task.perform GotCurrentTime Time.now ]
 
           else
-            []
+            [ Task.perform GotTimeZone Time.here ]
          )
             ++ [ Task.perform GotViewportSize Browser.Dom.getViewport ]
         )
     )
-
-
-isBeta : Url -> Bool
-isBeta { query } =
-    case query of
-        Just q ->
-            q |> String.contains "beta"
-
-        Nothing ->
-            False
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -164,6 +153,7 @@ update msg model =
                     | board = updatedBoard
                     , nextSeed = nextSeed
                     , currentSquaresChecked = squaresChecked
+                    , modalVisibility = Modal.shown
                   }
                 , Cmd.batch
                     [ Task.perform GotEndTime Time.now
@@ -181,7 +171,7 @@ update msg model =
             ( model |> reset time, Cmd.none )
 
         GotEndTime time ->
-            ( { model | endTime = time }, Ports.sendGaEvent (Winner model.startTime time) )
+            ( { model | endTime = time }, Ports.sendGaEvent (Winner model.timeZone time) )
 
         NewGame ->
             ( model, Task.perform GotCurrentTime Time.now )
@@ -206,16 +196,12 @@ update msg model =
                 scoreWithTime =
                     { score | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
             in
-            if score |> isFormValid then
-                ( { model | score = score }
-                , Cmd.batch
-                    [ Requests.submitScore model.url scoreWithTime
-                    , Ports.sendGaEvent (SubmittedScore model.startTime model.endTime)
-                    ]
-                )
-
-            else
-                model |> update NewGame
+            ( { model | score = score }
+            , Cmd.batch
+                [ Requests.submitScore model.url scoreWithTime
+                , Ports.sendGaEvent (SubmittedScore model.timeZone model.endTime)
+                ]
+            )
 
         SubmitFeedback ->
             case validate Feedback.feedbackValidator model.feedback of
@@ -230,13 +216,13 @@ update msg model =
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    ( { model | betaMode = isBeta url }, pushUrl model.key (Url.toString url) )
+                    ( model, pushUrl model.key (Url.toString url) )
 
                 Browser.External href ->
                     ( model, load href )
 
         UrlChanged url ->
-            ( { model | url = url, betaMode = isBeta url }, Cmd.none )
+            ( { model | url = url }, Cmd.none )
 
         Player initials ->
             ( { model | score = updatePlayer initials model.score }, Cmd.none )
@@ -342,6 +328,9 @@ update msg model =
         CloseAbout ->
             ( { model | aboutModalVisibility = Modal.hidden }, Cmd.none )
 
+        GotTimeZone zone ->
+            ( { model | timeZone = zone }, Cmd.none )
+
 
 reset time model =
     let
@@ -364,6 +353,7 @@ reset time model =
         , ratingState = model.ratingState |> Rating.set 0
         , submittedScoreResponse = RemoteData.NotAsked
         , currentSquaresChecked = 0
+        , modalVisibility = Modal.hidden
         , areYouSureResetModalVisibility = Modal.hidden
     }
 

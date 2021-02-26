@@ -25,7 +25,6 @@ view :
         , ratingState : Rating.State
         , score : Score
         , url : Url
-        , betaMode : Bool
         , errors : List String
     }
     -> String
@@ -91,7 +90,11 @@ aboutModalView model =
             [ button [ model.class "close", onClick CloseAbout ] [ text "×" ]
             , div [] [ h1 [] [ text "International Women's Day 2021" ] ]
             , div [] [ h2 [] [ text "March 8th" ] ]
-            , div [] [ p [] [ text "Something" ] ]
+            , div [] [ p [] [ text "March is an important month for gender equality and women’s rights. Marking both Gender Equality month and International Women’s Day on March 8th, the month has become a time of recognition and service every year." ] ]
+            , div [] [ p [] [ text "International Women’s Day (IWD) is a day of celebration during which we celebrate and recognize the incredible impact women have in all areas of our global life. DuringOn this day, March 8th, and during throughout the month of March at SmithGroup, we invite you to celebrate the power of women, girls, and non-binary people. Find where you can contribute to the work being done to lift up women’s and girls’ voices in your community. In conjunction with the month-long celebration and focus on gender equality, we invite everyone – no matter your gender identity – to celebrate those whose voices have been quieted, but also please take this time to share and celebrate what you do every day to support women, girls and non-binary friends, colleagues and loved ones in your life. This celebratory day is in recognition of those who have been ignored and oppressed AND it serves as a key time to recognize those who make it a priority to lift them up." ] ]
+            , div [] [ p [] [ text "The historic significance of the fight for women’s rights is well established. In reaction to growing unrest and social movement surrounding women’s rights throughout the early 1900’s, the first National Women’s Day in the United sStates was held in 1908. Years later, International Women’s Day was widely recognized through rallies and marches across the world. Gender Equality Month is much younger in its celebratory history but is no less important. An ongoing movement and recently reinvigorated generation of activists is pushing the needle forward and demanding equal rights and opportunities for all gender identities. Gender minorities across the world face such inequities as withheld access to food, healthcare and safety; All genders are not equally represented in political leadership; Basic human autonomous right such as choosing what to learn, where to live and who to marry are denied. [Suggestion to add the disproportionate impact of COVID on women. Women are on the front lines, women bear additional household burdens, the gender pay gap has increased since the pandemic recession., etc. ]" ] ]
+            , div [] [ p [] [ text "Gloria Steinem, world-renowned feminist, journalist and activist said, \"The story of women's struggle for equality belongs to no single feminist, nor to any one organization, but to the collective efforts of all who care about human rights.\"" ] ]
+            , div [] [ p [] [ text "This month, we ask you to empower your fellow gender minority community members, address unconscious biases, and help to identify and demystify inequitable patterns we see in the world and at the workplace and discuss with safety and compassion at heart. [Suggestion to include the work SG is doing to address gender inequality ex: the EDI index, etc.]" ] ]
             , iBeDoneButton model.class
             ]
         |> Modal.view model.aboutModalVisibility

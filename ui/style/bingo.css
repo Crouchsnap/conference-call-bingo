@@ -110,8 +110,8 @@ label {
 }
 
 .mobile-options-header {
-    display: flex;
-    grid-template-columns: 40% 20% 40%;
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
     padding: .5rem;
     font-size: 1.25rem;
     text-transform: uppercase;
@@ -343,7 +343,6 @@ label {
 }
 
 .top-score-title {
-    text-transform: uppercase;
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 1.75rem;
@@ -488,7 +487,15 @@ label {
 .options-icon {
     position: relative;
     padding: 3rem 0rem 3rem 3rem;
-    margin: -3rem 0rem -3rem 0rem;
+    margin: -3rem 0rem -3rem auto;
+}
+
+
+.refresh-icon,
+.ratings-icon,
+.about-icon {
+    padding: 3rem 1.5rem 3rem 1.5rem;
+    margin: -3rem 1.5rem -3rem -1.5rem;
 }
 
 .topic-container {
@@ -695,6 +702,7 @@ label {
     justify-content: center;
     align-items: center;
     min-width: 9rem;
+    margin: auto;
 }
 
 .timer-title {
