@@ -65,6 +65,7 @@ type alias Model =
     , feedbackErrors : List String
     , betaMode : Bool
     , openFeedback : Bool
+    , areYouSureResetModalVisibility : Modal.Visibility
     }
 
 
@@ -107,6 +108,7 @@ init flags url key =
       , feedbackErrors = []
       , betaMode = isBeta url
       , openFeedback = False
+      , areYouSureResetModalVisibility = Modal.hidden
       }
     , Cmd.batch
         ((if List.isEmpty userSettings.board then
@@ -326,6 +328,12 @@ update msg model =
         FeedbackModal show ->
             ( { model | openFeedback = show }, Cmd.none )
 
+        AreYouSureReset ->
+            ( { model | areYouSureResetModalVisibility = Modal.shown }, Cmd.none )
+
+        CloseAreYouSureModal ->
+            ( { model | areYouSureResetModalVisibility = Modal.hidden }, Cmd.none )
+
 
 reset time model =
     let
@@ -348,6 +356,7 @@ reset time model =
         , ratingState = model.ratingState |> Rating.set 0
         , submittedScoreResponse = RemoteData.NotAsked
         , currentSquaresChecked = 0
+        , areYouSureResetModalVisibility = Modal.hidden
     }
 
 
@@ -369,6 +378,7 @@ bodyView model =
         , Options.view model "theme-options-container"
         , Win.Modal.view model
         , FeedbackModal.view model model.openFeedback
+        , GameOptions.areYouSureModalView model
         ]
 
 

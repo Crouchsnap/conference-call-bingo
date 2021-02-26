@@ -43,3 +43,5 @@ type Msg
     | GAEvent (GA.Event Msg)
     | Tick Time.Posix
     | FeedbackModal Bool
+    | AreYouSureReset
+    | CloseAreYouSureModal
