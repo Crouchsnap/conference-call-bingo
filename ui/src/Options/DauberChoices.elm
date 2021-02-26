@@ -14,7 +14,7 @@ view : { model | class : String -> Html.Attribute Msg, userSettings : UserSettin
 view { class, userSettings } =
     div [ class "options-container bottom-item" ]
         [ div [ class "options-title" ] [ text "dauber color" ]
-        , dauberSelector class userSettings.dauberColor Blue "Broken Glass Ceiling Blue"
+        , dauberSelector class userSettings.dauberColor Blue "Shattered Glass Ceiling"
         , dauberSelector class userSettings.dauberColor Keylime "Equal Pay Green"
         , dauberSelector class userSettings.dauberColor Magenta "NOW Goldstein"
         , dauberSelector class userSettings.dauberColor Ruby "Right to Vote Ruby "

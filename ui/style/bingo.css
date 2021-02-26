@@ -407,6 +407,7 @@ label {
     padding: 5px;
     position: relative;
     font-size: 1.3rem;
+    text-transform: lowercase;
     flex: 1;
     display: flex;
     word-break: break-word;
