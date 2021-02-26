@@ -19,9 +19,6 @@ import Html exposing (Html, div)
 import Json.Decode
 import List.Extra
 import Msg exposing (Msg(..))
-import Multiplayer.JoinModal
-import Multiplayer.Multiplayer as Multiplayer exposing (GameUpdate(..), MultiplayerScore, StartMultiplayerResponseBody)
-import Multiplayer.WinModal
 import Options.Options as Options
 import Options.Theme as Theme exposing (Theme(..))
 import Ports
@@ -63,9 +60,6 @@ type alias Model =
     , showOptions : Bool
     , userSettings : UserSettings
     , modalVisibility : Modal.Visibility
-    , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
-    , showStartMultiplayerGameModal : Bool
-    , multiplayerScores : List MultiplayerScore
     , currentSquaresChecked : Int
     , errors : List String
     , feedbackErrors : List String
@@ -108,10 +102,7 @@ init flags url key =
       , showOptions = False
       , userSettings = userSettings
       , modalVisibility = Modal.hidden
-      , startMultiplayerResponseBody = RemoteData.NotAsked
-      , showStartMultiplayerGameModal = False
-      , multiplayerScores = []
-      , currentSquaresChecked = 1
+      , currentSquaresChecked = 0
       , errors = []
       , feedbackErrors = []
       , betaMode = isBeta url
@@ -150,21 +141,6 @@ update msg model =
                 squaresChecked =
                     updatedBoard |> longestRowCount
 
-                multiplayerGameScoreEvent =
-                    case model.startMultiplayerResponseBody of
-                        RemoteData.Success startMultiplayerResponseBody ->
-                            if squaresChecked > model.currentSquaresChecked then
-                                Requests.sendMultiplayerScore model.url Increment startMultiplayerResponseBody
-
-                            else if squaresChecked < model.currentSquaresChecked then
-                                Requests.sendMultiplayerScore model.url Decrement startMultiplayerResponseBody
-
-                            else
-                                Cmd.none
-
-                        _ ->
-                            Cmd.none
-
                 gaEvent =
                     Ports.sendGaEvent
                         (SquareDaub
@@ -183,31 +159,18 @@ update msg model =
                 ( { model
                     | board = updatedBoard
                     , nextSeed = nextSeed
-                    , modalVisibility =
-                        if model.startMultiplayerResponseBody == RemoteData.NotAsked then
-                            Modal.shown
-
-                        else
-                            Modal.hidden
                     , currentSquaresChecked = squaresChecked
                   }
                 , Cmd.batch
                     [ Task.perform GotEndTime Time.now
                     , Requests.getHighScores model.url
-                    , multiplayerGameScoreEvent
                     , gaEvent
-                    , case model.startMultiplayerResponseBody of
-                        RemoteData.Success startMultiplayerResponseBody ->
-                            Ports.sendGaEvent (MultiplayerWin startMultiplayerResponseBody.id)
-
-                        _ ->
-                            Cmd.none
                     ]
                 )
 
             else
                 ( { model | board = updatedBoard, nextSeed = nextSeed, currentSquaresChecked = squaresChecked }
-                , Cmd.batch [ Ports.saveUserSettings updatedUserSettings, multiplayerGameScoreEvent, gaEvent ]
+                , Cmd.batch [ Ports.saveUserSettings updatedUserSettings, gaEvent ]
                 )
 
         GotCurrentTime time ->
@@ -360,102 +323,8 @@ update msg model =
             , Cmd.none
             )
 
-        MultiplayerStartResponse response ->
-            let
-                gameId =
-                    response |> RemoteData.withDefault { id = "fake", playerId = "player" } |> .id
-            in
-            ( { model | startMultiplayerResponseBody = response }
-            , Cmd.batch
-                [ Ports.openMultiplayerScoresPort model.url gameId
-                , Ports.sendGaEvent (MultiplayerJoin gameId)
-                ]
-            )
-
-        MultiplayerScoreUpdated _ ->
-            ( model, Cmd.none )
-
-        StartMultiplayerGame ->
-            case validate Score.scoreValidator model.score of
-                Ok _ ->
-                    ( { model | errors = [], showStartMultiplayerGameModal = False }, Requests.startMultiplayerGame model.url model.score.player model.currentSquaresChecked )
-
-                Err errors ->
-                    ( { model | errors = errors }, Cmd.none )
-
-        JoinMultiplayerGame ->
-            case validate Score.scoreValidator model.score of
-                Ok _ ->
-                    let
-                        url =
-                            model.url
-                    in
-                    ( { model | errors = [] }
-                    , Cmd.batch
-                        [ Requests.joinMultiplayerGame model.url (model.url.fragment |> Maybe.withDefault "") model.score.player model.currentSquaresChecked
-                        , Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing })
-                        ]
-                    )
-
-                Err errors ->
-                    ( { model | errors = errors }, Cmd.none )
-
-        StartMultiplayerGameModal ->
-            ( { model | showStartMultiplayerGameModal = True }, Cmd.none )
-
-        CancelJoinMultiplayerGame ->
-            let
-                url =
-                    model.url
-            in
-            ( { model | showStartMultiplayerGameModal = False }, Navigation.pushUrl model.key (Url.toString { url | fragment = Nothing }) )
-
-        MultiplayerScores value ->
-            let
-                multiplayerScores =
-                    case value of
-                        Ok scores ->
-                            scores
-
-                        _ ->
-                            model.multiplayerScores
-            in
-            ( { model | multiplayerScores = multiplayerScores }
-            , if multiplayerScores |> List.any (\score -> score.score == 5) then
-                Cmd.batch
-                    [ Ports.stopListeningToMultiplayerScores ()
-                    ]
-
-              else
-                Cmd.none
-            )
-
-        Copy id ->
-            ( model, Ports.copy id )
-
         FeedbackModal show ->
             ( { model | openFeedback = show }, Cmd.none )
-
-        LeaveMultiplayerGame ->
-            case model.startMultiplayerResponseBody of
-                RemoteData.Success startMultiplayerResponseBody ->
-                    let
-                        ( updatedModel, updatedCmd ) =
-                            update NewGame model
-                    in
-                    ( updatedModel
-                    , Cmd.batch
-                        [ Requests.leaveMultiplayerGame model.url startMultiplayerResponseBody
-                        , updatedCmd
-                        , Ports.sendGaEvent (MultiplayerLeave startMultiplayerResponseBody.id)
-                        ]
-                    )
-
-                _ ->
-                    ( model, Cmd.none )
-
-        LeftGameResponse _ ->
-            ( model, Cmd.none )
 
 
 reset time model =
@@ -478,11 +347,7 @@ reset time model =
         , score = emptyGameResult
         , ratingState = model.ratingState |> Rating.set 0
         , submittedScoreResponse = RemoteData.NotAsked
-        , modalVisibility = Modal.hidden
-        , startMultiplayerResponseBody = RemoteData.NotAsked
-        , showStartMultiplayerGameModal = False
-        , multiplayerScores = []
-        , currentSquaresChecked = 1
+        , currentSquaresChecked = 0
     }
 
 
@@ -503,9 +368,6 @@ bodyView model =
         , BingoCard.view model
         , Options.view model "theme-options-container"
         , Win.Modal.view model
-        , Multiplayer.JoinModal.view model JoinMultiplayerGame (model.url.fragment /= Nothing && model.startMultiplayerResponseBody == RemoteData.NotAsked)
-        , Multiplayer.JoinModal.view model StartMultiplayerGame model.showStartMultiplayerGameModal
-        , Multiplayer.WinModal.view model ((model.multiplayerScores |> List.any (\score -> score.score > 4)) || (model.startMultiplayerResponseBody /= RemoteData.NotAsked && Bingo.isWinner model.board))
         , FeedbackModal.view model model.openFeedback
         ]
 
@@ -520,7 +382,6 @@ main =
                 Sub.batch
                     [ Browser.Events.onResize WindowResized
                     , Time.every 1000 Tick
-                    , Ports.multiplayerScoresListener (Multiplayer.decodeMultiplayerScoresToResult >> MultiplayerScores)
                     ]
         , onUrlRequest = LinkClicked
         , onUrlChange = UrlChanged

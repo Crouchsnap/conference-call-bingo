@@ -1,8 +1,7 @@
-module Requests exposing (errorToString, getHighScores, getHostFromLocation, joinMultiplayerGame, leaveMultiplayerGame, sendMultiplayerScore, startMultiplayerGame, submitFeedback, submitScore)
+module Requests exposing (getHighScores, getHostFromLocation, submitFeedback, submitScore)
 
 import Http exposing (Error(..), expectJson, expectWhatever)
 import Msg exposing (Msg(..))
-import Multiplayer.Multiplayer exposing (GameUpdate, StartMultiplayerResponseBody, decodeStartMultiplayerResponseBody, encodeStartMultiplayerBody, gameUpdateToString)
 import RemoteData exposing (RemoteData, WebData)
 import Url exposing (Url)
 import View.Feedback exposing (Feedback, encodeFeedback)
@@ -23,54 +22,6 @@ submitScore url score =
         { url = getHostFromLocation url ++ "/api/scores"
         , body = Http.jsonBody (encodeScore score)
         , expect = expectWhatever (RemoteData.fromResult >> GameResponse)
-        }
-
-
-sendMultiplayerScore : Url -> GameUpdate -> StartMultiplayerResponseBody -> Cmd Msg
-sendMultiplayerScore url gameUpdate startMultiplayerResponseBody =
-    Http.post
-        { url =
-            getHostFromLocation url
-                ++ "/api/multiplayer/"
-                ++ (gameUpdate |> gameUpdateToString)
-                ++ "/"
-                ++ startMultiplayerResponseBody.id
-                ++ "/"
-                ++ startMultiplayerResponseBody.playerId
-        , body = Http.emptyBody
-        , expect = expectWhatever (RemoteData.fromResult >> MultiplayerScoreUpdated)
-        }
-
-
-startMultiplayerGame : Url -> String -> Int -> Cmd Msg
-startMultiplayerGame url initials score =
-    Http.post
-        { url = getHostFromLocation url ++ "/api/multiplayer/start"
-        , body = Http.jsonBody (encodeStartMultiplayerBody initials score)
-        , expect = expectJson (RemoteData.fromResult >> MultiplayerStartResponse) decodeStartMultiplayerResponseBody
-        }
-
-
-joinMultiplayerGame : Url -> String -> String -> Int -> Cmd Msg
-joinMultiplayerGame url gameId initials score =
-    Http.post
-        { url = getHostFromLocation url ++ "/api/multiplayer/join/" ++ gameId
-        , body = Http.jsonBody (encodeStartMultiplayerBody initials score)
-        , expect = expectJson (RemoteData.fromResult >> MultiplayerStartResponse) decodeStartMultiplayerResponseBody
-        }
-
-
-leaveMultiplayerGame : Url -> StartMultiplayerResponseBody -> Cmd Msg
-leaveMultiplayerGame url startMultiplayerResponseBody =
-    Http.post
-        { url =
-            getHostFromLocation url
-                ++ "/api/multiplayer/leave/"
-                ++ startMultiplayerResponseBody.id
-                ++ "/"
-                ++ startMultiplayerResponseBody.playerId
-        , body = Http.emptyBody
-        , expect = expectWhatever (RemoteData.fromResult >> LeftGameResponse)
         }
 
 
@@ -95,22 +46,3 @@ getHostFromLocation url =
 isLocalhost : Url -> Bool
 isLocalhost { host } =
     String.contains "localhost" host
-
-
-errorToString : Http.Error -> String
-errorToString err =
-    case err of
-        Timeout ->
-            "Timeout exceeded"
-
-        NetworkError ->
-            "Network error"
-
-        BadStatus code ->
-            "Status: " ++ String.fromInt code
-
-        BadBody message ->
-            "BadBody: " ++ message
-
-        BadUrl url ->
-            "Malformed url: " ++ url

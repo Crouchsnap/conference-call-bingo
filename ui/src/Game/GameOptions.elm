@@ -3,8 +3,6 @@ module Game.GameOptions exposing (view)
 import Game.Timer as Timer
 import Html exposing (Html, div, text)
 import Msg exposing (Msg)
-import Multiplayer.Multiplayer exposing (MultiplayerScore, StartMultiplayerResponseBody)
-import Multiplayer.MultiplayerView as MultiplayerView
 import Options.Theme exposing (Theme)
 import Options.TopicChoices as TopicChoices
 import Rating
@@ -24,8 +22,6 @@ view :
         , time : Posix
         , ratingState : Rating.State
         , score : Score
-        , startMultiplayerResponseBody : WebData StartMultiplayerResponseBody
-        , multiplayerScores : List MultiplayerScore
         , url : Url
         , betaMode : Bool
         , errors : List String

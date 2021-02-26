@@ -16,7 +16,7 @@ centerText =
 
 iwd : List String
 iwd =
-    [ "count how any women are in the room in every meeting today"
+    [ "count how many women are in the room in every meeting today"
     , "share an inspirational book, article, podcast, etc. created by a woman"
     , "strike up a conversation with a woman colleague you haven't had a chance to know"
     , "Acknowledge a woman with great leadership skills in a non-leadership position"
