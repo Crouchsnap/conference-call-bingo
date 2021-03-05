@@ -48,3 +48,4 @@ type Msg
     | ShowAbout
     | CloseAbout
     | GotTimeZone Time.Zone
+    | ExpandText Bool

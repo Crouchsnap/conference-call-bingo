@@ -249,6 +249,13 @@ label {
     padding: 0;
     margin: auto 0 1rem;
 }
+
+.more-button {
+    color: #4CA9E3;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .copy-button {
     color: #ED9E28;
     border: none;
@@ -732,6 +739,7 @@ label {
     margin: 0;
     border: none;
     background: unset;
+    overflow-y: auto;
 }
 
 .close {

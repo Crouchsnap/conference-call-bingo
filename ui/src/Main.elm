@@ -66,6 +66,7 @@ type alias Model =
     , areYouSureResetModalVisibility : Modal.Visibility
     , aboutModalVisibility : Modal.Visibility
     , timeZone : Time.Zone
+    , expandText : Bool
     }
 
 
@@ -110,6 +111,7 @@ init flags url key =
       , areYouSureResetModalVisibility = Modal.hidden
       , aboutModalVisibility = Modal.hidden
       , timeZone = Time.utc
+      , expandText = False
       }
     , Cmd.batch
         ((if List.isEmpty userSettings.board then
@@ -330,6 +332,9 @@ update msg model =
 
         GotTimeZone zone ->
             ( { model | timeZone = zone }, Cmd.none )
+
+        ExpandText expand ->
+            ( { model | expandText = expand }, Cmd.none )
 
 
 reset time model =
