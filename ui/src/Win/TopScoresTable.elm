@@ -3,7 +3,7 @@ module Win.TopScoresTable exposing (view)
 import Game.Board exposing (Board)
 import Game.Square exposing (Square)
 import Html exposing (Html, button, div, h1, input, li, text)
-import Html.Attributes exposing (disabled, maxlength, minlength, name, placeholder, title, value)
+import Html.Attributes exposing (disabled, maxlength, minlength, name, placeholder, style, title, value)
 import Html.Events exposing (onClick, onInput)
 import Msg exposing (Msg(..))
 import RemoteData exposing (WebData)
@@ -29,7 +29,7 @@ view { highScores, startTime, endTime, class, score, timeZone, board } =
         [ text "Congratulations!" ]
     , div
         [ class "top-score-title" ]
-        [ text "Thank you for participating in IWD Bingo and celebrating and recognizing the incredible impact women have in all areas of our global life." ]
+        [ text "Thank you for participating in IWD Bingo! Screenshot and share your accomplishments in celebrating and recognizing the incredible impact women have in all areas of our global life." ]
     , div [ class "top-score-title" ] [ text (TimeFormatter.winingTime timeZone endTime) ]
     , div [ class "top-score-title" ] [ text "The squares you completed" ]
     , checkedView board
@@ -49,7 +49,7 @@ checkedView board =
 
 checkedItemView : String -> Html msg
 checkedItemView value =
-    li [] [ text value ]
+    li [ style "text-transform" "lowercase" ] [ text value ]
 
 
 submitButton class =

@@ -28,13 +28,24 @@ formatDifference startTime endTime =
 
 winingTime : Zone -> Posix -> String
 winingTime zone millis =
+    let
+        mins =
+            Time.toMinute zone millis |> String.fromInt
+
+        normalizedMins =
+            if String.length mins < 2 then
+                "0" ++ mins
+
+            else
+                mins
+    in
     (Time.toMonth zone millis |> toDanishMonth)
         ++ " "
         ++ (Time.toDay zone millis |> String.fromInt)
-        ++ ", "
+        ++ ", 2021 "
         ++ (Time.toHour zone millis |> String.fromInt)
         ++ ":"
-        ++ (Time.toMinute zone millis |> String.fromInt)
+        ++ normalizedMins
 
 
 toDanishMonth : Month -> String

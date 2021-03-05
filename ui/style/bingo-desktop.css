@@ -103,6 +103,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         min-height: unset;
+        padding: 1rem;
     }
 
     .modal-content {

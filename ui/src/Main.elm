@@ -84,6 +84,9 @@ init flags url key =
 
         userSettings =
             UserSettings.decodeUserSettingsValue theme flags.userSettings
+
+        isWinner =
+            userSettings.board |> Bingo.isWinner
     in
     ( { board = userSettings.board
       , startTime = Time.millisToPosix 0
@@ -103,7 +106,12 @@ init flags url key =
       , showTopics = False
       , showOptions = False
       , userSettings = userSettings
-      , modalVisibility = Modal.hidden
+      , modalVisibility =
+            if isWinner then
+                Modal.shown
+
+            else
+                Modal.hidden
       , currentSquaresChecked = 0
       , errors = []
       , feedbackErrors = []
@@ -118,9 +126,9 @@ init flags url key =
             [ Task.perform GotCurrentTime Time.now ]
 
           else
-            [ Task.perform GotTimeZone Time.here ]
+            []
          )
-            ++ [ Task.perform GotViewportSize Browser.Dom.getViewport ]
+            ++ [ Task.perform GotTimeZone Time.here, Task.perform GotViewportSize Browser.Dom.getViewport ]
         )
     )
 
@@ -160,6 +168,7 @@ update msg model =
                 , Cmd.batch
                     [ Task.perform GotEndTime Time.now
                     , Requests.getHighScores model.url
+                    , Ports.saveUserSettings updatedUserSettings
                     , gaEvent
                     ]
                 )
