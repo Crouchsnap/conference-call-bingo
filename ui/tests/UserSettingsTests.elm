@@ -39,6 +39,7 @@ suite =
                         , dauberColor = Keylime
                         , boardColor = GoofyGreen
                         , board = []
+                        , winningTime = Nothing
                         }
                     )
         , test "UserSettings decodes to default theme if missing" <|
@@ -61,6 +62,7 @@ suite =
                         , dauberColor = Blue
                         , boardColor = OriginalRed
                         , board = []
+                        , winningTime = Nothing
                         }
                     )
         , test "should encode UserSettings" <|
@@ -76,6 +78,7 @@ suite =
                             [ buildSquare "Something" [ Dot (Game.Dot.Offset 1 2) (Game.Dot.Shape 3 4 5 6) Keylime ]
                             , buildSquare "Something Else" []
                             ]
+                        , winningTime = Just (Time.millisToPosix 999)
                         }
                     )
                     |> Expect.equal
@@ -88,6 +91,7 @@ suite =
                                 [ Square (Html.text "Something") Iwd "Something" [ Dot (Game.Dot.Offset 1 2) (Game.Dot.Shape 3 4 5 6) Keylime ]
                                 , Square (Html.text "Something Else") Iwd "Something Else" []
                                 ]
+                            , winningTime = Just (Time.millisToPosix 999)
                             }
                         )
         ]

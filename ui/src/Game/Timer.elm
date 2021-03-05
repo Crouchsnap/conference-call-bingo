@@ -9,9 +9,14 @@ view model className =
     div [ model.class className ]
         [ div
             [ model.class "timer-wrapper" ]
-            [ title model.class
-            , timer model
-            ]
+            (if (model.time |> Time.posixToMillis) > 0 then
+                [ title model.class
+                , timer model
+                ]
+
+             else
+                []
+            )
         ]
 
 

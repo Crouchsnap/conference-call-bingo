@@ -91,7 +91,13 @@ init flags url key =
     ( { board = userSettings.board
       , startTime = Time.millisToPosix 0
       , time = Time.millisToPosix 0
-      , endTime = Time.millisToPosix 0
+      , endTime =
+            case userSettings.winningTime of
+                Just time ->
+                    time
+
+                Nothing ->
+                    Time.millisToPosix 0
       , highScores = RemoteData.NotAsked
       , submittedScoreResponse = RemoteData.NotAsked
       , url = url
@@ -164,6 +170,7 @@ update msg model =
                     , nextSeed = nextSeed
                     , currentSquaresChecked = squaresChecked
                     , modalVisibility = Modal.shown
+                    , userSettings = updatedUserSettings
                   }
                 , Cmd.batch
                     [ Task.perform GotEndTime Time.now
@@ -179,10 +186,21 @@ update msg model =
                 )
 
         GotCurrentTime time ->
-            ( model |> reset time, Cmd.none )
+            let
+                newModel =
+                    model |> reset time
+            in
+            ( newModel, Cmd.batch [ Ports.saveUserSettings model.userSettings ] )
 
         GotEndTime time ->
-            ( { model | endTime = time }, Ports.sendGaEvent (Winner model.timeZone time) )
+            let
+                userSettings =
+                    model.userSettings
+
+                updatedUserSettings =
+                    { userSettings | winningTime = Just time }
+            in
+            ( { model | endTime = time, userSettings = updatedUserSettings }, Cmd.batch [ Ports.saveUserSettings updatedUserSettings, Ports.sendGaEvent (Winner model.timeZone time) ] )
 
         NewGame ->
             ( model, Task.perform GotCurrentTime Time.now )
@@ -355,8 +373,11 @@ reset time model =
             else
                 model.nextSeed
 
+        userSettings =
+            model.userSettings
+
         ( board, next ) =
-            seed |> randomBoard model.userSettings.topics
+            seed |> randomBoard userSettings.topics
     in
     { model
         | board = board
@@ -369,6 +390,7 @@ reset time model =
         , currentSquaresChecked = 0
         , modalVisibility = Modal.hidden
         , areYouSureResetModalVisibility = Modal.hidden
+        , userSettings = { userSettings | winningTime = Nothing, board = board }
     }
 
 

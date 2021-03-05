@@ -85,7 +85,7 @@ suite =
                         (Winner Time.utc (Time.millisToPosix 1252456))
                     )
                     |> Expect.equal
-                        """{"eventType":"winner","eventCategory":"January 1, 0:20"}"""
+                        """{"eventType":"winner","eventCategory":"January 1, 2021 0:20"}"""
         , test "should encode submit score event" <|
             \_ ->
                 Json.Encode.encode 0
@@ -93,7 +93,7 @@ suite =
                         (SubmittedScore Time.utc (Time.millisToPosix 984651651))
                     )
                     |> Expect.equal
-                        """{"eventType":"submittedScore","eventCategory":"January 12, 9:30"}"""
+                        """{"eventType":"submittedScore","eventCategory":"January 12, 2021 9:30"}"""
         , test "should encode link clicked event" <|
             \_ ->
                 Json.Encode.encode 0
