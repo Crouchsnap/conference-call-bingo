@@ -2,14 +2,12 @@ module Game.GameOptions exposing (aboutModalView, areYouSureModalView, view)
 
 import Bootstrap.Modal as Modal
 import Game.Timer as Timer
-import Html exposing (Html, a, button, div, h1, h2, p, text)
+import Html exposing (Html, button, div, h1, h2, p, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme)
-import Options.TopicChoices as TopicChoices
 import Rating
-import RemoteData exposing (WebData)
 import Time exposing (Posix)
 import Url exposing (Url)
 import UserSettings exposing (UserSettings)

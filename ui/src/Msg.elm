@@ -21,12 +21,8 @@ type Msg
     | GotEndTime Time.Posix
     | ToggleCheck (Square Msg)
     | NewGame
-    | HighScoresResponse (WebData (List Score))
-    | GameResponse (WebData ())
-    | FeedbackResponse (WebData ())
     | SubmitGame
     | SubmitFeedback
-    | RequestHighScores
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url
     | Player String

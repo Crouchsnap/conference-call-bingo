@@ -2,20 +2,18 @@ module Win.TopScoresTable exposing (view)
 
 import Game.Board exposing (Board)
 import Game.Square exposing (Square)
-import Html exposing (Html, button, div, h1, input, li, text)
-import Html.Attributes exposing (disabled, maxlength, minlength, name, placeholder, style, title, value)
-import Html.Events exposing (onClick, onInput)
+import Html exposing (Html, button, div, h1, li, text)
+import Html.Attributes exposing (style, value)
+import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
-import RemoteData exposing (WebData)
 import Time exposing (Posix)
-import Win.Score as Score exposing (Score)
+import Win.Score exposing (Score)
 import Win.TimeFormatter as TimeFormatter
 
 
 view :
     { model
-        | highScores : WebData (List Score)
-        , startTime : Posix
+        | startTime : Posix
         , endTime : Posix
         , class : String -> Html.Attribute Msg
         , score : Score
@@ -23,7 +21,7 @@ view :
         , board : Board Msg
     }
     -> List (Html Msg)
-view { highScores, startTime, endTime, class, score, timeZone, board } =
+view { startTime, endTime, class, score, timeZone, board } =
     [ h1
         [ class "mb-2" ]
         [ text "Congratulations!" ]

@@ -24,8 +24,6 @@ import Options.Theme as Theme exposing (Theme(..))
 import Ports
 import Random
 import Rating
-import RemoteData exposing (WebData)
-import Requests
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
@@ -44,8 +42,6 @@ type alias Model =
     , startTime : Posix
     , time : Posix
     , endTime : Posix
-    , highScores : WebData (List Score)
-    , submittedScoreResponse : WebData ()
     , url : Url
     , key : Key
     , score : Score
@@ -98,8 +94,6 @@ init flags url key =
 
                 Nothing ->
                     Time.millisToPosix 0
-      , highScores = RemoteData.NotAsked
-      , submittedScoreResponse = RemoteData.NotAsked
       , url = url
       , key = key
       , score = emptyGameResult
@@ -174,7 +168,6 @@ update msg model =
                   }
                 , Cmd.batch
                     [ Task.perform GotEndTime Time.now
-                    , Requests.getHighScores model.url
                     , Ports.saveUserSettings updatedUserSettings
                     , gaEvent
                     ]
@@ -205,31 +198,13 @@ update msg model =
         NewGame ->
             ( model, Task.perform GotCurrentTime Time.now )
 
-        HighScoresResponse response ->
-            ( { model | highScores = response }, Cmd.none )
-
-        GameResponse response ->
-            { model | submittedScoreResponse = response } |> update NewGame
-
-        FeedbackResponse _ ->
-            ( model, Cmd.none )
-
-        RequestHighScores ->
-            ( model, Requests.getHighScores model.url )
-
         SubmitGame ->
             let
                 score =
                     model.score
-
-                scoreWithTime =
-                    { score | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
             in
             ( { model | score = score }
-            , Cmd.batch
-                [ Requests.submitScore model.url scoreWithTime
-                , Ports.sendGaEvent (SubmittedScore model.timeZone model.endTime)
-                ]
+            , Cmd.batch [ Ports.sendGaEvent (SubmittedScore model.timeZone model.endTime) ]
             )
 
         SubmitFeedback ->
@@ -386,7 +361,6 @@ reset time model =
         , endTime = Time.millisToPosix 0
         , score = emptyGameResult
         , ratingState = model.ratingState |> Rating.set 0
-        , submittedScoreResponse = RemoteData.NotAsked
         , currentSquaresChecked = 0
         , modalVisibility = Modal.hidden
         , areYouSureResetModalVisibility = Modal.hidden

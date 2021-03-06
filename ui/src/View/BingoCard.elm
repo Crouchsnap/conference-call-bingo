@@ -6,7 +6,6 @@ import Html exposing (br, div, text)
 import Msg exposing (Msg)
 import Options.BoardStyle as BoardStyle
 import Rating
-import RemoteData exposing (WebData)
 import Time exposing (Posix)
 import UserSettings exposing (UserSettings)
 import Win.Score exposing (Score)
@@ -18,10 +17,8 @@ view :
         , userSettings : UserSettings
         , startTime : Posix
         , endTime : Posix
-        , highScores : WebData (List Score)
         , score : Score
         , ratingState : Rating.State
-        , submittedScoreResponse : WebData ()
         , board : List (Square Msg)
     }
     -> Html.Html Msg

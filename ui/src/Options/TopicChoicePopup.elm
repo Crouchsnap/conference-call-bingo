@@ -6,9 +6,7 @@ import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import Options.Theme exposing (Theme)
-import Options.TopicChoices as TopicChoices
 import Rating
-import RemoteData exposing (WebData)
 import Time exposing (Posix)
 import Url exposing (Url)
 import UserSettings exposing (UserSettings)
