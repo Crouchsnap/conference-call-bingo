@@ -204,7 +204,7 @@ update msg model =
                     model.score
             in
             ( { model | score = score }
-            , Cmd.batch [ Ports.sendGaEvent (SubmittedScore model.timeZone model.endTime) ]
+            , Cmd.batch [ Ports.sendGaEvent (SubmittedScore model.timeZone model.endTime), Task.perform GotCurrentTime Time.now ]
             )
 
         SubmitFeedback ->
