@@ -1,17 +1,13 @@
 package com.bingo.high.score
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
 @RequestMapping(path = ["/api/scores"])
 @CrossOrigin(origins = ["http://localhost:8000"])
-class ScoreController {
+class ScoreController(private val scoreRepository: ScoreRepository) {
     
-    @Autowired
-    lateinit var scoreRepository: ScoreRepository
-
     @GetMapping
     fun getHighScores(): List<HighScore> =
             scoreRepository.findAll().toHighScores().sortedBy { it.score }

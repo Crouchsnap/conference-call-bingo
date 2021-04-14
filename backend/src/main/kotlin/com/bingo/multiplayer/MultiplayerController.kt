@@ -1,6 +1,5 @@
 package com.bingo.multiplayer
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.format.FormatterRegistry
 import org.springframework.http.HttpStatus
@@ -15,13 +14,8 @@ import javax.validation.Valid
 @RestController
 @RequestMapping(path = ["/api/multiplayer"])
 @CrossOrigin(origins = ["http://localhost:8000"])
-class MultiplayerController {
-
-    @Autowired
-    private lateinit var multiplayerService: MultiplayerService
-
-    @Autowired
-    private lateinit var multiplayerRepository: MultiplayerRepository
+class MultiplayerController(private val multiplayerService: MultiplayerService,
+                            private val multiplayerRepository: MultiplayerRepository) {
 
     @PostMapping(path = ["start"])
     @ResponseStatus(HttpStatus.CREATED)
@@ -57,7 +51,6 @@ class MultiplayerController {
                         multiplayerRepository.findById(gameId).get().players
                                 .map { it.toScoreResponse() }
                     }
-
 }
 
 

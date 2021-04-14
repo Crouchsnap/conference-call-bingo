@@ -1,7 +1,6 @@
 package com.bingo.multiplayer
 
 import org.springframework.core.convert.converter.Converter
-import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository

@@ -2,7 +2,6 @@ package com.bingo.multiplayer
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import assertk.assertions.isNotEqualTo
 import assertk.assertions.size
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
