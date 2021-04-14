@@ -1,4 +1,4 @@
-# [conference-call-bingo](https://bingo.apps.pd01.useast.cf.ford.com/)
+# [conference-call-bingo](https://bingo.labs.ford.com/)
 
 [Elm](https://elm-lang.org) app for playing conference call bingo in these trying times.
 
