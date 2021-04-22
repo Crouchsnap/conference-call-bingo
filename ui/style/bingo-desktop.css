@@ -87,10 +87,11 @@
     .modal-dialog,
     .modal-content {
         width: initial;
-        height: fit-content;
-        max-height: min-content;
+        height: initial;
+        max-height: 100vh;
         padding: initial;
         margin: auto;
+        overflow-y: auto;
     }
 
     .modal.show .modal-dialog {
