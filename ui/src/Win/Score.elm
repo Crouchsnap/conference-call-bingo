@@ -2,17 +2,18 @@ module Win.Score exposing
     ( Score
     , decodeScore
     , decodeScores
-    , emptyGameResult
+    , emptyYourScore
     , encodeScore
     , insertYourScore
     , isYourScore
+    , newYourScore
     , scoreValidator
     , scoresWithYourScore
+    , setScoreTime
     , updatePlayer
-    , yourScore
     )
 
-import Json.Decode as Decode exposing (Decoder, int, nullable, string)
+import Json.Decode as Decode exposing (Decoder, int, string)
 import Json.Decode.Pipeline
 import Json.Encode
 import List.Extra
@@ -24,6 +25,7 @@ import Win.TimeFormatter as TimeFormatter
 type alias Score =
     { score : Int
     , player : String
+    , yourScore : Bool
     }
 
 
@@ -48,26 +50,33 @@ updatePlayer player score =
     { score | player = player }
 
 
-emptyGameResult =
-    Score 0 ""
+emptyYourScore =
+    Score 0 "" True
 
 
-yourScore : Int -> Score
-yourScore score =
-    Score score "Your Score"
+newYourScore : Int -> Score
+newYourScore score =
+    Score score "" True
+
+
+setScoreTime : Posix -> Posix -> Score -> Score
+setScoreTime startTime endTime score =
+    { score | score = TimeFormatter.timeDifference startTime endTime }
+
+
+newScore : Int -> String -> Score
+newScore score initials =
+    Score score initials False
 
 
 isYourScore : Score -> Bool
-isYourScore { player } =
-    player == "Your Score"
+isYourScore { yourScore } =
+    yourScore
 
 
-scoresWithYourScore : Posix -> Posix -> Int -> List Score -> List ( Int, Score )
-scoresWithYourScore startTime endTime size scores =
+scoresWithYourScore : Score -> Int -> List Score -> List ( Int, Score )
+scoresWithYourScore yourScore_ size scores =
     let
-        yourScore_ =
-            yourScore (TimeFormatter.timeDifference startTime endTime)
-
         yourPlace =
             findYourPlace yourScore_ scores
 
@@ -105,7 +114,7 @@ decodeScores =
 
 decodeScore : Decoder Score
 decodeScore =
-    Decode.succeed Score
+    Decode.succeed newScore
         |> Json.Decode.Pipeline.required "score" int
         |> Json.Decode.Pipeline.required "player" string
 

@@ -34,16 +34,16 @@ view { highScores, startTime, endTime, class, score } =
             []
             [ text "Time" ]
          ]
-            ++ scoreRows class startTime endTime highScores
+            ++ scoreRows class score highScores
         )
     , submitButton class
     ]
 
 
-scoreRows class startTime endTime highScores =
+scoreRows class score highScores =
     highScores
         |> extractScores
-        |> Score.scoresWithYourScore startTime endTime 5
+        |> Score.scoresWithYourScore score 5
         |> List.map (scoreRow class)
         |> List.concat
 

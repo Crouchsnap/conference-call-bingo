@@ -28,7 +28,7 @@ import Ports
 import Random
 import Rating
 import RemoteData exposing (WebData)
-import Requests exposing (getHostFromLocation)
+import Requests
 import Task
 import Time exposing (Posix)
 import Url exposing (Url)
@@ -39,7 +39,7 @@ import View.Feedback as Feedback exposing (Feedback, emptyFeedback, updateRating
 import View.FeedbackModal as FeedbackModal
 import View.ViewportHelper exposing (defaultDevice, viewportToDevice)
 import Win.Modal
-import Win.Score as Score exposing (Score, emptyGameResult, updatePlayer)
+import Win.Score as Score exposing (Score, emptyYourScore, updatePlayer)
 import Win.TopScoresTable exposing (isFormValid)
 
 
@@ -97,7 +97,7 @@ init flags url key =
       , submittedScoreResponse = RemoteData.NotAsked
       , url = url
       , key = key
-      , score = emptyGameResult
+      , score = emptyYourScore
       , feedback = emptyFeedback
       , ratingState = Rating.initialCustomState RatingStar.selected RatingStar.unselected
       , device = defaultDevice
@@ -198,7 +198,9 @@ update msg model =
             ( model |> reset time, Cmd.none )
 
         GotEndTime time ->
-            ( { model | endTime = time }, Ports.sendGaEvent (Winner model.startTime time) )
+            ( { model | endTime = time, score = model.score |> Score.setScoreTime model.startTime time }
+            , Ports.sendGaEvent (Winner model.startTime time)
+            )
 
         NewGame ->
             ( model, Task.perform GotCurrentTime Time.now )
@@ -459,7 +461,7 @@ reset time model =
         , nextSeed = next
         , startTime = time
         , endTime = Time.millisToPosix 0
-        , score = emptyGameResult
+        , score = emptyYourScore
         , ratingState = model.ratingState |> Rating.set 0
         , submittedScoreResponse = RemoteData.NotAsked
         , modalVisibility = Modal.hidden
