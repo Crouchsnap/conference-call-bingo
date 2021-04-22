@@ -15,7 +15,6 @@ view :
     { model
         | class : String -> Html.Attribute Msg
         , startTime : Posix
-        , endTime : Posix
         , highScores : WebData (List Score)
         , score : Score
         , ratingState : Rating.State

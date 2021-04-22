@@ -17,7 +17,6 @@ view :
         | class : String -> Html.Attribute Msg
         , userSettings : UserSettings
         , startTime : Posix
-        , endTime : Posix
         , highScores : WebData (List Score)
         , score : Score
         , ratingState : Rating.State

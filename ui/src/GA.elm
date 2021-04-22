@@ -7,6 +7,7 @@ import Json.Encode as Encode
 import Options.BoardStyle as BoardStyle
 import Options.Theme as Theme exposing (Theme(..))
 import Time exposing (Posix)
+import Win.Score exposing (Score)
 import Win.TimeFormatter as TimeFormatter
 
 
@@ -17,7 +18,7 @@ type Event msg
     | TopicChange Bool Topic
     | SquareDaub (Square msg)
     | Winner Posix Posix
-    | SubmittedScore Posix Posix
+    | SubmittedScore Score
     | LinkClickedEvent String
     | MultiplayerJoin String
     | MultiplayerLeave String
@@ -89,8 +90,8 @@ toString event =
         Winner startTime endTime ->
             ( "winner", TimeFormatter.winingTimeDifference startTime endTime )
 
-        SubmittedScore startTime endTime ->
-            ( "submittedScore", TimeFormatter.winingTimeDifference startTime endTime )
+        SubmittedScore score ->
+            ( "submittedScore", TimeFormatter.winingTime score.score )
 
         LinkClickedEvent link ->
             ( "linkClicked", link )

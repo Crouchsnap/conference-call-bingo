@@ -47,7 +47,6 @@ type alias Model =
     { board : Board Msg
     , startTime : Posix
     , time : Posix
-    , endTime : Posix
     , highScores : WebData (List Score)
     , submittedScoreResponse : WebData ()
     , url : Url
@@ -92,7 +91,6 @@ init flags url key =
     ( { board = []
       , startTime = Time.millisToPosix 0
       , time = Time.millisToPosix 0
-      , endTime = Time.millisToPosix 0
       , highScores = RemoteData.NotAsked
       , submittedScoreResponse = RemoteData.NotAsked
       , url = url
@@ -198,7 +196,7 @@ update msg model =
             ( model |> reset time, Cmd.none )
 
         GotEndTime time ->
-            ( { model | endTime = time, score = model.score |> Score.setScoreTime model.startTime time }
+            ( { model | score = model.score |> Score.setScoreTime model.startTime time }
             , Ports.sendGaEvent (Winner model.startTime time)
             )
 
@@ -218,18 +216,11 @@ update msg model =
             ( model, Requests.getHighScores model.url )
 
         SubmitGame ->
-            let
-                score =
-                    model.score
-
-                scoreWithTime =
-                    { score | score = Time.posixToMillis model.endTime - Time.posixToMillis model.startTime }
-            in
-            if score |> isFormValid then
-                ( { model | score = score }
+            if model.score |> isFormValid then
+                ( model
                 , Cmd.batch
-                    [ Requests.submitScore model.url scoreWithTime
-                    , Ports.sendGaEvent (SubmittedScore model.startTime model.endTime)
+                    [ Requests.submitScore model.url model.score
+                    , Ports.sendGaEvent (SubmittedScore model.score)
                     ]
                 )
 
@@ -338,7 +329,7 @@ update msg model =
             ( model, Ports.sendGaEvent event )
 
         Tick newTime ->
-            ( if Time.posixToMillis model.endTime == 0 then
+            ( if model.score.score == 0 then
                 { model | time = newTime }
 
               else
@@ -460,7 +451,6 @@ reset time model =
         | board = board
         , nextSeed = next
         , startTime = time
-        , endTime = Time.millisToPosix 0
         , score = emptyYourScore
         , ratingState = model.ratingState |> Rating.set 0
         , submittedScoreResponse = RemoteData.NotAsked

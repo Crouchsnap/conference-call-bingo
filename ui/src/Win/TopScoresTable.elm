@@ -14,12 +14,11 @@ view :
     { model
         | highScores : WebData (List Score)
         , startTime : Posix
-        , endTime : Posix
         , class : String -> Html.Attribute Msg
         , score : Score
     }
     -> List (Html Msg)
-view { highScores, startTime, endTime, class, score } =
+view { highScores, startTime, class, score } =
     [ div
         [ class "top-score-title" ]
         [ text "High Scores" ]
