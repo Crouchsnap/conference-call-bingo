@@ -10,6 +10,7 @@ import Options.BoardStyle exposing (Color(..))
 import Options.Theme exposing (Theme(..))
 import Test exposing (Test, describe, test)
 import Time
+import Win.Score exposing (Score)
 
 
 suite : Test
@@ -106,7 +107,7 @@ suite =
             \_ ->
                 Json.Encode.encode 0
                     (encodeGaEvent
-                        (SubmittedScore (Time.millisToPosix 0) (Time.millisToPosix 984651651))
+                        (SubmittedScore (Score 984651651 "p1" True))
                     )
                     |> Expect.equal
                         """{"eventType":"submittedScore","eventCategory":"9:30:51.651"}"""

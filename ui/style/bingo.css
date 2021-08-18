@@ -413,12 +413,6 @@ label {
     justify-content: center;
 }
 
-.square-innerHtml {
-    align-items: center;
-    display: flex;
-    overflow: hidden;
-}
-
 .square-border-right {
     border-right: 4px solid #545454;
 }

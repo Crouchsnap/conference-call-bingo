@@ -4,7 +4,7 @@ import Assets.Star as Star
 import Game.Dot as Dot exposing (Dot)
 import Game.Square exposing (Square)
 import Game.Topic exposing (Topic(..))
-import Html exposing (Html, button, div)
+import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
 import Msg exposing (Msg(..))
 import View.Style exposing (dotStyle, squareStyle)
@@ -32,19 +32,19 @@ squareWrapper class dauberColor index square =
 
 squareDiv class square =
     let
-        squareHtml =
+        baseSquare =
             if square.topic == Center then
-                centerSquareDiv class square
+                [ div [] (centerSquareDiv class square) ]
 
             else
                 [ square.html ]
     in
-    [ div [ class "square-innerHtml" ] squareHtml ]
+    baseSquare
         ++ (square.dots |> List.indexedMap (dotDiv class))
 
 
 centerSquareDiv class square =
-    [ div [ class "square-star square-innerHtml" ] [ Star.view "125" ]
+    [ div [ class "square-star" ] [ Star.view "125" ]
     , div [ class "square-star-innerHtml" ] [ square.html ]
     ]
 
