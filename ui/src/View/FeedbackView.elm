@@ -26,7 +26,7 @@ submitView { class, ratingState, feedbackErrors, feedback } =
     [ ratingTitle class
     , div []
         [ subtitle class
-        , Html.map RatingMsg (Rating.classView [ "star-rating" ] ratingState)
+        , Html.map RatingMsg (Rating.classView "app-rating" [ "star-rating" ] ratingState)
         , viewFormErrors class feedbackErrors
         ]
     , div []

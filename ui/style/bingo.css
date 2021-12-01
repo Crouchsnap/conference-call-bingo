@@ -202,6 +202,7 @@ label {
     font-size: 2.5rem;
     cursor: pointer;
     margin: 1rem 0;
+    display: flex;
 }
 
 .top-score-table {

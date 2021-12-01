@@ -6,7 +6,7 @@
     "elm-version": "0.19.1",
     "dependencies": {
         "direct": {
-            "FordLabs/elm-star-rating": "1.2.0",
+            "FordLabs/elm-star-rating": "2.0.1",
             "NoRedInk/elm-json-decode-pipeline": "1.0.0",
             "elm/browser": "1.0.2",
             "elm/core": "1.0.5",
