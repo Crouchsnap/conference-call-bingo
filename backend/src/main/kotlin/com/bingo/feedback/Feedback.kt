@@ -1,10 +1,10 @@
 package com.bingo.feedback
 
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.repository.MongoRepository
 import java.time.Instant
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
 
 const val ratingRangeMessage = "must be between 1 and 5"
 

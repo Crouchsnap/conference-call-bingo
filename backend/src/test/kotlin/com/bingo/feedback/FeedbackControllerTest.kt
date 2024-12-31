@@ -11,10 +11,10 @@ import org.mockito.Captor
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.web.util.UriComponentsBuilder
 import java.time.Instant
 
@@ -26,7 +26,7 @@ internal class FeedbackControllerTest {
     @Captor
     lateinit var feedbackArgumentCaptor: ArgumentCaptor<Feedback>
 
-    @MockBean
+    @MockitoBean
     lateinit var feedbackRepository: FeedbackRepository
     val feedbackUrl = UriComponentsBuilder.fromPath("/api/feedback").build().toUri()
 

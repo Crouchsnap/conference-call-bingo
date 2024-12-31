@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import reactor.core.publisher.Flux
 import java.time.Duration
-import javax.validation.Valid
+import jakarta.validation.Valid
 
 
 @RestController

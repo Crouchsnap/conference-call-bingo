@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 import java.time.Instant
 import java.util.*
-import javax.validation.constraints.Size
+import jakarta.validation.constraints.Size
 
 data class AddMultiplayerRequest(@field:Size(min = 2, max = 4) val initials: String = "", val score: Int = 1)
 
@@ -31,6 +31,6 @@ enum class Operation(val amount: Int) {
 
 class StringToOperationConverter : Converter<String?, Operation?> {
     override fun convert(source: String): Operation =
-            Operation.valueOf(source.toUpperCase())
+            Operation.valueOf(source.uppercase())
 
 }
